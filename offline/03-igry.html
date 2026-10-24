@@ -1,0 +1,1197 @@
+<!doctype html><html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}img{max-width:100%}body{margin:0}</style></head><body><div style="font:14px system-ui,sans-serif;padding:10px 16px;background:#fff7e0;color:#4a3b00;border-bottom:1px solid #e6d9a8">Офлайн-копія курсу. Актуальна версія з прогресом: <a href="https://claude.ai/artifact/8dApJpdxaFi2vcLJ6qKeMi">https://claude.ai/artifact/8dApJpdxaFi2vcLJ6qKeMi</a> · <a href="index.html">← Бібліотека</a></div><title>Ігри: від Pong до релізу</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: sticky contents on the left (desktop), one long column of project work orders; violet accent marks this as the game-dev course. */
+:root{
+  --bg:#f5f6f8; --surface:#ffffff; --ink:#18212e; --muted:#5a6475; --line:#d9dee6;
+  --accent:#6a3fd0; --accent-soft:#efe9fc;
+  --warn:#b45309; --warn-soft:#fdf1e3;
+  --ok:#1f7a4d; --ok-soft:#e3f4ea;
+  --l1:#2f8f6b; --l2:#2f5bd3; --l3:#b45309; --l4:#7a3fb8;
+  --code-bg:#eef1f5;
+  --f-display:"Unbounded","Golos Text",system-ui,sans-serif;
+  --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11161f; --surface:#171e2a; --ink:#e6eaf1; --muted:#9aa5b6; --line:#2a3445;
+  --accent:#b79bff; --accent-soft:#2a2145;
+  --warn:#f0a35a; --warn-soft:#33240f;
+  --ok:#5fcf98; --ok-soft:#12301f;
+  --l1:#5fcf98; --l2:#7ea2ff; --l3:#f0a35a; --l4:#c39bff;
+  --code-bg:#1f2836; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#11161f; --surface:#171e2a; --ink:#e6eaf1; --muted:#9aa5b6; --line:#2a3445;
+  --accent:#b79bff; --accent-soft:#2a2145;
+  --warn:#f0a35a; --warn-soft:#33240f;
+  --ok:#5fcf98; --ok-soft:#12301f;
+  --l1:#5fcf98; --l2:#7ea2ff; --l3:#f0a35a; --l4:#c39bff;
+  --code-bg:#1f2836; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:240px minmax(0,1fr);gap:40px;padding-block:32px 80px}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr)} nav.toc{display:none}}
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;max-height:calc(100vh - 32px);overflow:auto;font-size:14px}
+nav.toc a{display:block;color:var(--muted);text-decoration:none;padding:3px 0}
+nav.toc a:hover,nav.toc a:focus-visible{color:var(--accent)}
+nav.toc .grp{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-top:14px}
+main{min-width:0}
+h1,h2,h3{text-wrap:balance;line-height:1.25}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(28px,4.5vw,44px);margin:0 0 12px}
+h2{font-family:var(--f-display);font-weight:500;font-size:clamp(22px,3vw,28px);margin:56px 0 12px}
+h3{font-size:18px;margin:24px 0 8px}
+p{max-width:70ch;margin:8px 0}
+a{color:var(--accent)}
+.lead{font-size:18px;color:var(--muted);max-width:68ch}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+code,kbd{font-family:var(--f-mono);font-size:.88em;background:var(--code-bg);padding:1px 5px;border-radius:4px}
+.tbl{overflow-x:auto;margin:12px 0;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line)}
+th{font-size:13px;color:var(--muted);font-weight:600;background:var(--bg)}
+tr:last-child td{border-bottom:0}
+.mermaid{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;overflow-x:auto;margin:12px 0}
+.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:16px 0}
+.lv{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:8px;padding:14px 16px}
+.lv h3{margin:4px 0 6px;font-size:16px}
+.lv .say{font-size:14px;color:var(--muted)}
+.lv .say b{color:var(--ink)}
+.principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:12px 0}
+.principles div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.principles b{display:block;margin-bottom:2px}
+/* project cards */
+section.proj{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin:20px 0;border-left:5px solid var(--c)}
+.proj-head{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between}
+.proj-head h2{margin:0;font-size:clamp(20px,2.6vw,24px)}
+.tag{font-family:var(--f-mono);font-size:12px;padding:2px 8px;border-radius:999px;background:var(--bg);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}
+.why{font-size:15px;color:var(--muted)}
+.pit{background:var(--warn-soft);border-radius:8px;padding:12px 16px;margin:12px 0}
+.pit h3{color:var(--warn);margin-top:0}
+.pit ul{margin:0;padding-left:20px}
+.done{background:var(--ok-soft);border-radius:8px;padding:12px 16px;margin:12px 0}
+.done h3{color:var(--ok);margin-top:0}
+.done ul{margin:0;padding-left:20px}
+ul.tasks{list-style:none;padding:0;margin:8px 0}
+ul.tasks li{display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-bottom:1px dashed var(--line)}
+ul.tasks li:last-child{border-bottom:0}
+ul.tasks input{margin-top:5px;width:18px;height:18px;accent-color:var(--accent);flex:none}
+ul.tasks label{cursor:pointer}
+ul.tasks input:checked + label{color:var(--muted);text-decoration:line-through}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:6px 0 2px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.cnt{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.quiz ol{padding-left:22px;margin:4px 0}
+.src{font-size:14px;color:var(--muted)}
+.src a{word-break:break-word}
+.note{font-size:14px;color:var(--muted);border-left:3px solid var(--line);padding-left:12px;margin:12px 0}
+.syncline{font-size:13px;color:var(--muted);margin-top:8px}
+.overall{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:8px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.cols2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.cols2>div{min-width:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+<div class="wrap">
+<nav class="toc" aria-label="Зміст">
+  <div class="grp">Старт</div>
+  <a href="#pryntsyp">Принцип курсу</a>
+  <a href="#karta">Карта і рівні</a>
+  <a href="#rushii">Який рушій вибрати</a>
+  <div class="grp">Рівень 0 · База</div>
+  <a href="#g0">G0 · Майстерня і Pong</a>
+  <a href="#g1">G1 · Математика і фізика</a>
+  <div class="grp">Рівень 1 · Перші ігри</div>
+  <a href="#g2">G2 · Flappy і «соковитість»</a>
+  <a href="#g3">G3 · Платформер</a>
+  <a href="#g4">G4 · Survivors-лайк</a>
+  <a href="#g5">G5 · Гейм-джем і реліз</a>
+  <div class="grp">Рівень 2 · Жанри</div>
+  <a href="#g6">G6 · Мобільна гра</a>
+  <a href="#g7">G7 · Стратегія</a>
+  <a href="#g8">G8 · Рогалик</a>
+  <div class="grp">Рівень 3 · 3D і великі ігри</div>
+  <a href="#g9">G9 · Перша 3D-гра і анімації</a>
+  <a href="#g10">G10 · Ігри на десятки ГБ</a>
+  <div class="grp">Рівень 4 · Бекенд і мультиплеєр</div>
+  <a href="#g11">G11 · Ігровий бекенд</a>
+  <a href="#g12">G12 · Мультиплеєр і неткод</a>
+  <a href="#g13">G13 · Масштаб, античит, закон</a>
+  <div class="grp">Рівень 5 · Реліз</div>
+  <a href="#g14">G14 · Steam і публікація</a>
+  <a href="#final">Фінал · Твоя гра</a>
+  <div class="grp">Довідник</div>
+  <a href="#slovnyk">Сленг геймдеву</a>
+  <a href="#ryzyky">Якщо є X — думай про Y</a>
+  <a href="#ne-vchyty">Що НЕ робити зараз</a>
+  <a href="#dzherela">Джерела</a>
+</nav>
+
+<main>
+<div class="eyebrow">Навчальний план · розробка ігор · фронтенд і бекенд · версія жовтень 2026</div>
+<h1>Ігри: від Pong до релізу</h1>
+<p class="lead">Як зробити гру від першого руху м'ячика до сторінки в Steam: базове програмування для ігор, 2D і 3D, мобільні ігри, стратегії, анімації великих ігор, сервер, мультиплеєр і захист від читерів. Курс зібраний з Harvard CS50 Games, Unity Learn, документації Godot і Unreal, книги Game Programming Patterns, статей Габріеля Гамбетти і Гленна Фідлера про мережевий код, Red Blob Games, Game Maker's Toolkit і реальних правил App Store, Google Play, Steam і PEGI.</p>
+
+<div class="principles" style="grid-template-columns:minmax(0,1fr)"><div><b>Як користуватись курсом</b>Курс розрахований на навчання разом з Claude (claude.ai або Claude Code). Відкрий новий чат і напиши, наприклад: <i>«Я проходжу курс „Ігри: від Pong до релізу“, проєкт G0, задача 1. Поясни детально простими словами, з підводними каменями. Не давай готовий код одразу — спочатку підказку. В кінці перевір мене питаннями.»</i> Відмічай задачі галочками — прогрес у кожного свій. Курс оновлюється за цим самим посиланням. Для рівня 4 (бекенд) корисно пройти рівень 2 першого курсу «Від нуля до проду».</div></div>
+
+<div class="overall" aria-live="polite">
+  <div class="cnt" id="overallTxt">Виконано задач: 0</div>
+  <div class="bar"><i id="overallBar"></i></div>
+  <div class="syncline" id="syncTxt">Прогрес зберігається…</div>
+</div>
+
+<h2 id="pryntsyp">Принцип курсу</h2>
+<div class="principles">
+  <div><b>1. Закінчена маленька гра краща за велику мрію</b>Десять недороблених прототипів вчать менше, ніж одна випущена гра. Кожен проєкт доводимо до меню, налаштувань і збірки, яку можна дати іншій людині.</div>
+  <div><b>2. Спочатку весело, потім гарно</b>Механіку перевіряємо на сірих кубиках. Якщо в сірі кубики грати нецікаво, графіка не врятує.</div>
+  <div><b>3. Розмір росте поступово</b>Перша гра — 1–2 тижні. Кожна наступна — максимум удвічі більша. Ніяких MMO і відкритих світів на старті.</div>
+  <div><b>4. Один рушій на пів року</b>Основа курсу — Godot (безкоштовний, MIT). Unity і Unreal — окремі гілки там, де вони реально потрібні. Принципи переходять між рушіями.</div>
+  <div><b>5. Сервер не вірить гравцю</b>Все, що важливо — позиція, влучання, гроші, рекорди — вирішує сервер. Інакше будуть читери і дублікати предметів.</div>
+  <div><b>6. Тестують чужі люди</b>Друзі хвалять, незнайомці показують правду. Мовчки дивишся, як грають, і записуєш, де застрягли.</div>
+</div>
+
+<h2 id="karta">Карта курсу і рівні</h2>
+<pre class="mermaid">
+flowchart LR
+  subgraph L0["Рівень 0 · База"]
+    G0[G0 Майстерня, Pong] --> G1[G1 Математика, фізика]
+  end
+  subgraph L1["Рівень 1 · Перші ігри 2D"]
+    G2[G2 Flappy, juice] --> G3[G3 Платформер] --> G4[G4 Survivors-лайк] --> G5[G5 Джем і itch.io]
+  end
+  subgraph L2["Рівень 2 · Жанри"]
+    G6[G6 Мобільна] --> G7[G7 Стратегія] --> G8[G8 Рогалик]
+  end
+  subgraph L3["Рівень 3 · 3D"]
+    G9[G9 3D і анімації] --> G10[G10 Ігри на десятки ГБ]
+  end
+  subgraph L4["Рівень 4 · Бекенд"]
+    G11[G11 Ігровий бекенд] --> G12[G12 Мультиплеєр] --> G13[G13 Масштаб, античит, закон]
+  end
+  subgraph L5["Рівень 5 · Реліз"]
+    G14[G14 Steam] --> F[Фінал: твоя гра]
+  end
+  G1 --> G2
+  G5 --> G6
+  G8 --> G9
+  G10 --> G11
+  G13 --> G14
+</pre>
+<div class="levels">
+  <div class="lv" style="--c:var(--muted)"><div class="eyebrow">Рівень 0 · ~1 місяць</div><h3>База</h3><div class="say">Можу сказати: <b>«Розумію, як влаштована будь-яка гра: цикл, кадри, вектори, зіткнення».</b></div></div>
+  <div class="lv" style="--c:var(--l1)"><div class="eyebrow">Рівень 1 · ~3 місяці</div><h3>Перші ігри 2D</h3><div class="say">Можу сказати: <b>«Зроблю закінчену 2D-гру з меню і «соковитим» відчуттям і викладу її на itch.io».</b></div></div>
+  <div class="lv" style="--c:var(--l2)"><div class="eyebrow">Рівень 2 · ~3–4 місяці</div><h3>Жанри</h3><div class="say">Можу сказати: <b>«Зроблю мобільну гру за правилами магазинів, стратегію з розумними ворогами, рогалик з генерацією рівнів».</b></div></div>
+  <div class="lv" style="--c:var(--l3)"><div class="eyebrow">Рівень 3 · ~2–3 місяці</div><h3>3D і великі ігри</h3><div class="say">Можу сказати: <b>«Зроблю 3D-гру з анімованим персонажем і розумію, як влаштовані великі ігри і що з цього під силу маленькій команді».</b></div></div>
+  <div class="lv" style="--c:var(--l4)"><div class="eyebrow">Рівень 4 · ~3 місяці</div><h3>Бекенд і мультиплеєр</h3><div class="say">Можу сказати: <b>«Зроблю рейтинги, збереження в хмарі, перевірку покупок і мультиплеєр, який не лагає і не дає читерити».</b></div></div>
+  <div class="lv" style="--c:var(--accent)"><div class="eyebrow">Рівень 5 · ~1–2 місяці</div><h3>Реліз</h3><div class="say">Можу сказати: <b>«Знаю, як випустити гру в Steam і магазини: сторінка, вішлісти, рейтинг PEGI, маркетинг».</b></div></div>
+</div>
+<p class="note">Терміни — приблизно при 8–10 годинах на тиждень. Весь курс ~12–18 місяців. Чесно: геймдев — довгий шлях. Але вже після рівня 1 у тебе будуть справжні ігри, які можна показати.</p>
+
+<h3>Як працює будь-яка гра</h3>
+<pre class="mermaid">
+flowchart LR
+  I[Input<br/>що натиснув гравець] --> U[Update<br/>рухаємо, рахуємо фізику,<br/>AI ворогів, правила]
+  U --> R[Render<br/>малюємо кадр]
+  R --> W[Чекаємо наступний кадр<br/>60 разів на секунду]
+  W --> I
+  U -.->|delta time: скільки<br/>часу пройшло з минулого кадру| U
+</pre>
+
+<h2 id="rushii">Який рушій вибрати</h2>
+<div class="tbl"><table>
+<thead><tr><th>Рушій</th><th>Мова</th><th>Ціна (жовтень 2026)</th><th>Сильний у</th><th>Слабкий у</th></tr></thead>
+<tbody>
+<tr><td><b>Godot 4</b> (основа курсу)</td><td>GDScript (схожа на Python), C#</td><td>Безкоштовно, MIT, без відрахувань</td><td>2D, швидкий старт, легкий, веб-експорт</td><td>Важкий AAA-3D; C#-проєкти поки не експортуються у веб; консолі — через сторонніх портувальників</td></tr>
+<tr><td><b>Unity 6</b></td><td>C#</td><td>Personal безкоштовний до $200k доходу; Runtime Fee скасовано; Pro ~$2310/рік</td><td>Мобільні ігри, найбільша екосистема, найбільше вакансій</td><td>Історія різких змін цін — довіра похитнулась</td></tr>
+<tr><td><b>Unreal Engine 5</b></td><td>Blueprints (візуально), C++</td><td>Безкоштовно до $1 млн доходу з гри, далі 5% (3,5% при запуску в Epic Store)</td><td>Реалістичне 3D, Nanite, Lumen, анімації, AAA</td><td>Важкий, потрібен потужний ПК, 2D слабко, C++ складний</td></tr>
+<tr><td>GameMaker</td><td>GML</td><td>Безкоштовно для некомерційного; продаж — $99,99 разово</td><td>2D</td><td>3D</td></tr>
+<tr><td>Defold</td><td>Lua</td><td>Безкоштовно</td><td>Крихітні мобільні й веб 2D-ігри</td><td>Мала спільнота</td></tr>
+<tr><td>Phaser 4</td><td>JavaScript / TypeScript</td><td>Безкоштовно</td><td>Браузерні 2D-ігри, ігри в Telegram — продовження першого курсу</td><td>3D</td></tr>
+<tr><td>raylib / LÖVE</td><td>C / Lua</td><td>Безкоштовно</td><td>Вчити основи без редактора (LÖVE — у курсі Harvard CS50 Games)</td><td>Великі проєкти</td></tr>
+<tr><td>Bevy</td><td>Rust</td><td>Безкоштовно</td><td>ECS, тисячі об'єктів</td><td>До версії 1.0, ламається з кожним релізом</td></tr>
+</tbody></table></div>
+<div class="tbl"><table><thead><tr><th>Ціль</th><th>Бери</th></tr></thead><tbody>
+<tr><td>Вчитися і робити 2D-інді</td><td>Godot</td></tr>
+<tr><td>Мобільні ігри з рекламою і покупками, робота в студії</td><td>Unity</td></tr>
+<tr><td>Реалістичне 3D, ігри «як великі», робота в AAA</td><td>Unreal 5 (спочатку Blueprints, потім C++)</td></tr>
+<tr><td>Ігри в браузері, Telegram, разом з веб-навичками</td><td>Phaser 4</td></tr>
+<tr><td>Стратегії з тисячами юнітів</td><td>Unity DOTS, Godot, Bevy</td></tr>
+</tbody></table></div>
+
+<!-- ===================== G0 ===================== -->
+<section class="proj" id="g0" style="--c:var(--muted)" data-proj="g0">
+<div class="proj-head"><h2>G0 · Майстерня ігродела і перший Pong</h2><span class="tag">Рівень 0 · ~2 тижні</span></div>
+<p class="why"><b>Навіщо:</b> Pong — перша гра в історії і найкращий перший проєкт. У ньому вже є все: ігровий цикл, введення, рух, зіткнення, рахунок, стани гри (меню → гра → кінець).</p>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Godot: редактор, сцени, вузли (nodes), скрипти</td><td>Гра в Godot — це дерево «вузлів», кожен робить щось одне.</td></tr>
+<tr><td>GDScript: змінні, функції, умови, цикли, класи</td><td>Мова, схожа на Python. Програмувати без неї не вийде.</td></tr>
+<tr><td>Ігровий цикл: <code>_process</code>, <code>_physics_process</code></td><td>Код, який виконується кожен кадр.</td></tr>
+<tr><td>Delta time</td><td>Рух множиться на час кадру, інакше на 120 Гц гра йде вдвічі швидше.</td></tr>
+<tr><td>Input Map (дії замість клавіш)</td><td>«Стрибок» замість «пробіл» — потім легко додати геймпад.</td></tr>
+<tr><td>Стани гри: меню, гра, пауза, кінець</td><td>Скінченний автомат (state machine) на рівні всієї гри.</td></tr>
+<tr><td>Git + Git LFS, <code>.gitignore</code> для Godot</td><td>Великі файли (картинки, звук) — через LFS; папку <code>.godot/</code> не комітити.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="g0-1"><label for="g0-1">Встановити Godot 4, пройти офіційний «Your first 2D game» з документації.</label></li>
+<li><input type="checkbox" id="g0-2"><label for="g0-2">Пройти безкоштовний «Learn GDScript From Zero» від GDQuest.</label></li>
+<li><input type="checkbox" id="g0-3"><label for="g0-3">Pong з нуля: дві ракетки, м'яч, відскоки, рахунок.</label></li>
+<li><input type="checkbox" id="g0-4"><label for="g0-4">Меню, пауза, екран перемоги, рестарт. Простий бот-суперник.</label></li>
+<li><input type="checkbox" id="g0-5"><label for="g0-5">Перевірити delta time: обмежити FPS до 30 і до 144 — швидкість м'яча однакова.</label></li>
+<li><input type="checkbox" id="g0-6"><label for="g0-6">Git-репозиторій з LFS і правильним .gitignore. Збірка гри для Windows/Mac/Linux.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Рух без delta time — на різних моніторах гра йде з різною швидкістю.</li>
+<li>Швидкий м'яч «пролітає» крізь ракетку (tunneling).</li>
+<li>Немає стану «рестарт» — щоб зіграти ще раз, треба перезапускати гру.</li>
+<li>Одразу «свою велику гру» замість Pong — і ніколи її не закінчиш.</li>
+<li>Комітити папку <code>.godot/</code> або великі файли без LFS — репозиторій роздувається до гігабайт.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Pong з меню, паузою, ботом і рестартом, швидкість не залежить від FPS.</li>
+<li>Є збірка, яку можна дати другу, і Git з LFS.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Що відбувається в ігровому циклі за один кадр?</li>
+<li>Навіщо delta time?</li>
+<li>Чим <code>_process</code> відрізняється від <code>_physics_process</code>?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://docs.godotengine.org/en/stable/getting_started/first_2d_game/index.html">Godot: Your first 2D game</a> · <a href="https://gdquest.com">GDQuest</a> · <a href="https://www.youtube.com/@Brackeys">Brackeys (Godot)</a> · <a href="https://cs50.harvard.edu/games/">Harvard CS50 Games</a> (Pong на LÖVE) · <a href="https://gameprogrammingpatterns.com/game-loop.html">Game Programming Patterns: Game Loop</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== G1 ===================== -->
+<section class="proj" id="g1" style="--c:var(--muted)" data-proj="g1">
+<div class="proj-head"><h2>G1 · Математика і фізика для ігор (Breakout + Asteroids)</h2><span class="tag">Рівень 0 · ~2–3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> вектори — це мова, якою ігри описують рух, напрям і відстань. Без них не зробиш ні прицілювання, ні поле зору ворога, ні відскок. Математики школи вистачає, якщо пояснити на іграх.</p>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Вектори: додавання, довжина, нормалізація</td><td>Стрілка «куди і наскільки». Без нормалізації рух по діагоналі швидший — класичний баг.</td></tr>
+<tr><td>Скалярний добуток (dot)</td><td>«Чи дивиться ворог на мене?» — одна формула.</td></tr>
+<tr><td>Lerp, інтерполяція</td><td>Плавно наблизити одне значення до іншого: камера, кольори, рух.</td></tr>
+<tr><td>Трансформації: позиція, поворот, масштаб, локальні vs світові координати</td><td>Де річ відносно батька і відносно світу.</td></tr>
+<tr><td>Кути: градуси vs радіани, тригонометрія (sin, cos)</td><td>Поворот корабля і політ куль.</td></tr>
+<tr><td>Зіткнення: AABB, кола, шари і маски, raycast</td><td>Хто з ким може зіштовхнутись і як «стріляти променем».</td></tr>
+<tr><td>Kinematic vs rigid body</td><td>Рухаєш сам vs рухає фізика.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="g1-1"><label for="g1-1">Подивитись лекції Freya Holmér «Math for Game Devs» (перші 2–3).</label></li>
+<li><input type="checkbox" id="g1-2"><label for="g1-2">Breakout: сітка цеглин, кут відскоку залежить від місця удару об ракетку, рівні, бонуси.</label></li>
+<li><input type="checkbox" id="g1-3"><label for="g1-3">Asteroids: поворот, тяга, інерція, вихід за край екрана з іншого боку, розколювання астероїдів.</label></li>
+<li><input type="checkbox" id="g1-4"><label for="g1-4">Ворог з «полем зору» через dot product: бачить гравця тільки спереду.</label></li>
+<li><input type="checkbox" id="g1-5"><label for="g1-5">Шари колізій: кулі гравця не б'ють гравця, вороги не зіштовхуються між собою.</label></li>
+<li><input type="checkbox" id="g1-6"><label for="g1-6">Увімкнути відображення колізій (Debug → Visible Collision Shapes) і знайти хоча б один свій баг.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Не нормалізований вектор руху — по діагоналі швидше в ~1,4 раза.</li>
+<li>Плутати градуси і радіани — корабель крутиться як божевільний.</li>
+<li>Видаляти цеглини зі списку прямо під час проходу по ньому.</li>
+<li>Рухати фізичні тіла в <code>_process</code> замість <code>_physics_process</code> — тремтіння.</li>
+<li>Кути Ейлера в 3D — «gimbal lock» (знадобиться в G9: там кватерніони).</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Breakout і Asteroids закінчені, з меню і рестартом.</li>
+<li>Можеш пояснити нормалізацію і dot product на прикладі своєї гри.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Чому без нормалізації діагональний рух швидший?</li>
+<li>Як dot product каже, що ворог дивиться на тебе?</li>
+<li>Що таке tunneling і як від нього захиститись?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://www.youtube.com/@acegikmo">Freya Holmér</a> · <a href="https://docs.godotengine.org/en/stable/tutorials/math/vector_math.html">Godot: Vector math</a> · <a href="https://cs50.harvard.edu/games/">CS50 Games</a> (Breakout) · <a href="https://www.redblobgames.com">Red Blob Games</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== G2 ===================== -->
+<section class="proj" id="g2" style="--c:var(--l1)" data-proj="g2">
+<div class="proj-head"><h2>G2 · Flappy-клон і «соковитість» (game feel)</h2><span class="tag">Рівень 1 · ~2 тижні</span></div>
+<p class="why"><b>Навіщо:</b> Flappy Bird — одна механіка, і мільйони людей грали. Тут ти вчишся головному секрету простих ігор: відчуттю. Тряска екрана, частинки, звук на кожну дію перетворюють нудну гру на «ще одну спробу».</p>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Гравітація, імпульс стрибка</td><td>Основа будь-якого «падаючого» руху.</td></tr>
+<tr><td>Процедурний спавн перешкод</td><td>Перешкоди з'являються самі, з випадковістю, але чесно.</td></tr>
+<tr><td>Object pooling</td><td>Не створювати і не знищувати труби щоразу, а перевикористовувати.</td></tr>
+<tr><td>Збереження рекорду</td><td>Перше збереження даних на диск.</td></tr>
+<tr><td><b>Juice</b>: screen shake, hit-stop, частинки, squash &amp; stretch, easing, звук</td><td>Те, що робить дію «приємною» — як клацання хорошої кнопки.</td></tr>
+<tr><td>Звук: випадкова висота тону, шини гучності</td><td>Однаковий звук 100 разів дратує, з варіацією — ні.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="g2-1"><label for="g2-1">Подивитись «The Art of Screenshake» (Jan Willem Nijman) і «Juice it or lose it».</label></li>
+<li><input type="checkbox" id="g2-2"><label for="g2-2">Flappy-клон на сірих прямокутниках. Дати пограти 3 людям — чи цікаво?</label></li>
+<li><input type="checkbox" id="g2-3"><label for="g2-3">Пул об'єктів для перешкод. Перевірити в профайлері, що кількість об'єктів не росте.</label></li>
+<li><input type="checkbox" id="g2-4"><label for="g2-4">Додати 10 «соковитих» ефектів по одному і після кожного грати. Записати, що найбільше змінило відчуття.</label></li>
+<li><input type="checkbox" id="g2-5"><label for="g2-5">Рекорд зберігається між запусками. Налаштування гучності.</label></li>
+<li><input type="checkbox" id="g2-6"><label for="g2-6">Графіка й звук з Kenney (CC0) або свої. Збірка для веба і для Android.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Об'єкти, що вилетіли за екран, ніхто не видаляє — пам'ять росте, гра гальмує.</li>
+<li>Випадковість без правил — іноді неможливо пролетіти. Генерація має бути чесною.</li>
+<li>Перебор «соку»: тряска на кожен чих — нудить. Кожен ефект має причину.</li>
+<li>Тряска і спалахи без опції вимкнення — проблема доступності.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Гра закінчена: меню, рекорд, звук, налаштування, збірки для веба і Android.</li>
+<li>Різниця «до соку» і «після соку» помітна навіть незнайомцю.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Що таке object pooling і навіщо він?</li>
+<li>Назви 5 прийомів «соковитості».</li>
+<li>Чому Flappy Bird став популярним з такою простою механікою?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://www.youtube.com/watch?v=AJdEqssNZ-U">The Art of Screenshake</a> · <a href="https://www.youtube.com/watch?v=Fy0aCDmgnxg">Juice it or lose it</a> · <a href="https://gameprogrammingpatterns.com/object-pool.html">GPP: Object Pool</a> · <a href="https://kenney.nl/assets">Kenney assets (CC0)</a> · <a href="https://sfxr.me">jsfxr</a> (звуки)</p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== G3 ===================== -->
+<section class="proj" id="g3" style="--c:var(--l1)" data-proj="g3">
+<div class="proj-head"><h2>G3 · Платформер</h2><span class="tag">Рівень 1 · ~4 тижні</span></div>
+<p class="why"><b>Навіщо:</b> платформер — школа керування персонажем. Тут ти зрозумієш, чому в Celeste приємно стрибати, а в дешевих іграх — ні. Різниця в дрібницях, які гравець не помічає, але відчуває.</p>
+<h3>Стани персонажа</h3>
+<pre class="mermaid">
+stateDiagram-v2
+  [*] --> Стоїть
+  Стоїть --> Біжить: вліво / вправо
+  Біжить --> Стоїть: відпустив
+  Стоїть --> Стрибок: стрибок
+  Біжить --> Стрибок: стрибок
+  Біжить --> Падає: зійшов з краю
+  Падає --> Стрибок: стрибок у межах coyote time
+  Стрибок --> Падає: вершина стрибка
+  Падає --> Стоїть: приземлився
+  Падає --> Удар: шипи / ворог
+  Удар --> [*]
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Character controller (CharacterBody2D)</td><td>Свій код руху замість «фізичного м'яча» — гравець має відчувати контроль.</td></tr>
+<tr><td>Coyote time, jump buffer, змінна висота стрибка</td><td>Дозволити стрибнути трохи після краю і трохи до приземлення. Гравцю здається, що він ідеальний.</td></tr>
+<tr><td>Tilemap, тайлсети</td><td>Рівні з плиток, як з Lego.</td></tr>
+<tr><td>Камера: слідування, межі, згладжування</td><td>Камера показує, що попереду, і не смикається.</td></tr>
+<tr><td>Скінченний автомат станів</td><td>Замість купи <code>if</code> і прапорців — чіткі стани.</td></tr>
+<tr><td>Анімація спрайтів (AnimationPlayer)</td><td>Біг, стрибок, падіння.</td></tr>
+<tr><td>Левел-дизайн: вчити без тексту, ритм складності</td><td>Рівень сам показує правила.</td></tr>
+<tr><td>Чекпоінти і збереження прогресу</td><td>Не починати з нуля після кожної смерті.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="g3-1"><label for="g3-1">Подивитись відео GMTK про стрибки в платформерах і про левел-дизайн.</label></li>
+<li><input type="checkbox" id="g3-2"><label for="g3-2">Персонаж: біг, стрибок, падіння, через state machine.</label></li>
+<li><input type="checkbox" id="g3-3"><label for="g3-3">Coyote time, jump buffer, змінна висота стрибка. Грати з ними і без — відчути різницю.</label></li>
+<li><input type="checkbox" id="g3-4"><label for="g3-4">3 рівні на tilemap: вороги, шипи, рухомі платформи, чекпоінти.</label></li>
+<li><input type="checkbox" id="g3-5"><label for="g3-5">Камера з згладжуванням і межами рівня. Підтримка геймпада.</label></li>
+<li><input type="checkbox" id="g3-6"><label for="g3-6">Плейтест з 3 незнайомцями: мовчки дивитися, записати, де вмирають і застрягають.</label></li>
+<li><input type="checkbox" id="g3-7"><label for="g3-7">Виправити рівні за плейтестом, зберегти прогрес між запусками.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Персонаж як RigidBody — «ватяне», неточне керування.</li>
+<li>Логіка на прапорцях (<code>is_jumping</code>, <code>was_on_floor</code>…) — через тиждень ніхто не розбереться. State machine.</li>
+<li>Рівні, які зрозумілі тільки тобі, бо ти їх зробив.</li>
+<li>Зробити 30 рівнів до того, як механіка весела. Спочатку 1 ідеальний рівень.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>3 рівні, приємне керування, геймпад, чекпоінти, збереження.</li>
+<li>Плейтест з незнайомцями проведено і враховано.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Що таке coyote time і навіщо він?</li>
+<li>Чому state machine краща за прапорці?</li>
+<li>Як рівень може навчити правилу без жодного тексту?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://www.youtube.com/@GMTK">Game Maker's Toolkit</a> · <a href="https://gameprogrammingpatterns.com/state.html">GPP: State</a> · <a href="https://kidscancode.org/godot_recipes/4.x/">Godot Recipes</a> · <a href="https://docs.godotengine.org/en/stable/tutorials/2d/using_tilemaps.html">Godot: TileMaps</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== G4 ===================== -->
+<section class="proj" id="g4" style="--c:var(--l1)" data-proj="g4">
+<div class="proj-head"><h2>G4 · Survivors-лайк: проста, але затягує</h2><span class="tag">Рівень 1 · ~4 тижні</span></div>
+<p class="why"><b>Навіщо:</b> Vampire Survivors зробив один розробник з дешевою графікою — і це один з найуспішніших інді-хітів. Секрет — у <b>core loop</b>: вбиваєш → отримуєш досвід → вибираєш покращення → стаєш сильнішим → ще більше ворогів. Тут ти вчишся проєктувати «затягування».</p>
+<pre class="mermaid">
+flowchart LR
+  A[Дія<br/>вбив ворогів] --> R[Нагорода<br/>кристали досвіду]
+  R --> C[Вибір<br/>1 з 3 покращень]
+  C --> P[Сила<br/>нова зброя, синергія]
+  P --> H[Складніше<br/>більше ворогів]
+  H --> A
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Core loop і мета-прогрес</td><td>Цикл, що повторюється в забігу, і те, що лишається між забігами.</td></tr>
+<tr><td>Хвилі ворогів, крива складності</td><td>Складність росте так, щоб було напружено, але не безнадійно.</td></tr>
+<tr><td>Steering (переслідування, обхід), багато ворогів</td><td>Сотні ворогів, які не злипаються в одну купу.</td></tr>
+<tr><td>Пули для куль і ворогів, профайлер</td><td>Тисяча об'єктів на екрані без гальм.</td></tr>
+<tr><td>Data-driven дизайн (Resources)</td><td>Характеристики зброї в окремих файлах даних, а не в коді.</td></tr>
+<tr><td>Синергії і баланс у таблиці</td><td>Комбінації, які гравець «відкриває» сам — головне задоволення жанру.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="g4-1"><label for="g4-1">Пограти в Vampire Survivors / Brotato / Balatro і записати їхній core loop.</label></li>
+<li><input type="checkbox" id="g4-2"><label for="g4-2">Прототип на сірих фігурах: рух, автоатака, вороги, досвід. Перевірити, що весело, за 1 тиждень.</label></li>
+<li><input type="checkbox" id="g4-3"><label for="g4-3">6 видів зброї і 10 покращень як Resources, вибір 1 з 3 при новому рівні.</label></li>
+<li><input type="checkbox" id="g4-4"><label for="g4-4">500+ ворогів на екрані з ~60 FPS. Пули, профайлер.</label></li>
+<li><input type="checkbox" id="g4-5"><label for="g4-5">Таблиця балансу (урон за секунду, час убивства) і 2–3 синергії.</label></li>
+<li><input type="checkbox" id="g4-6"><label for="g4-6">Мета-прогрес: валюта між забігами, постійні покращення.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Додавати контент до того, як core loop веселий.</li>
+<li>Характеристики захардкоджені в коді — баланс перетворюється на пекло.</li>
+<li>Без пулів 500 ворогів = 15 FPS.</li>
+<li>Одна «зламана» зброя, яка робить усі інші непотрібними.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>15-хвилинний забіг, який хочеться повторити. 500+ ворогів без гальм.</li>
+<li>Баланс у таблиці, дані окремо від коду.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Опиши core loop своєї гри однією фразою.</li>
+<li>Чим roguelike відрізняється від roguelite?</li>
+<li>Навіщо дані окремо від коду?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://www.youtube.com/@GMTK">GMTK</a> · <a href="https://gameprogrammingpatterns.com">Game Programming Patterns</a> · <a href="https://gdcvault.com/free">GDC Vault (безкоштовні доповіді)</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== G5 ===================== -->
+<section class="proj" id="g5" style="--c:var(--l1)" data-proj="g5">
+<div class="proj-head"><h2>G5 · Перший гейм-джем і реліз на itch.io</h2><span class="tag">Рівень 1 · ~2 тижні</span></div>
+<p class="why"><b>Навіщо:</b> джем — гра за 48–72 години (або кілька днів) на задану тему. Дедлайн змушує закінчити, різати зайве і випустити. Плюс справжні відгуки, портфоліо і знайомства. Найкращі ліки від «пекла туторіалів».</p>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="g5-1"><label for="g5-1">Знайти джем на itch.io/jams (або GMTK Game Jam влітку, Global Game Jam у січні — є майданчики в Іспанії).</label></li>
+<li><input type="checkbox" id="g5-2"><label for="g5-2">План на перші 2 години: core loop одним реченням, список «не робимо».</label></li>
+<li><input type="checkbox" id="g5-3"><label for="g5-3">Зробити гру і здати вчасно (навіть якщо не все вийшло).</label></li>
+<li><input type="checkbox" id="g5-4"><label for="g5-4">Сторінка гри на itch.io: обкладинка, скріншоти, GIF, опис, керування.</label></li>
+<li><input type="checkbox" id="g5-5"><label for="g5-5">Пограти і оцінити 10 чужих ігор. Прочитати коментарі до своєї.</label></li>
+<li><input type="checkbox" id="g5-6"><label for="g5-6">Список ліцензій усіх ассетів у грі (Kenney, Freesound, шрифти).</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Задум на 3 місяці в джемі на 3 дні.</li>
+<li>Збірку роблять в останні 30 хвилин — і вона не запускається. Збирати з першого дня.</li>
+<li>Ассети CC BY без вказання автора, CC BY-NC у платній грі, звуки з чужих ігор.</li>
+<li>Не пояснили керування — люди закривають за 10 секунд.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Гра здана в джем і викладена на itch.io з нормальною сторінкою.</li>
+<li>Є відгуки і список того, що зробиш інакше наступного разу.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Чому джем вчить більше, ніж місяць туторіалів?</li>
+<li>CC0, CC BY, CC BY-NC — що можна в платній грі?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://itch.io/jams">itch.io jams</a> · <a href="https://itch.io/jam/gmtk-jam-2026">GMTK Game Jam</a> · <a href="https://globalgamejam.org">Global Game Jam</a> · <a href="https://ldjam.com">Ludum Dare</a> (останній запланований — жовтень 2028) · <a href="https://freesound.org">Freesound</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== G6 ===================== -->
+<section class="proj" id="g6" style="--c:var(--l2)" data-proj="g6">
+<div class="proj-head"><h2>G6 · Мобільна гра (hybrid-casual)</h2><span class="tag">Рівень 2 · ~6 тижнів</span></div>
+<p class="why"><b>Навіщо:</b> мобільні ігри — найбільший ринок. Але тут свої правила: слабкі телефони, які гріються, пальці замість кнопок, реклама і покупки, і магазини з жорсткими вимогами. Можна зробити класну гру і не пройти в Google Play через одне правило.</p>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Продуктивність на слабкому Android, перегрів (thermal throttling)</td><td>Перші 5 хвилин 60 FPS, потім телефон гріється — і 25 FPS. Тестувати сесії по 20–30 хв.</td></tr>
+<tr><td>Сенсорне керування, безпечні зони (виріз камери), різні пропорції екрана</td><td>Кнопки ≥ 44–48 dp, головне — внизу під великим пальцем.</td></tr>
+<tr><td>Монетизація: rewarded-реклама, interstitial, IAP, підписки; hybrid-casual</td><td>Rewarded (гравець сам вирішує подивитись) — найменш дратує. Часті interstitial — люди йдуть.</td></tr>
+<tr><td>Економіка F2P: м'яка і тверда валюта, джерела і «стоки»</td><td>Як гравець отримує і витрачає валюту, щоб не було інфляції і «плати, щоб виграти».</td></tr>
+<tr><td>Магазини: комісії, вікові рейтинги, privacy-форми, ATT на iOS, згода в ЄС</td><td>Що вимагають Apple і Google, щоб гру взагалі прийняли.</td></tr>
+<tr><td>Аналітика: утримання D1/D7/D30, ARPDAU, LTV, soft launch</td><td>Цифри, за якими видно, чи гра «живе».</td></tr>
+</tbody></table></div>
+<h3>Правила магазинів (жовтень 2026, часто змінюються — перевіряй)</h3>
+<div class="tbl"><table><thead><tr><th></th><th>Google Play</th><th>App Store</th></tr></thead><tbody>
+<tr><td>Акаунт розробника</td><td>$25 разово</td><td>$99 на рік</td></tr>
+<tr><td>Комісія</td><td>Нова сітка з 2026 у ЄС/США/UK: ~10% на перший $1 млн, ~20% далі + окремі 5% за білінг Google</td><td>30%; 15% у Small Business Program (до $1 млн); в ЄС інші тарифи за DMA</td></tr>
+<tr><td>Пастка для новачка</td><td><b>Новий особистий акаунт: закрите тестування з 12 тестувальниками 14 днів поспіль</b>, інакше не можна в продакшн</td><td>Рев'ю застосунку, privacy manifest, ATT-запит для рекламного ID</td></tr>
+<tr><td>Вік і приватність</td><td>Анкета IARC, Data Safety</td><td>Нові вікові категорії 4+/9+/13+/16+/18+, privacy labels</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="g6-1"><label for="g6-1">Гра на одну руку у вертикальній орієнтації: проста механіка + мета-прогрес (покращення, колекція).</label></li>
+<li><input type="checkbox" id="g6-2"><label for="g6-2">Тест на найдешевшому Android, який знайдеш: 30-хвилинна сесія, FPS, температура, пам'ять.</label></li>
+<li><input type="checkbox" id="g6-3"><label for="g6-3">Безпечні зони, 3 пропорції екрана, перерви (дзвінок, згортання) не ламають гру.</label></li>
+<li><input type="checkbox" id="g6-4"><label for="g6-4">Тестова rewarded-реклама (AdMob test ID) і тестова покупка «прибрати рекламу».</label></li>
+<li><input type="checkbox" id="g6-5"><label for="g6-5">Банер згоди (Google UMP) для ЄС, privacy-форма з урахуванням рекламних SDK.</label></li>
+<li><input type="checkbox" id="g6-6"><label for="g6-6">Таблиця економіки: скільки валюти отримує і витрачає гравець за день, тиждень.</label></li>
+<li><input type="checkbox" id="g6-7"><label for="g6-7">Google Play: зібрати 12 тестувальників і запустити 14-денне закрите тестування заздалегідь.</label></li>
+<li><input type="checkbox" id="g6-8"><label for="g6-8">Аналітика (GameAnalytics або Firebase): події, воронка, утримання.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Тестувати тільки на своєму флагмані.</li>
+<li><b>Покупка зараховується на телефоні без перевірки на сервері</b> — злам за 5 хвилин (вирішуємо в G11).</li>
+<li>Не задекларували, що збирають рекламні SDK — відмова магазину.</li>
+<li>Реклама з першої хвилини — гравці йдуть, не встигнувши «зачепитись».</li>
+<li>Згадати про 14 днів тестування Google Play за тиждень до запуску.</li>
+<li>Платні «скрині з випадковим вмістом» — з 2026 PEGI дає їм 16+ за замовчуванням (див. G13).</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Гра стабільна на слабкому телефоні 30 хвилин, тестові реклама і покупка працюють.</li>
+<li>Згода і privacy-форми готові, закрите тестування Google Play запущено.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Що таке thermal throttling і як його тестувати?</li>
+<li>Чим rewarded відрізняється від interstitial?</li>
+<li>Що таке D1/D7 retention?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://developer.android.com/games">Android games</a> · <a href="https://developer.apple.com/games/">Apple Games</a> · <a href="https://developer.apple.com/app-store/small-business-program/">Apple Small Business Program</a> · <a href="https://gameanalytics.com/reports">GameAnalytics</a> · <a href="https://www.deconstructoroffun.com">Deconstructor of Fun</a> · <a href="https://mobiledevmemo.com">Mobile Dev Memo</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== G7 ===================== -->
+<section class="proj" id="g7" style="--c:var(--l2)" data-proj="g7">
+<div class="proj-head"><h2>G7 · Стратегія: tower defense → покрокова тактика</h2><span class="tag">Рівень 2 · ~6 тижнів</span></div>
+<p class="why"><b>Навіщо:</b> стратегії — це «мізки» гри: пошук шляху, рішення ворогів, баланс, тисячі юнітів. 4X і RTS — одні з найбільших жанрів, тому починаємо з tower defense і маленької покрокової тактики.</p>
+<h3>Як вороги «думають»</h3>
+<div class="tbl"><table><thead><tr><th>Підхід</th><th>Як працює</th><th>Коли</th></tr></thead><tbody>
+<tr><td>FSM (скінченний автомат)</td><td>Патруль → бачить → атакує → тікає</td><td>Прості юніти</td></tr>
+<tr><td>Behavior tree</td><td>Дерево умов і дій, з блоків</td><td>Стандарт індустрії, складніша поведінка</td></tr>
+<tr><td>Utility AI</td><td>Кожен варіант отримує бали, вибираємо найкращий</td><td>«Що робити далі» в 4X і тактиці</td></tr>
+<tr><td>GOAP</td><td>Планує ланцюжок дій до мети</td><td>Розумні вороги (F.E.A.R.), але дорого і важко налагоджувати</td></tr>
+</tbody></table></div>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>A* на сітці, гексагональні сітки</td><td>Найкоротший шлях з обходом перешкод.</td></tr>
+<tr><td>Flow fields</td><td>Одна «карта напрямків» для сотень юнітів до однієї цілі — основа tower defense.</td></tr>
+<tr><td>Navmesh, обхід один одного (RVO)</td><td>Для 3D і нерівного рельєфу; юніти не злипаються.</td></tr>
+<tr><td>Туман війни</td><td>Сітка видимості. В мультиплеєрі ховати дані на сервері, інакше «мапхак».</td></tr>
+<tr><td>Багато юнітів: ECS, інстансинг, просторове розбиття</td><td>Тисячі юнітів без гальм.</td></tr>
+<tr><td>Баланс у таблицях: DPS, ціна/ефективність, «камінь-ножиці-папір»</td><td>Щоб не було одного найкращого юніта.</td></tr>
+<tr><td>Процедурні карти: шум Perlin, Voronoi, симетрія стартів</td><td>Нова карта щоразу, але чесна для всіх.</td></tr>
+<tr><td>Детермінізм і lockstep (концепт для мультиплеєра)</td><td>Якщо колись буде мультиплеєр — закладати з першого дня (див. G12).</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="g7-1"><label for="g7-1">Пройти інтерактивні статті Red Blob Games про A* і гексагональні сітки.</label></li>
+<li><input type="checkbox" id="g7-2"><label for="g7-2">Tower defense: flow field, 5 веж і 5 ворогів як дані, хвилі, економіка.</label></li>
+<li><input type="checkbox" id="g7-3"><label for="g7-3">Гравець будує стіни — шлях перераховується, і шлях не можна повністю перекрити.</label></li>
+<li><input type="checkbox" id="g7-4"><label for="g7-4">Таблиця балансу і 3 раунди правок за плейтестами.</label></li>
+<li><input type="checkbox" id="g7-5"><label for="g7-5">Покрокова тактика на гексах: A*, зони ходу, туман війни, ворог на utility AI.</label></li>
+<li><input type="checkbox" id="g7-6"><label for="g7-6">Процедурна карта з насінням (seed): одне насіння = та сама карта.</label></li>
+<li><input type="checkbox" id="g7-7"><label for="g7-7">Стрес-тест: 2000 юнітів у tower defense, профайлер, оптимізація.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>A* для кожного з 500 юнітів кожен кадр — гра «лягає». Flow field або кешування.</li>
+<li>ШІ, що непомітно «читерить» (бачить крізь туман) — гравці відчувають несправедливість.</li>
+<li>Мультиплеєр для RTS «додамо потім» — детермінізм треба закладати з першого дня.</li>
+<li>Числа з плаваючою комою різняться на різних процесорах — розсинхрон у lockstep.</li>
+<li>Почати з 4X — найбільший жанр, роки роботи.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Tower defense з балансом і тактика на гексах з ШІ закінчені.</li>
+<li>Можеш пояснити, коли A*, коли flow field, коли navmesh.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Чим flow field кращий за A* для tower defense?</li>
+<li>Що таке utility AI на прикладі «що робити ворогу далі»?</li>
+<li>Чому туман війни треба ховати на сервері?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://www.redblobgames.com">Red Blob Games</a> · <a href="http://www.gameaipro.com">Game AI Pro (безкоштовні розділи)</a> · <a href="https://gameprogrammingpatterns.com/spatial-partition.html">GPP: Spatial Partition</a> · <a href="https://www.gamedeveloper.com/programming/1500-archers-on-a-28-8-network-programming-in-age-of-empires-and-beyond">1500 Archers on a 28.8</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== G8 ===================== -->
+<section class="proj" id="g8" style="--c:var(--l2)" data-proj="g8">
+<div class="proj-head"><h2>G8 · Рогалик: процедурна генерація і збереження</h2><span class="tag">Рівень 2 · ~5 тижнів</span></div>
+<p class="why"><b>Навіщо:</b> рогалики (Hades, Balatro, Dead Cells) — улюблений жанр інді: маленька команда, а гра на сотні годин завдяки генерації і синергіям. Тут ти вчишся генерувати світи і правильно зберігати складний стан гри.</p>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Генерація підземель: BSP, cellular automata, random walk</td><td>Три способи «намалювати» печеру або кімнати алгоритмом.</td></tr>
+<tr><td>Насіння (seed) генератора випадкових чисел</td><td>Одне число відтворює весь забіг — для щоденних челенджів і пошуку багів.</td></tr>
+<tr><td>Покроковий цикл, поле зору (FOV)</td><td>Гравець ходить — світ відповідає.</td></tr>
+<tr><td>Інвентар, предмети як дані, синергії</td><td>Як у Balatro: знайома система + множники, що складаються.</td></tr>
+<tr><td>Збереження: серіалізація даних, версія формату, атомарний запис</td><td>Зберігати дані, а не об'єкти; після оновлення гри старі збереження мають працювати.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="g8-1"><label for="g8-1">Генератор підземель двома способами (BSP і cellular automata), порівняти.</label></li>
+<li><input type="checkbox" id="g8-2"><label for="g8-2">Seed: однакове насіння = однакове підземелля. Показ насіння на екрані.</label></li>
+<li><input type="checkbox" id="g8-3"><label for="g8-3">Покроковий бій, FOV, вороги з FSM, інвентар з 20 предметів як дані.</label></li>
+<li><input type="checkbox" id="g8-4"><label for="g8-4">5 синергій між предметами. Таблиця, яка комбінація найсильніша.</label></li>
+<li><input type="checkbox" id="g8-5"><label for="g8-5">Збереження посеред забігу з версією формату. Змінити структуру — написати міграцію старих збережень.</label></li>
+<li><input type="checkbox" id="g8-6"><label for="g8-6">Атомарний запис (тимчасовий файл → перейменування). Вимкнути гру під час збереження — файл не зіпсований.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Генерація без перевірки — недосяжні кімнати, вихід за стіною.</li>
+<li>Глобальний <code>randi()</code> без насіння — баг гравця неможливо відтворити.</li>
+<li>Оновлення гри ламає старі збереження — найгірші відгуки в Steam.</li>
+<li>Гру вимкнули під час запису — збереження пропало.</li>
+<li>Розмір: «ще 50 предметів» замість полірування 20.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Рогалик з генерацією, насінням, синергіями і безпечним збереженням з міграцією.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Навіщо seed у процедурній генерації?</li>
+<li>Як оновити гру, не зламавши старі збереження?</li>
+<li>Що таке атомарний запис?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://www.roguebasin.com">RogueBasin</a> · <a href="https://www.redblobgames.com/maps/terrain-from-noise/">Red Blob: карти з шуму</a> · <a href="https://www.youtube.com/@SebastianLague">Sebastian Lague</a> · <a href="https://docs.godotengine.org/en/stable/tutorials/io/saving_games.html">Godot: Saving games</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== G9 ===================== -->
+<section class="proj" id="g9" style="--c:var(--l3)" data-proj="g9">
+<div class="proj-head"><h2>G9 · Перша 3D-гра і анімації персонажа</h2><span class="tag">Рівень 3 · ~6 тижнів</span></div>
+<p class="why"><b>Навіщо:</b> 3D додає камеру, світло, моделі — і головне, анімації. Персонаж, який плавно переходить з ходьби в біг, ставить ноги на сходинки і дивиться на ціль — це не магія, а система станів і змішування анімацій.</p>
+<h3>Як працює анімація персонажа</h3>
+<pre class="mermaid">
+flowchart LR
+  M[Модель<br/>меш + скелет] --> SK[Skinning<br/>шкіра рухається за кістками]
+  CL[Кліпи анімацій<br/>Mixamo, Quaternius, свої] --> SM[State machine<br/>на землі / у повітрі / атака]
+  SM --> BT[Blend tree<br/>ходьба ↔ біг за швидкістю]
+  BT --> IK[IK<br/>ноги на сходинку, погляд на ціль]
+  IK --> SK
+  RM[Root motion<br/>анімація сама рухає персонажа] -.-> SM
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>3D-камера від третьої особи, колізії камери</td><td>Камера за спиною не проходить крізь стіни.</td></tr>
+<tr><td>Кватерніони замість кутів Ейлера</td><td>Повороти в 3D без «gimbal lock».</td></tr>
+<tr><td>Скелетна анімація, ріг, скінінг</td><td>Модель має «скелет», кістки рухають «шкіру».</td></tr>
+<tr><td>AnimationTree: state machine, blend space / blend tree</td><td>Плавне змішування анімацій за швидкістю і напрямом.</td></tr>
+<tr><td>Root motion vs in-place</td><td>Хто рухає персонажа — код чи анімація.</td></tr>
+<tr><td>IK (інверсна кінематика)</td><td>Ноги на нерівній землі, руки на зброї, погляд.</td></tr>
+<tr><td>Світло, тіні, запікання (lightmaps), LOD</td><td>Гарно і швидко.</td></tr>
+<tr><td>Ассети: Mixamo, Quaternius (CC0), Blender</td><td>Де брати персонажів і анімації без художника.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="g9-1"><label for="g9-1">3D-рівень з сірих кубиків (greybox), персонаж-капсула, камера від третьої особи.</label></li>
+<li><input type="checkbox" id="g9-2"><label for="g9-2">Персонаж з Quaternius або Mixamo: ідл, ходьба, біг, стрибок, приземлення.</label></li>
+<li><input type="checkbox" id="g9-3"><label for="g9-3">AnimationTree: state machine + blend space ходьба/біг за швидкістю.</label></li>
+<li><input type="checkbox" id="g9-4"><label for="g9-4">IK для ніг на сходах і поворот голови до цілі.</label></li>
+<li><input type="checkbox" id="g9-5"><label for="g9-5">Простий бій: атака з анімацією, хітбокси активні тільки в потрібних кадрах.</label></li>
+<li><input type="checkbox" id="g9-6"><label for="g9-6">Світло: запекти lightmaps, LOD для об'єктів, профайлер — стабільні 60 FPS.</label></li>
+<li><input type="checkbox" id="g9-7"><label for="g9-7">(Гілка Unity) повторити персонажа в Unity з Animator — порівняти рушії.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Анімації з різних джерел з різними скелетами — не змішуються без ретаргетингу.</li>
+<li>Root motion і код рухають персонажа одночасно — «ковзання» і стрибки.</li>
+<li>Хітбокс атаки активний весь час, а не в момент удару.</li>
+<li>Текстури 4K на маленькі предмети, немає LOD.</li>
+<li>Mixamo фактично не оновлюється і іноді не працює — тримай запасний варіант (Quaternius).</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Анімований персонаж з плавними переходами, IK і боєм на рівні з 60 FPS.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Що таке blend tree і навіщо він?</li>
+<li>Root motion vs in-place: плюси і мінуси.</li>
+<li>Що робить IK?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://docs.godotengine.org/en/stable/tutorials/animation/animation_tree.html">Godot: AnimationTree</a> · <a href="https://learn.unity.com/pathways">Unity Learn</a> · <a href="https://quaternius.com">Quaternius</a> · <a href="https://www.mixamo.com">Mixamo</a> · <a href="https://www.blender.org">Blender</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== G10 ===================== -->
+<section class="proj" id="g10" style="--c:var(--l3)" data-proj="g10">
+<div class="proj-head"><h2>G10 · Як влаштовані ігри на десятки гігабайт (Unreal Engine 5)</h2><span class="tag">Рівень 3 · ~6 тижнів</span></div>
+<p class="why"><b>Навіщо:</b> зрозуміти, як працюють великі ігри — Cyberpunk, The Last of Us, Elden Ring — і що з цих технологій реально може використати маленька команда. Unreal 5 дає інструменти AAA безкоштовно, але не дає 500 людей і 5 років.</p>
+<h3>Чому гра важить 100+ ГБ</h3>
+<div class="tbl"><table><thead><tr><th>Що займає місце</th><th>Чому</th></tr></thead><tbody>
+<tr><td>Текстури</td><td>4K і більше, по кілька карт на кожен матеріал (колір, рельєф, шорсткість), тисячі унікальних матеріалів</td></tr>
+<tr><td>Звук і озвучка</td><td>Години діалогів кількома мовами</td></tr>
+<tr><td>Відеоролики</td><td>Заздалегідь відрендерені кат-сцени</td></tr>
+<tr><td>Дублікати і слабке стиснення</td><td>Раніше дублювали дані заради швидкості завантаження з HDD; з SSD це менше потрібно</td></tr>
+<tr><td>Локалізація і патчі</td><td>Мовні пакети; патчі, що перевантажують цілі архіви</td></tr>
+</tbody></table></div>
+<h3>Конвеєр великої гри</h3>
+<pre class="mermaid">
+flowchart LR
+  A[Художники<br/>Maya, Blender, ZBrush, Substance] --> E[Експорт<br/>FBX, glTF, USD]
+  E --> I[Імпорт у рушій]
+  I --> C[Cook<br/>стиснення під кожну платформу]
+  C --> B[Build farm<br/>нічні збірки]
+  B --> QA[QA<br/>тестувальники]
+  P[Perforce<br/>контроль версій великих файлів] -.-> A
+  P -.-> I
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Unreal 5: Blueprints, потім основи C++</td><td>Візуальне програмування блоками; C++ — для системного і швидкого коду.</td></tr>
+<tr><td>Nanite, Lumen, MegaLights</td><td>Мільярди полігонів без ручного LOD і живе глобальне освітлення. Дуже вимогливі до заліза.</td></tr>
+<tr><td>LOD, HLOD, запікання світла</td><td>Далекі об'єкти простіші; статичне світло порахувати заздалегідь.</td></tr>
+<tr><td>World Partition, стрімінг відкритого світу</td><td>Світ розбитий на клітинки, що підвантажуються навколо гравця.</td></tr>
+<tr><td>Анімації AAA: motion matching, mocap</td><td>Пошук найкращого кадру з величезної бази записаних рухів.</td></tr>
+<tr><td>Шейдери і «статтери» компіляції шейдерів на ПК</td><td>Чому нові ігри смикаються при першій появі ефекту.</td></tr>
+<tr><td>Ролі в AAA: технічний художник, ріггер, аніматор, геймплей-, інструменти-, рушій-програміст, QA, продюсер</td><td>Хто що робить у команді на 200–1000 людей.</td></tr>
+<tr><td>Perforce vs Git LFS</td><td>Великі бінарні файли не зливаються — потрібне блокування файлів.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="g10-1"><label for="g10-1">Встановити UE5, пройти безкоштовний вступний курс на Epic Developer Community, розібрати семпл (Lyra або Cropout).</label></li>
+<li><input type="checkbox" id="g10-2"><label for="g10-2">Маленький щільний рівень (не відкритий світ!) з Quixel/Fab-ассетами: Nanite, Lumen.</label></li>
+<li><input type="checkbox" id="g10-3"><label for="g10-3">Персонаж від третьої особи на Blueprints, одна механіка, яка вирізняє гру.</label></li>
+<li><input type="checkbox" id="g10-4"><label for="g10-4">Профайлер (Unreal Insights): що «їсть» кадр. Порівняти Lumen і запечене світло за FPS.</label></li>
+<li><input type="checkbox" id="g10-5"><label for="g10-5">Зібрати гру і проаналізувати розмір: що займає найбільше, як зменшити вдвічі.</label></li>
+<li><input type="checkbox" id="g10-6"><label for="g10-6">Подивитись 2 доповіді GDC про анімацію (motion matching) і open world. Записати, що з цього під силу інді.</label></li>
+<li><input type="checkbox" id="g10-7"><label for="g10-7">Переписати одну Blueprint-функцію на C++ — відчути різницю.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li><b>Почати з «відкритого світу RPG»</b> — найчастіша причина, чому інді-гру ніколи не випускають.</li>
+<li>Nanite і Lumen «з коробки» на слабкому ПК гравця — 20 FPS. Цільове залізо визначати на старті.</li>
+<li>Ассети з маркетплейсу різних стилів — гра виглядає як колаж.</li>
+<li>Немає контролю версій для великих файлів — втрата тижнів роботи.</li>
+<li>Роялті Unreal: 5% після першого $1 млн доходу гри — врахувати в бізнес-плані.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Маленький рівень у UE5 з профілюванням і аналізом розміру збірки.</li>
+<li>Можеш пояснити, чому гра важить 100 ГБ і що з AAA-технологій реально для інді.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Що таке Nanite і Lumen, і чому вони не безкоштовні для FPS?</li>
+<li>Навіщо World Partition?</li>
+<li>Що реалістично може зробити соло-розробник у 3D?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://dev.epicgames.com/community/unreal-engine/learning">Epic Developer Community</a> · <a href="https://www.unrealengine.com/news/unreal-engine-5-7-is-now-available">UE 5.7</a> · <a href="https://www.fab.com">Fab</a> · <a href="https://gdcvault.com">GDC Vault</a> · <a href="https://cedric-neukirchen.net/">Multiplayer Network Compendium</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== G11 ===================== -->
+<section class="proj" id="g11" style="--c:var(--l4)" data-proj="g11">
+<div class="proj-head"><h2>G11 · Ігровий бекенд: акаунти, рейтинги, збереження, покупки</h2><span class="tag">Рівень 4 · ~5 тижнів</span></div>
+<p class="why"><b>Навіщо:</b> майже кожна сучасна гра має сервер, навіть одиночна: таблиця рекордів, збереження в хмарі, покупки, події. Тут ти пишеш свій бекенд на Node/TypeScript + PostgreSQL (з першого курсу) і порівнюєш з готовими сервісами.</p>
+<h3>З чого складається ігровий бекенд</h3>
+<pre class="mermaid">
+flowchart LR
+  G[Гра на телефоні / ПК] -->|HTTPS + токен| API[Ігровий API]
+  API --> AU[Акаунти<br/>гість → Google / Apple / Steam]
+  API --> LB[Рейтинги<br/>Redis sorted sets]
+  API --> SV[Збереження в хмарі<br/>версії, конфлікти]
+  API --> EC[Економіка<br/>гаманець, журнал операцій]
+  API --> IAP[Перевірка покупок<br/>Apple / Google API]
+  API --> RC[Remote config<br/>події, A/B тести]
+  AU --> DB[(PostgreSQL)]
+  SV --> DB
+  EC --> DB
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Акаунти: гість на пристрої → прив'язка до Google/Apple/Steam</td><td>Грати одразу, а прогрес не губиться при зміні телефона. Квиток платформи перевіряти на сервері.</td></tr>
+<tr><td>Рейтинги: Redis sorted sets, сезони, «моє місце»</td><td>Таблиця рекордів, яка не падає на мільйоні гравців.</td></tr>
+<tr><td>Збереження в хмарі: версія, оптимістична конкурентність, конфлікти</td><td>Грав на двох пристроях — що робити з двома різними збереженнями.</td></tr>
+<tr><td>Економіка: транзакції, журнал операцій (ledger), ідемпотентність</td><td>Кожна зміна валюти — запис, повторний запит не дублює предмет.</td></tr>
+<tr><td>Перевірка покупок на сервері (App Store Server API, Google Play Developer API)</td><td>Покупка зараховується тільки після перевірки підпису; повернення грошей — забирає предмет.</td></tr>
+<tr><td>Remote config, події, A/B тести, телеметрія</td><td>Змінити баланс і запустити подію без оновлення гри.</td></tr>
+<tr><td>Готові сервіси: Nakama (open source), Epic Online Services (безкоштовно), Steamworks, Firebase, PlayFab, Unity Gaming Services</td><td>Коли писати своє, а коли брати готове — і як не залежати від одного постачальника.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="g11-1"><label for="g11-1">API рейтингів (Node/TS + PostgreSQL + Redis): JWT, перевірка «правдоподібності» рахунку, сезони, ліміт запитів, сторінка навколо свого місця.</label></li>
+<li><input type="checkbox" id="g11-2"><label for="g11-2">Підключити рейтинг до гри з G4 — рекорд не можна підробити простим запитом.</label></li>
+<li><input type="checkbox" id="g11-3"><label for="g11-3">Гостьовий акаунт → прив'язка до Google. Збереження в хмарі з версією і вирішенням конфлікту.</label></li>
+<li><input type="checkbox" id="g11-4"><label for="g11-4">Гаманець з журналом операцій. Навмисно зробити баг «дублювання предмета» через два одночасні запити — і виправити транзакцією + ідемпотентністю.</label></li>
+<li><input type="checkbox" id="g11-5"><label for="g11-5">Перевірка тестової покупки Google Play на сервері, обробка повернення (Voided Purchases).</label></li>
+<li><input type="checkbox" id="g11-6"><label for="g11-6">Remote config: змінити баланс гри з сервера без нової збірки.</label></li>
+<li><input type="checkbox" id="g11-7"><label for="g11-7">Підняти Nakama у Docker і порівняти зі своїм рішенням: що швидше, що дешевше, що гнучкіше.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li><b>Покупку зараховує клієнт</b> — безкоштовні покупки для всіх, хто вміє змінити запит.</li>
+<li>Не обробляють повернення грошей — купив, повернув гроші, предмет лишився.</li>
+<li>Гонка двох запитів — предмет дублюється, економіка зламана.</li>
+<li>Рейтинг приймає будь-яке число — перше місце 999999999 за хвилину.</li>
+<li>Конфлікт збережень вирішується «останній перезаписав» — гравець втратив тиждень прогресу.</li>
+<li><b>Залежність від одного сервісу без плану виходу.</b> У 2026 закрились Hathora і Unity Multiplay, PlayFab урізав безкоштовний план до 1000 гравців за весь час.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Рейтинги, хмарні збереження, гаманець і перевірка покупок працюють і захищені.</li>
+<li>Є порівняння свого бекенду з Nakama і план «що робити, якщо сервіс закриється».</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Чому покупку не можна зараховувати на клієнті?</li>
+<li>Як виникає баг дублювання предмета і як його закрити?</li>
+<li>Що робити з конфліктом збережень двох пристроїв?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://heroiclabs.com/docs">Nakama docs</a> · <a href="https://dev.epicgames.com/docs">Epic Online Services</a> · <a href="https://partner.steamgames.com/doc">Steamworks</a> · <a href="https://github.com/apple/app-store-server-library-node">Apple App Store Server Library</a> · <a href="https://developer.android.com/google/play/billing">Google Play Billing</a> · <a href="https://redis.io/docs/latest/develop/data-types/sorted-sets/">Redis sorted sets</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== G12 ===================== -->
+<section class="proj" id="g12" style="--c:var(--l4)" data-proj="g12">
+<div class="proj-head"><h2>G12 · Мультиплеєр і неткод</h2><span class="tag">Рівень 4 · ~6 тижнів</span></div>
+<p class="why"><b>Навіщо:</b> головна складність мультиплеєра — затримка. Сигнал до сервера йде 50–150 мс, а гравець хоче, щоб персонаж рухався миттєво. Тут ти дізнаєшся, як ігри «обманюють» затримку і при цьому не дають читерити.</p>
+<h3>Передбачення і узгодження (client-side prediction)</h3>
+<pre class="mermaid">
+sequenceDiagram
+  participant C as Твій клієнт
+  participant S as Сервер (вирішує все)
+  participant O as Інший гравець
+  C->>C: натиснув «вперед» — рухаюсь ОДРАЗУ (передбачення)
+  C->>S: ввід #42: вперед
+  S->>S: перевірив: швидкість чесна? стіна?
+  S-->>C: стан після вводу #42
+  C->>C: порівняв зі своїм: не збігається → виправив і перепрограв вводи #43, #44
+  S-->>O: позиції всіх
+  O->>O: показує тебе ~100 мс «у минулому», плавно (інтерполяція)
+</pre>
+<h3>Моделі мережі</h3>
+<div class="tbl"><table><thead><tr><th>Модель</th><th>Як працює</th><th>Де використовують</th></tr></thead><tbody>
+<tr><td>Авторитетний сервер</td><td>Клієнти шлють тільки ввід, сервер рахує правду</td><td>Шутери, арени, більшість онлайн-ігор</td></tr>
+<tr><td>Listen server (гравець-хост)</td><td>Один гравець — сервер. Дешево, але хост може читерити</td><td>Кооператив з друзями</td></tr>
+<tr><td>P2P</td><td>Гравці напряму. Без сервера, але NAT, видно IP одне одного, легко читерити</td><td>Маленькі кооп-ігри</td></tr>
+<tr><td>Детермінований lockstep</td><td>Шлють тільки вводи, усі рахують однаково</td><td>RTS (Age of Empires)</td></tr>
+<tr><td>Rollback (GGPO)</td><td>Передбачити ввід суперника, при помилці «відмотати» і перерахувати</td><td>Файтинги</td></tr>
+</tbody></table></div>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Тік-рейт, знімки стану, дельта-стиснення</td><td>Скільки разів на секунду сервер рахує світ і як не слати все щоразу.</td></tr>
+<tr><td>Інтерполяція, передбачення, узгодження (reconciliation)</td><td>Схема вище — основа будь-якого швидкого мультиплеєра.</td></tr>
+<tr><td>Lag compensation</td><td>Сервер «відмотує» хітбокси до моменту пострілу. Ціна: «мене вбили за стіною».</td></tr>
+<tr><td>UDP vs TCP vs WebSocket vs WebRTC vs WebTransport</td><td>Для швидких ігор TCP заважає: одна загублена посилка зупиняє всі наступні.</td></tr>
+<tr><td>Бібліотеки: Godot MultiplayerAPI, Colyseus (Node), Unity Netcode / Mirror / FishNet / Photon, Unreal replication</td><td>Готовий фундамент під кожен рушій.</td></tr>
+<tr><td>Interest management</td><td>Не слати клієнту те, чого він не має бачити — справжній захист від wallhack.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="g12-1"><label for="g12-1">Прочитати 4 частини «Fast-Paced Multiplayer» Габріеля Гамбетти і погратися з його живим демо.</label></li>
+<li><input type="checkbox" id="g12-2"><label for="g12-2">Покрокова гра (хрестики-нулики або карткова) на Colyseus: сервер перевіряє ходи, перепідключення, результати в БД.</label></li>
+<li><input type="checkbox" id="g12-3"><label for="g12-3">Мультиплеєрний Pong з авторитетним сервером: фіксований тік 30 Гц, клієнти шлють тільки ввід.</label></li>
+<li><input type="checkbox" id="g12-4"><label for="g12-4">Додати інтерполяцію, потім передбачення + узгодження. Симулювати 150 мс затримки і 5% втрат пакетів.</label></li>
+<li><input type="checkbox" id="g12-5"><label for="g12-5">Сервер перевіряє швидкість і позиції: «телепорт-чит» з модифікованого клієнта не працює.</label></li>
+<li><input type="checkbox" id="g12-6"><label for="g12-6">Кооп у своїй грі з G9 через Godot MultiplayerAPI (або гілка Unity Netcode).</label></li>
+<li><input type="checkbox" id="g12-7"><label for="g12-7">Прочитати «1500 Archers on a 28.8» і статтю Infil про rollback — записати, коли lockstep, коли rollback.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li><b>Довіряти позиціям від клієнта</b> — спідхак і телепорт.</li>
+<li>Тестувати тільки на localhost — у реальному житті все «смикається». Завжди симулювати затримку.</li>
+<li>Передбачення без узгодження — «резинка» (rubber-banding).</li>
+<li>Слати весь стан кожен тік — трафік вибухає.</li>
+<li>Числа з плаваючою комою в lockstep — розсинхрон.</li>
+<li>Мультиплеєр «додамо потім» — його майже неможливо прикрутити до готової одиночної гри.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Pong з передбаченням і інтерполяцією нормально грається при 150 мс затримки.</li>
+<li>Покрокова гра з перепідключенням, сервер ловить простий чит.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Поясни передбачення і узгодження своїми словами.</li>
+<li>Чому іншого гравця показують «у минулому»?</li>
+<li>Коли lockstep, а коли авторитетний сервер?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://www.gabrielgambetta.com/client-server-game-architecture.html">Gambetta: Fast-Paced Multiplayer</a> · <a href="https://gafferongames.com/">Gaffer On Games</a> · <a href="https://developer.valvesoftware.com/wiki/Source_Multiplayer_Networking">Valve: Source Multiplayer Networking</a> · <a href="https://words.infil.net/w02-netcode.html">Infil: Netcode explained</a> · <a href="https://docs.colyseus.io">Colyseus</a> · <a href="https://docs.godotengine.org/en/stable/tutorials/networking/high_level_multiplayer.html">Godot multiplayer</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== G13 ===================== -->
+<section class="proj" id="g13" style="--c:var(--l4)" data-proj="g13">
+<div class="proj-head"><h2>G13 · Масштаб, античит і закон</h2><span class="tag">Рівень 4 · ~4 тижні</span></div>
+<p class="why"><b>Навіщо:</b> мультиплеєр на 10 друзях і на 10 000 незнайомцях — різні світи. З'являються підбір суперників, сервери в різних регіонах, рахунки за хостинг, читери, DDoS, діти в чаті і закони про лутбокси.</p>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Матчмейкінг: черга, вікно навичок, що розширюється; Elo, Glicko-2, OpenSkill</td><td>Підібрати рівного суперника, але не чекати 10 хвилин.</td></tr>
+<tr><td>Виділені сервери: Agones (Kubernetes), Edgegap, AWS GameLift, Nitrado GameFabric</td><td>Хто запускає і зупиняє сервери матчів.</td></tr>
+<tr><td>Регіони, затримка, вартість за одночасного гравця (CCU)</td><td>Мало гравців у багатьох регіонах = порожні черги.</td></tr>
+<tr><td>Античит: сервер вирішує, перевірки швидкості і темпу стрільби, Easy Anti-Cheat, статистика</td><td>Повністю прибрати читерів не можна, але можна зробити чит марним.</td></tr>
+<tr><td>DDoS: ховати IP серверів за relay (Steam Datagram Relay, EOS)</td><td>Щоб матч не «поклали» за 5 доларів.</td></tr>
+<tr><td>Навантажувальні тести ботами, моніторинг тіку, плавне вимкнення серверів</td><td>Дізнатись межу до запуску, а не в день запуску.</td></tr>
+<tr><td>Версіонування клієнт ↔ сервер</td><td>Старий клієнт не має потрапити в матч з новим.</td></tr>
+<tr><td>Закон: RGPD (в Іспанії згода з 14 років), COPPA (США, до 13), модерація чату, PEGI 2026, лутбокси</td><td>Що обов'язково, якщо гравці — діти або є платні випадкові нагороди.</td></tr>
+</tbody></table></div>
+<h3>PEGI 2026 і лутбокси</h3>
+<div class="tbl"><table><thead><tr><th>Механіка</th><th>Рейтинг PEGI (з червня 2026)</th></tr></thead><tbody>
+<tr><td>Платні випадкові предмети (лутбокси, паки, гача)</td><td>16+ за замовчуванням, можливо 18+</td></tr>
+<tr><td>Пропозиції з обмеженим часом</td><td>12+</td></tr>
+<tr><td>Покарання за те, що не заходиш щодня</td><td>12+</td></tr>
+<tr><td>Чат без модерації, блокування і скарг</td><td>18+</td></tr>
+</tbody></table></div>
+<p class="note">Іспанія: закон про захист неповнолітніх у цифровому середовищі (заборона лутбоксів до 18) станом на 2026 ще в парламенті — перевіряй статус. ЄС готує Digital Fairness Act. У Бельгії платні лутбокси фактично заборонені. Висновок: якщо серед гравців можуть бути діти — прямі покупки або батл-пас замість випадкових нагород.</p>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="g13-1"><label for="g13-1">Матчмейкер для гри з G12: черга, Glicko-2, вікно навичок, що розширюється з часом.</label></li>
+<li><input type="checkbox" id="g13-2"><label for="g13-2">Запуск серверів матчів через Edgegap (безкоштовний рівень) або Agones локально, плавне вимкнення.</label></li>
+<li><input type="checkbox" id="g13-3"><label for="g13-3">Навантажувальний тест: 200 ботів, графіки тривалості тіку, часу в черзі, помилок.</label></li>
+<li><input type="checkbox" id="g13-4"><label for="g13-4">Античит-перевірки на сервері: швидкість, темп стрільби, лінія видимості. Interest management.</label></li>
+<li><input type="checkbox" id="g13-5"><label for="g13-5">Перевірка версії клієнта при підключенні, примусове оновлення.</label></li>
+<li><input type="checkbox" id="g13-6"><label for="g13-6">Чат з фільтром, блокуванням, скаргами і лімітами. Видалення всіх даних гравця на запит (RGPD).</label></li>
+<li><input type="checkbox" id="g13-7"><label for="g13-7">Розрахунок вартості серверів на 1000 одночасних гравців і план виходу від постачальника.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Хостинг-сервіс закрився — гра без мультиплеєра (так сталося зі Stormgate після закриття Hathora у 2026).</li>
+<li>Відкриті IP ігрових серверів — DDoS.</li>
+<li>Сервери в 10 регіонах при 500 гравцях — ніхто не може знайти матч.</li>
+<li>Немає перевірки версій — краші і розсинхрон після оновлення.</li>
+<li>Чат без модерації — PEGI 18 і реальні ризики для дітей.</li>
+<li>Лутбокси для аудиторії з дітьми — рейтинг 16+ і юридичні ризики.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Матчмейкінг, сервери матчів, навантажувальний тест і античит-перевірки працюють.</li>
+<li>Є розрахунок вартості, план виходу і чек-лист закону (RGPD, PEGI, чат).</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Чому Glicko-2 кращий за просте Elo?</li>
+<li>Як relay захищає від DDoS?</li>
+<li>Які механіки підвищують рейтинг PEGI з 2026?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://agones.dev">Agones</a> · <a href="https://docs.edgegap.com">Edgegap</a> · <a href="http://www.glicko.net/glicko/glicko2.pdf">Glicko-2</a> · <a href="https://dev.epicgames.com/docs/game-services/anti-cheat">Easy Anti-Cheat</a> · <a href="https://owasp.org/API-Security/">OWASP API Security</a> · <a href="https://pegi.info">PEGI</a> · <a href="https://www.aepd.es">AEPD</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== G14 ===================== -->
+<section class="proj" id="g14" style="--c:var(--accent)" data-proj="g14">
+<div class="proj-head"><h2>G14 · Steam і публікація</h2><span class="tag">Рівень 5 · ~4 тижні</span></div>
+<p class="why"><b>Навіщо:</b> гарна гра, про яку ніхто не знає, не продається. Більшість інді-ігор «помирають» не через якість, а через пізню сторінку в Steam і нуль вішлістів у день запуску.</p>
+<h3>Шлях до релізу в Steam</h3>
+<pre class="mermaid">
+flowchart LR
+  P[Прототип<br/>весело?] --> SP[Сторінка Steam<br/>«Coming Soon» — РАНО]
+  SP --> W[Збір вішлістів<br/>GIF, трейлер, соцмережі]
+  W --> D[Демо]
+  D --> NF[Steam Next Fest<br/>тільки один раз на гру]
+  NF --> R[Реліз]
+  R --> U[Оновлення, знижки, порти]
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Steamworks: $100 за гру, комісія 30% (25% після $10 млн, 20% після $50 млн)</td><td>Як потрапити в Steam і скільки він бере.</td></tr>
+<tr><td>Сторінка «Coming Soon», капсули, трейлер, вішлісти</td><td>Вішлісти — головний сигнал для алгоритму Steam у день запуску.</td></tr>
+<tr><td>Steam Next Fest</td><td>Фестиваль демо. Наступний — 22.02–01.03.2027, реєстрація до 10.01.2027. Один раз на гру.</td></tr>
+<tr><td>Розкриття AI-контенту в Steam (правила з січня 2026)</td><td>AI-ассети, які бачить гравець, треба задекларувати; AI-помічники для коду — ні.</td></tr>
+<tr><td>itch.io, Epic Games Store, мобільні магазини</td><td>Інші вітрини і їхні умови.</td></tr>
+<tr><td>Консолі: заявки ID@Xbox, PlayStation Partners, Nintendo; dev kits; сертифікація</td><td>Портування — не «кнопка експорту», а окремий проєкт.</td></tr>
+<tr><td>PEGI / IARC, вікові рейтинги</td><td>Безкоштовна анкета для цифрових магазинів.</td></tr>
+<tr><td>Маркетинг: прес-кит, стрімери, спільнота, Discord</td><td>Among Us став хітом через стрімерів через 2 роки після релізу.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="g14-1"><label for="g14-1">Прочитати How To Market A Game (Chris Zukowski) — основні статті про вішлісти і сторінку.</label></li>
+<li><input type="checkbox" id="g14-2"><label for="g14-2">Сторінка гри: капсули, 5 скріншотів, GIF, короткий опис, теги. Показати 5 людям: зрозуміло за 5 секунд?</label></li>
+<li><input type="checkbox" id="g14-3"><label for="g14-3">Трейлер 30–60 с: геймплей у перші 3 секунди.</label></li>
+<li><input type="checkbox" id="g14-4"><label for="g14-4">Прес-кит, Discord-спільнота, план постів на 3 місяці.</label></li>
+<li><input type="checkbox" id="g14-5"><label for="g14-5">Анкета IARC/PEGI, список ліцензій, розкриття AI-контенту.</label></li>
+<li><input type="checkbox" id="g14-6"><label for="g14-6">Демо і план участі в Next Fest (дедлайн реєстрації — заздалегідь).</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Сторінка в Steam за тиждень до релізу — нуль вішлістів, гру ніхто не бачить.</li>
+<li>Next Fest зі слабким демо — шанс один на гру.</li>
+<li>Трейлер з логотипами і кат-сценами замість геймплею.</li>
+<li>Не задекларували AI-ассети — проблеми зі Steam.</li>
+<li>Думати, що порт на Switch — це «експорт». Це сертифікація, оптимізація і часто партнер-портувальник.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Сторінка, трейлер, прес-кит, рейтинг, план маркетингу і демо готові.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Чому сторінку в Steam роблять рано?</li>
+<li>Що треба розкрити про AI в Steam?</li>
+<li>Скільки Steam бере з продажів?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://partner.steamgames.com/doc/home">Steamworks docs</a> · <a href="https://partner.steamgames.com/doc/marketing/upcoming_events/nextfest/feb_2027">Next Fest лютий 2027</a> · <a href="https://howtomarketagame.com">How To Market A Game</a> · <a href="https://itch.io">itch.io</a> · <a href="https://pegi.info">PEGI</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== FINAL ===================== -->
+<section class="proj" id="final" style="--c:var(--accent)" data-proj="final">
+<div class="proj-head"><h2>Фінал · Твоя гра: від ідеї до релізу</h2><span class="tag">Рівень 5 · ~3–6 місяців</span></div>
+<p class="why"><b>Задача:</b> маленька, але закінчена гра на продаж: одна сильна механіка, чесний розмір, сторінка в Steam або мобільний реліз. За бажанням — онлайн-рейтинги або кооп з рівня 4.</p>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="fin-1"><label for="fin-1">Одна сторінка задуму: core loop, аудиторія, схожі ігри, що вирізняє, платформа, розмір.</label></li>
+<li><input type="checkbox" id="fin-2"><label for="fin-2">Прототип на сірих фігурах за 2 тижні, плейтест з незнайомцями. Не весело — змінити ідею.</label></li>
+<li><input type="checkbox" id="fin-3"><label for="fin-3">Вертикальний зріз: 10 хвилин гри у фінальній якості.</label></li>
+<li><input type="checkbox" id="fin-4"><label for="fin-4">Сторінка Steam / магазину і збір вішлістів паралельно з розробкою.</label></li>
+<li><input type="checkbox" id="fin-5"><label for="fin-5">Збереження з версіями, налаштування, доступність (перепризначення клавіш, субтитри, вимкнення тряски).</label></li>
+<li><input type="checkbox" id="fin-6"><label for="fin-6">Бекенд (якщо потрібен): рейтинги / збереження / покупки — за G11–G13.</label></li>
+<li><input type="checkbox" id="fin-7"><label for="fin-7">Демо, Next Fest або soft launch, правки за даними.</label></li>
+<li><input type="checkbox" id="fin-8"><label for="fin-8">Реліз, перший патч, postmortem: що вийшло, що ні.</label></li>
+</ul>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Гра випущена і її купують або завантажують незнайомі люди.</li>
+<li>Написано postmortem — і є ідея наступної, трохи більшої гри.</li>
+</ul></div>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== GLOSSARY ===================== -->
+<h2 id="slovnyk">Сленг геймдеву</h2>
+<div class="tbl"><table>
+<thead><tr><th>Сленг</th><th>Правильно</th><th>Простими словами</th><th>В Іспанії</th></tr></thead>
+<tbody>
+<tr><td>геймдев</td><td>game development</td><td>Розробка ігор</td><td>desarrollo de videojuegos</td></tr>
+<tr><td>рушій, двигун</td><td>game engine</td><td>Програма-основа для гри: Godot, Unity, Unreal</td><td>motor de juego</td></tr>
+<tr><td>фпс, фреймрейт</td><td>frames per second</td><td>Кадрів на секунду</td><td>fps, tasa de fotogramas</td></tr>
+<tr><td>дельта</td><td>delta time</td><td>Час з минулого кадру</td><td>delta time</td></tr>
+<tr><td>тік, тікрейт</td><td>tick rate</td><td>Скільки разів на секунду сервер рахує світ</td><td>tick rate</td></tr>
+<tr><td>хітбокс</td><td>hitbox</td><td>Невидима форма, по якій рахують влучання</td><td>hitbox, caja de colisión</td></tr>
+<tr><td>спавн / респавн</td><td>spawn</td><td>Поява об'єкта / повернення після смерті</td><td>aparición, reaparecer</td></tr>
+<tr><td>пул</td><td>object pool</td><td>Запас об'єктів для повторного використання</td><td>pool de objetos</td></tr>
+<tr><td>NPC, моби</td><td>non-player character, mobs</td><td>Персонажі і вороги, якими керує гра</td><td>PNJ, enemigos</td></tr>
+<tr><td>кор-луп</td><td>core loop</td><td>Головний цикл дій, що повторюється</td><td>bucle principal</td></tr>
+<tr><td>джус, «сочність»</td><td>juice, game feel</td><td>Ефекти, від яких дія приємна</td><td>game feel</td></tr>
+<tr><td>хіт-стоп</td><td>hit-stop</td><td>Мить «завмирання» при сильному ударі</td><td>hit-stop</td></tr>
+<tr><td>койот-тайм</td><td>coyote time</td><td>Можна стрибнути трохи після краю</td><td>coyote time</td></tr>
+<tr><td>грейбокс, блокаут</td><td>greybox, blockout</td><td>Рівень із сірих блоків до графіки</td><td>greybox, blockout</td></tr>
+<tr><td>вертикальний зріз</td><td>vertical slice</td><td>Шматок гри у фінальній якості</td><td>vertical slice</td></tr>
+<tr><td>ассети</td><td>assets</td><td>Графіка, звуки, моделі, музика</td><td>recursos, assets</td></tr>
+<tr><td>спрайт, тайлмап</td><td>sprite, tilemap</td><td>2D-картинка персонажа / карта з плиток</td><td>sprite, mapa de tiles</td></tr>
+<tr><td>ріг, скінінг</td><td>rigging, skinning</td><td>Скелет моделі / прив'язка «шкіри» до кісток</td><td>rigging</td></tr>
+<tr><td>блендтрі</td><td>blend tree</td><td>Змішування анімацій за параметром</td><td>árbol de mezcla</td></tr>
+<tr><td>мокап</td><td>motion capture</td><td>Запис рухів живих акторів</td><td>captura de movimiento</td></tr>
+<tr><td>лод</td><td>level of detail</td><td>Простіша модель здалеку</td><td>nivel de detalle</td></tr>
+<tr><td>неткод</td><td>netcode</td><td>Мережевий код гри</td><td>netcode</td></tr>
+<tr><td>пінг, лаг</td><td>latency</td><td>Затримка сигналу / відчутні гальма</td><td>ping, lag</td></tr>
+<tr><td>резинка</td><td>rubber-banding</td><td>Персонажа «відкидає» назад</td><td>rubber-banding</td></tr>
+<tr><td>десінк</td><td>desync</td><td>У гравців різна картина гри</td><td>desincronización</td></tr>
+<tr><td>ролбек</td><td>rollback netcode</td><td>«Відмотати і перерахувати» при помилці передбачення</td><td>rollback</td></tr>
+<tr><td>матчмейкінг</td><td>matchmaking</td><td>Підбір суперників</td><td>emparejamiento</td></tr>
+<tr><td>CCU, DAU</td><td>concurrent / daily active users</td><td>Гравців одночасно / за день</td><td>usuarios concurrentes / diarios</td></tr>
+<tr><td>ретеншн</td><td>retention</td><td>Скільки гравців повертаються</td><td>retención</td></tr>
+<tr><td>F2P, P2W</td><td>free-to-play, pay-to-win</td><td>Безкоштовна гра / перемагає той, хто платить</td><td>free-to-play, pay-to-win</td></tr>
+<tr><td>лутбокс, гача</td><td>loot box, gacha</td><td>Платна скриня з випадковою нагородою</td><td>caja de botín</td></tr>
+<tr><td>батл-пас</td><td>battle pass</td><td>Сезонна смуга нагород за гру</td><td>pase de batalla</td></tr>
+<tr><td>лайв-опс</td><td>live ops</td><td>Події та оновлення живої гри</td><td>live ops</td></tr>
+<tr><td>нерф / бафф</td><td>nerf / buff</td><td>Послабити / посилити щось у балансі</td><td>nerfear / bufar</td></tr>
+<tr><td>мета</td><td>metagame</td><td>Найсильніші стратегії, якими всі грають</td><td>meta</td></tr>
+<tr><td>гринд</td><td>grind</td><td>Довго повторювати одне заради нагороди</td><td>farmear, grindear</td></tr>
+<tr><td>білд, краш</td><td>build, crash</td><td>Зібрана версія гри / падіння гри</td><td>build, crasheo</td></tr>
+<tr><td>QA, тестер</td><td>quality assurance</td><td>Люди, що шукають баги</td><td>QA, tester</td></tr>
+<tr><td>скоуп-крип</td><td>scope creep</td><td>Гра непомітно роздувається до нескінченності</td><td>scope creep</td></tr>
+<tr><td>софт-лонч</td><td>soft launch</td><td>Тихий запуск у кількох країнах для перевірки цифр</td><td>lanzamiento suave</td></tr>
+<tr><td>вішліст</td><td>wishlist</td><td>«Хочу купити» в Steam</td><td>lista de deseados</td></tr>
+<tr><td>джем</td><td>game jam</td><td>Зробити гру за кілька днів на тему</td><td>game jam</td></tr>
+</tbody></table></div>
+
+<!-- ===================== RISKS ===================== -->
+<h2 id="ryzyky">Якщо в грі є X — обов'язково думай про Y</h2>
+<div class="tbl"><table><thead><tr><th>Якщо є…</th><th>Логіка</th><th>Обов'язково</th><th>Проєкт</th></tr></thead><tbody>
+<tr><td>Будь-яка гра</td><td>Великі задуми не закінчують</td><td>Чесний розмір, прототип на сірих фігурах, плейтест з незнайомцями</td><td>всі</td></tr>
+<tr><td>Збереження</td><td>Оновлення ламають старі файли</td><td>Версія формату, міграції, атомарний запис</td><td>G8</td></tr>
+<tr><td>Мобільна платформа</td><td>Слабкі телефони і жорсткі магазини</td><td>Тест на дешевому Android 30 хв, safe area, privacy-форми, 14 днів тестування Google Play</td><td>G6</td></tr>
+<tr><td><b>Гроші: покупки, реклама</b></td><td>Будуть ламати і повертати гроші</td><td>Перевірка покупок на сервері, обробка повернень, ідемпотентність, згода на рекламу в ЄС</td><td>G6, G11</td></tr>
+<tr><td>Випадкові платні нагороди</td><td>Закон і рейтинги</td><td>PEGI 16+, ризики для дітей — краще прямі покупки або батл-пас</td><td>G13</td></tr>
+<tr><td>Рейтинги рекордів</td><td>Підроблять рахунок</td><td>Перевірка на сервері, ліміти, сезони</td><td>G11</td></tr>
+<tr><td><b>Мультиплеєр</b></td><td>Затримка і читери</td><td>Авторитетний сервер, передбачення + інтерполяція, симуляція затримки, interest management</td><td>G12</td></tr>
+<tr><td>RTS-мультиплеєр</td><td>Розсинхрон</td><td>Детермінізм з першого дня, фіксована точка, насіння випадковостей, контрольні суми</td><td>G7, G12</td></tr>
+<tr><td>Сервери матчів</td><td>Платиш за кожну годину</td><td>Розрахунок вартості на CCU, регіони, план виходу від постачальника</td><td>G13</td></tr>
+<tr><td>Чат</td><td>Токсичність і діти</td><td>Фільтр, блок, скарги, модерація — інакше PEGI 18</td><td>G13</td></tr>
+<tr><td>Великий 3D-світ</td><td>Роки роботи і слабке залізо гравців</td><td>Маленький щільний рівень, LOD, бюджет FPS, цільове залізо</td><td>G10</td></tr>
+<tr><td>Чужі ассети</td><td>Авторські права</td><td>Ліцензія кожного (CC0 / CC BY / NC), список авторів</td><td>G5</td></tr>
+<tr><td>AI-згенеровані ассети</td><td>Правила Steam</td><td>Розкриття в Steam, перевірка прав</td><td>G14</td></tr>
+<tr><td>Сторонній бекенд-сервіс</td><td>Може закритись або подорожчати</td><td>Абстракція в коді, свої дані, план переїзду</td><td>G11, G13</td></tr>
+</tbody></table></div>
+
+<!-- ===================== NOT NOW ===================== -->
+<h2 id="ne-vchyty">Що НЕ робити зараз</h2>
+<div class="tbl"><table><thead><tr><th>Що</th><th>Чому</th><th>Коли</th></tr></thead><tbody>
+<tr><td>Писати свій рушій</td><td>Роки роботи замість гри</td><td>Тільки якщо мета — саме рушії</td></tr>
+<tr><td>MMO або відкритий світ першою грою</td><td>Найчастіша причина, чому гру ніколи не випускають</td><td>Після кількох випущених ігор і з командою</td></tr>
+<tr><td>Кілька рушіїв одночасно</td><td>Принципи однакові, а час розпорошується</td><td>Другий рушій — у G9–G10</td></tr>
+<tr><td>C++ і Unreal з нуля без бази</td><td>Занадто багато нового одночасно</td><td>Після рівня 2</td></tr>
+<tr><td>Глибокі шейдери, свій рендер</td><td>Для перших ігор вистачає стандартних матеріалів</td><td>Після G9, за бажанням</td></tr>
+<tr><td>Kubernetes / Agones для гри без гравців</td><td>Інфраструктура для проблем, яких ще немає</td><td>Коли є реальні CCU</td></tr>
+<tr><td>Блокчейн / NFT в іграх</td><td>Гравці не люблять, PEGI 18 для обов'язкових NFT</td><td>—</td></tr>
+<tr><td>Ідеальна графіка до веселої механіки</td><td>Гарна нудна гра нікому не потрібна</td><td>Після плейтесту прототипу</td></tr>
+</tbody></table></div>
+
+<!-- ===================== SOURCES ===================== -->
+<h2 id="dzherela">Джерела, з яких зібраний курс</h2>
+<div class="cols2">
+<div>
+<h3>Курси і книги</h3>
+<ul class="src">
+<li><a href="https://cs50.harvard.edu/games/">Harvard CS50's Introduction to Game Development</a></li>
+<li><a href="https://learn.unity.com/pathways">Unity Learn</a> · <a href="https://dev.epicgames.com/community/unreal-engine/learning">Epic Developer Community</a></li>
+<li><a href="https://docs.godotengine.org">Godot docs</a> · <a href="https://gdquest.com">GDQuest</a> · <a href="https://kidscancode.org/godot_recipes/4.x/">Godot Recipes</a></li>
+<li><a href="https://gameprogrammingpatterns.com">Game Programming Patterns</a> (безкоштовна книга)</li>
+<li>Jesse Schell, «The Art of Game Design» · Steve Swink, «Game Feel»</li>
+</ul>
+</div>
+<div>
+<h3>Довідники і спільнота</h3>
+<ul class="src">
+<li><a href="https://www.redblobgames.com">Red Blob Games</a> · <a href="https://www.youtube.com/@acegikmo">Freya Holmér</a> · <a href="https://www.youtube.com/@SebastianLague">Sebastian Lague</a> · <a href="https://www.youtube.com/@GMTK">GMTK</a></li>
+<li><a href="https://www.gabrielgambetta.com/client-server-game-architecture.html">Gambetta</a> · <a href="https://gafferongames.com/">Gaffer On Games</a> · <a href="https://developer.valvesoftware.com/wiki/Source_Multiplayer_Networking">Valve wiki</a></li>
+<li><a href="https://gdcvault.com/free">GDC Vault</a> · <a href="https://itch.io/jams">itch.io jams</a></li>
+<li><a href="https://partner.steamgames.com/doc/home">Steamworks</a> · <a href="https://howtomarketagame.com">How To Market A Game</a> · <a href="https://pegi.info">PEGI</a></li>
+<li><a href="https://kenney.nl">Kenney</a> · <a href="https://quaternius.com">Quaternius</a> · <a href="https://freesound.org">Freesound</a></li>
+</ul>
+</div>
+</div>
+</main>
+</div>
+<script>
+(function(){
+  var KEY = 'games-kurs-progress-v1';
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('ul.tasks input[type=checkbox]'));
+  var state = {};
+  var db = null, docRef = null, writing = Promise.resolve(), timer = null;
+  var syncTxt = document.getElementById('syncTxt');
+
+  function readLocal(){ try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e){ return {}; } }
+  function writeLocal(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} }
+
+  function apply(){
+    boxes.forEach(function(b){ b.checked = !!state[b.id]; });
+    render();
+  }
+  function render(){
+    var total = boxes.length, done = 0;
+    boxes.forEach(function(b){ if (b.checked) done++; });
+    document.getElementById('overallTxt').textContent = 'Виконано задач: ' + done + ' з ' + total;
+    document.getElementById('overallBar').style.width = (total ? done/total*100 : 0) + '%';
+    document.querySelectorAll('section.proj').forEach(function(sec){
+      var bs = sec.querySelectorAll('ul.tasks input'), d = 0;
+      bs.forEach(function(b){ if (b.checked) d++; });
+      var bar = sec.querySelector(':scope > .bar i'), cnt = sec.querySelector(':scope > .cnt');
+      if (bar) bar.style.width = (bs.length ? d/bs.length*100 : 0) + '%';
+      if (cnt) cnt.textContent = d + ' / ' + bs.length + (d === bs.length && bs.length ? ' · проєкт закрито' : '');
+    });
+  }
+  function save(){
+    writeLocal();
+    if (!docRef) return;
+    clearTimeout(timer);
+    timer = setTimeout(function(){
+      var body = { done: Object.assign({}, state), updatedAt: new Date().toISOString() };
+      writing = writing.then(function(){ return docRef.set(body); }).then(function(){
+        syncTxt.textContent = 'Прогрес збережено у твоєму акаунті.';
+      }).catch(function(){
+        docRef = null;
+        syncTxt.textContent = 'Прогрес зберігається в цьому браузері.';
+      });
+    }, 600);
+  }
+  boxes.forEach(function(b){
+    b.addEventListener('change', function(){
+      if (b.checked) state[b.id] = true; else delete state[b.id];
+      render(); save();
+    });
+  });
+
+  state = readLocal();
+  apply();
+  syncTxt.textContent = 'Прогрес зберігається в цьому браузері.';
+
+  if (window.claude && typeof window.claude.use === 'function') {
+    Promise.all([window.claude.use('db'), window.claude.use('user')]).then(function(r){
+      var ns = r[0], user = r[1];
+      if (!ns || !user) return null;
+      db = ns;
+      return user.id();
+    }).then(function(uid){
+      if (!uid) return;
+      try { docRef = db.doc('data/users/' + uid + '/progress'); } catch(e){ return; }
+      docRef.get().then(function(snap){
+        var remote = (snap.exists && snap.data() && snap.data().done) || {};
+        var merged = Object.assign({}, remote, state);
+        var changed = Object.keys(merged).length !== Object.keys(remote).length;
+        state = merged; apply(); writeLocal();
+        syncTxt.textContent = 'Прогрес синхронізовано з твоїм акаунтом.';
+        if (changed && Object.keys(state).length) save();
+      }).catch(function(){
+        docRef = null;
+        syncTxt.textContent = 'Прогрес зберігається в цьому браузері.';
+      });
+    }).catch(function(){});
+  }
+})();
+</script>
+<script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.esm.min.mjs";
+mermaid.initialize({startOnLoad:true, theme: matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "default"});
+</script></body></html>

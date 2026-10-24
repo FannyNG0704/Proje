@@ -1,0 +1,1035 @@
+<!doctype html><html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}img{max-width:100%}body{margin:0}</style></head><body><div style="font:14px system-ui,sans-serif;padding:10px 16px;background:#fff7e0;color:#4a3b00;border-bottom:1px solid #e6d9a8">Офлайн-копія курсу. Актуальна версія з прогресом: <a href="https://claude.ai/artifact/LxzWTQfaqEyNHXQWGxB6qG">https://claude.ai/artifact/LxzWTQfaqEyNHXQWGxB6qG</a> · <a href="index.html">← Бібліотека</a></div><title>Відео, 3D і моушн</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: sticky contents on the left (desktop), one long column of project work orders; magenta accent marks this as the media course. */
+:root{
+  --bg:#f5f6f8; --surface:#ffffff; --ink:#18212e; --muted:#5a6475; --line:#d9dee6;
+  --accent:#b0306a; --accent-soft:#fbe9f1;
+  --warn:#b45309; --warn-soft:#fdf1e3;
+  --ok:#1f7a4d; --ok-soft:#e3f4ea;
+  --l1:#2f8f6b; --l2:#2f5bd3; --l3:#b45309; --l4:#7a3fb8;
+  --code-bg:#eef1f5;
+  --f-display:"Unbounded","Golos Text",system-ui,sans-serif;
+  --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11161f; --surface:#171e2a; --ink:#e6eaf1; --muted:#9aa5b6; --line:#2a3445;
+  --accent:#f28ab8; --accent-soft:#3a1a2a;
+  --warn:#f0a35a; --warn-soft:#33240f;
+  --ok:#5fcf98; --ok-soft:#12301f;
+  --l1:#5fcf98; --l2:#7ea2ff; --l3:#f0a35a; --l4:#c39bff;
+  --code-bg:#1f2836; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#11161f; --surface:#171e2a; --ink:#e6eaf1; --muted:#9aa5b6; --line:#2a3445;
+  --accent:#f28ab8; --accent-soft:#3a1a2a;
+  --warn:#f0a35a; --warn-soft:#33240f;
+  --ok:#5fcf98; --ok-soft:#12301f;
+  --l1:#5fcf98; --l2:#7ea2ff; --l3:#f0a35a; --l4:#c39bff;
+  --code-bg:#1f2836; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:240px minmax(0,1fr);gap:40px;padding-block:32px 80px}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr)} nav.toc{display:none}}
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;max-height:calc(100vh - 32px);overflow:auto;font-size:14px}
+nav.toc a{display:block;color:var(--muted);text-decoration:none;padding:3px 0}
+nav.toc a:hover,nav.toc a:focus-visible{color:var(--accent)}
+nav.toc .grp{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-top:14px}
+main{min-width:0}
+h1,h2,h3{text-wrap:balance;line-height:1.25}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(28px,4.5vw,44px);margin:0 0 12px}
+h2{font-family:var(--f-display);font-weight:500;font-size:clamp(22px,3vw,28px);margin:56px 0 12px}
+h3{font-size:18px;margin:24px 0 8px}
+p{max-width:70ch;margin:8px 0}
+a{color:var(--accent)}
+.lead{font-size:18px;color:var(--muted);max-width:68ch}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+code,kbd{font-family:var(--f-mono);font-size:.88em;background:var(--code-bg);padding:1px 5px;border-radius:4px}
+.tbl{overflow-x:auto;margin:12px 0;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line)}
+th{font-size:13px;color:var(--muted);font-weight:600;background:var(--bg)}
+tr:last-child td{border-bottom:0}
+.mermaid{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;overflow-x:auto;margin:12px 0}
+.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:16px 0}
+.lv{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:8px;padding:14px 16px}
+.lv h3{margin:4px 0 6px;font-size:16px}
+.lv .say{font-size:14px;color:var(--muted)}
+.lv .say b{color:var(--ink)}
+.principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:12px 0}
+.principles div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.principles b{display:block;margin-bottom:2px}
+/* project cards */
+section.proj{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin:20px 0;border-left:5px solid var(--c)}
+.proj-head{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between}
+.proj-head h2{margin:0;font-size:clamp(20px,2.6vw,24px)}
+.tag{font-family:var(--f-mono);font-size:12px;padding:2px 8px;border-radius:999px;background:var(--bg);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}
+.why{font-size:15px;color:var(--muted)}
+.pit{background:var(--warn-soft);border-radius:8px;padding:12px 16px;margin:12px 0}
+.pit h3{color:var(--warn);margin-top:0}
+.pit ul{margin:0;padding-left:20px}
+.done{background:var(--ok-soft);border-radius:8px;padding:12px 16px;margin:12px 0}
+.done h3{color:var(--ok);margin-top:0}
+.done ul{margin:0;padding-left:20px}
+ul.tasks{list-style:none;padding:0;margin:8px 0}
+ul.tasks li{display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-bottom:1px dashed var(--line)}
+ul.tasks li:last-child{border-bottom:0}
+ul.tasks input{margin-top:5px;width:18px;height:18px;accent-color:var(--accent);flex:none}
+ul.tasks label{cursor:pointer}
+ul.tasks input:checked + label{color:var(--muted);text-decoration:line-through}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:6px 0 2px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.cnt{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.quiz ol{padding-left:22px;margin:4px 0}
+.src{font-size:14px;color:var(--muted)}
+.src a{word-break:break-word}
+.note{font-size:14px;color:var(--muted);border-left:3px solid var(--line);padding-left:12px;margin:12px 0}
+.syncline{font-size:13px;color:var(--muted);margin-top:8px}
+.overall{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:8px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.cols2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.cols2>div{min-width:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+<div class="wrap">
+<nav class="toc" aria-label="Зміст">
+  <div class="grp">Старт</div>
+  <a href="#pryntsyp">Принцип курсу</a>
+  <a href="#karta">Карта і рівні</a>
+  <a href="#brat">Посилання від брата</a>
+  <div class="grp">Рівень 1 · Вигляд і рух</div>
+  <a href="#v1">V1 · Дизайн з нуля і з AI</a>
+  <a href="#v2">V2 · Hero-відео на лендингу</a>
+  <a href="#v3">V3 · Чужі відео і свій плеєр</a>
+  <a href="#v4">V4 · Анімації і моушн</a>
+  <div class="grp">Рівень 2 · 3D</div>
+  <a href="#v5">V5 · Перший 3D: товар 360° і AR</a>
+  <a href="#v6">V6 · Blender → сайт</a>
+  <a href="#v7">V7 · three.js і React Three Fiber</a>
+  <div class="grp">Рівень 3 · Складні проєкти</div>
+  <a href="#v8">V8 · Scroll-історія як в Apple</a>
+  <a href="#v9">V9 · 3D-конфігуратор товару</a>
+  <a href="#v10">V10 · Свій відеосервіс</a>
+  <div class="grp">Рівень 4 · Запуск і AI</div>
+  <a href="#v11">V11 · Хостинг: Cloudflare, домен, свій сервер</a>
+  <a href="#v12">V12 · AI-генерація відео і 3D</a>
+  <a href="#final">Фінал · «Вау»-сайт для клієнта</a>
+  <div class="grp">Довідник</div>
+  <a href="#slovnyk">Сленг і терміни</a>
+  <a href="#ryzyky">Якщо є X — думай про Y</a>
+  <a href="#instrument">Який інструмент вибрати</a>
+  <a href="#ne-vchyty">Що НЕ вчити зараз</a>
+  <a href="#dzherela">Джерела</a>
+</nav>
+
+<main>
+<div class="eyebrow">Навчальний план · відео, 3D, моушн, дизайн · версія жовтень 2026</div>
+<h1>Відео, 3D і моушн на сайті</h1>
+<p class="lead">Як зробити сайт, на якому щось рухається, грає відео і крутиться 3D-модель, і щоб він при цьому швидко відкривався на телефоні, не порушував закон і не приносив рахунок на сотні євро за трафік. Курс зібраний з документації MDN і web.dev, three.js, GSAP, Google model-viewer, Cloudflare, Mux, курсів Three.js Journey і Codrops, а також з посилань, які надіслав брат.</p>
+
+<div class="principles" style="grid-template-columns:minmax(0,1fr)"><div><b>Як користуватись курсом</b>Курс розрахований на навчання разом з Claude (claude.ai або Claude Code). Відкрий новий чат і напиши, наприклад: <i>«Я проходжу курс „Відео, 3D і моушн на сайті“, проєкт V2, задача 1. Поясни детально простими словами, з підводними каменями. Не давай готовий код одразу — спочатку підказку. В кінці перевір мене питаннями.»</i> Відмічай виконані задачі галочками — прогрес у кожного свій. Курс оновлюється за цим самим посиланням. Базу веба (HTML, CSS, JavaScript) дає перший курс «Від нуля до проду» — цей курс іде паралельно з ним, починаючи з його рівня 1.</div></div>
+
+<div class="overall" aria-live="polite">
+  <div class="cnt" id="overallTxt">Виконано задач: 0</div>
+  <div class="bar"><i id="overallBar"></i></div>
+  <div class="syncline" id="syncTxt">Прогрес зберігається…</div>
+</div>
+
+<h2 id="pryntsyp">Принцип курсу</h2>
+<div class="principles">
+  <div><b>1. Спочатку сенс, потім ефект</b>Відео й 3D — не прикраса заради прикраси. Кожен ефект відповідає на питання «що він дає людині на сторінці?». Інакше це просто повільний сайт.</div>
+  <div><b>2. Бюджет на важкість</b>Кожен проєкт має ліміт: скільки мегабайт, скільки секунд до першого екрана, скільки кадрів на секунду на звичайному телефоні. Перевищив — оптимізуєш, а не «і так зійде».</div>
+  <div><b>3. Завжди запасний варіант</b>Відео не завантажилось, 3D не підтримується, людина просить менше руху — сайт усе одно працює і виглядає нормально.</div>
+  <div><b>4. Чуже — тільки з ліцензією</b>Відео, музика, 3D-моделі, шрифти, компоненти: перед використанням перевіряєш, чи можна, і зберігаєш доказ.</div>
+  <div><b>5. AI — помічник, а не автор</b>Claude, 21st.dev, генератори відео прискорюють роботу. Але ти маєш розуміти кожен рядок, інакше не виправиш, коли зламається.</div>
+  <div><b>6. Ланцюжок «якщо X → думай про Y»</b>Є відео → розмір, трафік, автоплей. Є 3D → телефони, пам'ять, запасна картинка. Є чужий YouTube → згода на cookies.</div>
+</div>
+
+<h2 id="karta">Карта курсу і рівні</h2>
+<pre class="mermaid">
+flowchart LR
+  subgraph L1["Рівень 1 · Вигляд і рух"]
+    V1[V1 Дизайн з AI] --> V2[V2 Hero-відео] --> V3[V3 Чужі відео, плеєр] --> V4[V4 Анімації]
+  end
+  subgraph L2["Рівень 2 · 3D"]
+    V5[V5 Товар 360° і AR] --> V6[V6 Blender → сайт] --> V7[V7 three.js / R3F]
+  end
+  subgraph L3["Рівень 3 · Складні проєкти"]
+    V8[V8 Scroll-історія] --> V9[V9 3D-конфігуратор] --> V10[V10 Свій відеосервіс]
+  end
+  subgraph L4["Рівень 4 · Запуск і AI"]
+    V11[V11 Хостинг Cloudflare] --> V12[V12 AI-генерація] --> F[Фінал: вау-сайт]
+  end
+  V4 --> V5
+  V7 --> V8
+  V10 --> V11
+</pre>
+<div class="levels">
+  <div class="lv" style="--c:var(--l1)"><div class="eyebrow">Рівень 1 · ~2 місяці</div><h3>Вигляд і рух</h3><div class="say">Можу сказати: <b>«Зроблю гарний лендинг з фоновим відео, анімаціями при прокрутці і вбудованими відео — швидкий на телефоні і за законом ЄС».</b></div></div>
+  <div class="lv" style="--c:var(--l2)"><div class="eyebrow">Рівень 2 · ~2 місяці</div><h3>3D</h3><div class="say">Можу сказати: <b>«Покажу товар у 3D з обертанням і AR, підготую модель з Blender, зроблю інтерактивну 3D-сцену, яка не гальмує на телефоні».</b></div></div>
+  <div class="lv" style="--c:var(--l3)"><div class="eyebrow">Рівень 3 · ~2–3 місяці</div><h3>Складні проєкти</h3><div class="say">Можу сказати: <b>«Зроблю сторінку-історію як в Apple, 3D-конфігуратор товару, або сервіс, куди люди завантажують свої відео — з розрахунком вартості».</b></div></div>
+  <div class="lv" style="--c:var(--l4)"><div class="eyebrow">Рівень 4 · ~1–2 місяці</div><h3>Запуск і AI</h3><div class="say">Можу сказати: <b>«Викладу на свій домен через Cloudflare, підключу домашній сервер безпечно, згенерую відео й 3D через AI з правильними ліцензіями».</b></div></div>
+</div>
+<p class="note">Терміни — приблизно при 6–8 годинах на тиждень. Якщо паралельно йде перший курс, рівень 1 цього курсу зручно починати після проєкту P2 першого курсу.</p>
+
+<h2 id="brat">Посилання від брата: що це і як використовувати</h2>
+<div class="tbl"><table>
+<thead><tr><th>Посилання</th><th>Що це</th><th>Безкоштовно?</th><th>Як використати і обережно з чим</th><th>Проєкт</th></tr></thead>
+<tbody>
+<tr><td><a href="https://youtu.be/flSbNBIfHDE">Відео 1</a></td><td>«Claude: Создаем Сайты на $5000 всего за 19 минут» — Кайсар Курмангалиев, повний туторіал російською</td><td>Так</td><td>Подивитись, як будують «преміум»-сайт з Claude. Обережно: «$5000 за 19 хвилин» — це заголовок для кліків. Реальний клієнтський сайт — це ще тексти, правки, закон, хостинг, підтримка.</td><td>V1</td></tr>
+<tr><td><a href="https://youtu.be/YUWBku1cNEA">Відео 2</a></td><td>«Claude Code + Seedance 2.5 = Insane Websites» — Kyle Skelly: Claude Code + AI-відео (Seedance від ByteDance) для сайтів з відео</td><td>Так</td><td>Схема: згенерувати коротке темне повільне відео → Claude Code робить сторінку → GSAP-анімації → стиснути відео до ~3–5 МБ → деплой. Перевіряй ліцензію на згенероване відео.</td><td>V2, V12</td></tr>
+<tr><td><a href="https://www.designprompts.dev">designprompts.dev</a></td><td>~21 стиль дизайну у вигляді готових промптів для Claude Code / Cursor</td><td>Перегляд і промпти — так; Pro — $99 разово</td><td>Взяти стиль як старт і читати промпт, щоб вивчити мову дизайну (шрифти, відступи, кольори). Pro не можна перепродавати.</td><td>V1</td></tr>
+<tr><td><a href="https://www.behance.net">Behance</a></td><td>Портфоліо дизайнерів від Adobe: сайти, брендинг, моушн</td><td>Так</td><td>Тільки натхнення: дивитись, як побудовані макети, і описувати це в промпті. Копіювати картинки й дизайн не можна — це чужа робота.</td><td>V1</td></tr>
+<tr><td><a href="https://motionsites.ai/">motionsites.ai</a></td><td>Платна бібліотека промптів для «3D / моушн»-лендингів + анімовані фони</td><td>Ні (ціни за даними сторонніх сайтів ~$149/рік і вище, перевіряти)</td><td>Можна для натхнення. Незалежних відгуків майже немає. Спочатку пройди V4 — тоді зрозумієш, що саме купуєш.</td><td>V4</td></tr>
+<tr><td><a href="https://21st.dev/community/components">21st.dev</a></td><td>Маркетплейс готових React + Tailwind компонентів + «21st MCP», щоб Claude сам шукав компоненти</td><td>Перегляд — так, 2 копіювання/день; Builder ~$6/міс</td><td>Claude бере справжній робочий компонент замість вигаданого. Читай код перед використанням, ліцензія — у кожного автора своя. API-ключ не комітити.</td><td>V1, V4</td></tr>
+<tr><td><a href="https://www.duckdns.org/domains">DuckDNS</a></td><td>Безкоштовний піддомен <code>ім'я.duckdns.org</code>, що веде на домашню IP-адресу, яка змінюється</td><td>Так</td><td>Для домашнього сервера / Raspberry Pi. Але відкритий порт вдома = мішень для ботів. Часто не працює в Іспанії через CGNAT у провайдера. Краще — Cloudflare Tunnel.</td><td>V11</td></tr>
+<tr><td><a href="https://dash.cloudflare.com/">Cloudflare</a></td><td>DNS, CDN, безкоштовний хостинг сайтів (Workers / Pages), сховище R2 без плати за трафік, Stream для відео, Tunnel, захист форм Turnstile</td><td>Більшість — так; Stream платний</td><td>Головний «дім» для сайтів з цього курсу. Картка потрібна для R2. Великі відео — через R2 або Stream, а не через звичайний CDN (правила Cloudflare).</td><td>V10, V11</td></tr>
+</tbody></table></div>
+
+<!-- ===================== V1 ===================== -->
+<section class="proj" id="v1" style="--c:var(--l1)" data-proj="v1">
+<div class="proj-head"><h2>V1 · Дизайн з нуля і з AI</h2><span class="tag">Рівень 1 · ~3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> відео і 3D не врятують сайт з поганою типографікою і хаосом у відступах. Тут ти вчишся бачити дизайн, описувати його словами (це і є хороший промпт) і не робити «типовий AI-сайт», який клієнти вже впізнають.</p>
+<pre class="mermaid">
+flowchart LR
+  R[Референси<br/>Behance, Awwwards, Godly] --> B[Бриф: для кого,<br/>настрій, 3 слова]
+  B --> T[Дизайн-система<br/>кольори, шрифти, відступи]
+  T --> W[Wireframe<br/>сірі блоки в Figma]
+  W --> AI[Claude Code + frontend-design<br/>+ компоненти 21st / shadcn]
+  AI --> S[Скріншоти 375 / 768 / 1440<br/>Playwright]
+  S -->|не те| AI
+  S -->|добре| C[Коміт]
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Типографіка: пара шрифтів, шкала розмірів, довжина рядка</td><td>80% «дорогого» вигляду — це шрифти й відступи.</td></tr>
+<tr><td>Колір: 4–6 кольорів, контраст (WCAG)</td><td>Мало кольорів, але продуманих. Текст має читатися.</td></tr>
+<tr><td>Сітка, відступи, ієрархія</td><td>Що головне на екрані і куди око дивиться спочатку.</td></tr>
+<tr><td>Дизайн-токени</td><td>Кольори й розміри записані як змінні — один раз, для всього сайту.</td></tr>
+<tr><td>Figma (безкоштовний план): wireframe, макет</td><td>Намалювати перш ніж кодити — дешевше виправляти.</td></tr>
+<tr><td>Tailwind CSS v4, shadcn/ui, Magic UI, Aceternity, 21st.dev</td><td>Готові стилі й компоненти, які бере і Claude.</td></tr>
+<tr><td>Claude Code для дизайну: skill frontend-design, дизайн-система в CLAUDE.md, Playwright-скріншоти</td><td>Як змусити AI робити не шаблонний сайт і перевіряти себе.</td></tr>
+<tr><td>Шрифти й іконки: Google Fonts, Fontshare, Bunny Fonts, Lucide</td><td>Де брати безкоштовне і легальне.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="v1-1"><label for="v1-1">Зібрати 10 референсів (Behance, Awwwards, Godly, Land-book) для уявного клієнта. Під кожним — одне речення: що саме подобається.</label></li>
+<li><input type="checkbox" id="v1-2"><label for="v1-2">Бриф на одну сторінку: хто клієнт, для кого сайт, 3 слова настрою, чого НЕ хочемо.</label></li>
+<li><input type="checkbox" id="v1-3"><label for="v1-3">Дизайн-система: 5 кольорів, 2 шрифти, шкала розмірів, відступи. Записати в CLAUDE.md проєкту разом зі списком «не робити».</label></li>
+<li><input type="checkbox" id="v1-4"><label for="v1-4">Wireframe у Figma: тільки сірі блоки, без кольору.</label></li>
+<li><input type="checkbox" id="v1-5"><label for="v1-5">Встановити skill frontend-design у Claude Code, зробити сторінку. Взяти 2 компоненти з 21st.dev або shadcn, прочитати їхній код.</label></li>
+<li><input type="checkbox" id="v1-6"><label for="v1-6">Цикл скріншотів (Playwright) на 375 / 768 / 1440 px — 3 ітерації виправлень.</label></li>
+<li><input type="checkbox" id="v1-7"><label for="v1-7">Перевірка: контраст, Tab-навігація, Lighthouse ≥ 90. Знайти на сторінці ознаки «AI-вигляду» і прибрати.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li><b>«AI-вигляд»</b>: фіолетово-сині градієнти, всюди шрифт Inter, скляні картки, по центру заголовок + 3 картки, емодзі замість іконок. Клієнти вже впізнають і вважають дешевим.</li>
+<li>Копіювати дизайн з Behance/Dribbble — порушення авторських прав.</li>
+<li>Шрифти «free for personal use» з сайтів типу dafont — не можна в комерційному проєкті.</li>
+<li><b>ЄС:</b> Google Fonts з серверів Google передає IP відвідувачів у Google — у Німеччині суд присудив за це компенсацію. Краще розмістити шрифти на своєму сайті або Bunny Fonts.</li>
+<li>Компоненти Pro (Aceternity Pro, Magic UI Pro, designprompts Pro) не можна перепродавати як шаблони. Безкоштовні MIT — зберігати текст ліцензії.</li>
+<li>Tailwind v3 і v4 пишуться по-різному. Скажи Claude, яка версія, інакше буде мішанина.</li>
+<li>Відео «сайт за $5000 за 19 хвилин» часто ведуть на продаж платних промптів. Дивись критично.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Є бриф, дизайн-система в CLAUDE.md, wireframe і зверстана сторінка.</li>
+<li>На трьох ширинах сторінка виглядає продумано, Lighthouse ≥ 90, контраст у нормі.</li>
+<li>Можеш назвати 5 рішень у дизайні і пояснити, чому саме так.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Що робить сайт «типово AI-шним» і як цього уникнути?</li>
+<li>Навіщо дизайн-токени, якщо можна писати кольори прямо в CSS?</li>
+<li>Чим натхнення з Behance відрізняється від копіювання?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://www.designprompts.dev">designprompts.dev</a> · <a href="https://21st.dev/community/components">21st.dev</a> · <a href="https://ui.shadcn.com">shadcn/ui</a> · <a href="https://magicui.design">Magic UI</a> · <a href="https://tailwindcss.com">Tailwind CSS</a> · <a href="https://www.figma.com">Figma</a> · <a href="https://www.awwwards.com">Awwwards</a> · <a href="https://godly.website">Godly</a> · <a href="https://fonts.bunny.net">Bunny Fonts</a> · <a href="https://www.fontshare.com">Fontshare</a> · <a href="https://lucide.dev">Lucide</a> · <a href="https://docs.claude.com/en/docs/claude-code">Claude Code docs</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== V2 ===================== -->
+<section class="proj" id="v2" style="--c:var(--l1)" data-proj="v2">
+<div class="proj-head"><h2>V2 · Hero-відео на лендингу</h2><span class="tag">Рівень 1 · ~2–3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> фонове відео у верхній частині сайту — найпопулярніше замовлення «щоб було вау». І найчастіше саме воно робить сайт повільним: 50 МБ з телефона замість 2 МБ.</p>
+<h3>Шлях відео від камери до сайту</h3>
+<pre class="mermaid">
+flowchart LR
+  SRC[Оригінал<br/>4K, 200 МБ, зі звуком] --> FF[ffmpeg<br/>обрізати 8–15 с,<br/>прибрати звук, 1280px]
+  FF --> AV1[hero-av1.mp4<br/>AV1, найменший]
+  FF --> H264[hero.mp4<br/>H.264, грає всюди]
+  FF --> POS[poster.webp<br/>перший кадр]
+  AV1 --> CDN[R2 / CDN]
+  H264 --> CDN
+  POS --> CDN
+  CDN --> V["&lt;video autoplay muted loop playsinline poster&gt;"]
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Контейнер vs кодек (MP4 / WebM vs H.264 / VP9 / AV1 / HEVC)</td><td>Контейнер — «коробка», кодек — спосіб стиснення. Новачки їх плутають.</td></tr>
+<tr><td>Підтримка браузерами</td><td>H.264 у MP4 грає всюди — це завжди запасний. AV1 найменший, але Safari грає його тільки на нових пристроях.</td></tr>
+<tr><td>ffmpeg: CRF, preset, <code>-an</code>, <code>-movflags +faststart</code>, <code>-pix_fmt yuv420p</code></td><td>Програма в терміналі, яка стискає і перетворює відео. Кожен прапорець — свій сенс.</td></tr>
+<tr><td><code>&lt;video&gt;</code>: autoplay, muted, loop, playsinline, poster, preload</td><td>Без <code>muted</code> і <code>playsinline</code> iPhone не запустить відео сам.</td></tr>
+<tr><td>LCP, CLS, ледаче завантаження</td><td>Швидкість першого екрана і «стрибки» сторінки — їх міряє Google.</td></tr>
+<tr><td>Контраст тексту на відео, <code>prefers-reduced-motion</code>, кнопка паузи</td><td>Текст має читатися, а люди, яким погано від руху, можуть його вимкнути.</td></tr>
+<tr><td>Стокові відео: Pexels, Pixabay, Coverr</td><td>Безкоштовні відео з дозволом на комерційне використання.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="v2-1"><label for="v2-1">Встановити ffmpeg. Взяти відео з Pexels, подивитись його розмір, кодек і бітрейт (<code>ffprobe</code>).</label></li>
+<li><input type="checkbox" id="v2-2"><label for="v2-2">Стиснути в H.264: <code>ffmpeg -i in.mov -an -t 12 -vf "scale=1280:-2,fps=30" -c:v libx264 -preset slow -crf 26 -pix_fmt yuv420p -movflags +faststart hero.mp4</code>. Пояснити кожен прапорець.</label></li>
+<li><input type="checkbox" id="v2-3"><label for="v2-3">Зробити ще AV1-версію і poster (перший кадр у WebP). Порівняти розміри в таблиці.</label></li>
+<li><input type="checkbox" id="v2-4"><label for="v2-4">Hero-секція: два <code>&lt;source&gt;</code> (AV1, потім H.264), poster, фіксовані пропорції, напівпрозорий шар під текстом.</label></li>
+<li><input type="checkbox" id="v2-5"><label for="v2-5">Обробити помилку <code>video.play()</code> (iPhone в режимі енергозбереження), кнопка паузи, режим «менше руху» показує тільки poster.</label></li>
+<li><input type="checkbox" id="v2-6"><label for="v2-6">Відео нижче першого екрана — завантажувати тільки коли до нього доскролили (IntersectionObserver).</label></li>
+<li><input type="checkbox" id="v2-7"><label for="v2-7">Lighthouse до і після оптимізації, перевірка на справжньому iPhone і Android. Записати цифри.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li><b>Файл з камери на 40–200 МБ</b> як фон. Ціль: 1–3 МБ, 8–15 секунд, 720–1080p, без звуку.</li>
+<li><b>iPhone не грає відео сам</b>, якщо немає <code>muted</code> + <code>playsinline</code>. У режимі енергозбереження не грає взагалі — потрібен poster.</li>
+<li>Тільки AV1 або тільки HEVC без H.264 — у частини людей чорний екран.</li>
+<li>Без <code>faststart</code> відео не починається, поки не завантажиться повністю.</li>
+<li>Відео з iPhone (10-біт HDR) без <code>yuv420p</code> — дивні кольори або не грає.</li>
+<li>Видимий «стрибок», коли відео починається спочатку. Перевір склейку.</li>
+<li>Білий текст на світлому відео не читається — потрібен затемнюючий шар.</li>
+<li>Pixabay забороняє комерційне використання відео з упізнаваними брендами. На відео є люди — в Іспанії діє право на власне зображення (LO 1/1982).</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Hero-відео ≤ 3 МБ, є AV1 + H.264 + poster, автоплей працює на iPhone.</li>
+<li>Є пауза і режим «менше руху», текст читається, LCP і CLS у зеленій зоні.</li>
+<li>Збережено ліцензію на відео (скріншот або PDF сторінки ліцензії).</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Різниця між контейнером і кодеком на прикладі <code>hero.mp4</code>.</li>
+<li>Чому завжди потрібна H.264-версія?</li>
+<li>Три причини, чому фонове відео не запуститься на iPhone.</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/video">MDN &lt;video&gt;</a> · <a href="https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Video_codecs">MDN: відеокодеки</a> · <a href="https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Autoplay">MDN: автоплей</a> · <a href="https://webkit.org/blog/6784/new-video-policies-for-ios/">WebKit: правила відео на iOS</a> · <a href="https://trac.ffmpeg.org/wiki/Encode/H.264">ffmpeg H.264</a> · <a href="https://trac.ffmpeg.org/wiki/Encode/AV1">ffmpeg AV1</a> · <a href="https://howvideo.works">howvideo.works</a> · <a href="https://web.dev/articles/lcp">web.dev LCP</a> · <a href="https://www.pexels.com/license/">Pexels License</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== V3 ===================== -->
+<section class="proj" id="v3" style="--c:var(--l1)" data-proj="v3">
+<div class="proj-head"><h2>V3 · Чужі відео і свій плеєр</h2><span class="tag">Рівень 1 · ~2 тижні</span></div>
+<p class="why"><b>Навіщо:</b> «вставте наше відео з YouTube», «зробіть сторінку з уроками» — дуже часті задачі. Звичайний YouTube-iframe важить ~1 МБ скриптів, гальмує сайт і в ЄС ставить cookies без згоди.</p>
+<h3>Вбудовування YouTube за правилами ЄС</h3>
+<pre class="mermaid">
+sequenceDiagram
+  participant U as Відвідувач
+  participant S as Твій сайт
+  participant Y as YouTube
+  S->>U: тільки картинка-прев'ю + кнопка ▶ (з твого сервера)
+  Note over U,S: YouTube ще нічого не знає про людину
+  U->>S: натискає ▶
+  S->>U: «Відео від YouTube, він збереже cookies. Погоджуєтесь?»
+  U->>S: «Так»
+  S->>Y: тепер завантажуємо iframe
+  Y-->>U: відео грає
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>iframe-вбудовування YouTube / Vimeo, параметри</td><td>Як вставити чуже відео на свій сайт.</td></tr>
+<tr><td>Патерн «фасад» (lite-youtube-embed)</td><td>Спочатку тільки картинка, справжній плеєр — після кліку. Сайт у рази швидший.</td></tr>
+<tr><td>RGPD / ePrivacy, двоклікова згода</td><td>youtube-nocookie.com — НЕ вирішує питання повністю: дані все одно пишуться в браузер.</td></tr>
+<tr><td>Свої елементи керування (Media API: play, pause, currentTime, volume)</td><td>Свій дизайн кнопок замість стандартних.</td></tr>
+<tr><td>Субтитри WebVTT, <code>&lt;track&gt;</code>, розділи</td><td>Текст під відео — для людей з поганим слухом і для перегляду без звуку.</td></tr>
+<tr><td>Доступність (WCAG), Європейський акт про доступність</td><td>З 28.06.2025 для багатьох сайтів магазинів і послуг у ЄС це закон.</td></tr>
+<tr><td>Готові плеєри: Vidstack, Video.js, media-chrome</td><td>Коли не треба писати свій.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="v3-1"><label for="v3-1">Сторінка «Уроки»: 6 відео з YouTube через lite-youtube-embed. Порівняти Lighthouse зі звичайним iframe.</label></li>
+<li><input type="checkbox" id="v3-2"><label for="v3-2">Двоклікова згода: до кліку в DevTools (Application) нічого від YouTube немає. Перевірити до і після.</label></li>
+<li><input type="checkbox" id="v3-3"><label for="v3-3">Свій плеєр для власного відео: кнопки, прогрес, гучність, повний екран, клавіатура (пробіл, стрілки).</label></li>
+<li><input type="checkbox" id="v3-4"><label for="v3-4">Субтитри WebVTT іспанською і українською, перемикання мов, розділи.</label></li>
+<li><input type="checkbox" id="v3-5"><label for="v3-5">Перевірити плеєр тільки клавіатурою і з екранним читачем (VoiceOver / TalkBack).</label></li>
+<li><input type="checkbox" id="v3-6"><label for="v3-6">Порівняти Vimeo і YouTube для клієнта: реклама, «рекомендовані» відео в кінці, ціна, брендинг.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Скачати чуже відео з YouTube і викласти в себе — порушення авторських прав і правил YouTube. Вбудовувати офіційним плеєром — можна.</li>
+<li>Звичайний iframe одразу ставить трекери — в ЄС потрібна згода до завантаження.</li>
+<li>У кінці YouTube показує «рекомендовані» відео, іноді конкурентів клієнта.</li>
+<li>Автоматичні субтитри без перевірки — помилки, особливо іспанською й українською.</li>
+<li>Файл <code>.vtt</code> з іншого домену без CORS — субтитри мовчки не з'являються.</li>
+<li><code>video.play()</code> повертає Promise, який може впасти — завжди <code>.catch()</code>.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Сторінка з 6 відео швидка, YouTube нічого не завантажує до згоди.</li>
+<li>Свій плеєр працює мишкою, клавіатурою і з екранним читачем, є субтитри двома мовами.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Чому youtube-nocookie не вирішує питання з RGPD повністю?</li>
+<li>Що таке «фасад» і скільки він економить?</li>
+<li>Коли краще готовий плеєр, а коли свій?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://github.com/paulirish/lite-youtube-embed">lite-youtube-embed</a> · <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebVTT_API">MDN WebVTT</a> · <a href="https://www.w3.org/WAI/media/av/">W3C: доступність медіа</a> · <a href="https://www.vidstack.io">Vidstack</a> · <a href="https://www.aepd.es">AEPD</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== V4 ===================== -->
+<section class="proj" id="v4" style="--c:var(--l1)" data-proj="v4">
+<div class="proj-head"><h2>V4 · Анімації і моушн</h2><span class="tag">Рівень 1 · ~4 тижні</span></div>
+<p class="why"><b>Навіщо:</b> саме анімації роблять сайти з Awwwards і motionsites «живими»: текст з'являється по літерах, блоки виїжджають при прокрутці, сторінки плавно перетікають. Головне правило: CSS спочатку, JavaScript — коли CSS не вистачає.</p>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>CSS transitions і keyframes, easing</td><td>Плавний перехід між станами і «характер» руху (різко, м'яко, з відскоком).</td></tr>
+<tr><td>Анімувати тільки <code>transform</code> і <code>opacity</code></td><td>Вони дешеві для телефона. <code>width</code>, <code>top</code>, тіні — дорогі, сайт смикається.</td></tr>
+<tr><td>View Transitions API</td><td>Плавний перехід між сторінками або станами одним рядком коду.</td></tr>
+<tr><td>CSS scroll-driven animations (<code>animation-timeline: view()</code>)</td><td>Анімація прив'язана до прокрутки — без JavaScript. Firefox тільки отримує підтримку, потрібен запасний варіант.</td></tr>
+<tr><td>GSAP: tween, timeline, ScrollTrigger, SplitText</td><td>Найпопулярніша бібліотека анімацій. Тепер безкоштовна з усіма плагінами.</td></tr>
+<tr><td>Motion (колишній Framer Motion) для React</td><td>Анімації інтерфейсу в React: появи, зникнення, жести.</td></tr>
+<tr><td>Lenis (плавна прокрутка), Lottie, Rive</td><td>М'який скрол і готові векторні анімації з After Effects / Rive.</td></tr>
+<tr><td><code>prefers-reduced-motion</code>, WCAG 2.2.2 і 2.3.3</td><td>Людям з вестибулярними проблемами від руху буквально погано.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="v4-1"><label for="v4-1">10 мікроанімацій на CSS: кнопки, картки, меню. Тільки transform і opacity. Перевірити в DevTools → Performance.</label></li>
+<li><input type="checkbox" id="v4-2"><label for="v4-2">Сторінка з появою блоків при прокрутці на чистому CSS (<code>animation-timeline: view()</code>) з запасним варіантом через <code>@supports</code>.</label></li>
+<li><input type="checkbox" id="v4-3"><label for="v4-3">Та сама сторінка на GSAP: ScrollTrigger, закріплена секція (pin), SplitText-заголовок. Порівняти.</label></li>
+<li><input type="checkbox" id="v4-4"><label for="v4-4">Lenis + синхронізація з ScrollTrigger. Перевірити, що якірні посилання й вкладені скроли працюють.</label></li>
+<li><input type="checkbox" id="v4-5"><label for="v4-5">Переходи між сторінками через View Transitions.</label></li>
+<li><input type="checkbox" id="v4-6"><label for="v4-6">Режим «менше руху»: паралакс, автоплей і великі рухи вимикаються (<code>gsap.matchMedia()</code>).</label></li>
+<li><input type="checkbox" id="v4-7"><label for="v4-7">Повторити один ефект із сайту з Awwwards або туторіалу Codrops. Записати, що дізнався.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Анімація <code>width</code> / <code>top</code> / <code>box-shadow</code> — ривки на телефоні.</li>
+<li><code>will-change</code> на всьому — витрачає пам'ять відеокарти.</li>
+<li><b>Scroll-jacking</b>: сайт «відбирає» прокрутку — люди злі, а на тачпадах і телефонах ламається.</li>
+<li>Три бібліотеки анімацій на одному сайті (GSAP + Motion + AOS) — важко і конфліктує. Одна.</li>
+<li>У React ScrollTrigger не прибирається при переході між сторінками — витік пам'яті і дивні глюки. Використовуй <code>useGSAP()</code>.</li>
+<li>GSAP безкоштовний, але не open source: його ліцензія забороняє будувати на ньому конкурента Webflow (візуальний конструктор анімацій). Звичайні сайти і клієнтські роботи — можна.</li>
+<li>SplitText без збереження <code>aria-label</code> — екранний читач читає по літерах.</li>
+<li>Важкі Lottie-файли (великий JSON) навантажують процесор. Зупиняй анімації поза екраном.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Сторінка-історія з ScrollTrigger працює плавно (~60 кадрів/с) на звичайному Android.</li>
+<li>Режим «менше руху» вимикає великі рухи, якірні посилання працюють.</li>
+<li>Можеш пояснити, чому той чи інший ефект зроблено на CSS або на GSAP.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Чому <code>transform</code> «дешевий», а <code>top</code> «дорогий»?</li>
+<li>Коли вистачить CSS, а коли потрібен GSAP?</li>
+<li>Що таке scroll-jacking і чому це погано?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_animations">MDN CSS animations</a> · <a href="https://web.dev/learn/css/animations">web.dev</a> · <a href="https://scroll-driven-animations.style">scroll-driven-animations.style</a> · <a href="https://developer.chrome.com/docs/web-platform/view-transitions">View Transitions</a> · <a href="https://gsap.com/resources/get-started">GSAP Get Started</a> · <a href="https://motion.dev/docs">Motion docs</a> · <a href="https://lenis.darkroom.engineering">Lenis</a> · <a href="https://tympanus.net/codrops">Codrops</a> (безкоштовні туторіали з кодом) · <a href="https://rive.app">Rive</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== V5 ===================== -->
+<section class="proj" id="v5" style="--c:var(--l2)" data-proj="v5">
+<div class="proj-head"><h2>V5 · Перший 3D: товар 360° і AR</h2><span class="tag">Рівень 2 · ~2 тижні</span></div>
+<p class="why"><b>Навіщо:</b> найпростіший і найкорисніший вхід у 3D. Один HTML-тег <code>&lt;model-viewer&gt;</code> від Google — і товар можна крутити пальцем, а на телефоні поставити у свою кімнату через AR. Для магазину меблів, кросівок, кавоварок — реальна цінність.</p>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>glTF / GLB</td><td>«JPEG для 3D»: стандартний формат моделей для веба. GLB — все в одному файлі.</td></tr>
+<tr><td>Меш, полігони, матеріал, текстура, PBR</td><td>Форма з трикутників + «шкіра» з картинок, яка реалістично реагує на світло.</td></tr>
+<tr><td><code>&lt;model-viewer&gt;</code>: camera-controls, poster, hotspots, variants</td><td>Крутити, наближати, точки з підписами, варіанти кольорів.</td></tr>
+<tr><td>AR: Android Scene Viewer, iOS Quick Look (USDZ)</td><td>Кнопка «подивитись у своїй кімнаті».</td></tr>
+<tr><td>gltf.report, glTF Viewer</td><td>Відкрити модель у браузері, побачити її вагу і що всередині.</td></tr>
+<tr><td>Безкоштовні моделі і ліцензії: Poly Haven, Kenney, Quaternius (CC0), Sketchfab (у кожної моделі своя)</td><td>Де брати моделі і що означає CC0, CC BY, CC BY-NC.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="v5-1"><label for="v5-1">Взяти CC0-модель (Poly Haven / Khronos samples), відкрити в gltf.report: скільки трикутників, текстур, мегабайт.</label></li>
+<li><input type="checkbox" id="v5-2"><label for="v5-2">Сторінка товару з <code>&lt;model-viewer&gt;</code>: обертання, poster-картинка, ледаче завантаження.</label></li>
+<li><input type="checkbox" id="v5-3"><label for="v5-3">3–4 hotspots з підписами («шкіра», «ручка зі сталі»).</label></li>
+<li><input type="checkbox" id="v5-4"><label for="v5-4">Варіанти кольору (variants) — кнопки під моделлю.</label></li>
+<li><input type="checkbox" id="v5-5"><label for="v5-5">Кнопка AR: перевірити на Android і iPhone.</label></li>
+<li><input type="checkbox" id="v5-6"><label for="v5-6">Запасний варіант: якщо 3D не завантажилось — галерея фото. Lighthouse до і після моделі.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Модель на 50 МБ — сторінка не відкривається на мобільному інтернеті. Ціль для товару: 1–5 МБ.</li>
+<li>Модель «вимкнена» в темряві або дивних кольорах — потрібне освітлення середовища (environment) і правильний колірний простір.</li>
+<li>Sketchfab: у кожної моделі своя ліцензія. CC BY — треба вказати автора, CC BY-NC — не для комерції.</li>
+<li>Немає poster — порожній квадрат, поки вантажиться модель, погіршується LCP.</li>
+<li>Canvas з 3D невидимий для Google і екранних читачів — опис товару має бути звичайним текстом.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Сторінка товару з 3D, hotspots, варіантами і AR працює на двох телефонах.</li>
+<li>Модель ≤ 5 МБ, є poster і запасна галерея, ліцензію моделі записано.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Що всередині GLB-файлу?</li>
+<li>Чим CC0 відрізняється від CC BY-NC?</li>
+<li>Чому текст опису не можна залишати тільки в 3D-сцені?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://modelviewer.dev">modelviewer.dev</a> (приклади і редактор) · <a href="https://gltf.report">gltf.report</a> · <a href="https://gltf-viewer.donmccurdy.com">glTF Viewer</a> · <a href="https://polyhaven.com">Poly Haven</a> · <a href="https://kenney.nl">Kenney</a> · <a href="https://quaternius.com">Quaternius</a> · <a href="https://github.com/KhronosGroup/glTF-Sample-Assets">Khronos sample assets</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== V6 ===================== -->
+<section class="proj" id="v6" style="--c:var(--l2)" data-proj="v6">
+<div class="proj-head"><h2>V6 · Blender → сайт</h2><span class="tag">Рівень 2 · ~3–4 тижні</span></div>
+<p class="why"><b>Навіщо:</b> готових моделей не завжди вистачає, а клієнтська модель від дизайнера часто важить 300 МБ. Тут ти вчишся підготувати модель для веба: зробити просту сцену в Blender, «запекти» світло і стиснути файл у десятки разів.</p>
+<pre class="mermaid">
+flowchart LR
+  B[Blender<br/>модель, UV, матеріали] --> BK[Bake<br/>світло і тіні в текстуру]
+  BK --> EX[Експорт glTF / GLB]
+  EX --> GT[gltf-transform optimize<br/>Meshopt / Draco + KTX2]
+  GT --> CK[Перевірка<br/>gltf.report: МБ, трикутники]
+  CK -->|задовго| B
+  CK --> WEB[Сайт: model-viewer або three.js]
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Blender база: інтерфейс, моделювання, apply transforms</td><td>Безкоштовна програма для 3D. Достатньо базових рухів.</td></tr>
+<tr><td>UV-розгортка, матеріали Principled BSDF</td><td>«Викрійка» моделі, на яку кладеться текстура.</td></tr>
+<tr><td>Bake (запікання світла)</td><td>Порахувати гарне світло один раз у Blender і зберегти в картинку — на сайті це майже безкоштовно.</td></tr>
+<tr><td>Експорт glTF</td><td>Що експортується, а що ні (процедурні текстури треба запекти).</td></tr>
+<tr><td>Стиснення: Draco, Meshopt, KTX2; gltf-transform, gltfjsx</td><td>Draco — найменша геометрія; Meshopt — швидко розпаковується; KTX2 — текстури лишаються стиснутими навіть у відеопам'яті телефона.</td></tr>
+<tr><td>Бюджет: трикутники, draw calls, розмір текстур</td><td>Скільки «витримає» звичайний телефон.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="v6-1"><label for="v6-1">Пройти Blender Guru «Donut» (перші частини) або базовий курс Grant Abbitt.</label></li>
+<li><input type="checkbox" id="v6-2"><label for="v6-2">Змоделювати простий предмет (чашка, лампа, логотип у 3D) з UV і матеріалами.</label></li>
+<li><input type="checkbox" id="v6-3"><label for="v6-3">Запекти освітлення в текстуру, експортувати GLB.</label></li>
+<li><input type="checkbox" id="v6-4"><label for="v6-4">Стиснути через <code>gltf-transform optimize</code> (Meshopt + KTX2). Таблиця: розмір до / після, трикутники, текстури.</label></li>
+<li><input type="checkbox" id="v6-5"><label for="v6-5">Взяти «важку» модель (100+ МБ) і довести до ≤ 5 МБ без помітної втрати якості.</label></li>
+<li><input type="checkbox" id="v6-6"><label for="v6-6">Показати результат через model-viewer з V5, перевірити на телефоні.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Не застосований масштаб (scale) у Blender — на сайті модель гігантська або крихітна, світло дивне.</li>
+<li>Процедурні шейдери Blender не експортуються в glTF — треба запікати.</li>
+<li>Текстури 4K всюди — PNG/JPG на диску малі, але у відеопам'яті розгортаються повністю. Телефон «падає».</li>
+<li>Сотні окремих об'єктів і матеріалів = сотні draw calls = ривки. Об'єднувати.</li>
+<li>Draco-модель без підключеного декодера на сайті — модель просто не з'являється.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Своя модель з запеченим світлом ≤ 5 МБ працює на телефоні.</li>
+<li>Важку модель зменшено в 20+ разів, є таблиця до / після.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Що таке bake і чому це «дешевий реалізм»?</li>
+<li>Чому KTX2 важливий саме для телефонів?</li>
+<li>Що таке draw call і як їх зменшити?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://www.blender.org">Blender</a> · <a href="https://docs.blender.org/manual/en/latest/addons/import_export/scene_gltf2.html">Blender: експорт glTF</a> · <a href="https://www.youtube.com/@blenderguru">Blender Guru</a> · <a href="https://www.youtube.com/@grabbitt">Grant Abbitt</a> · <a href="https://gltf-transform.dev">gltf-transform</a> · <a href="https://github.com/pmndrs/gltfjsx">gltfjsx</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== V7 ===================== -->
+<section class="proj" id="v7" style="--c:var(--l2)" data-proj="v7">
+<div class="proj-head"><h2>V7 · three.js і React Three Fiber</h2><span class="tag">Рівень 2 · ~5–6 тижнів</span></div>
+<p class="why"><b>Навіщо:</b> коли потрібна не просто модель, а своя інтерактивна 3D-сцена: портфоліо-кімната, гра в браузері, 3D-герой на лендингу. three.js — основа, React Three Fiber — те саме у стилі React. Spline — швидкий варіант без коду.</p>
+<h3>З чого складається 3D-сцена</h3>
+<pre class="mermaid">
+flowchart TD
+  R[Renderer<br/>малює кадр на canvas] --> SC[Scene<br/>«сцена»]
+  CAM[Camera<br/>звідки дивимось] --> R
+  SC --> M1[Mesh = Geometry + Material]
+  SC --> L[Світло<br/>HDRI + 1 directional]
+  SC --> M2[Модель з GLB]
+  LOOP[Цикл кадрів<br/>тільки коли щось змінилось] --> R
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Scene, camera, renderer, mesh, geometry, material</td><td>Базові «цеглинки» будь-якої 3D-сцени.</td></tr>
+<tr><td>Світло, HDRI, tone mapping, колірний простір</td><td>Чому модель виглядає пластиковою або реалістичною.</td></tr>
+<tr><td>Завантаження GLB (Draco / Meshopt / KTX2-декодери)</td><td>Підключити стиснуті моделі з V6.</td></tr>
+<tr><td>Анімація, взаємодія (миша, торкання), raycasting</td><td>Клік по 3D-об'єкту, рух за курсором.</td></tr>
+<tr><td>React Three Fiber + drei (OrbitControls, Environment, useGLTF)</td><td>three.js у компонентах React. Спершу розібратись із чистим three.js.</td></tr>
+<tr><td>WebGPURenderer і WebGL2 як запасний</td><td>Новий швидший рушій. Є не всюди — three.js сам перемикається.</td></tr>
+<tr><td>Продуктивність: pixel ratio, рендер на вимогу, пауза поза екраном, <code>dispose()</code></td><td>Щоб телефон не грівся і не сідав за 10 хвилин.</td></tr>
+<tr><td>Spline: коли краще без коду</td><td>Прототипи і hero-секції. Безкоштовний план — з водяним знаком.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="v7-1"><label for="v7-1">Пройти офіційний manual three.js (основи) і безкоштовні уроки Three.js Journey.</label></li>
+<li><input type="checkbox" id="v7-2"><label for="v7-2">Сцена з нуля на чистому three.js: обертовий об'єкт, HDRI-світло, OrbitControls, адаптація під розмір вікна.</label></li>
+<li><input type="checkbox" id="v7-3"><label for="v7-3">Завантажити свою модель з V6, клік по частинах моделі (raycasting) показує підписи.</label></li>
+<li><input type="checkbox" id="v7-4"><label for="v7-4">Перенести сцену на React Three Fiber + drei, модель через gltfjsx.</label></li>
+<li><input type="checkbox" id="v7-5"><label for="v7-5">Продуктивність: <code>frameloop="demand"</code>, пауза поза екраном, pixelRatio ≤ 2, r3f-perf. Цифри до і після на телефоні.</label></li>
+<li><input type="checkbox" id="v7-6"><label for="v7-6">Тест на витік пам'яті: створити і видалити сцену 20 разів, дивитися <code>renderer.info</code>.</label></li>
+<li><input type="checkbox" id="v7-7"><label for="v7-7">Зробити ту саму hero-сцену в Spline і порівняти: час, вага, контроль, ціна.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li><b>Видалити меш зі сцени не звільняє пам'ять відеокарти.</b> Потрібно <code>geometry.dispose()</code>, <code>material.dispose()</code>, <code>texture.dispose()</code>.</li>
+<li>Нескінченний цикл <code>requestAnimationFrame</code> навіть коли нічого не рухається — телефон гріється і сідає.</li>
+<li>Тіні в реальному часі й пост-ефекти на телефоні — 10 кадрів/с.</li>
+<li>Ретина-екран з pixelRatio 3 — у 9 разів більше роботи. Обмежувати до 2.</li>
+<li>Багато canvas на сторінці — браузер втрачає WebGL-контекст.</li>
+<li>Немає запасного варіанта, якщо WebGL недоступний — порожнє місце.</li>
+<li>Старі туторіали three.js з іншим API — звіряй з версією, яку ставиш.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Інтерактивна сцена на R3F тримає ~60 кадрів/с на середньому телефоні і стоїть на паузі поза екраном.</li>
+<li>Немає витоку пам'яті, є запасна картинка без WebGL.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Назви 5 складових будь-якої three.js-сцени.</li>
+<li>Чому <code>dispose()</code> обов'язковий?</li>
+<li>Коли Spline, а коли three.js?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://threejs.org/manual">three.js manual</a> · <a href="https://threejs.org/examples">three.js examples</a> · <a href="https://threejs-journey.com">Three.js Journey</a> (найкращий платний курс, ~$95, частина уроків безкоштовна) · <a href="https://discoverthreejs.com">Discover three.js</a> · <a href="https://r3f.docs.pmnd.rs">React Three Fiber</a> · <a href="https://drei.docs.pmnd.rs">drei</a> · <a href="https://spline.design">Spline</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== V8 ===================== -->
+<section class="proj" id="v8" style="--c:var(--l3)" data-proj="v8">
+<div class="proj-head"><h2>V8 · Scroll-історія як в Apple</h2><span class="tag">Рівень 3 · ~4 тижні</span></div>
+<p class="why"><b>Навіщо:</b> сторінка, де товар крутиться і розбирається на частини, коли ти прокручуєш вниз. Найефектніше, що можна показати клієнту — і найлегше «вбити» iPhone пам'яттю.</p>
+<h3>Два способи «прокручувати» відео</h3>
+<div class="tbl"><table><thead><tr><th></th><th>A. Відео + <code>currentTime</code></th><th>B. Кадри на canvas</th></tr></thead><tbody>
+<tr><td>Як працює</td><td>Прокрутка змінює момент відео</td><td>150 картинок, при прокрутці малюємо потрібну</td></tr>
+<tr><td>Плюси</td><td>Один файл, менше пам'яті</td><td>Ідеально плавно і передбачувано</td></tr>
+<tr><td>Мінуси</td><td>Треба ключовий кадр часто (<code>-g 1..5</code>) — файл у 5+ разів більший; інакше ривки</td><td>Багато пам'яті — iPhone перезавантажує вкладку</td></tr>
+<tr><td>Коли</td><td>Довга сцена, середня якість</td><td>Коротка сцена, преміум-ефект</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="v8-1"><label for="v8-1">Сценарій сторінки на папері: 5 «сцен», що відбувається з товаром у кожній.</label></li>
+<li><input type="checkbox" id="v8-2"><label for="v8-2">Спосіб A: перекодувати відео з частими ключовими кадрами, прив'язати до ScrollTrigger.</label></li>
+<li><input type="checkbox" id="v8-3"><label for="v8-3">Спосіб B: 120–150 кадрів WebP/AVIF, малювання на canvas у requestAnimationFrame, поступове завантаження кадрів.</label></li>
+<li><input type="checkbox" id="v8-4"><label for="v8-4">Порівняти обидва на справжньому iPhone: пам'ять, плавність, мегабайти.</label></li>
+<li><input type="checkbox" id="v8-5"><label for="v8-5">Додати 3D-сцену з V7 в одну із секцій, рух камери прив'язати до прокрутки.</label></li>
+<li><input type="checkbox" id="v8-6"><label for="v8-6">Бюджет: перший екран ≤ 2,5 с на 4G, решта догружається. Режим «менше руху» — статичні картинки з текстом.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Звичайне відео (ключовий кадр раз на кілька секунд) при прокрутці стрибає і смикається.</li>
+<li>Сотні розпакованих кадрів — iOS Safari перезавантажує вкладку без попередження.</li>
+<li>Завантажувати всі 150 кадрів одразу — перший екран вантажиться хвилину.</li>
+<li>Весь текст тільки в анімації — Google і екранні читачі нічого не бачать.</li>
+<li>На телефоні адресний рядок ховається/з'являється — висота екрана змінюється, ScrollTrigger треба оновлювати.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Scroll-історія плавна на iPhone і Android, вкладка не падає.</li>
+<li>Є порівняння двох способів з цифрами і режим «менше руху».</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Що таке ключовий кадр (keyframe, GOP) і чому він важливий для прокрутки відео?</li>
+<li>Чому iPhone «вбиває» вкладку з багатьма кадрами?</li>
+<li>Як зробити, щоб перший екран не чекав на всі кадри?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://css-tricks.com/lets-make-one-of-those-fancy-scrolling-animations-used-on-apple-product-pages/">CSS-Tricks: Apple-style scrolling</a> · <a href="https://muffinman.io/blog/scrubbing-videos-using-javascript/">Scrubbing videos with JS</a> · <a href="https://gsap.com/docs/v3/Plugins/ScrollTrigger/">GSAP ScrollTrigger</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== V9 ===================== -->
+<section class="proj" id="v9" style="--c:var(--l3)" data-proj="v9">
+<div class="proj-head"><h2>V9 · 3D-конфігуратор товару</h2><span class="tag">Рівень 3 · ~4 тижні</span></div>
+<p class="why"><b>Навіщо:</b> «зберіть свій диван / кросівок / кухню»: вибір кольору, матеріалу, деталей у 3D з ціною, що змінюється. Поєднує 3D, стан апки, гроші і продуктивність — справжня комерційна задача.</p>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Заміна матеріалів і частин моделі</td><td>Змінити колір оббивки, показати / сховати деталь.</td></tr>
+<tr><td>Стан конфігурації в URL</td><td>Посиланням на «мій диван» можна поділитися.</td></tr>
+<tr><td>Ціна і правила сумісності</td><td>Деякі варіанти не поєднуються, ціна рахується на сервері.</td></tr>
+<tr><td>Передзавантаження варіантів, тіні під моделлю, знімок екрана конфігурації</td><td>Перемикання без затримок, картинка для кошика.</td></tr>
+<tr><td>Мобільна версія інтерфейсу поверх 3D</td><td>Панель вибору не закриває модель на телефоні.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="v9-1"><label for="v9-1">Модель з окремими частинами (мінімум 3), підготовлена в Blender з V6.</label></li>
+<li><input type="checkbox" id="v9-2"><label for="v9-2">Вибір кольору, матеріалу й деталей на R3F (або variants у model-viewer для простого варіанту).</label></li>
+<li><input type="checkbox" id="v9-3"><label for="v9-3">Стан у URL, кнопка «поділитися», відновлення з посилання.</label></li>
+<li><input type="checkbox" id="v9-4"><label for="v9-4">Ціна: правила сумісності, підсумкова ціна рахується на сервері (зв'язок з P11 першого курсу).</label></li>
+<li><input type="checkbox" id="v9-5"><label for="v9-5">Знімок конфігурації (PNG) для кошика або заявки.</label></li>
+<li><input type="checkbox" id="v9-6"><label for="v9-6">Перевірка: перемикання &lt; 200 мс, ≥ 30 кадрів/с на старому телефоні, запасний варіант з фото.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Ціна рахується тільки на фронті — її підмінять. Остаточна ціна — завжди з сервера.</li>
+<li>Кожен варіант — окрема важка модель — гігабайти трафіку. Краще одна модель + змінні матеріали.</li>
+<li>Колір на екрані ≠ колір у житті — потрібен підпис «колір може відрізнятись».</li>
+<li>Панель налаштувань на телефоні закриває весь товар.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Конфігуратор працює на телефоні, посилання відновлює вибір, ціна з сервера.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Чому стан конфігурації зручно тримати в URL?</li>
+<li>Як не завантажувати 20 моделей для 20 кольорів?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://modelviewer.dev/examples/scenegraph/">model-viewer: variants і scene graph</a> · <a href="https://drei.docs.pmnd.rs">drei</a> · <a href="https://tympanus.net/codrops">Codrops</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== V10 ===================== -->
+<section class="proj" id="v10" style="--c:var(--l3)" data-proj="v10">
+<div class="proj-head"><h2>V10 · Свій відеосервіс: стрімінг і завантаження від людей</h2><span class="tag">Рівень 3 · ~5 тижнів</span></div>
+<p class="why"><b>Навіщо:</b> онлайн-курси, відеовідгуки, платформа для тренерів. Тут гроші реально «втікають»: трафік, сховище, модерація. Помилка в розрахунку — рахунок на сотні євро або чужий піратський контент на твоєму сервері.</p>
+<h3>Адаптивний стрімінг (HLS)</h3>
+<pre class="mermaid">
+flowchart LR
+  O[Оригінал] --> T[Транскодування<br/>ffmpeg або сервіс]
+  T --> Q1[1080p · 5 Мбіт/с]
+  T --> Q2[720p · 2,5 Мбіт/с]
+  T --> Q3[480p · 1 Мбіт/с]
+  Q1 --> M[Маніфест .m3u8<br/>шматки по 4–6 с]
+  Q2 --> M
+  Q3 --> M
+  M --> P[Плеєр hls.js / Safari<br/>сам перемикає якість<br/>за швидкістю інтернету]
+</pre>
+<h3>Завантаження відео користувачем</h3>
+<pre class="mermaid">
+sequenceDiagram
+  participant U as Користувач
+  participant S as Твій сервер
+  participant V as Відеосервіс (Mux / Stream)
+  U->>S: «хочу завантажити» (перевірка: ліміти, права)
+  S->>V: створити пряме посилання для завантаження
+  V-->>S: URL
+  S-->>U: URL
+  U->>V: файл іде НАПРЯМУ у відеосервіс (не через твій сервер)
+  V->>V: транскодування, прев'ю
+  V->>S: webhook «готово» (з підписом)
+  S->>S: перевірити підпис, статус = ready (ідемпотентно)
+  U->>S: дивитись
+  S-->>U: підписане посилання з терміном дії
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>HLS / DASH, «драбина» якостей, маніфест, hls.js</td><td>Відео нарізане шматками в кількох якостях — плеєр бере ту, що тягне інтернет.</td></tr>
+<tr><td>Коли не треба HLS</td><td>Короткий hero-ролик — один MP4. HLS — для довгих відео і відео від людей.</td></tr>
+<tr><td>Хостинг: Cloudflare R2, Stream, Mux, Bunny Stream, Vimeo</td><td>Свій файл у сховищі vs готовий відеосервіс. Різні моделі оплати.</td></tr>
+<tr><td>Egress (вихідний трафік) і розрахунок вартості</td><td>Відео 50 МБ × 100 000 переглядів = 5 ТБ ≈ $450 на AWS. На R2 — $0 за трафік.</td></tr>
+<tr><td>Пряме завантаження, tus (докачування), webhooks, підписані URL</td><td>Великі файли йдуть не через твій сервер; доступ — тимчасовими посиланнями.</td></tr>
+<tr><td>Модерація, DSA (ЄС), скарги, CSAM-сканування</td><td>Ти відповідаєш за те, що люди завантажують на твою платформу.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="v10-1"><label for="v10-1">Таблиця вартості: одне 10-хв відео, 10 000 переглядів — R2, Cloudflare Stream, Mux, Bunny, AWS S3. Перевірити ціни на офіційних сайтах.</label></li>
+<li><input type="checkbox" id="v10-2"><label for="v10-2">HLS вручну: 3 якості через ffmpeg, файли на R2, відтворення через hls.js. Перемкнути DevTools на «повільний 3G» — плеєр знижує якість.</label></li>
+<li><input type="checkbox" id="v10-3"><label for="v10-3">Те саме через безкоштовний / тестовий режим Mux або Cloudflare Stream. Порівняти зусилля.</label></li>
+<li><input type="checkbox" id="v10-4"><label for="v10-4">Міні-апка завантаження: пряме завантаження, ліміти розміру й тривалості, статус uploading → processing → ready.</label></li>
+<li><input type="checkbox" id="v10-5"><label for="v10-5">Webhook з перевіркою підпису та ідемпотентністю (як у P11 першого курсу).</label></li>
+<li><input type="checkbox" id="v10-6"><label for="v10-6">Приватні відео: підписані посилання з терміном дії. Прибрати GPS з метаданих відео з телефона.</label></li>
+<li><input type="checkbox" id="v10-7"><label for="v10-7">Кнопка «поскаржитись», процес розгляду, ліміти на користувача.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li><b>Рахунок за трафік</b>: відео стало вірусним на S3 / Vercel / Netlify — сотні або тисячі доларів.</li>
+<li>Файл йде через твій сервер — сервер «лягає» на 4 ГБ відео. Тільки пряме завантаження.</li>
+<li>Немає лімітів — твоє сховище стає безкоштовним хостингом для піратства.</li>
+<li>Webhook без підпису й ідемпотентності — статуси плутаються, події обробляються двічі.</li>
+<li>Підписані URL ≠ захист від скачування (DRM). Хто може дивитись — той може й зберегти.</li>
+<li>Відео з телефона містить GPS-координати — витік адреси користувача.</li>
+<li>Свою «драбину» і пакування роблять до того, як це потрібно. Почни з готового сервісу.</li>
+<li>Безлімітний CDN Cloudflare не для великих обсягів відео — тільки R2 / Stream (правила сервісу).</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Є розрахунок вартості, HLS працює вручну і через сервіс.</li>
+<li>Завантаження від людей з лімітами, webhook, приватними посиланнями і скаргами.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Що таке egress і чому він важливий саме для відео?</li>
+<li>Навіщо файл іде напряму у відеосервіс, а не через твій сервер?</li>
+<li>Коли HLS зайвий?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://github.com/video-dev/hls.js">hls.js</a> · <a href="https://developer.apple.com/documentation/http-live-streaming/hls-authoring-specification-for-apple-devices">Apple HLS spec</a> · <a href="https://developers.cloudflare.com/stream/pricing/">Cloudflare Stream pricing</a> · <a href="https://developers.cloudflare.com/r2/">Cloudflare R2</a> · <a href="https://www.mux.com/pricing">Mux pricing</a> · <a href="https://bunny.net/pricing/stream/">Bunny Stream</a> · <a href="https://howvideo.works">howvideo.works</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== V11 ===================== -->
+<section class="proj" id="v11" style="--c:var(--l4)" data-proj="v11">
+<div class="proj-head"><h2>V11 · Хостинг: Cloudflare, домен, свій сервер</h2><span class="tag">Рівень 4 · ~2–3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> сайт з відео і 3D треба десь тримати так, щоб він був швидким по всьому світу і не коштував грошей за трафік. Cloudflare закриває більшість задач безкоштовно. А якщо хочеш тримати щось на домашньому комп'ютері — є безпечний і небезпечний спосіб.</p>
+<h3>Домашній сервер: два способи</h3>
+<pre class="mermaid">
+flowchart LR
+  subgraph Небезпечно["DuckDNS + відкритий порт"]
+    I1[Інтернет, боти] -->|порт 443 відкритий| R1[Роутер] --> H1[Домашній ПК]
+  end
+  subgraph Безпечно["Cloudflare Tunnel"]
+    H2[Домашній ПК<br/>cloudflared] -->|вихідне з'єднання| CF[Cloudflare<br/>+ Access-логін]
+    I2[Відвідувач] --> CF
+  end
+</pre>
+<p class="note">З тунелем вдома немає відкритих портів, твоя IP схована, і це працює навіть коли провайдер дає CGNAT (часто в Іспанії і на мобільному інтернеті). DuckDNS-піддомен для тунелю не підходить — потрібен свій домен (від ~1–10 €/рік).</p>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Домен, nameservers, DNS-записи в Cloudflare</td><td>Перенести керування доменом у Cloudflare — основа для всього іншого.</td></tr>
+<tr><td>Workers + Static Assets / Pages</td><td>Безкоштовний хостинг сайту. Ліміти: 100 000 запитів/день для коду, файл до 25 МБ.</td></tr>
+<tr><td>R2 для відео, моделей і картинок</td><td>Сховище без плати за трафік. 10 ГБ безкоштовно, потрібна картка.</td></tr>
+<tr><td>Кешування, заголовки, CORS для медіа</td><td>Щоб відео і моделі віддавались швидко і могли використовуватись у WebGL.</td></tr>
+<tr><td>Turnstile</td><td>Безкоштовна капча для форм. Токен обов'язково перевіряти на сервері.</td></tr>
+<tr><td>DuckDNS, CGNAT, Cloudflare Tunnel + Access</td><td>Як відкрити домашній сервер світу — і чому тунель кращий.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="v11-1"><label for="v11-1">Акаунт Cloudflare, домен (або перенести існуючий), DNS-записи.</label></li>
+<li><input type="checkbox" id="v11-2"><label for="v11-2">Задеплоїти сайт з V2/V4 на Workers Static Assets або Pages, автодеплой з GitHub.</label></li>
+<li><input type="checkbox" id="v11-3"><label for="v11-3">Перенести відео і моделі в R2, свій піддомен для медіа, правильні Cache-Control і CORS.</label></li>
+<li><input type="checkbox" id="v11-4"><label for="v11-4">Увімкнути ліміт / оповіщення про витрати. Закрити R2 від хотлінкінгу.</label></li>
+<li><input type="checkbox" id="v11-5"><label for="v11-5">Форма з Turnstile і перевіркою токена на сервері.</label></li>
+<li><input type="checkbox" id="v11-6"><label for="v11-6">Домашній сервер: спробувати DuckDNS (зрозуміти CGNAT), потім зробити правильно через Cloudflare Tunnel + Access.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Відкритий порт вдома — боти знаходять за хвилини, і зламаний сервер стоїть у твоїй домашній мережі.</li>
+<li>DuckDNS не працює за CGNAT — «все налаштував, а не відкривається».</li>
+<li>Cloudflare розшифровує трафік тунелю — для дуже чутливих даних це треба враховувати.</li>
+<li>Великі відео через звичайний CDN Cloudflare — порушення правил сервісу. Медіа — тільки R2 / Stream.</li>
+<li>Публічний R2 без захисту — чужі сайти «вантажать» твої відео, операції ростуть.</li>
+<li>Turnstile без перевірки токена на сервері — захисту немає.</li>
+<li>Ліміт безкоштовного Workers — 100 000 запитів на день, далі помилка 1027 до півночі UTC.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Сайт на своєму домені через Cloudflare, медіа в R2 з кешем і CORS.</li>
+<li>Форма з Turnstile, домашній сервіс доступний через Tunnel без відкритих портів.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Що таке CGNAT і чому через нього не працює DuckDNS?</li>
+<li>Чому тунель безпечніший за відкритий порт?</li>
+<li>Де тримати hero-відео на Cloudflare і чому?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://developers.cloudflare.com/workers/static-assets/">Workers Static Assets</a> · <a href="https://developers.cloudflare.com/workers/platform/limits/">Workers limits</a> · <a href="https://developers.cloudflare.com/r2/">R2</a> · <a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/">Cloudflare Tunnel</a> · <a href="https://developers.cloudflare.com/turnstile/">Turnstile</a> · <a href="https://www.duckdns.org">DuckDNS</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== V12 ===================== -->
+<section class="proj" id="v12" style="--c:var(--l4)" data-proj="v12">
+<div class="proj-head"><h2>V12 · AI-генерація відео і 3D</h2><span class="tag">Рівень 4 · ~2–3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> саме так зроблені сайти з відео брата: відео для hero генерується AI (Veo, Seedance, Runway, Kling), 3D-моделі — Meshy або Tripo. Швидко і дешево, але з пастками в ліцензіях і в законі ЄС.</p>
+<h3>Інструменти (жовтень 2026, ціни й умови змінюються — перевіряй)</h3>
+<div class="tbl"><table><thead><tr><th>Інструмент</th><th>Що робить</th><th>Комерційне використання</th></tr></thead><tbody>
+<tr><td>Google Veo 3.1 (Gemini / Flow / API)</td><td>Відео з тексту / картинки</td><td>Дозволено за умовами Google Cloud; невидимий водяний знак SynthID</td></tr>
+<tr><td>Seedance (ByteDance)</td><td>Відео — використовується у відео брата</td><td>Читати умови свого плану</td></tr>
+<tr><td>Runway</td><td>Відео, редагування</td><td>Безкоштовно — з водяним знаком; комерція — платні плани</td></tr>
+<tr><td>Kling</td><td>Відео</td><td>Безкоштовно — без комерційних прав; комерція — платні плани</td></tr>
+<tr><td>Meshy</td><td>3D-моделі з тексту / фото</td><td>Безкоштовно — CC BY (з вказанням автора); платно — без вказання</td></tr>
+<tr><td>Tripo</td><td>3D-моделі</td><td>Джерела суперечать — перевіряти на сайті</td></tr>
+<tr><td>Hunyuan3D (Tencent)</td><td>3D, відкриті ваги</td><td><b>Ліцензія не діє в ЄС</b> — для тебе в Іспанії не підходить</td></tr>
+<tr><td>Sora (OpenAI)</td><td>—</td><td>Закрито у 2026 році. Урок: не будуй бізнес на одному AI-сервісі</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="v12-1"><label for="v12-1">Подивитись обидва відео від брата. Записати схему роботи (кроки) і що в них «за кадром» (тексти, правки, хостинг, закон).</label></li>
+<li><input type="checkbox" id="v12-2"><label for="v12-2">Згенерувати 3 варіанти hero-відео (коротке, повільне, без людей і брендів), вибрати одне, стиснути за рецептом V2.</label></li>
+<li><input type="checkbox" id="v12-3"><label for="v12-3">Згенерувати 3D-модель (Meshy), прибрати зайві трикутники і стиснути за рецептом V6. Записати ліцензію.</label></li>
+<li><input type="checkbox" id="v12-4"><label for="v12-4">Зібрати сайт за схемою з відео 2: відео → Claude Code → GSAP → стиснення → Cloudflare.</label></li>
+<li><input type="checkbox" id="v12-5"><label for="v12-5">Таблиця ліцензій для всіх AI-матеріалів на сайті: інструмент, план, дата, умови, позначка «створено AI».</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Безкоштовний план = водяний знак або заборона комерції. Клієнтський сайт на безкоштовному Kling — порушення.</li>
+<li>Справжні люди, бренди, відомі персонажі в генерації — ризик позову. Ніколи.</li>
+<li><b>EU AI Act, ст. 50</b>: з 2 серпня 2026 діють обов'язки маркувати синтетичний контент (deepfake тощо).</li>
+<li>Чисто AI-згенероване в США не захищається авторським правом — будь-хто може скопіювати.</li>
+<li>AI-3D-моделі: брудна сітка, «запечене» неправильне світло, мільйони трикутників — завжди оптимізувати.</li>
+<li>Сервіс закрився або змінив умови (як Sora) — зберігай свої файли і умови на дату генерації.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Сайт з AI-відео і AI-3D, усе стиснуте, з таблицею ліцензій.</li>
+<li>Можеш пояснити клієнту, що можна, що не можна і скільки це коштує.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Чому не можна взяти безкоштовну генерацію для клієнта?</li>
+<li>Що вимагає EU AI Act для синтетичного контенту?</li>
+<li>Чому Hunyuan3D не підходить в Іспанії?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://youtu.be/flSbNBIfHDE">Відео 1 від брата</a> · <a href="https://youtu.be/YUWBku1cNEA">Відео 2 від брата</a> · <a href="https://deepmind.google/models/veo/">Google Veo</a> · <a href="https://runwayml.com">Runway</a> · <a href="https://kling.ai/docs/user-policy">Kling: умови</a> · <a href="https://www.meshy.ai">Meshy</a> · <a href="https://www.copyright.gov/ai/">US Copyright Office: AI</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== FINAL ===================== -->
+<section class="proj" id="final" style="--c:var(--l4)" data-proj="final">
+<div class="proj-head"><h2>Фінал · «Вау»-сайт для клієнта</h2><span class="tag">Рівень 4 · ~4–6 тижнів</span></div>
+<p class="why"><b>Задача:</b> лендинг для бізнесу в Іспанії — наприклад, нерухомість на узбережжі, автосалон або ресторан. Hero-відео, 3D-модель (будинок, авто, страва), scroll-історія, відеовідгуки клієнтів, форма заявки. Усе — швидко на телефоні, за законом ЄС, на Cloudflare.</p>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="fin-1"><label for="fin-1">Бриф з «клієнтом» (Claude грає його роль): мета сайту, аудиторія, бюджет, чиї матеріали.</label></li>
+<li><input type="checkbox" id="fin-2"><label for="fin-2">Бюджет продуктивності: перший екран ≤ 2,5 с на 4G, загальна вага, кадри/с на телефоні.</label></li>
+<li><input type="checkbox" id="fin-3"><label for="fin-3">Дизайн-система і макет (V1), hero-відео (V2), відгуки з субтитрами і згодою (V3).</label></li>
+<li><input type="checkbox" id="fin-4"><label for="fin-4">3D-модель (V5–V7) і scroll-історія (V8) з запасними варіантами.</label></li>
+<li><input type="checkbox" id="fin-5"><label for="fin-5">Форма з Turnstile, політика конфіденційності, банер згоди, aviso legal.</label></li>
+<li><input type="checkbox" id="fin-6"><label for="fin-6">Хостинг на Cloudflare, медіа в R2, розрахунок вартості на місяць (V11).</label></li>
+<li><input type="checkbox" id="fin-7"><label for="fin-7">Таблиця ліцензій усіх матеріалів (відео, 3D, шрифти, компоненти, AI).</label></li>
+<li><input type="checkbox" id="fin-8"><label for="fin-8">Здача: Lighthouse ≥ 90, перевірка на iPhone і Android, інструкція клієнту, усі акаунти на клієнта.</label></li>
+</ul>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Сайт виглядає «вау» і відкривається швидко на звичайному телефоні.</li>
+<li>Кожен матеріал має ліцензію, кожне рішення можеш пояснити клієнту.</li>
+</ul></div>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== GLOSSARY ===================== -->
+<h2 id="slovnyk">Сленг і терміни</h2>
+<div class="tbl"><table>
+<thead><tr><th>Сленг</th><th>Правильно</th><th>Простими словами</th><th>В Іспанії</th></tr></thead>
+<tbody>
+<tr><td>хіро, перший екран</td><td>hero section, above the fold</td><td>Верхня частина сайту, яку видно без прокрутки</td><td>hero, primer pantallazo</td></tr>
+<tr><td>кодек / контейнер</td><td>codec / container</td><td>Спосіб стиснення відео / «коробка»-файл</td><td>códec / contenedor</td></tr>
+<tr><td>бітрейт</td><td>bitrate</td><td>Скільки даних на секунду відео. Більше = якісніше і важче</td><td>tasa de bits, bitrate</td></tr>
+<tr><td>фпс</td><td>frames per second</td><td>Кадрів на секунду. Для сайту ~30, для анімацій інтерфейсу ~60</td><td>fotogramas por segundo, fps</td></tr>
+<tr><td>кейфрейм (у відео)</td><td>keyframe, GOP</td><td>Повний кадр, від якого рахуються наступні. Рідко = ривки при перемотуванні</td><td>fotograma clave</td></tr>
+<tr><td>постер</td><td>poster</td><td>Картинка, яку видно, поки відео не почалось</td><td>póster, miniatura</td></tr>
+<tr><td>транскодинг</td><td>transcoding</td><td>Перетворення відео в інші формати і якості</td><td>transcodificación</td></tr>
+<tr><td>стрімінг, HLS</td><td>adaptive bitrate streaming</td><td>Відео шматками, якість підлаштовується під інтернет</td><td>streaming adaptativo</td></tr>
+<tr><td>егрес, трафік</td><td>egress</td><td>Дані, які сервер віддає людям — часто за це платиш</td><td>tráfico de salida</td></tr>
+<tr><td>сідіен</td><td>CDN</td><td>Мережа серверів по світу, що роздає файли з найближчого</td><td>CDN, red de distribución</td></tr>
+<tr><td>ембед, заембедити</td><td>embed</td><td>Вставити чуже (відео, карту) на свою сторінку</td><td>incrustar, embeber</td></tr>
+<tr><td>меш, полігонка</td><td>mesh, polycount</td><td>3D-форма з трикутників / їхня кількість</td><td>malla, número de polígonos</td></tr>
+<tr><td>текстура, UV</td><td>texture, UV map</td><td>Картинка на моделі / «викрійка», як її накласти</td><td>textura, mapa UV</td></tr>
+<tr><td>запекти</td><td>bake</td><td>Порахувати світло один раз і зберегти в текстуру</td><td>hornear, bakear</td></tr>
+<tr><td>хідіарка</td><td>HDRI</td><td>Панорама, що освітлює 3D-сцену як реальне оточення</td><td>HDRI</td></tr>
+<tr><td>шейдер</td><td>shader</td><td>Маленька програма для відеокарти, що рахує колір пікселів</td><td>shader, sombreador</td></tr>
+<tr><td>дроколи</td><td>draw calls</td><td>Скільки разів за кадр браузер просить відеокарту щось намалювати</td><td>llamadas de dibujo</td></tr>
+<tr><td>лод</td><td>LOD, level of detail</td><td>Спрощена версія моделі, коли вона далеко</td><td>nivel de detalle</td></tr>
+<tr><td>сплати</td><td>Gaussian splatting</td><td>Фотореалістична 3D-сцена, знята телефоном, з «плям» замість трикутників</td><td>Gaussian splatting</td></tr>
+<tr><td>ізинг</td><td>easing</td><td>Характер руху: різко, плавно, з відскоком</td><td>curva de aceleración, easing</td></tr>
+<tr><td>паралакс</td><td>parallax</td><td>Шари рухаються з різною швидкістю — ефект глибини</td><td>paralaje</td></tr>
+<tr><td>скролтригер, пін</td><td>ScrollTrigger, pinning</td><td>Анімація по прокрутці / секція «прилипає», поки йде анімація</td><td>animación al hacer scroll</td></tr>
+<tr><td>скрол-джекінг</td><td>scroll-jacking</td><td>Сайт перехоплює прокрутку — зазвичай погано</td><td>secuestro del scroll</td></tr>
+<tr><td>мікроанімації</td><td>micro-interactions</td><td>Маленькі реакції на дії: кнопка, лайк, меню</td><td>microinteracciones</td></tr>
+<tr><td>мокап, вайрфрейм</td><td>mockup, wireframe</td><td>Готовий макет / схема з сірих блоків</td><td>maqueta, wireframe</td></tr>
+<tr><td>токени</td><td>design tokens</td><td>Кольори, шрифти, відступи як змінні</td><td>tokens de diseño</td></tr>
+<tr><td>референси</td><td>references, moodboard</td><td>Приклади, на які орієнтуємось</td><td>referencias, moodboard</td></tr>
+<tr><td>промпт</td><td>prompt</td><td>Текст-завдання для AI</td><td>prompt, instrucción</td></tr>
+<tr><td>MCP</td><td>Model Context Protocol</td><td>Спосіб підключити до Claude інші сервіси (21st.dev, Figma, браузер)</td><td>MCP</td></tr>
+<tr><td>LCP / CLS / INP</td><td>Core Web Vitals</td><td>Швидкість першого екрана / стрибки сторінки / швидкість реакції на клік</td><td>Core Web Vitals</td></tr>
+<tr><td>тунель</td><td>Cloudflare Tunnel</td><td>Безпечний вихід домашнього сервера в інтернет без відкритих портів</td><td>túnel</td></tr>
+<tr><td>CGNAT</td><td>carrier-grade NAT</td><td>Провайдер дає одну IP на багатьох — до тебе ззовні «не достукатись»</td><td>CGNAT</td></tr>
+</tbody></table></div>
+
+<!-- ===================== RISKS ===================== -->
+<h2 id="ryzyky">Якщо на сайті є X — обов'язково думай про Y</h2>
+<div class="tbl"><table><thead><tr><th>Якщо є…</th><th>Логіка</th><th>Обов'язково</th><th>Проєкт</th></tr></thead><tbody>
+<tr><td>Фонове відео</td><td>Найважча річ на сторінці</td><td>≤ 3 МБ, AV1 + H.264, poster, muted + playsinline, пауза, «менше руху», контраст тексту</td><td>V2</td></tr>
+<tr><td>Чуже відео з YouTube / Vimeo</td><td>Важкий плеєр і трекери</td><td>Фасад, двоклікова згода (RGPD), субтитри</td><td>V3</td></tr>
+<tr><td>Багато відео або довгі відео</td><td>Трафік коштує грошей</td><td>Розрахунок egress, R2 / Stream / Mux, HLS</td><td>V10</td></tr>
+<tr><td>Люди завантажують своє відео</td><td>Ти відповідаєш за контент</td><td>Ліміти, пряме завантаження, модерація, скарги (DSA), GPS з метаданих</td><td>V10</td></tr>
+<tr><td>3D-модель</td><td>Телефони слабкі, пам'ять обмежена</td><td>≤ 5 МБ, KTX2, poster, запасні фото, текст опису поза canvas</td><td>V5, V6</td></tr>
+<tr><td>Інтерактивна 3D-сцена</td><td>Батарея і пам'ять</td><td>Рендер на вимогу, пауза поза екраном, dispose, pixelRatio ≤ 2, запасний варіант без WebGL</td><td>V7</td></tr>
+<tr><td>Анімації при прокрутці</td><td>Ривки і нудота в людей</td><td>Тільки transform / opacity, «менше руху», без scroll-jacking</td><td>V4, V8</td></tr>
+<tr><td>Чужі матеріали (відео, музика, 3D, шрифти, компоненти)</td><td>Авторські права</td><td>Ліцензія для кожного, збережений доказ, вказання автора де треба</td><td>всі</td></tr>
+<tr><td>AI-згенероване</td><td>Умови плану і закон ЄС</td><td>Платний план для комерції, маркування (AI Act ст. 50), без реальних людей і брендів</td><td>V12</td></tr>
+<tr><td>Шрифти й сервіси Google</td><td>Передача IP в ЄС</td><td>Шрифти з власного сайту або Bunny Fonts</td><td>V1</td></tr>
+<tr><td>Домашній сервер</td><td>Відкритий порт = мішень</td><td>Cloudflare Tunnel + Access, без відкритих портів</td><td>V11</td></tr>
+</tbody></table></div>
+
+<!-- ===================== TOOL CHOICE ===================== -->
+<h2 id="instrument">Який інструмент вибрати</h2>
+<pre class="mermaid">
+flowchart TD
+  Q{Що потрібно?} -->|рух інтерфейсу, появи блоків| CSS[CSS спочатку]
+  CSS -->|не вистачає| G[GSAP або Motion для React]
+  Q -->|показати один товар у 3D| MV[model-viewer]
+  Q -->|своя інтерактивна 3D-сцена| TJ[three.js / React Three Fiber]
+  Q -->|швидкий 3D-прототип без коду| SP[Spline]
+  Q -->|коротке фонове відео| MP4[MP4 / AV1 на R2]
+  Q -->|довгі відео, курси| STR[Mux / Cloudflare Stream / Bunny]
+  Q -->|чуже відео| YT[YouTube / Vimeo через фасад + згоду]
+  Q -->|векторна анімація з After Effects| LOT[Lottie]
+  Q -->|інтерактивна векторна анімація| RIV[Rive]
+</pre>
+
+<!-- ===================== NOT NOW ===================== -->
+<h2 id="ne-vchyty">Що НЕ вчити зараз</h2>
+<div class="tbl"><table><thead><tr><th>Що</th><th>Чому не зараз</th><th>Коли</th></tr></thead><tbody>
+<tr><td>Глибоко GLSL / TSL-шейдери</td><td>Цікаво, але для більшості сайтів вистачає готових матеріалів</td><td>Після V7, якщо захочеш «креативний код»</td></tr>
+<tr><td>Unity, Unreal, ігрові рушії</td><td>Інший світ — ігри, а не сайти</td><td>Якщо підеш у геймдев</td></tr>
+<tr><td>Скульптинг, ріггінг персонажів, Houdini</td><td>Для сайтів вистачає базового Blender</td><td>Якщо підеш у 3D-артисти</td></tr>
+<tr><td>Глибоко After Effects / DaVinci Resolve</td><td>Для сайту потрібно обрізати і стиснути, а не монтувати фільм</td><td>Якщо робитимеш відеоконтент</td></tr>
+<tr><td>Свій відеосервер і DRM</td><td>Складно, дорого, готові сервіси роблять це краще</td><td>Тільки для великої платформи</td></tr>
+<tr><td>WebXR (VR / AR сцени) повністю</td><td>Для товару вистачає AR у model-viewer</td><td>Окремим проєктом</td></tr>
+<tr><td>Три бібліотеки анімацій одночасно</td><td>Принципи однакові, одна — глибоко</td><td>—</td></tr>
+<tr><td>Купувати платні пакети промптів одразу</td><td>Спочатку зрозумій основи — тоді знатимеш, що купуєш</td><td>Після V4</td></tr>
+</tbody></table></div>
+
+<!-- ===================== SOURCES ===================== -->
+<h2 id="dzherela">Джерела, з яких зібраний курс</h2>
+<div class="cols2">
+<div>
+<h3>Відео і моушн</h3>
+<ul class="src">
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/Media">MDN Media</a> · <a href="https://web.dev/articles/lcp">web.dev</a> · <a href="https://howvideo.works">howvideo.works</a></li>
+<li><a href="https://trac.ffmpeg.org/wiki">ffmpeg wiki</a> · <a href="https://github.com/video-dev/hls.js">hls.js</a></li>
+<li><a href="https://gsap.com">GSAP</a> · <a href="https://motion.dev">Motion</a> · <a href="https://scroll-driven-animations.style">scroll-driven-animations.style</a></li>
+<li><a href="https://tympanus.net/codrops">Codrops</a> · <a href="https://www.awwwards.com">Awwwards</a></li>
+</ul>
+</div>
+<div>
+<h3>3D, дизайн, хостинг</h3>
+<ul class="src">
+<li><a href="https://modelviewer.dev">model-viewer</a> · <a href="https://threejs.org/manual">three.js manual</a> · <a href="https://threejs-journey.com">Three.js Journey</a> · <a href="https://r3f.docs.pmnd.rs">R3F</a></li>
+<li><a href="https://www.blender.org">Blender</a> · <a href="https://gltf-transform.dev">gltf-transform</a> · <a href="https://polyhaven.com">Poly Haven</a></li>
+<li><a href="https://ui.shadcn.com">shadcn/ui</a> · <a href="https://21st.dev">21st.dev</a> · <a href="https://www.designprompts.dev">designprompts.dev</a> · <a href="https://www.figma.com">Figma</a></li>
+<li><a href="https://developers.cloudflare.com">Cloudflare docs</a> · <a href="https://www.duckdns.org">DuckDNS</a></li>
+</ul>
+</div>
+</div>
+</main>
+</div>
+<script>
+(function(){
+  var KEY = 'media-kurs-progress-v1';
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('ul.tasks input[type=checkbox]'));
+  var state = {};
+  var db = null, docRef = null, writing = Promise.resolve(), timer = null;
+  var syncTxt = document.getElementById('syncTxt');
+
+  function readLocal(){ try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e){ return {}; } }
+  function writeLocal(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} }
+
+  function apply(){
+    boxes.forEach(function(b){ b.checked = !!state[b.id]; });
+    render();
+  }
+  function render(){
+    var total = boxes.length, done = 0;
+    boxes.forEach(function(b){ if (b.checked) done++; });
+    document.getElementById('overallTxt').textContent = 'Виконано задач: ' + done + ' з ' + total;
+    document.getElementById('overallBar').style.width = (total ? done/total*100 : 0) + '%';
+    document.querySelectorAll('section.proj').forEach(function(sec){
+      var bs = sec.querySelectorAll('ul.tasks input'), d = 0;
+      bs.forEach(function(b){ if (b.checked) d++; });
+      var bar = sec.querySelector(':scope > .bar i'), cnt = sec.querySelector(':scope > .cnt');
+      if (bar) bar.style.width = (bs.length ? d/bs.length*100 : 0) + '%';
+      if (cnt) cnt.textContent = d + ' / ' + bs.length + (d === bs.length && bs.length ? ' · проєкт закрито' : '');
+    });
+  }
+  function save(){
+    writeLocal();
+    if (!docRef) return;
+    clearTimeout(timer);
+    timer = setTimeout(function(){
+      var body = { done: Object.assign({}, state), updatedAt: new Date().toISOString() };
+      writing = writing.then(function(){ return docRef.set(body); }).then(function(){
+        syncTxt.textContent = 'Прогрес збережено у твоєму акаунті.';
+      }).catch(function(){
+        docRef = null;
+        syncTxt.textContent = 'Прогрес зберігається в цьому браузері.';
+      });
+    }, 600);
+  }
+  boxes.forEach(function(b){
+    b.addEventListener('change', function(){
+      if (b.checked) state[b.id] = true; else delete state[b.id];
+      render(); save();
+    });
+  });
+
+  state = readLocal();
+  apply();
+  syncTxt.textContent = 'Прогрес зберігається в цьому браузері.';
+
+  if (window.claude && typeof window.claude.use === 'function') {
+    Promise.all([window.claude.use('db'), window.claude.use('user')]).then(function(r){
+      var ns = r[0], user = r[1];
+      if (!ns || !user) return null;
+      db = ns;
+      return user.id();
+    }).then(function(uid){
+      if (!uid) return;
+      try { docRef = db.doc('data/users/' + uid + '/progress'); } catch(e){ return; }
+      docRef.get().then(function(snap){
+        var remote = (snap.exists && snap.data() && snap.data().done) || {};
+        var merged = Object.assign({}, remote, state);
+        var changed = Object.keys(merged).length !== Object.keys(remote).length;
+        state = merged; apply(); writeLocal();
+        syncTxt.textContent = 'Прогрес синхронізовано з твоїм акаунтом.';
+        if (changed && Object.keys(state).length) save();
+      }).catch(function(){
+        docRef = null;
+        syncTxt.textContent = 'Прогрес зберігається в цьому браузері.';
+      });
+    }).catch(function(){});
+  }
+})();
+</script>
+<script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.esm.min.mjs";
+mermaid.initialize({startOnLoad:true, theme: matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "default"});
+</script></body></html>

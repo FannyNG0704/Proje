@@ -12,6 +12,8 @@
 | Іспанська + теорія на права (permiso B) | [`espanol-dgt/`](espanol-dgt/) | ⏸ пізніше |
 | Біблія іспанською | [`biblia/`](biblia/) | ⏸ пізніше |
 
+**Бібліотека (усі курси на одній сторінці):** https://claude.ai/artifact/42S51AAn1HYotkXFzPM9ok · офлайн-копія: [`offline/index.html`](offline/index.html) і архів `kursy-offline.zip`.
+
 Правила, як Claude має зі мною працювати: [`CLAUDE.md`](CLAUDE.md).
 
 ## З чого почати (IT)

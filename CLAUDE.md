@@ -39,6 +39,7 @@
 - Третій курс «Ігри: від Pong до релізу»: `it/games-kurs.html` (https://claude.ai/artifact/8dApJpdxaFi2vcLJ6qKeMi), прогрес так само.
 - Четвертий курс «AI: як працює і як на ньому будувати»: `it/ai-kurs.html` (https://claude.ai/artifact/WZb8Y7Lg57Pqqnp3M96hex), прогрес так само. Це головний напрямок, з яким хочу працювати в майбутньому.
 - П'ятий курс «Архітектура: від коду до систем»: `it/arch-kurs.html` (https://claude.ai/artifact/DC5iJQBurJtPPxdupY5w7L), прогрес так само. Рівень 5 — доповнення (ліцензії, мобільна, a11y/i18n, CS, PWA, іспанська специфіка).
+- Бібліотека з усіма курсами: `it/biblioteka.html` (https://claude.ai/artifact/42S51AAn1HYotkXFzPM9ok). Офлайн-копії — `offline/` + `kursy-offline.zip` (після змін у курсах — перезібрати).
 - Фріланс в Іспанії (autónomo, IVA, договори, клієнти) — окремий курс пізніше.
 - Прогрес і що вже пройдено: `it/progres.md` — оновлюй після кожного заняття
   (тема, що зрозумів, що слабко, питання на повторення).

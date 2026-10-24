@@ -1,0 +1,1333 @@
+<!doctype html><html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}img{max-width:100%}body{margin:0}</style></head><body><div style="font:14px system-ui,sans-serif;padding:10px 16px;background:#fff7e0;color:#4a3b00;border-bottom:1px solid #e6d9a8">Офлайн-копія курсу. Актуальна версія з прогресом: <a href="https://claude.ai/artifact/7a82nP9mL1FagUNTNyd5Ww">https://claude.ai/artifact/7a82nP9mL1FagUNTNyd5Ww</a> · <a href="index.html">← Бібліотека</a></div><title>Курс «Від нуля до проду»</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: sticky table of contents on the left (desktop), one long readable column of project "work orders" on the right; stacks to one column on phones. */
+:root{
+  --bg:#f5f6f8; --surface:#ffffff; --ink:#18212e; --muted:#5a6475; --line:#d9dee6;
+  --accent:#2f5bd3; --accent-soft:#e6ecfb;
+  --warn:#b45309; --warn-soft:#fdf1e3;
+  --ok:#1f7a4d; --ok-soft:#e3f4ea;
+  --l1:#2f8f6b; --l2:#2f5bd3; --l3:#b45309; --l4:#7a3fb8;
+  --code-bg:#eef1f5;
+  --f-display:"Unbounded","Golos Text",system-ui,sans-serif;
+  --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11161f; --surface:#171e2a; --ink:#e6eaf1; --muted:#9aa5b6; --line:#2a3445;
+  --accent:#7ea2ff; --accent-soft:#1d2a47;
+  --warn:#f0a35a; --warn-soft:#33240f;
+  --ok:#5fcf98; --ok-soft:#12301f;
+  --l1:#5fcf98; --l2:#7ea2ff; --l3:#f0a35a; --l4:#c39bff;
+  --code-bg:#1f2836; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#11161f; --surface:#171e2a; --ink:#e6eaf1; --muted:#9aa5b6; --line:#2a3445;
+  --accent:#7ea2ff; --accent-soft:#1d2a47;
+  --warn:#f0a35a; --warn-soft:#33240f;
+  --ok:#5fcf98; --ok-soft:#12301f;
+  --l1:#5fcf98; --l2:#7ea2ff; --l3:#f0a35a; --l4:#c39bff;
+  --code-bg:#1f2836; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:240px minmax(0,1fr);gap:40px;padding-block:32px 80px}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr)} nav.toc{display:none}}
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;max-height:calc(100vh - 32px);overflow:auto;font-size:14px}
+nav.toc a{display:block;color:var(--muted);text-decoration:none;padding:3px 0}
+nav.toc a:hover,nav.toc a:focus-visible{color:var(--accent)}
+nav.toc .grp{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-top:14px}
+main{min-width:0}
+h1,h2,h3{text-wrap:balance;line-height:1.25}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(28px,4.5vw,44px);margin:0 0 12px}
+h2{font-family:var(--f-display);font-weight:500;font-size:clamp(22px,3vw,28px);margin:56px 0 12px}
+h3{font-size:18px;margin:24px 0 8px}
+p{max-width:70ch;margin:8px 0}
+a{color:var(--accent)}
+.lead{font-size:18px;color:var(--muted);max-width:68ch}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+code,kbd{font-family:var(--f-mono);font-size:.88em;background:var(--code-bg);padding:1px 5px;border-radius:4px}
+.tbl{overflow-x:auto;margin:12px 0;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line)}
+th{font-size:13px;color:var(--muted);font-weight:600;background:var(--bg)}
+tr:last-child td{border-bottom:0}
+.mermaid{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;overflow-x:auto;margin:12px 0}
+.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:16px 0}
+.lv{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:8px;padding:14px 16px}
+.lv h3{margin:4px 0 6px;font-size:16px}
+.lv .say{font-size:14px;color:var(--muted)}
+.lv .say b{color:var(--ink)}
+.principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:12px 0}
+.principles div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.principles b{display:block;margin-bottom:2px}
+/* project cards */
+section.proj{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin:20px 0;border-left:5px solid var(--c)}
+.proj-head{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between}
+.proj-head h2{margin:0;font-size:clamp(20px,2.6vw,24px)}
+.tag{font-family:var(--f-mono);font-size:12px;padding:2px 8px;border-radius:999px;background:var(--bg);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}
+.why{font-size:15px;color:var(--muted)}
+.pit{background:var(--warn-soft);border-radius:8px;padding:12px 16px;margin:12px 0}
+.pit h3{color:var(--warn);margin-top:0}
+.pit ul{margin:0;padding-left:20px}
+.done{background:var(--ok-soft);border-radius:8px;padding:12px 16px;margin:12px 0}
+.done h3{color:var(--ok);margin-top:0}
+.done ul{margin:0;padding-left:20px}
+ul.tasks{list-style:none;padding:0;margin:8px 0}
+ul.tasks li{display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-bottom:1px dashed var(--line)}
+ul.tasks li:last-child{border-bottom:0}
+ul.tasks input{margin-top:5px;width:18px;height:18px;accent-color:var(--accent);flex:none}
+ul.tasks label{cursor:pointer}
+ul.tasks input:checked + label{color:var(--muted);text-decoration:line-through}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:6px 0 2px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.cnt{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.quiz ol{padding-left:22px;margin:4px 0}
+.src{font-size:14px;color:var(--muted)}
+.src a{word-break:break-word}
+.note{font-size:14px;color:var(--muted);border-left:3px solid var(--line);padding-left:12px;margin:12px 0}
+.syncline{font-size:13px;color:var(--muted);margin-top:8px}
+.overall{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:8px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.cols2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.cols2>div{min-width:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+
+<div class="wrap">
+<nav class="toc" aria-label="Зміст">
+  <div class="grp">Старт</div>
+  <a href="#pryntsyp">Принцип курсу</a>
+  <a href="#karta">Карта і рівні</a>
+  <a href="#yak">Як проходить заняття</a>
+  <div class="grp">Рівень 0</div>
+  <a href="#p0">P0 · Майстерня</a>
+  <div class="grp">Рівень 1</div>
+  <a href="#p1">P1 · Сайт-візитка</a>
+  <a href="#p2">P2 · Калькулятор</a>
+  <a href="#p3">P3 · Todo-трекер</a>
+  <a href="#p4">P4 · Погода (API, React)</a>
+  <div class="grp">Рівень 2</div>
+  <a href="#p5">P5 · Telegram-бот</a>
+  <a href="#p6">P6 · Свій сервер + БД</a>
+  <a href="#p7">P7 · Акаунти й логін</a>
+  <a href="#p8">P8 · Деплой, Docker, CI</a>
+  <a href="#p9">P9 · «Щось впало»</a>
+  <a href="#p10">P10 · Перенесення даних</a>
+  <div class="grp">Рівень 3</div>
+  <a href="#p11">P11 · Оплата і підписка</a>
+  <a href="#p12">P12 · Чат у реальному часі</a>
+  <a href="#p13">P13 · Атакую свою апку</a>
+  <div class="grp">Рівень 4</div>
+  <a href="#p14">P14 · Як у великих компаніях</a>
+  <a href="#final">Фінал · Замовник прийшов</a>
+  <div class="grp">Довідник</div>
+  <a href="#slovnyk">Сленг і терміни</a>
+  <a href="#vpalo">Що впало — де шукати</a>
+  <a href="#ryzyky">Якщо є X — думай про Y</a>
+  <a href="#ne-vchyty">Що НЕ вчити зараз</a>
+  <a href="#dzherela">Джерела</a>
+</nav>
+
+<main>
+<div class="eyebrow">Навчальний план · JavaScript / TypeScript · версія жовтень 2026</div>
+<h1>Від нуля до проду</h1>
+<p class="lead">Курс зібраний з найсильніших безкоштовних програм (The Odin Project, Full Stack Open з Гельсінського університету, freeCodeCamp, CS50, MIT Missing Semester, roadmap.sh, Google SRE, OWASP, PortSwigger, документація Stripe і Telegram). Зайве з них прибрано. Кожну тему вчимо тільки тоді, коли вона потрібна в проєкті, і кожен проєкт доводимо до кінця.</p>
+
+<div class="principles" style="grid-template-columns:minmax(0,1fr)"><div><b>Як користуватись курсом</b>Курс розрахований на навчання разом з Claude (claude.ai). Відкрий новий чат і напиши, наприклад: <i>«Я проходжу курс „Від нуля до проду“, проєкт P0, задача 1. Пояснюй детально простими словами, з підводними каменями. Не давай готовий код одразу — спочатку підказку. В кінці перевір мене питаннями.»</i> Відмічай виконані задачі галочками на цій сторінці — прогрес у кожного свій. Курс оновлюється за цим самим посиланням.</div></div>
+
+<div class="overall" aria-live="polite">
+  <div class="cnt" id="overallTxt">Виконано задач: 0</div>
+  <div class="bar"><i id="overallBar"></i></div>
+  <div class="syncline" id="syncTxt">Прогрес зберігається…</div>
+</div>
+
+<h2 id="pryntsyp">Принцип курсу</h2>
+<div class="principles">
+  <div><b>1. Проєкт спочатку, теорія під нього</b>Не «вивчити JavaScript», а «зробити калькулятор» і по дорозі взяти з JavaScript рівно те, що потрібно. Базу добираєш з практики.</div>
+  <div><b>2. Доводимо до кінця</b>Проєкт готовий не тоді, коли «у мене працює», а коли виконано блок «Готово, коли…»: задеплоєно, є тести, є обробка помилок, є README.</div>
+  <div><b>3. Камені — до старту</b>Кожен проєкт починається з блоку «Підводні камені». Ти знаєш, де зламається, ще до першого рядка коду.</div>
+  <div><b>4. Спіраль</b>Безпека, помилки, дані, деплой повертаються в кожному проєкті, щоразу глибше. Нічого не вчимо «один раз і забули».</div>
+  <div><b>5. Одна мова на все</b>JavaScript/TypeScript: і сайт, і сервер, і бот. Не розпорошуємось. Python — пізніше, якщо знадобиться.</div>
+  <div><b>6. Ланцюжок «якщо X → думай про Y»</b>Кожна тема прив'язана до ризику: є гроші → безпека й вебхуки; є реальний час → перепідключення й масштабування.</div>
+</div>
+
+<h2 id="karta">Карта курсу і рівні</h2>
+<p>П'ять рівнів. Після кожного ти можеш чесно сказати замовнику «так, зроблю» на певний тип робіт. Це головна мета: коли тебе спитають, чи ти таке зробиш, ти знаєш план з нуля.</p>
+<pre class="mermaid">
+flowchart LR
+  subgraph L0["Рівень 0 · Майстерня"]
+    P0[P0 Інструменти, Git]
+  end
+  subgraph L1["Рівень 1 · Роблю сам з нуля"]
+    P1[P1 Сайт-візитка] --> P2[P2 Калькулятор] --> P3[P3 Todo-трекер] --> P4[P4 Погода через API]
+  end
+  subgraph L2["Рівень 2 · Свій сервер і дані"]
+    P5[P5 Telegram-бот] --> P6[P6 Сервер + БД] --> P7[P7 Акаунти] --> P8[P8 Деплой, Docker, CI] --> P9[P9 Щось впало] --> P10[P10 Перенесення даних]
+  end
+  subgraph L3["Рівень 3 · Гроші, реальний час, безпека"]
+    P11[P11 Оплата і підписка] --> P12[P12 Чат реального часу] --> P13[P13 Атакую свою апку]
+  end
+  subgraph L4["Рівень 4 · Як у великих компаніях"]
+    P14[P14 Команда і масштаб] --> F[Фінал: замовник прийшов]
+  end
+  P0 --> P1
+  P4 --> P5
+  P10 --> P11
+  P13 --> P14
+</pre>
+
+<div class="levels">
+  <div class="lv" style="--c:var(--muted)"><div class="eyebrow">Рівень 0 · ~1–2 тижні</div><h3>Майстерня</h3><div class="say">Можу сказати: <b>«Вмію працювати з кодом, Git і терміналом, знаю, як шукати помилку».</b></div></div>
+  <div class="lv" style="--c:var(--l1)"><div class="eyebrow">Рівень 1 · ~2 місяці</div><h3>Роблю сам з нуля</h3><div class="say">Можу сказати: <b>«Сайт-візитку, лендинг, калькулятор, просту веб-апку з чужим API — зроблю повністю, з доменом і деплоєм».</b></div></div>
+  <div class="lv" style="--c:var(--l2)"><div class="eyebrow">Рівень 2 · ~3–4 місяці</div><h3>Свій сервер і дані</h3><div class="say">Можу сказати: <b>«Бот, сайт з логіном, базою й адмінкою, перенесення даних — так, з бекапом, моніторингом і планом на аварію».</b></div></div>
+  <div class="lv" style="--c:var(--l3)"><div class="eyebrow">Рівень 3 · ~2–3 місяці</div><h3>Гроші, реальний час, безпека</h3><div class="say">Можу сказати: <b>«Оплату, підписку, чат — так, але закладаю час на безпеку, тести й моніторинг і хочу рев'ю».</b></div></div>
+  <div class="lv" style="--c:var(--l4)"><div class="eyebrow">Рівень 4 · ~1–2 місяці</div><h3>Як у великих компаніях</h3><div class="say">Можу сказати: <b>«Вмію працювати в команді: PR, рев'ю, тести, релізи, чергування, розумію, як це масштабувати».</b></div></div>
+</div>
+<p class="note">Терміни розраховані приблизно на 8–10 годин на тиждень. Весь курс займе ~8–12 місяців. Якщо щось уже знаєш, ідемо швидше. Якщо тема важка, сидимо довше. Чесно: швидкість залежить від регулярності більше, ніж від годин за раз.</p>
+
+<h2 id="yak">Як проходить заняття</h2>
+<div class="tbl"><table>
+<thead><tr><th>Крок</th><th>Що робимо</th><th>Навіщо</th></tr></thead>
+<tbody>
+<tr><td>1. Розбір</td><td>Claude детально пояснює тему поточної задачі: суть, як працює всередині, камені.</td><td>Розуміти, а не копіювати</td></tr>
+<tr><td>2. Сам</td><td>Ти пишеш код сам. Застряг на 20–30 хв — просиш <b>підказку</b>, не готове рішення.</td><td>Мозок вчиться тільки коли сам бореться</td></tr>
+<tr><td>3. Рев'ю</td><td>Показуєш код Claude — він перевіряє як сеньйор на роботі: що погано, що небезпечно, як зробити краще.</td><td>Так працюють у компаніях</td></tr>
+<tr><td>4. Самоперевірка</td><td>2–3 питання. Відповідаєш своїми словами.</td><td>Перевірити, що зрозумів, а не запам'ятав</td></tr>
+<tr><td>5. Прогрес</td><td>Відмічаєш задачі на цій сторінці і записуєш короткий конспект: що зрозумів, що лишилось незрозумілим.</td><td>Видно шлях, нічого не губиться</td></tr>
+</tbody></table></div>
+
+<!-- ===================== P0 ===================== -->
+<section class="proj" id="p0" style="--c:var(--muted)" data-proj="p0">
+<div class="proj-head"><h2>P0 · Майстерня: робоче місце</h2><span class="tag">Рівень 0 · ~1–2 тижні</span></div>
+<p class="why"><b>Навіщо:</b> без цього ніяк. Кожен розробник щодня працює з терміналом, Git і помилками. Це як інструменти в майстра: поки не тримаєш їх упевнено, на них іде вся увага.</p>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Термінал (<code>cd</code>, <code>ls</code>, <code>mkdir</code>, <code>pwd</code>, шляхи)</td><td>Керувати комп'ютером текстом, а не мишкою. Сервери не мають мишки.</td></tr>
+<tr><td>Git: <code>init</code>, <code>add</code>, <code>commit</code>, <code>log</code>, <code>branch</code>, <code>merge</code></td><td>«Машина часу» для коду: знімки, до яких можна повернутись.</td></tr>
+<tr><td>GitHub: <code>push</code>, <code>pull</code>, <code>clone</code>, pull request</td><td>Хмара для Git і місце, де команда перевіряє код одне одного.</td></tr>
+<tr><td><code>.gitignore</code>, README у Markdown</td><td>Що не можна класти в Git (паролі, сміття), і «інструкція до проєкту».</td></tr>
+<tr><td>VS Code, Node.js, DevTools у браузері</td><td>Редактор, «двигун» JavaScript, і панель розробника в Chrome.</td></tr>
+<tr><td>Як читати помилку і стек-трейс</td><td>Помилка майже завжди каже, що і де сталося. Треба читати до кінця.</td></tr>
+<tr><td>Як вчитися з AI</td><td>Питати «чому» і «підкажи», а не «напиши за мене».</td></tr>
+</tbody></table></div>
+<pre class="mermaid">
+flowchart LR
+  A[Робоча папка<br/>змінив файли] -->|git add| B[Staging<br/>«що піде в знімок»]
+  B -->|git commit| C[Локальний репозиторій<br/>історія знімків]
+  C -->|git push| D[GitHub<br/>копія в хмарі]
+  D -->|git pull| C
+</pre>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="p0-1"><label for="p0-1">Встановити VS Code, Node.js (LTS), Git. Перевірити в терміналі: <code>node -v</code>, <code>git --version</code>.</label></li>
+<li><input type="checkbox" id="p0-2"><label for="p0-2">Пройти в терміналі: створити папку, файл, перейти, видалити. Без мишки.</label></li>
+<li><input type="checkbox" id="p0-3"><label for="p0-3">Створити GitHub-репозиторій, зробити 3+ коміти з нормальними повідомленнями.</label></li>
+<li><input type="checkbox" id="p0-4"><label for="p0-4">Створити гілку, змінити файл, відкрити pull request і злити його.</label></li>
+<li><input type="checkbox" id="p0-5"><label for="p0-5">Навмисно зробити конфлікт у Git (дві гілки міняють один рядок) і вирішити його.</label></li>
+<li><input type="checkbox" id="p0-6"><label for="p0-6">Додати <code>.gitignore</code> (node_modules, .env) і пояснити, чому саме ці.</label></li>
+<li><input type="checkbox" id="p0-7"><label for="p0-7">Написати README: що це, як запустити.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li><b>Пароль або ключ потрапив у Git</b> — він там назавжди, навіть якщо видалиш файл. Рятує тільки заміна ключа (rotation). Боти сканують GitHub на ключі за хвилини.</li>
+<li>Комітити <code>node_modules</code> — тисячі чужих файлів у репозиторії.</li>
+<li>Працювати одразу в <code>main</code> без гілок — нема куди відкотитись.</li>
+<li>Не читати текст помилки до кінця і одразу питати / гуглити.</li>
+<li>Коміти «fix», «asdf», «123» — через місяць не зрозумієш, що змінилось.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Є репозиторій на GitHub з README і змістовними комітами.</li>
+<li>Є хоча б один злитий pull request і один вирішений конфлікт.</li>
+<li>Можеш пояснити різницю між commit і push своїми словами.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Ти випадково закомітив і запушив API-ключ. Що робиш першим?</li>
+<li>Чим <code>git pull</code> відрізняється від <code>git clone</code>?</li>
+<li>Навіщо гілки, якщо можна все робити в main?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://missing.csail.mit.edu">MIT Missing Semester</a> (shell, Git, налагодження) · <a href="https://git-scm.com/book/uk/v2">Pro Git (є українською)</a> · <a href="https://www.theodinproject.com/paths/foundations/courses/foundations">Odin Project Foundations</a> · <a href="https://overthewire.org/wargames/bandit/">OverTheWire Bandit</a> (термінал як гра)</p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== P1 ===================== -->
+<section class="proj" id="p1" style="--c:var(--l1)" data-proj="p1">
+<div class="proj-head"><h2>P1 · Сайт-візитка / лендинг</h2><span class="tag">Рівень 1 · ~2–3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> найчастіше замовлення від малого бізнесу (кафе, барбершоп, ремонт). І база для всього веба: структура сторінки, стилі, адаптив, домен.</p>
+<h3>Як браузер отримує твій сайт</h3>
+<pre class="mermaid">
+sequenceDiagram
+  participant U as Браузер
+  participant D as DNS («телефонна книга»)
+  participant S as Сервер (хостинг)
+  U->>D: Яка IP-адреса у mybarber.es?
+  D-->>U: 76.76.21.21
+  U->>S: GET / (через HTTPS)
+  S-->>U: 200 OK + index.html
+  U->>S: GET style.css, logo.webp
+  S-->>U: 200 OK + файли
+  Note over U: Браузер збирає сторінку і показує
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>HTML, семантичні теги (<code>header</code>, <code>main</code>, <code>nav</code>, <code>section</code>)</td><td>Скелет сторінки. Правильні теги — це SEO і доступність.</td></tr>
+<tr><td>CSS: box model, cascade, Flexbox, Grid</td><td>Як елементи займають місце і розставляються.</td></tr>
+<tr><td>Адаптив (responsive), mobile-first, media queries</td><td>Сайт виглядає нормально і на телефоні, і на моніторі. 70%+ людей заходять з телефона.</td></tr>
+<tr><td>Картинки: формати (WebP/AVIF), розміри, <code>alt</code></td><td>Найчастіша причина повільного сайту — величезні фото.</td></tr>
+<tr><td>Доступність (accessibility): контраст, клавіатура, alt</td><td>Сайтом мають користуватись усі, включно з людьми з поганим зором.</td></tr>
+<tr><td>SEO-база: <code>title</code>, meta description, Open Graph, favicon</td><td>Як сайт виглядає в Google і коли ним діляться в WhatsApp.</td></tr>
+<tr><td>Деплой (Netlify / Vercel / GitHub Pages), домен, DNS, HTTPS</td><td>Викласти сайт в інтернет на свою адресу.</td></tr>
+<tr><td>Lighthouse у DevTools</td><td>Автоматична оцінка швидкості, доступності, SEO.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="p1-1"><label for="p1-1">Вибрати «замовника» (уявний барбершоп / кафе в Іспанії) і скласти структуру: шапка, послуги, ціни, відгуки, контакти, карта.</label></li>
+<li><input type="checkbox" id="p1-2"><label for="p1-2">Зверстати HTML тільки семантичними тегами, без CSS. Перевірити, що читається.</label></li>
+<li><input type="checkbox" id="p1-3"><label for="p1-3">Стилі: спочатку телефон (360px), потім планшет і десктоп. Flexbox і Grid.</label></li>
+<li><input type="checkbox" id="p1-4"><label for="p1-4">Оптимізувати картинки (WebP, правильні розміри, lazy loading).</label></li>
+<li><input type="checkbox" id="p1-5"><label for="p1-5">Додати title, description, Open Graph, favicon. Перевірити прев'ю посилання в Telegram.</label></li>
+<li><input type="checkbox" id="p1-6"><label for="p1-6">Контактна форма через сервіс форм (Formspree / Netlify Forms) з захистом від спаму.</label></li>
+<li><input type="checkbox" id="p1-7"><label for="p1-7">Задеплоїти. Підключити домен (або безкоштовний піддомен) з HTTPS.</label></li>
+<li><input type="checkbox" id="p1-8"><label for="p1-8">Lighthouse ≥ 90 по всіх пунктах. Пройти сайт тільки клавіатурою (Tab).</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Фото з телефона на 5 МБ — сайт вантажиться 10 секунд, люди йдуть.</li>
+<li>Верстка фіксованими пікселями — ламається на іншому екрані. Не перевірили на справжньому телефоні.</li>
+<li>Email відкритим текстом — спам-боти зберуть. Форма без захисту — сотні спам-заявок.</li>
+<li>Картинки й шрифти з інтернету без права на використання — авторські права.</li>
+<li><b>Іспанія/ЄС:</b> додав Google Analytics або Meta Pixel — потрібен банер згоди на cookies (RGPD/LSSI). Також потрібні «Aviso legal» і «Política de privacidad», якщо сайт бізнесу.</li>
+<li>Домен зареєстрований на тебе, а не на замовника — потім конфлікт, коли розійдетесь.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Сайт працює на своїй адресі з HTTPS, нормально виглядає від 360px до 1440px.</li>
+<li>Lighthouse ≥ 90, сайт проходиться клавіатурою, у всіх картинок є alt.</li>
+<li>Форма доходить на пошту, спам відсікається. Є README.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Що відбувається між тим, як ти ввів адресу, і тим, як побачив сторінку?</li>
+<li>Чому mobile-first, а не навпаки?</li>
+<li>Замовник хоче Google Analytics. Що ти йому скажеш про закон?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://developer.mozilla.org/en-US/docs/Learn_web_development">MDN Learn</a> · <a href="https://web.dev/learn/css">web.dev Learn CSS</a> · <a href="https://www.theodinproject.com/paths/foundations/courses/foundations">Odin Foundations</a> (проєкт Landing Page) · <a href="https://www.freecodecamp.org/learn">freeCodeCamp Responsive Web Design</a> · <a href="https://flexboxfroggy.com">Flexbox Froggy</a> / <a href="https://cssgridgarden.com">Grid Garden</a> (ігри)</p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== P2 ===================== -->
+<section class="proj" id="p2" style="--c:var(--l1)" data-proj="p2">
+<div class="proj-head"><h2>P2 · Калькулятор (+ калькулятор IVA / кредиту)</h2><span class="tag">Рівень 1 · ~2–3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> здається простим, але в ньому вся база JavaScript і перші справжні «крайні випадки». Друга частина — калькулятор IVA або іпотеки (hipoteca) для іспанського клієнта: гроші, округлення, відсотки.</p>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Змінні, типи, функції, умови, масиви, об'єкти</td><td>Алфавіт програмування.</td></tr>
+<tr><td>DOM і події (<code>click</code>, <code>keydown</code>)</td><td>Як JavaScript змінює сторінку і реагує на дії людини.</td></tr>
+<tr><td>Стан (state)</td><td>«Що зараз в пам'яті»: перше число, операція, друге число.</td></tr>
+<tr><td>Числа з плаваючою комою</td><td><code>0.1 + 0.2 = 0.30000000000000004</code>. Тому гроші рахують у центах цілими числами.</td></tr>
+<tr><td>Unit-тести (Vitest)</td><td>Код, який перевіряє твій код автоматично.</td></tr>
+<tr><td>Налагодження в DevTools (breakpoints, console)</td><td>Зупинити програму і подивитись, що в змінних.</td></tr>
+<tr><td>Чисті функції, розділення логіки і екрана</td><td>Логіка рахує, інтерфейс показує. Тоді логіку легко тестувати.</td></tr>
+</tbody></table></div>
+<pre class="mermaid">
+stateDiagram-v2
+  [*] --> ВводПершого
+  ВводПершого --> ВибірОперації: + − × ÷
+  ВибірОперації --> ВводДругого: цифра
+  ВводДругого --> Результат: =
+  ВводДругого --> ВибірОперації: ще операція (рахуємо проміжне)
+  Результат --> ВводПершого: нова цифра
+  Результат --> ВибірОперації: операція з результатом
+  ВводДругого --> Помилка: ÷ 0
+  Помилка --> ВводПершого: C
+</pre>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="p2-1"><label for="p2-1">Намалювати на папері стани калькулятора (як на схемі) до того, як писати код.</label></li>
+<li><input type="checkbox" id="p2-2"><label for="p2-2">Логіка окремо від екрана: функції <code>calculate(a, op, b)</code> тощо в окремому файлі.</label></li>
+<li><input type="checkbox" id="p2-3"><label for="p2-3">Інтерфейс: кнопки, дисплей, клавіатура (цифри, Enter, Backspace, Esc).</label></li>
+<li><input type="checkbox" id="p2-4"><label for="p2-4">Крайні випадки: ділення на 0, дві крапки, «=» кілька разів, дуже довгі числа, мінус.</label></li>
+<li><input type="checkbox" id="p2-5"><label for="p2-5">10+ unit-тестів на логіку, включно з крайніми випадками.</label></li>
+<li><input type="checkbox" id="p2-6"><label for="p2-6">Друга частина: калькулятор IVA (21% / 10% / 4%) або іпотеки. Усе в центах, правильне округлення.</label></li>
+<li><input type="checkbox" id="p2-7"><label for="p2-7">Задеплоїти обидва, README з описом крайніх випадків.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li><code>eval()</code> для обчислення — «простий» шлях, який виконує будь-який код. Небезпечно, ніколи.</li>
+<li>Гроші у float — копійки «губляться» або з'являються. В рахунках і податках це реальна проблема.</li>
+<li>Округлення: 0,5 вгору чи до парного? Для податків правила задає закон, а не ти.</li>
+<li>Логіка перемішана з кнопками — неможливо протестувати, страшно міняти.</li>
+<li>Формат чисел: в Іспанії <code>1.234,56 €</code>, а не <code>1,234.56</code>. Використовуй <code>Intl.NumberFormat('es-ES')</code>.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Працює мишкою і клавіатурою, крайні випадки не ламають його.</li>
+<li>10+ тестів проходять. Калькулятор IVA дає правильні суми в центах.</li>
+<li>Задеплоєно, є README.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Чому не можна зберігати ціну як <code>19.99</code>, і як треба?</li>
+<li>Навіщо відділяти логіку від інтерфейсу?</li>
+<li>Що таке стан (state) у твоєму калькуляторі?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://javascript.info/">javascript.info</a> (частина 1) · <a href="https://www.theodinproject.com/lessons/foundations-calculator">Odin: проєкт Calculator</a> · <a href="https://vitest.dev/guide/">Vitest</a> · <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat">MDN Intl.NumberFormat</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== P3 ===================== -->
+<section class="proj" id="p3" style="--c:var(--l1)" data-proj="p3">
+<div class="proj-head"><h2>P3 · Todo-трекер (CRUD у браузері)</h2><span class="tag">Рівень 1 · ~2 тижні</span></div>
+<p class="why"><b>Навіщо:</b> CRUD (створити / прочитати / змінити / видалити) — це 80% усіх апок: магазин, запис до лікаря, CRM. Тут ти вперше працюєш з даними і їх збереженням.</p>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>CRUD</td><td>Чотири дії з будь-якими даними.</td></tr>
+<tr><td>Масиви об'єктів, унікальні ID</td><td>Кожен запис має свій «номер паспорта».</td></tr>
+<tr><td>JSON, localStorage</td><td>Формат даних і «кишеня» браузера, де вони живуть між перезавантаженнями.</td></tr>
+<tr><td>Дані — джерело правди (single source of truth)</td><td>Екран малюється з даних, а не навпаки.</td></tr>
+<tr><td>Модулі (<code>import</code>/<code>export</code>), npm, Vite</td><td>Розбити код на файли і зібрати проєкт.</td></tr>
+<tr><td>XSS</td><td>Якщо вставити текст користувача як HTML, він може запустити свій код.</td></tr>
+<tr><td>ESLint, Prettier</td><td>Автоматична перевірка і форматування коду.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="p3-1"><label for="p3-1">Проєкт на Vite з модулями: дані, логіка, рендер — окремі файли.</label></li>
+<li><input type="checkbox" id="p3-2"><label for="p3-2">CRUD задач + проєкти (папки), дедлайн, пріоритет.</label></li>
+<li><input type="checkbox" id="p3-3"><label for="p3-3">Збереження в localStorage. Перевірити: що буде, якщо там зіпсований JSON?</label></li>
+<li><input type="checkbox" id="p3-4"><label for="p3-4">Фільтри (всі / активні / зроблені), порожній стан («Задач поки немає»).</label></li>
+<li><input type="checkbox" id="p3-5"><label for="p3-5">Спробувати XSS: назвати задачу <code>&lt;img src=x onerror=alert(1)&gt;</code>. Захиститись через <code>textContent</code>.</label></li>
+<li><input type="checkbox" id="p3-6"><label for="p3-6">Версія формату даних: змінити структуру і написати міграцію старих даних.</label></li>
+<li><input type="checkbox" id="p3-7"><label for="p3-7">ESLint + Prettier, тести на логіку, деплой.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li><b>XSS</b> через <code>innerHTML</code> з текстом користувача — класична дірка.</li>
+<li>localStorage живе тільки в цьому браузері: інший телефон — інших даних немає. Користувач може почистити або змінити його руками.</li>
+<li>Змінив структуру даних — у старих користувачів апка падає. Потрібна версія і міграція.</li>
+<li>ID як номер у масиві — після видалення все зсувається. Потрібен стабільний ID (<code>crypto.randomUUID()</code>).</li>
+<li>Стан на екрані розходиться з даними — «зелена галочка, а в даних не зроблено».</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Дані переживають перезавантаження, зіпсовані дані не ламають апку.</li>
+<li>XSS-спроба показується як текст. Є міграція формату.</li>
+<li>Лінтер чистий, тести проходять, задеплоєно.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Чому <code>textContent</code> безпечніше за <code>innerHTML</code>?</li>
+<li>Що таке «джерело правди» і чому екран не може ним бути?</li>
+<li>Чому localStorage не підходить для справжньої апки з акаунтами?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://www.theodinproject.com/lessons/node-path-javascript-todo-list">Odin: Todo List</a> · <a href="https://vite.dev/guide/">Vite</a> · <a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html">OWASP XSS Cheat Sheet</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== P4 ===================== -->
+<section class="proj" id="p4" style="--c:var(--l1)" data-proj="p4">
+<div class="proj-head"><h2>P4 · Погода / курс валют через чужий API (React)</h2><span class="tag">Рівень 1 · ~3–4 тижні</span></div>
+<p class="why"><b>Навіщо:</b> майже кожна апка тягне дані з чужих сервісів (карти, оплата, погода, AI). Тут ти вивчаєш HTTP, асинхронність і перший фреймворк — React.</p>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>HTTP: методи, статус-коди (200, 400, 401, 403, 404, 429, 500), заголовки</td><td>«Мова», якою браузер і сервер розмовляють.</td></tr>
+<tr><td><code>fetch</code>, Promise, <code>async/await</code></td><td>Запит іде час. Програма не чекає «замерзлою», а продовжує і повертається, коли прийде відповідь.</td></tr>
+<tr><td>Стани: завантаження / помилка / порожньо / дані</td><td>Інтерфейс має знати, що показати в кожному випадку.</td></tr>
+<tr><td>API-ключі, ліміти (rate limit, 429)</td><td>Пропуск до чужого сервісу і скільки разів можна стукати.</td></tr>
+<tr><td>CORS</td><td>Браузер не дає сайту читати відповіді з чужого сервера без дозволу цього сервера.</td></tr>
+<tr><td>React: компоненти, props, state, <code>useEffect</code></td><td>Будуємо інтерфейс з «цеглинок», React сам оновлює екран при зміні даних.</td></tr>
+<tr><td>Debounce, race condition</td><td>Не слати запит на кожну літеру; стара відповідь не має перезаписати нову.</td></tr>
+</tbody></table></div>
+<pre class="mermaid">
+sequenceDiagram
+  participant U as Користувач
+  participant A as Твоя апка (React)
+  participant W as API погоди
+  U->>A: вводить «Valen…»
+  Note over A: debounce 300 мс — чекаємо, поки допише
+  A->>A: стан = «завантаження»
+  A->>W: GET /weather?q=Valencia
+  alt 200 OK
+    W-->>A: JSON з погодою
+    A->>U: показати погоду
+  else 404 / 429 / немає мережі
+    W-->>A: помилка
+    A->>U: зрозуміле повідомлення + «спробувати ще»
+  end
+</pre>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="p4-1"><label for="p4-1">Поекспериментувати з API в терміналі (<code>curl</code>) або Bruno/Postman до того, як писати код.</label></li>
+<li><input type="checkbox" id="p4-2"><label for="p4-2">React-апка на Vite: пошук міста, поточна погода, прогноз на 5 днів.</label></li>
+<li><input type="checkbox" id="p4-3"><label for="p4-3">Усі стани: завантаження, помилка (з кнопкою повтору), «місто не знайдено», немає інтернету.</label></li>
+<li><input type="checkbox" id="p4-4"><label for="p4-4">Debounce пошуку і захист від race condition (AbortController).</label></li>
+<li><input type="checkbox" id="p4-5"><label for="p4-5">Знайти свій API-ключ у зібраному коді в DevTools. Записати, чому це проблема (вирішимо в P6).</label></li>
+<li><input type="checkbox" id="p4-6"><label for="p4-6">Кеш останніх запитів, °C/°F, збереження улюблених міст.</label></li>
+<li><input type="checkbox" id="p4-7"><label for="p4-7">Тести компонентів (React Testing Library), деплой.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li><b>Ключ у фронтенді видно всім</b> — <code>VITE_…</code> змінні НЕ секретні. Секретні ключі — тільки на сервері (міст до P6).</li>
+<li>Немає обробки помилки — один збій мережі, і білий екран.</li>
+<li>Запит на кожну літеру — вичерпали безкоштовний ліміт за годину.</li>
+<li><code>useEffect</code> без масиву залежностей — нескінченний цикл запитів.</li>
+<li>Мутація стану напряму (<code>state.push</code>) — React не бачить змін.</li>
+<li>«CORS-помилка» — це не баг твого коду, а правило браузера. Вирішується на сервері, не «вимкненням CORS».</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Усі стани обробляються, апка не падає без інтернету.</li>
+<li>Немає зайвих запитів (debounce), стара відповідь не перезаписує нову.</li>
+<li>Тести, деплой, README з описом ризику ключа.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Чим 401 відрізняється від 403? А 429?</li>
+<li>Що таке race condition на прикладі пошуку?</li>
+<li>Чому <code>VITE_API_KEY</code> не є секретом?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://fullstackopen.com/en/">Full Stack Open</a> (частини 0–2) · <a href="https://react.dev/learn">react.dev Learn</a> · <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP">MDN HTTP</a> · <a href="https://javascript.info/async">javascript.info: Promises, async/await</a> · <a href="https://open-meteo.com/">Open-Meteo</a> (безкоштовне API без ключа)</p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== P5 ===================== -->
+<section class="proj" id="p5" style="--c:var(--l2)" data-proj="p5">
+<div class="proj-head"><h2>P5 · Telegram-бот</h2><span class="tag">Рівень 2 · ~3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> перший серверний код, що працює 24/7 без тебе. Боти часто замовляють (запис, нагадування, сповіщення). І він знадобиться далі: алерти з P9 приходитимуть тобі в Telegram.</p>
+<h3>Як бот отримує повідомлення: два способи</h3>
+<pre class="mermaid">
+sequenceDiagram
+  participant T as Сервери Telegram
+  participant B as Твій бот
+  Note over T,B: Long polling — бот сам питає (простіше, для старту)
+  loop постійно
+    B->>T: getUpdates — «є щось нове?»
+    T-->>B: нові повідомлення або чекаємо до 30 с
+  end
+  Note over T,B: Webhook — Telegram сам стукає (для проду / serverless)
+  T->>B: POST https://твій-домен/bot + секретний заголовок
+  B-->>T: 200 OK (швидко!)
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Node.js, npm, TypeScript</td><td>JavaScript поза браузером + типи, щоб ловити помилки раніше.</td></tr>
+<tr><td>Змінні середовища, <code>.env</code></td><td>Токен бота — поза кодом.</td></tr>
+<tr><td>Bot API, grammY, команди, кнопки</td><td>Як бот приймає і відправляє повідомлення.</td></tr>
+<tr><td>Long polling vs webhook</td><td>Бот питає сам чи Telegram стукає до нього (схема вище).</td></tr>
+<tr><td>Стан діалогу (сцени / FSM)</td><td>Бот пам'ятає, на якому кроці розмови людина.</td></tr>
+<tr><td>SQLite</td><td>Перша справжня база — один файл.</td></tr>
+<tr><td>Хостинг 24/7: VPS + systemd / Docker, Railway, Fly.io</td><td>Комп'ютер в інтернеті, який не вимикається, і автоперезапуск при падінні.</td></tr>
+<tr><td>Ліміти Telegram, черга розсилки</td><td>~1 повідомлення/с в один чат, 20/хв у групу, ~30/с загалом. Більше — помилка 429.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="p5-1"><label for="p5-1">Створити бота через @BotFather, токен — у <code>.env</code>, <code>.env</code> — у <code>.gitignore</code>.</label></li>
+<li><input type="checkbox" id="p5-2"><label for="p5-2">Бот-нагадувач: <code>/start</code>, <code>/add</code>, <code>/list</code>, <code>/delete</code>, кнопки, діалог по кроках.</label></li>
+<li><input type="checkbox" id="p5-3"><label for="p5-3">Зберігати в SQLite, нагадування за розкладом (і переживати рестарт).</label></li>
+<li><input type="checkbox" id="p5-4"><label for="p5-4">Обробка помилок: одне дивне повідомлення не має класти весь бот. Логи.</label></li>
+<li><input type="checkbox" id="p5-5"><label for="p5-5">Адмін-команда <code>/stats</code> і розсилка — тільки для твого Telegram ID, з чергою і повагою до 429 <code>retry_after</code>.</label></li>
+<li><input type="checkbox" id="p5-6"><label for="p5-6">Обробити користувачів, які заблокували бота (помилка 403).</label></li>
+<li><input type="checkbox" id="p5-7"><label for="p5-7">Задеплоїти на VPS або Railway/Fly з автоперезапуском. Переключити на webhook з <code>secret_token</code>.</label></li>
+<li><input type="checkbox" id="p5-8"><label for="p5-8">README: як розгорнути з нуля, які змінні потрібні.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li><b>Токен у коді чи на скріншоті</b> — хтось перехоплює бота. Лікування: <code>/revoke</code> у BotFather.</li>
+<li>Два запущені екземпляри з polling — Telegram дає 409 Conflict, бот «глючить». Polling і webhook разом теж не можна.</li>
+<li>Немає try/catch навколо обробника — один збій кладе бота назавжди (поки руками не перезапустиш).</li>
+<li>Безкоштовні хостинги «засинають» — polling-бот перестає відповідати.</li>
+<li>Розсилка циклом без пауз — 429, а то й бан. Потрібна черга.</li>
+<li>Адмін-команди без перевірки ID — будь-хто робить розсилку від твого імені.</li>
+<li>Webhook без перевірки заголовка <code>X-Telegram-Bot-Api-Secret-Token</code> — будь-хто може слати фейкові оновлення.</li>
+<li>Збираєш телефони/імена — це персональні дані (RGPD): потрібна політика і можливість видалити.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Бот працює 24/7, переживає рестарт сервера, нагадування не губляться.</li>
+<li>Токен ніде в Git, адмін-команди захищені, розсилка через чергу.</li>
+<li>Є логи і README «як розгорнути з нуля».</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Коли polling, а коли webhook?</li>
+<li>Бот перестав відповідати. Назви 4 місця, куди подивишся.</li>
+<li>Що станеться при розсилці на 5000 людей циклом без черги?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://core.telegram.org/bots/api">Telegram Bot API</a> · <a href="https://core.telegram.org/bots/faq">Bots FAQ (ліміти)</a> · <a href="https://grammy.dev">grammY</a> (гайди по деплою й polling vs webhook) · <a href="https://discordjs.guide">discord.js guide</a> (те саме для Discord: slash-команди, відповідь за 3 с)</p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== P6 ===================== -->
+<section class="proj" id="p6" style="--c:var(--l2)" data-proj="p6">
+<div class="proj-head"><h2>P6 · Свій сервер: REST API + база даних</h2><span class="tag">Рівень 2 · ~4–5 тижнів</span></div>
+<p class="why"><b>Навіщо:</b> серце будь-якої серйозної апки. Тут todo з P3 переїжджає з браузера на сервер, а ключ погоди з P4 ховається за твій сервер.</p>
+<h3>Архітектура full-stack апки</h3>
+<pre class="mermaid">
+flowchart LR
+  U[Браузер / телефон] -->|HTTPS запит| API
+  subgraph Сервер
+    API[REST API<br/>маршрути] --> MW[Middleware<br/>логи, ліміти, auth] --> V[Валідація] --> L[Логіка]
+  end
+  L -->|SQL| DB[(PostgreSQL)]
+  L -->|з секретним ключем| EXT[Чужі API<br/>погода, email]
+  L -->|JSON відповідь| U
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Express 5 або Fastify, маршрути, middleware</td><td>Сервер: «на такий запит — така відповідь», і «фільтри» по дорозі.</td></tr>
+<tr><td>REST: ресурси, методи, коди, пагінація, формат помилок</td><td>Домовленість, як влаштовувати адреси API, щоб усі розуміли.</td></tr>
+<tr><td>Валідація (zod)</td><td>Сервер перевіряє все, що прийшло. Довіряти клієнту не можна.</td></tr>
+<tr><td>SQL: SELECT, INSERT, UPDATE, DELETE, JOIN, GROUP BY</td><td>Мова, якою питаєш базу даних.</td></tr>
+<tr><td>Схема, ключі, зв'язки, обмеження (constraints)</td><td>Як розкласти дані по таблицях, щоб не було бардаку.</td></tr>
+<tr><td>Індекси, <code>EXPLAIN</code></td><td>«Зміст книжки» для бази. Без нього на великих даних усе повільно.</td></tr>
+<tr><td>Транзакції</td><td>Кілька дій «все або нічого» (списали з одного рахунку — зарахували на інший).</td></tr>
+<tr><td>Міграції, ORM (Prisma / Drizzle)</td><td>Зміни структури бази як код, по кроках, з історією.</td></tr>
+<tr><td>Тести API, OpenAPI-документація</td><td>Автоматична перевірка і «інструкція» до твого API.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="p6-1"><label for="p6-1">Пройти SQLBolt повністю. Написати 10 запитів до своєї тестової бази.</label></li>
+<li><input type="checkbox" id="p6-2"><label for="p6-2">Спроєктувати схему (users, projects, tasks) на папері: ключі, зв'язки, що обов'язкове.</label></li>
+<li><input type="checkbox" id="p6-3"><label for="p6-3">PostgreSQL локально (Docker), міграції, seed-дані.</label></li>
+<li><input type="checkbox" id="p6-4"><label for="p6-4">REST API для todo: CRUD, пагінація, фільтри, валідація zod, єдиний формат помилок.</label></li>
+<li><input type="checkbox" id="p6-5"><label for="p6-5">Проксі для погоди з P4: ключ тільки на сервері, кеш відповідей, таймаут на чужий API.</label></li>
+<li><input type="checkbox" id="p6-6"><label for="p6-6">Спробувати SQL injection на навмисно поганому endpoint, потім виправити параметризованим запитом.</label></li>
+<li><input type="checkbox" id="p6-7"><label for="p6-7">Залити 100 000 рядків, знайти повільний запит через <code>EXPLAIN</code>, додати індекс, порівняти час.</label></li>
+<li><input type="checkbox" id="p6-8"><label for="p6-8">Інтеграційні тести API, OpenAPI-опис. Фронт з P3 працює через це API.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li><b>SQL injection</b> — склеювання запиту з тексту користувача. Тільки параметризовані запити.</li>
+<li>Повертати 200 на помилку, або віддавати клієнту stack trace (показує внутрішність сервера).</li>
+<li>Немає пагінації — один запит тягне всю таблицю і кладе сервер.</li>
+<li>N+1 запитів (для кожного з 100 проєктів окремий запит за задачами).</li>
+<li>Немає таймауту на чужий API — він «завис», і твій сервер висить разом з ним.</li>
+<li>Дати без часових поясів — зберігай у UTC, показуй у часі користувача. В Іспанії двічі на рік змінюється час.</li>
+<li>Блокуюча операція в Node (важкий цикл) — сервер не відповідає нікому.</li>
+<li>Змінюєш базу руками на проді, без міграції — інші середовища розходяться.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>CRUD API з валідацією і правильними кодами, пагінацією, єдиним форматом помилок.</li>
+<li>Міграції відтворюють базу з нуля однією командою. Є тести і OpenAPI.</li>
+<li>Секретний ключ погоди тільки на сервері.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Що таке індекс і коли він шкодить?</li>
+<li>Навіщо транзакція, якщо можна виконати два запити підряд?</li>
+<li>Покажи на прикладі, як виглядає SQL injection і як від неї захищає параметризований запит.</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://fullstackopen.com/en/part3">Full Stack Open ч. 3–4, 13</a> · <a href="https://sqlbolt.com">SQLBolt</a> · <a href="https://www.postgresql.org/docs/current/tutorial.html">PostgreSQL tutorial</a> · <a href="https://use-the-index-luke.com">Use The Index, Luke</a> · <a href="https://roadmap.sh/backend">roadmap.sh Backend</a> · <a href="https://opensource.zalando.com/restful-api-guidelines/">Zalando REST guidelines</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== P7 ===================== -->
+<section class="proj" id="p7" style="--c:var(--l2)" data-proj="p7">
+<div class="proj-head"><h2>P7 · Акаунти: реєстрація, логін, ролі</h2><span class="tag">Рівень 2 · ~3–4 тижні</span></div>
+<p class="why"><b>Навіщо:</b> щойно з'являються акаунти, з'являються люди, які хочуть залізти в чужі. Найчастіші дірки в реальних апках саме тут.</p>
+<h3>Автентифікація vs авторизація</h3>
+<pre class="mermaid">
+flowchart TD
+  R[Запит: GET /api/orders/16] --> A{Автентифікація<br/>ХТО ти?<br/>є валідна сесія?}
+  A -->|ні| E401[401 Unauthorized]
+  A -->|так, ти user 7| Z{Авторизація<br/>ЧИ МОЖНА тобі?<br/>замовлення 16 належить user 7<br/>або ти адмін?}
+  Z -->|ні| E403[403 / 404]
+  Z -->|так| OK[200 + дані]
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Хешування паролів (argon2id / bcrypt)</td><td>Пароль зберігається як «відбиток», з якого не відновиш пароль.</td></tr>
+<tr><td>Сесії і cookies (<code>HttpOnly</code>, <code>Secure</code>, <code>SameSite</code>)</td><td>Після логіну браузер тримає «пропуск», який JavaScript вкрасти не може.</td></tr>
+<tr><td>JWT — і коли він не потрібен</td><td>Підписаний «квиток». Зручно між сервісами, але його важко відкликати.</td></tr>
+<tr><td>OAuth 2.0 / OpenID Connect</td><td>«Увійти через Google / Apple».</td></tr>
+<tr><td>Ролі, перевірка власника ресурсу</td><td>Адмін бачить усе, користувач — тільки своє.</td></tr>
+<tr><td>Підтвердження email, скидання пароля, 2FA (TOTP)</td><td>Посилання, що згорають, і другий фактор (код з апки).</td></tr>
+<tr><td>Rate limit на логін, CSRF</td><td>Захист від перебору паролів і від «чужих» форм.</td></tr>
+<tr><td>Готові рішення (Auth.js, Supabase Auth, Clerk)</td><td>Часто краще не писати самому — але треба розуміти, що вони роблять.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="p7-1"><label for="p7-1">Реєстрація і логін на сесіях з правильними прапорцями cookies.</label></li>
+<li><input type="checkbox" id="p7-2"><label for="p7-2">Паролі через argon2id. Подивитись у базу: що там лежить?</label></li>
+<li><input type="checkbox" id="p7-3"><label for="p7-3">Кожна задача з P6 належить користувачу. Тест: user A не може читати/міняти задачі user B (IDOR).</label></li>
+<li><input type="checkbox" id="p7-4"><label for="p7-4">Роль admin з окремою сторінкою. Перевірка ролі на сервері, а не тільки сховати кнопку.</label></li>
+<li><input type="checkbox" id="p7-5"><label for="p7-5">Скидання пароля: одноразове посилання з терміном дії, однакова відповідь «якщо email існує — ми надіслали».</label></li>
+<li><input type="checkbox" id="p7-6"><label for="p7-6">Ліміт спроб логіну, 2FA для адміна.</label></li>
+<li><input type="checkbox" id="p7-7"><label for="p7-7">«Увійти через Google» (OAuth) і видалення акаунта (RGPD).</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li><b>IDOR</b> — найчастіша дірка: перевірили «залогінений», але не «це ЙОГО запис». Міняєш <code>/orders/15</code> на <code>/orders/16</code> — бачиш чуже.</li>
+<li>Ролі перевіряються тільки на фронті — запит напряму обходить усе.</li>
+<li>JWT у localStorage — будь-який XSS його краде. JWT без терміну дії — вічний пропуск.</li>
+<li>«Користувача з таким email немає» — підказка зловмиснику, які email зареєстровані.</li>
+<li>Посилання скидання пароля без терміну дії і багаторазове.</li>
+<li>Паролі або токени в логах.</li>
+<li>«Напишемо свою криптографію» — ні, ніколи.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Тести на «чужий ресурс → 403/404» проходять для кожного endpoint.</li>
+<li>Логін має ліміт спроб, скидання пароля одноразове і згорає, cookies з правильними прапорцями.</li>
+<li>Акаунт можна видалити разом з даними.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Різниця між автентифікацією і авторизацією на прикладі банку.</li>
+<li>Чому хеш, а не шифрування паролів?</li>
+<li>Як перевірити свій API на IDOR за 5 хвилин?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html">OWASP Authentication</a>, <a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html">Password Storage</a>, <a href="https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html">Session Management</a> · <a href="https://thecopenhagenbook.com">The Copenhagen Book</a> · <a href="https://www.theodinproject.com/paths/full-stack-javascript/courses/nodejs">Odin NodeJS (Members Only)</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== P8 ===================== -->
+<section class="proj" id="p8" style="--c:var(--l2)" data-proj="p8">
+<div class="proj-head"><h2>P8 · Деплой як у дорослих: Linux, Docker, CI/CD</h2><span class="tag">Рівень 2 · ~3–4 тижні</span></div>
+<p class="why"><b>Навіщо:</b> «працює у мене на ноуті» нікому не потрібно. Тут ти вчишся, як код безпечно і автоматично потрапляє на сервер і як нічого не втратити.</p>
+<h3>Конвеєр від push до проду</h3>
+<pre class="mermaid">
+flowchart LR
+  G[git push] --> CI[GitHub Actions]
+  CI --> L[Лінтер +<br/>типи] --> T[Тести] --> B[Збірка<br/>Docker-образу]
+  B --> S[Staging<br/>тестова копія] --> C{Перевірив?}
+  C -->|так| P[Production]
+  C -->|ні| X[Стоп, фікс]
+  P -.->|щось не так| RB[Rollback<br/>попередня версія]
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Linux: ssh, права, процеси, systemd, <code>journalctl</code></td><td>Керувати сервером віддалено і бачити, що там відбувається.</td></tr>
+<tr><td>Docker: image, container, volume, compose</td><td>«Коробка» з апкою і всім потрібним — працює однаково всюди.</td></tr>
+<tr><td>Середовища: dev / staging / production</td><td>Де ламати можна, а де — ні.</td></tr>
+<tr><td>Секрети на сервері і в CI</td><td>Ключі не в коді і не в образі Docker.</td></tr>
+<tr><td>GitHub Actions</td><td>Робот, який після кожного push перевіряє і деплоїть.</td></tr>
+<tr><td>DNS-записи (A, CNAME, MX, TXT), Caddy / Nginx, HTTPS</td><td>Як домен веде на сервер, і хто роздає HTTPS.</td></tr>
+<tr><td>Бекапи і відновлення</td><td>Копія бази щодня — і перевірка, що з неї реально відновлюється.</td></tr>
+<tr><td>Rollback, оповіщення про рахунки в хмарі</td><td>Швидко повернути стару версію і не отримати рахунок на 500 €.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="p8-1"><label for="p8-1">Пройти перші 10–15 рівнів OverTheWire Bandit (Linux у вигляді гри).</label></li>
+<li><input type="checkbox" id="p8-2"><label for="p8-2">Dockerfile для API з P6/P7 + <code>docker compose</code> з PostgreSQL і volume.</label></li>
+<li><input type="checkbox" id="p8-3"><label for="p8-3">VPS: вхід тільки по SSH-ключу, не під root, firewall (відкриті тільки 22, 80, 443).</label></li>
+<li><input type="checkbox" id="p8-4"><label for="p8-4">Caddy перед апкою з автоматичним HTTPS на своєму домені.</label></li>
+<li><input type="checkbox" id="p8-5"><label for="p8-5">GitHub Actions: lint → test → build → deploy. Червоний тест = немає деплою.</label></li>
+<li><input type="checkbox" id="p8-6"><label for="p8-6">Staging-середовище окремо від production.</label></li>
+<li><input type="checkbox" id="p8-7"><label for="p8-7">Щоденний бекап бази в інше місце. <b>Навчання з відновлення:</b> підняти базу з бекапу з нуля, заміряти час.</label></li>
+<li><input type="checkbox" id="p8-8"><label for="p8-8">Відкат на попередню версію однією командою. README «як розгорнути з нуля».</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li><b>Бекап, який ніхто не пробував відновити</b> — це не бекап, а надія.</li>
+<li>База в контейнері без volume — перезапуск, і даних немає.</li>
+<li>Порт бази 5432 відкритий в інтернет — знайдуть боти за години.</li>
+<li>Секрети в Dockerfile або в образі. Тег <code>latest</code> — не знаєш, яка версія насправді працює.</li>
+<li>Деплой у п'ятницю ввечері без плану відкату.</li>
+<li>Немає ліміту/алерту на рахунки в хмарі — «сюрприз» в кінці місяця.</li>
+<li>Kubernetes «бо всі так роблять» — для малого проєкту це зайва складність.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li><code>git push</code> → тести → деплой автоматично; падіння тестів зупиняє деплой.</li>
+<li>Є staging і production, HTTPS, firewall, вхід по ключу.</li>
+<li>Бекап щодня + перевірене відновлення із заміряним часом.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Чим образ (image) відрізняється від контейнера?</li>
+<li>Сервер згорів. Скільки часу підніматимеш усе з нуля і з чого почнеш?</li>
+<li>Навіщо staging, якщо є тести?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://missing.csail.mit.edu">MIT Missing Semester</a> · <a href="https://linuxjourney.com">Linux Journey</a> · <a href="https://overthewire.org/wargames/bandit/">OverTheWire Bandit</a> · <a href="https://docs.docker.com/get-started/">Docker Get Started</a> · <a href="https://docs.github.com/actions">GitHub Actions</a> · <a href="https://fullstackopen.com/en/part11">Full Stack Open ч. 11–12</a> · <a href="https://roadmap.sh/devops">roadmap.sh DevOps</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== P9 ===================== -->
+<section class="proj" id="p9" style="--c:var(--l2)" data-proj="p9">
+<div class="proj-head"><h2>P9 · «Щось впало»: логи, моніторинг, інциденти</h2><span class="tag">Рівень 2 · ~3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> усе колись падає. Різниця між джуном і досвідченим — досвідчений знає, куди дивитись, і дізнається про падіння раніше за клієнта. Схема «де шукати» — у <a href="#vpalo">довіднику</a>.</p>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Структуровані логи (JSON), рівні, request ID</td><td>Журнал, де кожен запис можна знайти і зв'язати з конкретним запитом.</td></tr>
+<tr><td>Error tracking (Sentry)</td><td>Кожна помилка в коді приходить тобі з деталями: де, у кого, як часто.</td></tr>
+<tr><td>Метрики: 4 «золоті сигнали» — затримка, трафік, помилки, насиченість</td><td>Чотири цифри, які кажуть, чи здоровий сервіс.</td></tr>
+<tr><td>Uptime-моніторинг і алерти</td><td>Хтось ззовні перевіряє сайт щохвилини і пише тобі, якщо він ліг.</td></tr>
+<tr><td>Трасування (OpenTelemetry) — на рівні «знаю, що це»</td><td>Шлях одного запиту через усі сервіси, з часом на кожному кроці.</td></tr>
+<tr><td>Методика дебагу, <code>git bisect</code></td><td>Відтворити → звузити → гіпотеза → перевірка → фікс → тест, щоб не повторилось.</td></tr>
+<tr><td>Інцидент: спочатку відновити, потім шукати причину. Runbook. Postmortem без пошуку винних</td><td>Як гасити пожежу і як зробити так, щоб вона не повторилась.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="p9-1"><label for="p9-1">JSON-логи з request ID в API. Перевірити: паролів і персональних даних у логах немає.</label></li>
+<li><input type="checkbox" id="p9-2"><label for="p9-2">Підключити Sentry до фронту і бекенду.</label></li>
+<li><input type="checkbox" id="p9-3"><label for="p9-3">Uptime-моніторинг (UptimeRobot / Better Stack) з алертом у Telegram — через бот з P5.</label></li>
+<li><input type="checkbox" id="p9-4"><label for="p9-4">Endpoint <code>/health</code> (перевіряє і базу), дашборд з 4 золотими сигналами.</label></li>
+<li><input type="checkbox" id="p9-5"><label for="p9-5"><b>Game day:</b> Claude або друг навмисно ламає апку (впала база, заповнений диск, неправильна змінна середовища, повільний запит, витік пам'яті). Ти знаходиш причину за логами.</label></li>
+<li><input type="checkbox" id="p9-6"><label for="p9-6">Написати runbook на 5 типових аварій: симптом → де дивитись → що робити.</label></li>
+<li><input type="checkbox" id="p9-7"><label for="p9-7">Написати postmortem по одній аварії з game day.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Логів немає або вони без контексту («Error: something went wrong»).</li>
+<li>Паролі, токени, номери документів у логах — порушення безпеки і RGPD.</li>
+<li>Алертів забагато — їх перестають читати. Алерт має бути на те, що відчуває користувач, а не на «CPU 70%».</li>
+<li>Дебажити на проді годину замість відкату за хвилину.</li>
+<li>«Перезапустив — пройшло» без пошуку причини. Повториться в найгірший момент.</li>
+<li>Логи заповнюють диск і самі кладуть сервер (немає ротації).</li>
+<li>Postmortem «хто винен» — люди починають приховувати помилки.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Про падіння ти дізнаєшся з Telegram раніше, ніж від користувача.</li>
+<li>Будь-який запит знаходиться в логах за request ID; помилки — в Sentry.</li>
+<li>Є runbook на 5 аварій і один postmortem.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Сайт повільний з 14:00. Твої перші 3 кроки?</li>
+<li>Що перше: знайти причину чи відновити роботу? Чому?</li>
+<li>Що таке 4 золоті сигнали?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://sre.google/books/">Google SRE Book</a> (розділи Monitoring Distributed Systems, Effective Troubleshooting, Managing Incidents, Postmortem Culture) · <a href="https://response.pagerduty.com">PagerDuty Incident Response</a> · <a href="https://github.com/danluu/post-mortems">Збірка реальних postmortem</a> · <a href="https://opentelemetry.io/docs/">OpenTelemetry</a> · <a href="https://docs.sentry.io">Sentry docs</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== P10 ===================== -->
+<section class="proj" id="p10" style="--c:var(--l2)" data-proj="p10">
+<div class="proj-head"><h2>P10 · Перенесення даних: імпорт, експорт, міграція</h2><span class="tag">Рівень 2 · ~2–3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> «перенести клієнтів з Excel у нову систему», «переїхати з Firebase на PostgreSQL» — дуже часті задачі. Помилка тут = втрачені або зіпсовані дані, і помічають це через місяць.</p>
+<pre class="mermaid">
+flowchart LR
+  S[(Джерело<br/>CSV / Excel / стара БД)] --> BK[0. Бекап<br/>обох сторін]
+  BK --> E[1. Extract<br/>читаємо потоком]
+  E --> T[2. Transform<br/>чистимо, перевіряємо,<br/>кодування, дати, дублікати]
+  T --> BAD[Звіт про<br/>погані рядки]
+  T --> LD[3. Load<br/>батчами, upsert —<br/>можна запускати повторно]
+  LD --> D[(Ціль<br/>PostgreSQL)]
+  D --> CK[4. Перевірка<br/>кількість, суми, вибірка]
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Формати: CSV, JSON, Excel; кодування UTF-8</td><td>Як дані виглядають у файлах і чому з'являються «кракозябри».</td></tr>
+<tr><td>ETL: extract → transform → load</td><td>Дістати, привести до ладу, завантажити.</td></tr>
+<tr><td>Потокова обробка (streams), батчі</td><td>Великий файл читаємо шматками, а не весь у пам'ять.</td></tr>
+<tr><td>Ідемпотентні скрипти, upsert</td><td>Скрипт можна запустити ще раз — і дублікатів не буде.</td></tr>
+<tr><td><code>pg_dump</code> / <code>pg_restore</code></td><td>Повна копія бази і відновлення.</td></tr>
+<tr><td>Міграція без простою: expand → migrate → contract</td><td>Додати нове, перенести, і тільки потім видалити старе.</td></tr>
+<tr><td>Перевірка: кількість рядків, контрольні суми</td><td>Довести, що нічого не загубилось.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="p10-1"><label for="p10-1">Згенерувати «брудний» CSV на 100 000 клієнтів: різні формати дат, <code>1.234,56</code>, ñ/á, дублікати, порожні поля.</label></li>
+<li><input type="checkbox" id="p10-2"><label for="p10-2">Скрипт імпорту потоком у PostgreSQL з валідацією і звітом про погані рядки.</label></li>
+<li><input type="checkbox" id="p10-3"><label for="p10-3">Запустити скрипт двічі — дублікатів немає (upsert).</label></li>
+<li><input type="checkbox" id="p10-4"><label for="p10-4">Перервати скрипт посередині і продовжити — дані цілі.</label></li>
+<li><input type="checkbox" id="p10-5"><label for="p10-5">Перевірка після імпорту: кількості, суми, випадкова вибірка проти джерела.</label></li>
+<li><input type="checkbox" id="p10-6"><label for="p10-6">Перенести базу бота з SQLite (P5) у PostgreSQL з планом відкату.</label></li>
+<li><input type="checkbox" id="p10-7"><label for="p10-7">Перейменувати колонку на «живій» базі без простою (expand → contract).</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Кодування: «EspaÃ±a» замість «España». Excel зберігає CSV не в UTF-8.</li>
+<li><code>01/02/2026</code> — 1 лютого (Іспанія) чи 2 січня (США)? Числа <code>1.234,56</code> vs <code>1,234.56</code>.</li>
+<li>Скрипт впав на половині — половина даних в базі, половина ні.</li>
+<li>Немає бекапу перед міграцією — немає дороги назад.</li>
+<li>Файл на 2 ГБ читаємо цілком — пам'ять закінчилась.</li>
+<li>NULL vs порожній рядок vs «0» — різні речі.</li>
+<li>Дамп з персональними даними відправили в Telegram або на пошту. Персональні дані переносяться тільки захищено (RGPD).</li>
+<li>Видалили стару колонку одразу — стара версія апки ще працює і падає.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Імпорт 100 000 рядків потоком, зі звітом про помилки, повторний запуск безпечний.</li>
+<li>Перевірка кількостей і сум сходиться, є бекап і перевірений відкат.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Що таке ідемпотентний скрипт і навіщо він при міграції?</li>
+<li>Як довести замовнику, що нічого не загубилось?</li>
+<li>Чому не можна перейменувати колонку одним кроком на живій системі?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://www.postgresql.org/docs/current/backup.html">PostgreSQL: Backup and Restore</a> · <a href="https://github.com/ankane/strong_migrations">Strong Migrations</a> (каталог небезпечних міграцій) · <a href="https://nodejs.org/en/learn">Node.js Learn</a> (streams)</p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== P11 ===================== -->
+<section class="proj" id="p11" style="--c:var(--l3)" data-proj="p11">
+<div class="proj-head"><h2>P11 · Оплата і підписка (Stripe, тестовий режим)</h2><span class="tag">Рівень 3 · ~4 тижні</span></div>
+<p class="why"><b>Навіщо:</b> де гроші — там будуть спроби їх вкрасти або отримати послугу безкоштовно. Помилка тут коштує реальних грошей. Тому — тільки тестовий режим і максимум уваги.</p>
+<h3>Правильний потік оплати</h3>
+<pre class="mermaid">
+sequenceDiagram
+  participant U as Користувач
+  participant F as Фронт
+  participant S as Твій сервер
+  participant P as Stripe
+  U->>F: «Оформити підписку»
+  F->>S: POST /checkout (тільки ID тарифу, НЕ ціна)
+  S->>P: створити Checkout Session (ціна з сервера)
+  P-->>S: URL сторінки оплати
+  S-->>F: redirect
+  U->>P: вводить картку на сторінці Stripe (3-D Secure)
+  P-->>U: redirect на /success (НЕ доказ оплати!)
+  P->>S: webhook: checkout.session.completed (з підписом)
+  S->>S: перевірити підпис → чи вже обробляли event.id?
+  S->>S: в БД: підписка active
+  S-->>P: 200 OK (швидко)
+  Note over S: доступ дає тільки стан у БД, оновлений вебхуком
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>PCI DSS: не торкатися номерів карток</td><td>Картку вводять на сторінці Stripe. У тебе її ніколи немає — і це захищає тебе.</td></tr>
+<tr><td>Checkout, Customer, Product/Price, Subscription, Invoice</td><td>З чого складається платіжна система.</td></tr>
+<tr><td>Статуси підписки: trialing, active, past_due, canceled</td><td>Життя підписки: пробна, активна, не оплачена, скасована.</td></tr>
+<tr><td><b>Вебхуки</b>: підпис, повтори, порядок не гарантований</td><td>Stripe сам повідомляє про оплату. Тільки цьому можна вірити.</td></tr>
+<tr><td><b>Ідемпотентність</b>: <code>Idempotency-Key</code>, таблиця оброблених event.id</td><td>Те саме повідомлення прийшло двічі — гроші зарахуються один раз.</td></tr>
+<tr><td>SCA / 3-D Secure (PSD2 в ЄС)</td><td>Підтвердження платежу в апці банку — в Європі обов'язкове.</td></tr>
+<tr><td>Customer Portal, невдалі оплати (dunning), повернення, спори (chargeback)</td><td>Що буде, коли щось іде не за планом.</td></tr>
+<tr><td>IVA, рахунки (factura), Stripe Tax</td><td>Податки в Іспанії/ЄС залежать від країни покупця.</td></tr>
+<tr><td>Stripe CLI, test clocks</td><td>Тестувати вебхуки локально і «перемотувати час» на місяць уперед.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="p11-1"><label for="p11-1">Тестовий акаунт Stripe. Два тарифи (місяць / рік) з пробним періодом.</label></li>
+<li><input type="checkbox" id="p11-2"><label for="p11-2">Checkout Session на сервері, ціна тільки з сервера.</label></li>
+<li><input type="checkbox" id="p11-3"><label for="p11-3">Webhook-обробник: перевірка підпису (сире тіло запиту!), швидка відповідь 200, обробка в черзі.</label></li>
+<li><input type="checkbox" id="p11-4"><label for="p11-4">Таблиця оброблених подій. Тест: надіслати той самий вебхук 3 рази — зарахування одне.</label></li>
+<li><input type="checkbox" id="p11-5"><label for="p11-5">Доступ до premium тільки за станом у БД. Спробувати «обдурити»: відкрити /success руками, змінити ціну у запиті.</label></li>
+<li><input type="checkbox" id="p11-6"><label for="p11-6">Test clocks: пробний період → оплата → продовження → невдала оплата → past_due → скасування.</label></li>
+<li><input type="checkbox" id="p11-7"><label for="p11-7">Customer Portal (зміна картки, скасування), повернення коштів, тестова картка з 3-D Secure.</label></li>
+<li><input type="checkbox" id="p11-8"><label for="p11-8">Журнал усіх платіжних подій (аудит). Тести саме на гроші.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li><b>Доступ за redirect на /success</b> — сторінку можна відкрити руками. Доступ — тільки з вебхука.</li>
+<li><b>Вебхук без перевірки підпису</b> — будь-хто «оплатить» POST-запитом. Фреймворк, що парсить JSON до перевірки, ламає підпис.</li>
+<li><b>Подвійне зарахування</b> — Stripe повторює вебхуки. Без ідемпотентності гроші/бонуси нараховуються двічі.</li>
+<li>Ціна приходить з фронтенду — її міняють на 0,01 €.</li>
+<li>Не обробили past_due / canceled — люди користуються безкоштовно місяцями.</li>
+<li>Сплутали тестові і живі ключі. Секретний ключ на фронтенді.</li>
+<li>Події приходять не по порядку (спочатку «оновлено», потім «створено»).</li>
+<li>Покупки всередині мобільної апки — свої правила App Store / Google Play і комісія. Правила змінюються (DMA в ЄС) — перевіряти перед проєктом.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Повний цикл підписки пройдено в test mode, включно з невдалою оплатою і скасуванням.</li>
+<li>Підпис вебхука перевіряється, повторні вебхуки не дублюють зарахування — є тести.</li>
+<li>Обійти оплату через /success або зміну ціни не вдається.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Чому redirect на /success — не доказ оплати?</li>
+<li>Що таке ідемпотентність на прикладі вебхука?</li>
+<li>Оплата не пройшла при продовженні. Що бачить користувач і що робить твоя система?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://docs.stripe.com/billing/subscriptions/overview">Stripe Subscriptions</a> · <a href="https://docs.stripe.com/webhooks">Webhooks</a> · <a href="https://docs.stripe.com/api/idempotent_requests">Idempotent requests</a> · <a href="https://docs.stripe.com/billing/testing/test-clocks">Test clocks</a> · <a href="https://docs.stripe.com/stripe-cli">Stripe CLI</a> · <a href="https://github.com/stripe-samples">stripe-samples</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== P12 ===================== -->
+<section class="proj" id="p12" style="--c:var(--l3)" data-proj="p12">
+<div class="proj-head"><h2>P12 · Чат у реальному часі (WebSockets)</h2><span class="tag">Рівень 3 · ~4 тижні</span></div>
+<p class="why"><b>Навіщо:</b> чат, трекінг кур'єра, сповіщення, ставки, котирування. З'єднання постійно рвуться, сервер має витримати тисячі одночасних підключень і не губити повідомлення.</p>
+<h3>Чому один сервер — це проблема</h3>
+<pre class="mermaid">
+flowchart LR
+  A[Аня] <-->|WebSocket| S1[Сервер 1]
+  B[Богдан] <-->|WebSocket| S2[Сервер 2]
+  S1 <-->|pub/sub| R[(Redis)]
+  S2 <-->|pub/sub| R
+  S1 --> DB[(PostgreSQL<br/>історія)]
+  S2 --> DB
+  LB[Балансувальник] -.-> S1
+  LB -.-> S2
+</pre>
+<p class="note">Без Redis Аня пише на сервер 1, а Богдан підключений до сервера 2 — і не отримує повідомлення. Redis пересилає повідомлення між серверами.</p>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Polling vs long polling vs SSE vs WebSocket</td><td>Від «питати щосекунди» до «постійно відкритої труби». Коли що підходить.</td></tr>
+<tr><td>Socket.IO / ws, кімнати, присутність (online)</td><td>Хто в якому чаті і хто зараз онлайн.</td></tr>
+<tr><td>Аутентифікація з'єднання, права на кімнату</td><td>Не кожен може слухати будь-який чат.</td></tr>
+<tr><td>Heartbeat (ping/pong), перепідключення з backoff + jitter</td><td>Перевірка, що з'єднання живе, і розумне перепідключення.</td></tr>
+<tr><td>Порядок, дублікати, підтвердження (ack), дотягування пропущеного</td><td>Повідомлення не губляться і не дублюються після обриву.</td></tr>
+<tr><td>Масштабування: Redis pub/sub, sticky sessions, балансувальник</td><td>Кілька серверів працюють як один.</td></tr>
+<tr><td>Backpressure, rate limit повідомлень, graceful shutdown</td><td>Повільний клієнт не гальмує всіх; деплой не рве всіх грубо.</td></tr>
+<tr><td>Навантажувальні тести (k6 / Artillery)</td><td>Дізнатись, скільки людей витримає, до того як прийдуть.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="p12-1"><label for="p12-1">Чат з кімнатами, історією з БД, «друкує…», хто онлайн.</label></li>
+<li><input type="checkbox" id="p12-2"><label for="p12-2">Тільки залогінені (сесія з P7), тільки свої кімнати. Захист від XSS у повідомленнях.</label></li>
+<li><input type="checkbox" id="p12-3"><label for="p12-3">Heartbeat і перепідключення з backoff + jitter. Після обриву — дотягнути пропущені повідомлення.</label></li>
+<li><input type="checkbox" id="p12-4"><label for="p12-4">Два екземпляри сервера за Nginx/Caddy + Redis adapter. Перевірити, що повідомлення доходять між ними.</label></li>
+<li><input type="checkbox" id="p12-5"><label for="p12-5">Вбити один сервер — клієнти перепідключаються, нічого не губиться.</label></li>
+<li><input type="checkbox" id="p12-6"><label for="p12-6">Ліміт повідомлень (антифлуд), push-сповіщення для офлайн-користувачів.</label></li>
+<li><input type="checkbox" id="p12-7"><label for="p12-7">Навантажувальний тест на 1000 одночасних клієнтів, записати результати і вузьке місце.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Стан у пам'яті одного сервера — при двох серверах усе ламається.</li>
+<li>Немає heartbeat — «мертві» з'єднання накопичуються, пам'ять тече.</li>
+<li><b>Thundering herd</b>: після деплою всі клієнти перепідключаються в ту саму секунду і кладуть сервер. Лікується jitter (випадкова затримка).</li>
+<li>Балансувальник рве «тихі» з'єднання через idle timeout.</li>
+<li>Сокет без аутентифікації — будь-хто слухає чужі чати.</li>
+<li>Віра, що повідомлення доходить рівно один раз. Насправді — може загубитись або прийти двічі.</li>
+<li>Один повільний клієнт гальмує всю кімнату (backpressure).</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Чат працює на двох серверах через Redis і переживає падіння одного з них.</li>
+<li>Після обриву клієнт сам перепідключається і отримує пропущене.</li>
+<li>Є результати навантажувального тесту з висновками.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Коли SSE краще за WebSocket?</li>
+<li>Що таке thundering herd і як від нього захиститись?</li>
+<li>Чому повідомлення губляться при двох серверах без pub/sub?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API">MDN WebSockets</a> · <a href="https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events">MDN SSE</a> · <a href="https://socket.io/docs/v4/">Socket.IO</a> (кімнати, Redis adapter) · <a href="https://ably.com/topic/websockets">Ably: WebSockets</a> · <a href="https://grafana.com/docs/k6/latest/">k6</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== P13 ===================== -->
+<section class="proj" id="p13" style="--c:var(--l3)" data-proj="p13">
+<div class="proj-head"><h2>P13 · Безпека: атакую свою апку</h2><span class="tag">Рівень 3 · ~4 тижні (+ паралельно з P6)</span></div>
+<p class="why"><b>Навіщо:</b> захищатись можна тільки від того, що розумієш. Тут ти дивишся на свої апки очима атакуючого. Лабораторії PortSwigger можна починати вже з P6 — по одній на тиждень.</p>
+<p class="note"><b>Закон:</b> атакувати можна тільки своє або навчальні лабораторії. В Іспанії несанкціонований доступ до чужих систем — злочин (Código Penal, ст. 197 bis).</p>
+<h3>OWASP Top 10 (версія 2025) простими словами</h3>
+<div class="tbl"><table><thead><tr><th>#</th><th>Назва</th><th>Простими словами</th><th>Де вже бачив</th></tr></thead><tbody>
+<tr><td>A01</td><td>Broken Access Control</td><td>Можна дістатись до чужого (IDOR), включно з SSRF — сервер ходить, куди не треба</td><td>P7</td></tr>
+<tr><td>A02</td><td>Security Misconfiguration</td><td>Погані налаштування: відкриті порти, debug на проді, стандартні паролі</td><td>P8</td></tr>
+<tr><td>A03</td><td>Software Supply Chain Failures</td><td>Дірки в чужих бібліотеках і підробні пакети</td><td>P3, P8</td></tr>
+<tr><td>A04</td><td>Cryptographic Failures</td><td>Слабке шифрування, паролі без хешу, немає HTTPS</td><td>P7</td></tr>
+<tr><td>A05</td><td>Injection</td><td>SQL injection, XSS, команди в терміналі</td><td>P3, P6</td></tr>
+<tr><td>A06</td><td>Insecure Design</td><td>Дірка в самій логіці (наприклад, ціна з фронтенду)</td><td>P11</td></tr>
+<tr><td>A07</td><td>Authentication Failures</td><td>Перебір паролів, вічні сесії, слабке скидання пароля</td><td>P7</td></tr>
+<tr><td>A08</td><td>Software or Data Integrity Failures</td><td>Довіра непідписаним даним і оновленням (вебхук без підпису)</td><td>P5, P11</td></tr>
+<tr><td>A09</td><td>Security Logging &amp; Alerting Failures</td><td>Злам стався, а ніхто не помітив</td><td>P9</td></tr>
+<tr><td>A10</td><td>Mishandling of Exceptional Conditions</td><td>Помилку обробили так, що вона відкрила дірку або поклала сервіс</td><td>P5, P6</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="p13-1"><label for="p13-1">Threat model своєї апки: що цінне, хто захоче це вкрасти, як. Одна сторінка.</label></li>
+<li><input type="checkbox" id="p13-2"><label for="p13-2">PortSwigger Web Security Academy: 15+ лабораторій рівня Apprentice (access control, SQLi, XSS, authentication, CSRF, SSRF).</label></li>
+<li><input type="checkbox" id="p13-3"><label for="p13-3">OWASP Juice Shop: знайти 10+ вразливостей (рівні 1–2 зірки).</label></li>
+<li><input type="checkbox" id="p13-4"><label for="p13-4">Перевірити P6/P7/P11/P12 по чек-листу OWASP ASVS 5.0, рівень 1. Звіт: знайдено → виправлено.</label></li>
+<li><input type="checkbox" id="p13-5"><label for="p13-5">Заголовки безпеки (CSP, HSTS), перевірка на securityheaders.com.</label></li>
+<li><input type="checkbox" id="p13-6"><label for="p13-6">У CI: gitleaks (секрети), Dependabot / <code>npm audit</code> (бібліотеки), lockfile.</label></li>
+<li><input type="checkbox" id="p13-7"><label for="p13-7">Завантаження файлів: ліміт розміру і типу, окреме сховище, не віддавати як HTML/SVG.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>«Ми маленькі, нас не зламають» — боти сканують увесь інтернет автоматично.</li>
+<li>Секрет в історії Git — видалити файл мало, треба замінити ключ.</li>
+<li>CORS <code>*</code> разом з cookies.</li>
+<li>Детальні повідомлення про помилки показують внутрішність системи.</li>
+<li>Не оновлювати бібліотеки роками, або ставити пакет з назвою-підробкою (typosquatting).</li>
+<li>Писати свою криптографію або свою систему логіну «з нуля» в реальному проєкті.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>15+ лабораторій PortSwigger і 10+ знахідок у Juice Shop.</li>
+<li>Свої апки перевірені по ASVS L1, звіт з виправленнями.</li>
+<li>У CI працюють перевірки секретів і залежностей.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Поясни IDOR і SSRF так, щоб зрозуміла людина не з IT.</li>
+<li>Що робиш першим, якщо знайшов у себе дірку на проді?</li>
+<li>Чому оновлення бібліотек — це питання безпеки?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://owasp.org/Top10/2025/">OWASP Top 10:2025</a> · <a href="https://portswigger.net/web-security">PortSwigger Web Security Academy</a> · <a href="https://owasp.org/www-project-juice-shop/">OWASP Juice Shop</a> · <a href="https://owasp.org/www-project-application-security-verification-standard/">OWASP ASVS 5.0</a> · <a href="https://cheatsheetseries.owasp.org">OWASP Cheat Sheets</a> · <a href="https://github.com/gitleaks/gitleaks">gitleaks</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== P14 ===================== -->
+<section class="proj" id="p14" style="--c:var(--l4)" data-proj="p14">
+<div class="proj-head"><h2>P14 · Як у великих компаніях</h2><span class="tag">Рівень 4 · ~4–6 тижнів</span></div>
+<p class="why"><b>Навіщо:</b> у великій компанії код пишуть десятки людей, і ціна помилки — мільйони. Додаються процеси: рев'ю, тести, поступові релізи, чергування, юридичні вимоги. Тут ти вчишся працювати в такій системі.</p>
+<h3>Піраміда тестів</h3>
+<pre class="mermaid">
+flowchart TB
+  E2E["E2E (Playwright) — мало<br/>повільні, перевіряють весь шлях користувача"]
+  INT["Інтеграційні — середньо<br/>API + база разом"]
+  UNIT["Unit — багато<br/>швидкі, перевіряють одну функцію"]
+  E2E --- INT --- UNIT
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Робота в команді: маленькі PR, code review, conventional commits</td><td>Як десятки людей міняють один код і не заважають одне одному.</td></tr>
+<tr><td>Піраміда тестів, Playwright</td><td>Багато маленьких тестів, мало великих.</td></tr>
+<tr><td>Feature flags, canary / blue-green деплой</td><td>Нову функцію спершу бачать 5% людей; якщо погано — вимикаємо без деплою.</td></tr>
+<tr><td>System design: кеш, черги, реплікація, CDN, шардинг</td><td>Як системи витримують мільйони людей — на рівні «розумію навіщо».</td></tr>
+<tr><td>SLI / SLO / SLA, error budget, on-call</td><td>Обіцянка надійності в цифрах і хто прокидається вночі, коли впало.</td></tr>
+<tr><td>Документація: design doc / RFC, ADR, runbook</td><td>Рішення записують, щоб через рік знати, чому зробили саме так.</td></tr>
+<tr><td>Agile: Scrum, Kanban, оцінка задач</td><td>Як планують роботу і рахують час.</td></tr>
+<tr><td>Compliance: RGPD/LOPDGDD, SOC 2, ISO 27001, PCI DSS</td><td>Юридичні вимоги, про які питають великі клієнти.</td></tr>
+<tr><td>Доступи: SSO, мінімальні права, аудит</td><td>Кожен має доступ тільки до того, що йому треба, і все записується.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="p14-1"><label for="p14-1">Симуляція команди: кожна задача — окрема гілка і маленький PR, Claude робить жорстке рев'ю як сеньйор.</label></li>
+<li><input type="checkbox" id="p14-2"><label for="p14-2">E2E-тести Playwright для 3 головних сценаріїв (реєстрація, оплата, чат).</label></li>
+<li><input type="checkbox" id="p14-3"><label for="p14-3">Feature flag для нової функції і поступове ввімкнення.</label></li>
+<li><input type="checkbox" id="p14-4"><label for="p14-4">System design розбір: URL-скорочувач, чат на мільйон людей, магазин з оплатою. Схема + слабкі місця.</label></li>
+<li><input type="checkbox" id="p14-5"><label for="p14-5">Визначити SLO для своєї апки (наприклад, 99,5% запитів швидше 300 мс) і алерт на нього.</label></li>
+<li><input type="checkbox" id="p14-6"><label for="p14-6">Design doc на одну нову функцію: проблема, варіанти, ризики, рішення.</label></li>
+<li><input type="checkbox" id="p14-7"><label for="p14-7">RGPD-аудит своєї апки: які дані, навіщо, скільки зберігаємо, як видалити, хто має доступ.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Величезні PR на 2000 рядків — ніхто їх нормально не перевірить.</li>
+<li>Тільки E2E-тести, і вони то падають, то ні (flaky) — їм перестають вірити.</li>
+<li>Немає шляху відкату, немає runbook — аварія вночі перетворюється на хаос.</li>
+<li>Мікросервіси і Kubernetes там, де вистачило б одного сервера — складність без користі.</li>
+<li>Збирати персональні дані «про всяк випадок» і логувати їх.</li>
+<li>Немає журналу, хто що змінив (audit trail).</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Є досвід 10+ PR з рев'ю і виправленнями за коментарями.</li>
+<li>3 system design розбори, SLO з алертом, design doc, RGPD-аудит.</li>
+</ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol>
+<li>Навіщо feature flags, якщо є staging?</li>
+<li>Що таке SLO 99,9% у хвилинах простою на місяць?</li>
+<li>Чому на старті краще моноліт, а не мікросервіси?</li>
+</ol></div>
+<p class="src">Джерела: <a href="https://google.github.io/eng-practices/">Google Engineering Practices (code review)</a> · <a href="https://abseil.io/resources/swe-book">Software Engineering at Google</a> (безкоштовна книга) · <a href="https://github.com/donnemartin/system-design-primer">System Design Primer</a> · <a href="https://martinfowler.com/articles/practical-test-pyramid.html">Practical Test Pyramid</a> · <a href="https://sre.google/books/">Google SRE Workbook</a> · <a href="https://www.aepd.es">AEPD</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== FINAL ===================== -->
+<section class="proj" id="final" style="--c:var(--l4)" data-proj="final">
+<div class="proj-head"><h2>Фінал · «Замовник прийшов»</h2><span class="tag">Рівень 4 · ~6–8 тижнів</span></div>
+<p class="why"><b>Задача:</b> барбершоп / клініка в Іспанії хоче онлайн-запис: вибір майстра і часу, передоплата карткою, нагадування в Telegram, адмінка для власника, статистика. Ти проходиш повний цикл, як на справжньому замовленні. Тут зібрано все: гроші, персональні дані, реальний час, сторонні сервіси.</p>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="fin-1"><label for="fin-1">Пройти з «замовником» (Claude грає його роль) <a href="#ryzyky">карту ризиків</a> і питання перед стартом. Записати вимоги.</label></li>
+<li><input type="checkbox" id="fin-2"><label for="fin-2">Оцінка часу і вартості з поясненням, куди йде час (безпека, тести, моніторинг).</label></li>
+<li><input type="checkbox" id="fin-3"><label for="fin-3">Design doc: архітектура, схема бази, ризики.</label></li>
+<li><input type="checkbox" id="fin-4"><label for="fin-4">Захист від подвійного бронювання одного слота (дві людини одночасно — транзакція / обмеження в БД).</label></li>
+<li><input type="checkbox" id="fin-5"><label for="fin-5">Передоплата через Stripe з вебхуками, повернення при скасуванні.</label></li>
+<li><input type="checkbox" id="fin-6"><label for="fin-6">Нагадування ботом, адмінка з 2FA, RGPD: згода, політика, видалення даних.</label></li>
+<li><input type="checkbox" id="fin-7"><label for="fin-7">CI/CD, staging, моніторинг, бекапи, runbook, ASVS L1.</label></li>
+<li><input type="checkbox" id="fin-8"><label for="fin-8">Передача «замовнику»: документація, доступи на його акаунти, інструкція для адміна.</label></li>
+</ul>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Система працює на проді, переживає аварію з game day, проходить ASVS L1.</li>
+<li>Ти можеш пояснити замовнику кожне рішення і кожну цифру в оцінці.</li>
+</ul></div>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== GLOSSARY ===================== -->
+<h2 id="slovnyk">Сленг і терміни</h2>
+<p>Як говорять у команді → як правильно → що це значить → як кажуть в Іспанії (часто просто англійське слово з іспанським закінченням).</p>
+<div class="tbl"><table>
+<thead><tr><th>Сленг</th><th>Правильно</th><th>Простими словами</th><th>В Іспанії</th></tr></thead>
+<tbody>
+<tr><td>прод</td><td>production</td><td>Живий сервер, яким користуються справжні люди</td><td>producción, «subir a prod»</td></tr>
+<tr><td>стейдж, дев</td><td>staging, development</td><td>Тестові копії, де можна ламати</td><td>entorno de pruebas / desarrollo</td></tr>
+<tr><td>задеплоїти, викатити</td><td>deploy</td><td>Викласти нову версію на сервер</td><td>desplegar, hacer deploy</td></tr>
+<tr><td>закомітити</td><td>commit</td><td>Зберегти знімок змін у Git з підписом</td><td>hacer commit, commitear</td></tr>
+<tr><td>запушити / спулити</td><td>push / pull</td><td>Відправити свої коміти на GitHub / забрати чужі</td><td>hacer push / pull, subir / bajar cambios</td></tr>
+<tr><td>бранч, гілка</td><td>branch</td><td>Паралельна версія коду для нової задачі</td><td>rama</td></tr>
+<tr><td>змерджити</td><td>merge</td><td>Злити гілку в основну</td><td>fusionar, mergear</td></tr>
+<tr><td>пул-реквест, PR (MR у GitLab)</td><td>pull request</td><td>«Перевірте і злийте мій код»</td><td>pull request, PR</td></tr>
+<tr><td>рев'ю, заапрувити</td><td>code review, approve</td><td>Колега читає твій код і погоджує</td><td>revisión de código, aprobar</td></tr>
+<tr><td>баг / пофіксити</td><td>bug / fix</td><td>Помилка / виправити її</td><td>bug, fallo / arreglar, corregir</td></tr>
+<tr><td>хотфікс</td><td>hotfix</td><td>Термінове виправлення прямо на проді</td><td>hotfix, parche urgente</td></tr>
+<tr><td>фіча</td><td>feature</td><td>Нова можливість у продукті</td><td>funcionalidad, feature</td></tr>
+<tr><td>фронт / бек / фулстек</td><td>frontend / backend / full-stack</td><td>Що бачить користувач / сервер і дані / і те, і те</td><td>front / back / full stack</td></tr>
+<tr><td>ендпоінт, ручка</td><td>endpoint</td><td>Конкретна адреса API: <code>GET /api/users</code></td><td>endpoint</td></tr>
+<tr><td>апішка</td><td>API</td><td>«Меню» сервера: які запити приймає і що відповідає</td><td>API</td></tr>
+<tr><td>ліба / фреймворк</td><td>library / framework</td><td>Готовий код, який підключаєш / каркас, що задає структуру апки</td><td>librería (правильно biblioteca) / framework</td></tr>
+<tr><td>депси, залежності</td><td>dependencies</td><td>Чужі бібліотеки, від яких залежить проєкт</td><td>dependencias</td></tr>
+<tr><td>енви, енвка</td><td>environment variables, .env</td><td>Налаштування і секрети поза кодом</td><td>variables de entorno</td></tr>
+<tr><td>захардкодити</td><td>hardcode</td><td>Вписати значення прямо в код (погано для паролів і адрес)</td><td>hardcodear, valor fijo</td></tr>
+<tr><td>костиль</td><td>workaround, hack</td><td>Тимчасове криве рішення, яке працює</td><td>chapuza, parche</td></tr>
+<tr><td>легасі</td><td>legacy code</td><td>Старий код, який страшно чіпати</td><td>código legacy / heredado</td></tr>
+<tr><td>рефакторинг</td><td>refactoring</td><td>Переписати код краще, не змінюючи, що він робить</td><td>refactorizar</td></tr>
+<tr><td>техборг</td><td>technical debt</td><td>Накопичені костилі, за які колись заплатиш часом</td><td>deuda técnica</td></tr>
+<tr><td>закешувати</td><td>cache</td><td>Зберегти результат, щоб не рахувати і не тягнути знову</td><td>cachear, caché</td></tr>
+<tr><td>токен</td><td>token</td><td>Рядок-«пропуск» для доступу</td><td>token</td></tr>
+<tr><td>секрети</td><td>secrets, credentials</td><td>Паролі, ключі API, токени</td><td>credenciales, secretos</td></tr>
+<tr><td>рейт-ліміт, «упертись у ліміт»</td><td>rate limit, 429</td><td>Обмеження кількості запитів</td><td>límite de peticiones</td></tr>
+<tr><td>вебхук</td><td>webhook</td><td>Чужий сервіс сам стукає до тебе, коли щось сталось</td><td>webhook</td></tr>
+<tr><td>логи</td><td>logs</td><td>Журнал подій програми</td><td>logs, registros</td></tr>
+<tr><td>впало, лежить</td><td>outage, down</td><td>Сервіс не працює</td><td>caído, «se ha caído»</td></tr>
+<tr><td>інцидент</td><td>incident</td><td>Аварія, яку гасять зараз</td><td>incidencia (дуже вживане)</td></tr>
+<tr><td>постмортем</td><td>postmortem</td><td>Розбір аварії: що сталось і як не повторити</td><td>postmortem, análisis post-incidente</td></tr>
+<tr><td>відкотити</td><td>rollback, revert</td><td>Повернути попередню версію</td><td>hacer rollback, revertir</td></tr>
+<tr><td>міграція</td><td>migration</td><td>Зміна структури бази або перенесення даних</td><td>migración</td></tr>
+<tr><td>бекап</td><td>backup</td><td>Резервна копія</td><td>copia de seguridad, backup</td></tr>
+<tr><td>скейлити</td><td>scale</td><td>Витримати більше користувачів</td><td>escalar</td></tr>
+<tr><td>ідемпотентно</td><td>idempotent</td><td>Повтор дії не змінює результат удруге</td><td>idempotente</td></tr>
+<tr><td>дебажити</td><td>debug</td><td>Шукати причину бага</td><td>depurar, debuguear</td></tr>
+<tr><td>стектрейс</td><td>stack trace</td><td>«Слід» помилки: які функції викликались</td><td>traza, stack trace</td></tr>
+<tr><td>флакі тест</td><td>flaky test</td><td>Тест, який то проходить, то ні</td><td>test inestable / flaky</td></tr>
+<tr><td>CI/CD, пайплайн</td><td>continuous integration / delivery</td><td>Робот: тести і деплой після кожного push</td><td>integración / despliegue continuo</td></tr>
+<tr><td>докер, контейнер</td><td>Docker, container</td><td>«Коробка» з апкою, працює однаково всюди</td><td>contenedor</td></tr>
+<tr><td>віпіес, хостинг, хмара</td><td>VPS, hosting, cloud</td><td>Орендований комп'ютер в інтернеті</td><td>servidor, alojamiento, la nube</td></tr>
+<tr><td>таска, тікет</td><td>task, ticket</td><td>Задача в трекері (Jira)</td><td>tarea, ticket</td></tr>
+<tr><td>дейлі, стендап, спринт</td><td>daily stand-up, sprint</td><td>Коротка щоденна зустріч / цикл роботи на 1–2 тижні</td><td>«la daily», sprint</td></tr>
+<tr><td>естімейт</td><td>estimate</td><td>Оцінка, скільки часу займе</td><td>estimación</td></tr>
+<tr><td>джун / мідл / сеньйор</td><td>junior / middle / senior</td><td>Рівні досвіду</td><td>junior / mid / senior</td></tr>
+<tr><td>MVP</td><td>minimum viable product</td><td>Мінімальна версія, яку вже можна показати людям</td><td>MVP, producto mínimo viable</td></tr>
+<tr><td>пет-проєкт</td><td>pet project</td><td>Свій проєкт для навчання і портфоліо</td><td>proyecto personal</td></tr>
+<tr><td>«у мене працює»</td><td>works on my machine</td><td>Класична відмовка. Лікується Docker і CI</td><td>«en mi máquina funciona»</td></tr>
+</tbody></table></div>
+
+<!-- ===================== INCIDENT ===================== -->
+<h2 id="vpalo">Щось впало — де шукати</h2>
+<p>Порядок дій, коли прийшов алерт або подзвонив клієнт. Головне правило: <b>спочатку відновити роботу (часто — відкат), потім шукати причину.</b></p>
+<pre class="mermaid">
+flowchart TD
+  A[Алерт / скарга] --> B{Що змінилось нещодавно?<br/>деплой, конфіг, бібліотека}
+  B -->|так| RB[Відкотити → перевірити → потім розбиратись]
+  B -->|ні| C{Впало для всіх<br/>чи для частини?}
+  C -->|для всіх| D[Сервер живий? /health<br/>CPU, пам'ять, диск]
+  C -->|для частини| E[Конкретний браузер, країна,<br/>тип акаунта? Sentry]
+  D --> F[Логи апки за request ID]
+  E --> F
+  F --> G{Помилка в нашому коді<br/>чи в чужому сервісі?}
+  G -->|у нас| H[База: з'єднання, повільні запити, місце]
+  G -->|чужий| I[Статус-сторінка сервісу<br/>Stripe, Telegram, хостинг]
+  H --> J[Фікс → тест, що ловить цей баг → деплой]
+  I --> K[Запасний сценарій, повідомити користувачів]
+  J --> PM[Postmortem: що, чому, як не повторити]
+  K --> PM
+</pre>
+<div class="tbl"><table><thead><tr><th>Симптом</th><th>Куди дивитись першим</th></tr></thead><tbody>
+<tr><td>Білий екран у браузері</td><td>DevTools → Console (помилка JS) і Network (які запити червоні)</td></tr>
+<tr><td>500 від API</td><td>Логи сервера за request ID, Sentry</td></tr>
+<tr><td>Все дуже повільно</td><td>Метрики затримки, повільні запити в БД (<code>EXPLAIN</code>), CPU / пам'ять</td></tr>
+<tr><td>Сайт не відкривається взагалі</td><td>DNS, термін дії сертифіката HTTPS, чи запущений процес, firewall</td></tr>
+<tr><td>Працювало, після деплою зламалось</td><td>Відкат. Потім — порівняти, що змінилось (<code>git diff</code>, <code>git bisect</code>)</td></tr>
+<tr><td>Сервер падає раз на кілька годин</td><td>Пам'ять (витік), диск (логи), <code>journalctl</code>, обмеження хостингу</td></tr>
+<tr><td>Оплата пройшла, доступу немає</td><td>Логи вебхуків у Stripe Dashboard, твої логи обробника, підпис</td></tr>
+<tr><td>Бот мовчить</td><td>Чи живий процес, 409 (два екземпляри), 429 (ліміт), чи не відкликаний токен</td></tr>
+</tbody></table></div>
+
+<!-- ===================== RISKS ===================== -->
+<h2 id="ryzyky">Якщо в проєкті є X — обов'язково думай про Y</h2>
+<p>Проходиш по цьому списку, коли береш будь-яку роботу. Кожне «так» — це час, який треба закласти в оцінку.</p>
+<div class="tbl"><table><thead><tr><th>Якщо є…</th><th>Логіка</th><th>Обов'язково</th><th>Проєкт</th></tr></thead><tbody>
+<tr><td>Будь-який сервер в інтернеті</td><td>Боти сканують усе автоматично</td><td>HTTPS, оновлення, секрети поза кодом, firewall, логи</td><td>P8</td></tr>
+<tr><td>Форми, введення від людей</td><td>Можуть надіслати що завгодно</td><td>Валідація на сервері, захист від XSS / injection, ліміти розміру</td><td>P3, P6</td></tr>
+<tr><td>Акаунти, логін</td><td>Будуть перебирати паролі і лізти в чужі акаунти</td><td>Хеш паролів, ліміт спроб, перевірка власника (IDOR), 2FA для адмінів</td><td>P7</td></tr>
+<tr><td>База даних</td><td>Дані — найцінніше, їх можна втратити</td><td>Бекапи + перевірене відновлення, міграції, індекси, БД закрита від інтернету</td><td>P6, P8</td></tr>
+<tr><td><b>Гроші, оплата, підписка</b></td><td>Де гроші — там спроби вкрасти або обійти оплату</td><td>Платіжний провайдер, доступ тільки з вебхука з підписом, ідемпотентність, невдалі оплати, повернення, IVA, тести на гроші</td><td>P11</td></tr>
+<tr><td><b>Реальний час</b> (чат, трекінг, ставки)</td><td>З'єднання рвуться, сервер перевантажується</td><td>Перепідключення, heartbeat, pub/sub між серверами, автоперезапуск, навантажувальні тести</td><td>P12</td></tr>
+<tr><td>Персональні дані</td><td>RGPD + LOPDGDD, штрафи від AEPD</td><td>Мінімум даних, згода, політика конфіденційності, видалення акаунта, план на витік (72 год)</td><td>P7, P14</td></tr>
+<tr><td>Чутливі дані (здоров'я, діти, документи, геолокація)</td><td>Витік = реальна шкода людям і найбільші штрафи</td><td>Все вище + суворі доступи, журнал переглядів, консультація юриста</td><td>P14</td></tr>
+<tr><td>Завантаження файлів</td><td>Файл може бути шкідливим або величезним</td><td>Ліміт розміру і типу, окреме сховище, не віддавати як HTML</td><td>P13</td></tr>
+<tr><td>Чужі API (карти, AI, SMS)</td><td>Вони падають, змінюються і коштують гроші</td><td>Таймаути, повтори, запасний сценарій, ліміт витрат, ключі тільки на сервері</td><td>P4, P6</td></tr>
+<tr><td>Бот</td><td>Токен — це повний контроль над ботом</td><td>Токен у секретах, ліміти розсилки, перевірка адміна, автоперезапуск</td><td>P5</td></tr>
+<tr><td>Мобільна апка в сторах</td><td>Рев'ю магазину займає дні, оновлення не миттєві</td><td>Сервер підтримує старі версії апки, правила in-app покупок</td><td>P11</td></tr>
+<tr><td>Адмін-панель</td><td>Один зламаний адмін = зламано все</td><td>2FA, ролі, журнал дій</td><td>P7</td></tr>
+<tr><td>Перенесення даних</td><td>Помилку помічають через місяць</td><td>Бекап, ідемпотентний скрипт, перевірка кількостей, план відкату</td><td>P10</td></tr>
+<tr><td>Багато користувачів</td><td>Що працює на 10 людях, падає на 10 000</td><td>Кеш, індекси, пагінація, черги, CDN, кілька серверів</td><td>P12, P14</td></tr>
+</tbody></table></div>
+<h3>Питання замовнику перед стартом</h3>
+<div class="tbl"><table><thead><tr><th>Питання</th><th>Що з відповіді випливає</th></tr></thead><tbody>
+<tr><td>Що буде через рік: скільки людей, які дані, чи будуть гроші?</td><td>Рівень складності і які рядки з таблиці вище вмикаються</td></tr>
+<tr><td>Хто власник акаунтів (домен, хостинг, Stripe, сторі)?</td><td>Реєструємо все на замовника, а не на тебе</td></tr>
+<tr><td>Хто відповідає за юридичне (політика, умови, aviso legal)?</td><td>Чи потрібен юрист і хто за це платить</td></tr>
+<tr><td>Що буде, якщо сервіс ляже на годину? На день?</td><td>Скільки вкладати в надійність і моніторинг</td></tr>
+<tr><td>Хто підтримує проєкт після здачі?</td><td>Документація, договір на підтримку, доступи</td></tr>
+</tbody></table></div>
+
+<!-- ===================== NOT NOW ===================== -->
+<h2 id="ne-vchyty">Що НЕ вчити зараз</h2>
+<p>Усі сильні курси сходяться в одному: новачки найбільше часу втрачають на речі нижче. Вони не погані — просто не зараз.</p>
+<div class="tbl"><table><thead><tr><th>Що</th><th>Чому не зараз</th><th>Коли</th></tr></thead><tbody>
+<tr><td>Стрибати між фреймворками (React, Vue, Svelte, Angular)</td><td>Принципи однакові. Один, але глибоко</td><td>Коли цього вимагає робота</td></tr>
+<tr><td>«Tutorial hell» — дивитися курси без свого проєкту</td><td>Знання не закріплюються без практики</td><td>Ніколи</td></tr>
+<tr><td>Kubernetes, мікросервіси, Terraform</td><td>Розв'язують проблеми великих компаній, яких у тебе ще немає</td><td>Після P14, якщо підеш у DevOps</td></tr>
+<tr><td>Глибокі алгоритми, LeetCode</td><td>Для створення апок вистачає бази. Потрібні для співбесід у великі компанії</td><td>Перед співбесідами</td></tr>
+<tr><td>jQuery, класові компоненти React, Redux, ручний Webpack, float-верстка</td><td>Застаріло. Навіть Full Stack Open прибрав Redux і Webpack</td><td>Тільки якщо прийдеш у старий проєкт</td></tr>
+<tr><td>TypeScript до впевненого JavaScript</td><td>Спочатку розуміти мову, потім типи</td><td>З P5</td></tr>
+<tr><td>C, асемблер, як працює процесор (основна частина CS50)</td><td>Цікаво, але не для цієї мети</td><td>За бажанням, для глибини</td></tr>
+<tr><td>Ідеальне налаштування редактора і терміналу</td><td>Години на те, що не дає результату</td><td>Поступово, коли щось реально заважає</td></tr>
+<tr><td>Збирати сертифікати</td><td>Замовникам і роботодавцям важливі задеплоєні проєкти</td><td>—</td></tr>
+<tr><td>GraphQL, Next.js, React Native</td><td>Корисні, але це надбудови</td><td>Окремими гілками після рівня 2–3</td></tr>
+</tbody></table></div>
+<p class="note">Після курсу можна йти в спеціалізацію: мобільні апки (React Native / Expo), DevOps / хмара, безпека, дані / AI. База з цього курсу потрібна для будь-якої з них.</p>
+
+<!-- ===================== SOURCES ===================== -->
+<h2 id="dzherela">Джерела, з яких зібраний курс</h2>
+<div class="cols2">
+<div>
+<h3>Основні програми</h3>
+<ul class="src">
+<li><a href="https://www.theodinproject.com/paths">The Odin Project</a> — Foundations + Full Stack JavaScript</li>
+<li><a href="https://fullstackopen.com/en/">Full Stack Open</a> — Гельсінський університет, ч. 0–5 обов'язкові, 9, 11–13 вибірково</li>
+<li><a href="https://www.freecodecamp.org/learn">freeCodeCamp</a> — Certified Full Stack Developer</li>
+<li><a href="https://missing.csail.mit.edu">MIT Missing Semester</a> — інструменти розробника</li>
+<li><a href="https://roadmap.sh">roadmap.sh</a> — карти frontend / backend / DevOps</li>
+<li><a href="https://cs50.harvard.edu/x/">CS50x</a> — за бажанням, для глибини</li>
+</ul>
+</div>
+<div>
+<h3>Довідники</h3>
+<ul class="src">
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development">MDN</a> · <a href="https://javascript.info">javascript.info</a> · <a href="https://web.dev/learn">web.dev</a></li>
+<li><a href="https://sre.google/books/">Google SRE books</a> · <a href="https://abseil.io/resources/swe-book">Software Engineering at Google</a></li>
+<li><a href="https://owasp.org/Top10/2025/">OWASP Top 10:2025</a> · <a href="https://cheatsheetseries.owasp.org">Cheat Sheets</a> · <a href="https://portswigger.net/web-security">PortSwigger Academy</a></li>
+<li><a href="https://docs.stripe.com">Stripe docs</a> · <a href="https://core.telegram.org/bots/api">Telegram Bot API</a> · <a href="https://grammy.dev">grammY</a></li>
+<li><a href="https://github.com/donnemartin/system-design-primer">System Design Primer</a> · <a href="https://www.aepd.es">AEPD (захист даних в Іспанії)</a></li>
+</ul>
+</div>
+</div>
+</main>
+</div>
+
+<script>
+(function(){
+  var KEY = 'kurs-progress-v1';
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('ul.tasks input[type=checkbox]'));
+  var state = {};
+  var db = null, docRef = null, writing = Promise.resolve(), timer = null;
+  var syncTxt = document.getElementById('syncTxt');
+
+  function readLocal(){ try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e){ return {}; } }
+  function writeLocal(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} }
+
+  function apply(){
+    boxes.forEach(function(b){ b.checked = !!state[b.id]; });
+    render();
+  }
+  function render(){
+    var total = boxes.length, done = 0;
+    boxes.forEach(function(b){ if (b.checked) done++; });
+    document.getElementById('overallTxt').textContent = 'Виконано задач: ' + done + ' з ' + total;
+    document.getElementById('overallBar').style.width = (total ? done/total*100 : 0) + '%';
+    document.querySelectorAll('section.proj').forEach(function(sec){
+      var bs = sec.querySelectorAll('ul.tasks input'), d = 0;
+      bs.forEach(function(b){ if (b.checked) d++; });
+      var bar = sec.querySelector(':scope > .bar i'), cnt = sec.querySelector(':scope > .cnt');
+      if (bar) bar.style.width = (bs.length ? d/bs.length*100 : 0) + '%';
+      if (cnt) cnt.textContent = d + ' / ' + bs.length + (d === bs.length && bs.length ? ' · проєкт закрито' : '');
+    });
+  }
+  function save(){
+    writeLocal();
+    if (!docRef) return;
+    clearTimeout(timer);
+    timer = setTimeout(function(){
+      var body = { done: Object.assign({}, state), updatedAt: new Date().toISOString() };
+      writing = writing.then(function(){ return docRef.set(body); }).then(function(){
+        syncTxt.textContent = 'Прогрес збережено у твоєму акаунті.';
+      }).catch(function(){
+        docRef = null;
+        syncTxt.textContent = 'Прогрес зберігається в цьому браузері.';
+      });
+    }, 600);
+  }
+  boxes.forEach(function(b){
+    b.addEventListener('change', function(){
+      if (b.checked) state[b.id] = true; else delete state[b.id];
+      render(); save();
+    });
+  });
+
+  state = readLocal();
+  apply();
+  syncTxt.textContent = 'Прогрес зберігається в цьому браузері.';
+
+  if (window.claude && typeof window.claude.use === 'function') {
+    Promise.all([window.claude.use('db'), window.claude.use('user')]).then(function(r){
+      var ns = r[0], user = r[1];
+      if (!ns || !user) return null;
+      db = ns;
+      return user.id();
+    }).then(function(uid){
+      if (!uid) return;
+      try { docRef = db.doc('data/users/' + uid + '/progress'); } catch(e){ return; }
+      docRef.get().then(function(snap){
+        var remote = (snap.exists && snap.data() && snap.data().done) || {};
+        var merged = Object.assign({}, remote, state);
+        var changed = Object.keys(merged).length !== Object.keys(remote).length;
+        state = merged; apply(); writeLocal();
+        syncTxt.textContent = 'Прогрес синхронізовано з твоїм акаунтом.';
+        if (changed && Object.keys(state).length) save();
+      }).catch(function(){
+        docRef = null;
+        syncTxt.textContent = 'Прогрес зберігається в цьому браузері.';
+      });
+    }).catch(function(){});
+  }
+})();
+</script>
+<script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.esm.min.mjs";
+mermaid.initialize({startOnLoad:true, theme: matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "default"});
+</script></body></html>

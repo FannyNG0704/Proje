@@ -1,0 +1,118 @@
+<title>Бібліотека курсів</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one centred column — a shelf of course "spines" (cards with a coloured edge per course), then the learning route and how-to notes. */
+:root{
+  --bg:#f5f6f8; --surface:#ffffff; --ink:#18212e; --muted:#5a6475; --line:#d9dee6;
+  --accent:#2f5bd3;
+  --c1:#2f5bd3; --c2:#b0306a; --c3:#6a3fd0; --c4:#0e7c86; --c5:#b4233c; --c6:#8a8f99;
+  --f-display:"Unbounded","Golos Text",system-ui,sans-serif;
+  --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11161f; --surface:#171e2a; --ink:#e6eaf1; --muted:#9aa5b6; --line:#2a3445; --accent:#7ea2ff;
+  --c1:#7ea2ff; --c2:#f28ab8; --c3:#b79bff; --c4:#5fd0da; --c5:#ff8fa3; --c6:#7c8494; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#11161f; --surface:#171e2a; --ink:#e6eaf1; --muted:#9aa5b6; --line:#2a3445; --accent:#7ea2ff;
+  --c1:#7ea2ff; --c2:#f28ab8; --c3:#b79bff; --c4:#5fd0da; --c5:#ff8fa3; --c6:#7c8494; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main{max-width:980px;margin:0 auto;padding-block:36px 72px}
+h1,h2,h3{text-wrap:balance;line-height:1.25}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(28px,5vw,42px);margin:4px 0 10px}
+h2{font-family:var(--f-display);font-weight:500;font-size:clamp(20px,3vw,26px);margin:48px 0 12px}
+p{max-width:68ch;margin:8px 0}
+a{color:var(--accent)}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lead{font-size:18px;color:var(--muted)}
+.shelf{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:20px}
+.book{display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c);border-radius:10px;padding:16px 18px;text-decoration:none;color:var(--ink);min-width:0}
+.book:hover,.book:focus-visible{border-color:var(--c)}
+.book .no{font-family:var(--f-mono);font-size:12px;color:var(--c);letter-spacing:.06em}
+.book h3{margin:0;font-size:18px}
+.book p{margin:0;font-size:14px;color:var(--muted)}
+.book .meta{font-family:var(--f-mono);font-size:12px;color:var(--muted);margin-top:auto;padding-top:6px}
+.book.soon{border-left-style:dashed;opacity:.8}
+.route{display:grid;gap:10px;margin:12px 0;padding:0;list-style:none;counter-reset:s}
+.route li{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px 12px 52px;position:relative;counter-increment:s}
+.route li::before{content:counter(s);position:absolute;left:14px;top:11px;width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--surface);font-family:var(--f-mono);font-size:13px;display:grid;place-items:center}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface);margin:12px 0}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line)}
+th{font-size:13px;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+code{font-family:var(--f-mono);font-size:.88em;background:var(--bg);padding:1px 5px;border-radius:4px}
+.note{font-size:14px;color:var(--muted);border-left:3px solid var(--line);padding-left:12px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+</style>
+
+<main>
+<div class="eyebrow">Моя бібліотека · IT і не тільки · оновлено жовтень 2026</div>
+<h1>Бібліотека курсів</h1>
+<p class="lead">Усі курси в одному місці. Кожен курс — окрема сторінка з задачами, схемами, підводними каменями і прогресом. Вчитися — разом з Claude: відкрий курс і напиши в чаті, який модуль проходиш.</p>
+
+<div class="shelf">
+  <a class="book" style="--c:var(--c1)" href="https://claude.ai/artifact/7a82nP9mL1FagUNTNyd5Ww">
+    <span class="no">Курс 1 · основа</span>
+    <h3>Від нуля до проду</h3>
+    <p>Веб-розробка: сайт, калькулятор, бот, сервер і база, логін, деплой, «щось впало», оплата, чат, безпека.</p>
+    <span class="meta">15 проєктів + фінал · ~8–12 міс</span>
+  </a>
+  <a class="book" style="--c:var(--c2)" href="https://claude.ai/artifact/LxzWTQfaqEyNHXQWGxB6qG">
+    <span class="no">Курс 2</span>
+    <h3>Відео, 3D і моушн на сайті</h3>
+    <p>Дизайн з AI, фонове відео, YouTube за правилами ЄС, анімації, 3D-моделі, Blender, three.js, Cloudflare.</p>
+    <span class="meta">12 проєктів + фінал · ~7–9 міс</span>
+  </a>
+  <a class="book" style="--c:var(--c3)" href="https://claude.ai/artifact/8dApJpdxaFi2vcLJ6qKeMi">
+    <span class="no">Курс 3</span>
+    <h3>Ігри: від Pong до релізу</h3>
+    <p>Godot, 2D і 3D, мобільні ігри, стратегії, анімації великих ігор, ігровий бекенд, мультиплеєр, Steam.</p>
+    <span class="meta">15 проєктів + фінал · ~12–18 міс</span>
+  </a>
+  <a class="book" style="--c:var(--c4)" href="https://claude.ai/artifact/WZb8Y7Lg57Pqqnp3M96hex">
+    <span class="no">Курс 4 · головна ціль</span>
+    <h3>AI: як працює і як на ньому будувати</h3>
+    <p>Що всередині моделей, галюцинації і пам'ять, усі типи AI, RAG, агенти, MCP, самоперевірка, свій міні-GPT.</p>
+    <span class="meta">20 модулів + фінал · ~9–12 міс</span>
+  </a>
+  <a class="book" style="--c:var(--c5)" href="https://claude.ai/artifact/DC5iJQBurJtPPxdupY5w7L">
+    <span class="no">Курс 5</span>
+    <h3>Архітектура: від коду до систем</h3>
+    <p>SOLID, DDD, тести, легасі, дані, API, черги, system design. Доповнення: ліцензії, мобільна, доступність, CS, Іспанія.</p>
+    <span class="meta">21 модуль + фінал · ~8–10 міс</span>
+  </a>
+  <div class="book soon" style="--c:var(--c6)">
+    <span class="no">Скоро</span>
+    <h3>Фріланс в Іспанії · Іспанська і права DGT · Біблія іспанською</h3>
+    <p>Наступні курси — з'являться тут.</p>
+    <span class="meta">у планах</span>
+  </div>
+</div>
+
+<h2>Рекомендований маршрут</h2>
+<ol class="route">
+  <li><b>Курс 1, рівні 0–1</b> (Git, сайт, калькулятор, todo, API) + паралельно <b>курс 4, рівні 0–1</b> (як працює AI, інструменти) — без програмування.</li>
+  <li><b>Курс 1, рівень 2</b> (бот, сервер, база, логін, деплой). Після нього відкриваються всі інші курси.</li>
+  <li><b>Курс 4, рівні 2–3</b> (RAG, агенти, evals, безпека) — головна ціль.</li>
+  <li><b>Курс 5, рівні 0–3</b> (архітектура коду, тести, дані, API) — паралельно з рівнем 3 першого курсу.</li>
+  <li>За інтересом: <b>курс 2</b> (відео і 3D) або <b>курс 3</b> (ігри). Рівень 4–5 архітектури — перед співбесідами.</li>
+</ol>
+
+<h2>Де ще зберігається</h2>
+<div class="tbl"><table>
+<thead><tr><th>Місце</th><th>Що там</th><th>Що потрібно</th></tr></thead>
+<tbody>
+<tr><td>claude.ai (ця сторінка і курси)</td><td>Головна версія, оновлюється, прогрес галочок</td><td>Нічого. Сторінки закріплені в бічній панелі</td></tr>
+<tr><td>Офлайн-архів <code>kursy-offline.zip</code></td><td>Копія всіх курсів, відкривається в будь-якому браузері без Claude</td><td>Зберегти файл у Google Drive, Telegram («Збережене») або на телефон</td></tr>
+<tr><td>GitHub (за бажанням)</td><td>Резервна копія + безкоштовний сайт через GitHub Pages</td><td>Перепідключити GitHub для Claude</td></tr>
+</tbody></table></div>
+<p class="note">Щоб брат або інші бачили сторінку — меню «Поділитися» → «Усі, в кого є посилання» на кожній сторінці. Прогрес галочок у кожного свій.</p>
+</main>
