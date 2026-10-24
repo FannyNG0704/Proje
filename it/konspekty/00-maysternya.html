@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Майстерня: конспект</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600&family=Golos+Text:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#f6f5f1; --paper:#ffffff; --ink:#1d2430; --muted:#5d6574; --line:#dedbd2;
+  --accent:#2f5bd3; --soft:#eaf0fd; --warn:#a85a0c; --warn-soft:#fbf0e2; --ok:#1f7a4d;
+  --f-d:"Unbounded",system-ui,sans-serif; --f-b:"Golos Text",system-ui,sans-serif; --f-m:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#12161d; --paper:#181e28; --ink:#e7eaf0; --muted:#9ba4b3; --line:#2b3442;
+  --accent:#86a7ff; --soft:#1d2840; --warn:#f0a35a; --warn-soft:#33240f; --ok:#5fcf98; color-scheme:dark;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.7 var(--f-b);padding:0 16px}
+article{max-width:760px;margin:0 auto;padding:40px 0 80px}
+h1{font:600 clamp(28px,5vw,40px)/1.2 var(--f-d);margin:6px 0 12px}
+h2{font:600 clamp(20px,3vw,25px)/1.3 var(--f-d);margin:56px 0 10px;padding-top:12px;border-top:1px solid var(--line)}
+h3{font-size:18px;margin:28px 0 6px}
+p{margin:10px 0}
+.eyebrow{font:12px var(--f-m);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lead{font-size:19px;color:var(--muted)}
+code{font:0.88em var(--f-m);background:var(--soft);padding:1px 6px;border-radius:4px}
+pre{font:14px/1.6 var(--f-m);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 16px;overflow-x:auto}
+.box{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:16px 0}
+.analogy{border-left:4px solid var(--accent);background:var(--soft);border-radius:0 8px 8px 0;padding:12px 16px;margin:16px 0}
+.analogy b:first-child{display:block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.stone{border-left:4px solid var(--warn);background:var(--warn-soft);border-radius:0 8px 8px 0;padding:12px 16px;margin:16px 0}
+.stone b:first-child{display:block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--warn)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--paper);margin:14px 0}
+table{border-collapse:collapse;width:100%;font-size:15px;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:8px 12px;border-bottom:1px solid var(--line)}
+th{font-size:13px;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+.mermaid{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:12px;overflow-x:auto}
+nav{columns:2;column-gap:24px;font-size:15px}
+nav a{display:block;color:var(--accent);text-decoration:none;padding:2px 0}
+@media (max-width:560px){nav{columns:1}}
+.end{margin-top:56px;padding:18px;border-radius:10px;background:var(--paper);border:1px solid var(--line)}
+</style>
+</head>
+<body>
+<article>
+<div class="eyebrow">Курс 1 · P0 · Майстерня · конспект для читання</div>
+<h1>Як влаштоване робоче місце програміста</h1>
+<p class="lead">Ти пройшов майстерню руками. Тут — те саме, але спокійно і по порядку: що це за штуки, як вони пов'язані між собою і що означають кнопки, які ти натискав.</p>
+
+<div class="box"><nav>
+<a href="#1">1. Файли, папки і шляхи</a>
+<a href="#2">2. Термінал</a>
+<a href="#3">3. VS Code: з чого складається вікно</a>
+<a href="#4">4. Node.js</a>
+<a href="#5">5. Git і GitHub — у чому різниця</a>
+<a href="#6">6. Репозиторій і коміт</a>
+<a href="#7">7. Три «місця» в Git</a>
+<a href="#8">8. Гілки і main</a>
+<a href="#9">9. GitHub: push, pull, clone</a>
+<a href="#10">10. Pull request і злиття</a>
+<a href="#11">11. Конфлікт</a>
+<a href="#12">12. .gitignore і секрети</a>
+<a href="#13">13. README і Markdown</a>
+<a href="#14">14. Словник кнопок</a>
+<a href="#15">15. Весь шлях одною картинкою</a>
+</nav></div>
+
+<!-- 1 -->
+<h2 id="1">1. Файли, папки і шляхи</h2>
+<p>Будь-яка програма — це просто <b>текстові файли</b>, які лежать у <b>папках</b> на диску. Код у VS Code і код у Блокноті — це той самий файл; редактор лише зручніше його показує.</p>
+<p><b>Шлях</b> — це «адреса» файлу: перелік папок від диска до файлу. Наприклад, <code>C:\Users\gladu\kursy\README.md</code> читається так: диск C → папка Users → папка gladu → папка kursy → файл README.md.</p>
+<p><code>C:\Users\gladu</code> — твоя <b>домашня папка</b>. Тут належить тримати свої проєкти: у корені диска (<code>C:\</code>) бувають проблеми з правами, і туди гірше доходять резервні копії.</p>
+<p>Два спеціальні позначення: <code>.</code> (одна крапка) — «папка, де я зараз»; <code>..</code> (дві крапки) — «папка на рівень вище». Тому <code>cd ..</code> — «піднятись вгору», а <code>code .</code> — «відкрий у VS Code поточну папку».</p>
+<div class="analogy"><b>Аналогія</b>Шлях — як поштова адреса: країна → місто → вулиця → будинок. <code>..</code> — «вийти на попередню вулицю», <code>.</code> — «тут, де стою».</div>
+
+<!-- 2 -->
+<h2 id="2">2. Термінал</h2>
+<p><b>Термінал</b> — вікно, де ти керуєш комп'ютером текстом замість мишки. Пишеш команду, натискаєш Enter — комп'ютер виконує. Навіщо, якщо є мишка? Бо сервери, на яких живуть сайти, мишки не мають взагалі, а багато інструментів (Git, Node) працюють саме через команди.</p>
+<p>У тебе термінал — <b>PowerShell</b> (на Windows). На Mac і серверах — інші (zsh, bash), але ідея та сама.</p>
+<h3>Як читати рядок терміналу</h3>
+<pre>PS C:\Users\gladu\kursy&gt; _</pre>
+<p><code>PS</code> — це PowerShell; <code>C:\Users\gladu\kursy</code> — папка, в якій ти зараз «стоїш»; <code>&gt;</code> — «готовий, пиши команду».</p>
+<h3>Команди, які ти вже знаєш</h3>
+<div class="tbl"><table>
+<tr><th>Команда</th><th>Що робить</th><th>Як запам'ятати</th></tr>
+<tr><td><code>pwd</code></td><td>Показує, де ти зараз</td><td><b>p</b>rint <b>w</b>orking <b>d</b>irectory</td></tr>
+<tr><td><code>cd назва</code></td><td>Перейти в папку</td><td><b>c</b>hange <b>d</b>irectory</td></tr>
+<tr><td><code>cd ~</code></td><td>Перейти в домашню папку</td><td>~ = «дім»</td></tr>
+<tr><td><code>mkdir назва</code></td><td>Створити папку</td><td><b>m</b>a<b>k</b>e <b>dir</b>ectory</td></tr>
+<tr><td><code>ls</code></td><td>Показати, що в папці</td><td><b>l</b>i<b>s</b>t</td></tr>
+<tr><td><code>cat файл</code></td><td>Показати вміст файлу</td><td>від con<b>cat</b>enate</td></tr>
+<tr><td><code>echo "текст" &gt; файл</code></td><td>Записати текст у файл</td><td><code>&gt;</code> = «направити туди»</td></tr>
+<tr><td><code>rm назва -Recurse</code></td><td>Видалити (з усім вмістом)</td><td><b>r</b>e<b>m</b>ove — <b>без кошика!</b></td></tr>
+</table></div>
+<p><b>Різниця, яку питали:</b> <code>mkdir</code> <i>створює</i> папку, але ти лишаєшся там, де був. <code>cd</code> нічого не створює — він <i>переносить тебе</i> в існуючу папку. Спочатку побудував кімнату (<code>mkdir</code>), потім зайшов у неї (<code>cd</code>).</p>
+<h3>Як читати відповідь терміналу</h3>
+<p>Червоний текст — помилка. Тиша після Enter — <b>успіх</b> (багато команд нічого не пишуть, якщо все добре). Порожній результат <code>ls</code> — просто порожня папка. «is not recognized» майже завжди означає одруківку в назві команди або програму, якої не встановлено.</p>
+<div class="stone"><b>Камені, на які ти вже наступав</b>
+Enter натискається <b>один раз, у кінці</b> команди — інакше термінал виконає половину. Текст, який не є командою (<code>node_modules/</code>), в терміналі не має сенсу — йому місце у файлі. Стрілка ↑ повертає попередню команду, Tab дописує назви, Esc стирає рядок.</div>
+
+<!-- 3 -->
+<h2 id="3">3. VS Code: з чого складається вікно</h2>
+<p>VS Code — <b>редактор коду</b>. Він не «запускає» програми сам по собі: він показує файли, допомагає їх писати і має всередині термінал.</p>
+<div class="tbl"><table>
+<tr><th>Де</th><th>Що це</th><th>Що там робиш</th></tr>
+<tr><td>Ліва смуга іконок</td><td>Activity Bar</td><td>Перемикаєш режими: файли, пошук, Git, розширення</td></tr>
+<tr><td>Ліва панель</td><td>Explorer (файли) або Source Control (Git)</td><td>Бачиш файли проєкту або зміни для коміту</td></tr>
+<tr><td>Посередині</td><td><b>Редактор</b></td><td>Пишеш <b>вміст файлів</b></td></tr>
+<tr><td>Внизу</td><td><b>Термінал</b></td><td>Пишеш <b>команди</b></td></tr>
+<tr><td>Праворуч</td><td>Copilot Chat</td><td>AI-помічник; в режимі Agent може й сам виконувати команди</td></tr>
+<tr><td>Найнижча смужка</td><td>Status Bar</td><td>Гілка, помилки, кодування</td></tr>
+</table></div>
+<p><b>Open Folder</b> — найважливіша дія: VS Code має знати, яка папка — твій проєкт. Без неї ліворуч «No Folder Opened», і Git та інші інструменти не розуміють, з чим працювати.</p>
+<p><b>Довіра до папки (Trust)</b>: VS Code питає, чи довіряєш авторам файлів, бо проєкт може містити код, який запуститься сам. Своїм папкам — довіряй, чужим завантаженим — спершу подивись, що там.</p>
+<p><b>Крапка ● на вкладці</b> файлу — є незбережені зміни. Ctrl+S зберігає мовчки, і крапка зникає. <b>«M» біля файлу</b> — Modified: змінено відносно останнього коміту.</p>
+<div class="stone"><b>Камінь</b>Copilot у режимі агента питає «Run command? Allow / Skip». Завжди читай команду перед Allow і ніколи не вмикай «Always allow». І не запускай AI у файлах із справжніми паролями й ключами — вміст іде на сервер AI.</div>
+
+<!-- 4 -->
+<h2 id="4">4. Node.js</h2>
+<p>JavaScript від народження живе в браузері. <b>Node.js</b> — «двигун», який дозволяє запускати JavaScript просто на комп'ютері чи сервері: ботів, сервери, скрипти. Поки ти його лише встановив; знадобиться з P2–P5.</p>
+<p><b>LTS</b> (Long Term Support) — версія, яку довго підтримують і виправляють. Для навчання і роботи завжди LTS, а не «Current» (найновіша, але менш стабільна).</p>
+<p><b>npm</b> — менеджер пакетів, що приходить разом з Node: через нього підключаєш чужі бібліотеки. Вони складаються в папку <code>node_modules</code>.</p>
+
+<!-- 5 -->
+<h2 id="5">5. Git і GitHub — у чому різниця</h2>
+<p><b>Git</b> — програма <b>на твоєму комп'ютері</b>. Вона пам'ятає історію змін у проєкті: що, коли і навіщо змінено. Працює без інтернету.</p>
+<p><b>GitHub</b> — <b>сайт</b>, куди Git відправляє копію твого проєкту. Там зручно зберігати, показувати і працювати разом з іншими.</p>
+<div class="analogy"><b>Аналогія</b>Git — як фотоапарат, що знімає твій проєкт після кожної зміни. GitHub — як хмарний фотоальбом, куди ти завантажуєш знімки, щоб вони не загубились і їх могли бачити інші.</div>
+<p>Тому вхід у GitHub через VS Code ≠ встановлений Git: перше — доступ до альбому, друге — сам фотоапарат.</p>
+<p><code>git config --global user.name / user.email</code> — ти «підписуєш» фотоапарат: кожен знімок (коміт) матиме твоє ім'я і пошту. <code>--global</code> — для всіх проєктів на цьому комп'ютері.</p>
+
+<!-- 6 -->
+<h2 id="6">6. Репозиторій і коміт</h2>
+<p><b>Репозиторій</b> («репо») — папка проєкту, за якою стежить Git. Звичайну папку перетворює на репозиторій команда <code>git init</code>: вона створює приховану папку <code>.git</code>, де живе вся історія. Видалиш <code>.git</code> — зникне історія, файли залишаться.</p>
+<p><b>Коміт</b> — «знімок» стану файлів у певний момент, з твоїм підписом-поясненням. У кожного коміту є ID — довгий код, з якого зазвичай показують перші 7 символів: <code>b3fe5e2</code>, <code>677ea93</code>…</p>
+<p>Історію подивитися: <code>git log --oneline</code>. Найновіший коміт — зверху. Перший коміт в історії Git позначає як <code>root-commit</code>.</p>
+<p><code>1 file changed, 2 insertions(+), 1 deletion(-)</code> — скільки файлів і рядків змінилось. Git не вміє «редагувати» рядок: для нього зміна = видалив старий + вставив новий.</p>
+
+<!-- 7 -->
+<h2 id="7">7. Три «місця» в Git</h2>
+<p>Найважливіша схема всієї майстерні. Зміна проходить три етапи:</p>
+<pre class="mermaid">
+flowchart LR
+  W["Робоча папка<br/>файли, які ти редагуєш"] -->|git add| S["Staging<br/>«що піде в знімок»"]
+  S -->|git commit| L["Локальна історія<br/>коміти на твоєму ПК"]
+  L -->|git push| R["GitHub<br/>копія в хмарі"]
+  R -->|git pull| L
+</pre>
+<p><b>Робоча папка</b> — файли, як вони зараз на диску. <b>Staging</b> («сцена») — те, що ти вибрав для наступного знімка. Навіщо проміжний етап? Щоб у один коміт потрапили тільки пов'язані зміни, а не все підряд. <b>Локальна історія</b> — збережені коміти, поки тільки в тебе.</p>
+<p><code>git commit -am "..."</code> — скорочення: add + commit одразу, але тільки для файлів, які Git уже знає (новий файл через <code>-am</code> не потрапить).</p>
+<p><code>git status</code> — головна команда-«ліхтарик»: показує, в якій ти гілці, що змінено, що в staging, що не відстежується. Запускай її завжди, коли не впевнений. «nothing to commit, working tree clean» — змін немає (найчастіше: забув зберегти файл).</p>
+<p><b>Різниця commit і push:</b> <code>commit</code> — зберегти знімок <i>у себе</i>. <code>push</code> — <i>відправити</i> збережені знімки на GitHub. Можна зробити 10 комітів без інтернету, а потім один push.</p>
+
+<!-- 8 -->
+<h2 id="8">8. Гілки і main</h2>
+<p><b>Гілка</b> — окрема лінія історії, в якій можна працювати, не чіпаючи основну. <b>main</b> — назва головної гілки: там лежить «чиста», робоча версія проєкту. Решта гілок — для окремих задач: <code>fix-readme</code>, <code>variant-a</code>…</p>
+<pre class="mermaid">
+gitGraph
+  commit id: "README"
+  commit id: "опис P0"
+  commit id: "список команд"
+  branch fix-readme
+  commit id: "абзаци"
+  checkout main
+  merge fix-readme
+</pre>
+<p><code>git switch -c назва</code> — створити гілку і перейти в неї. <code>git switch main</code> — повернутись у main. <code>git branch -d назва</code> — видалити гілку (історія, вже злита в main, лишається).</p>
+<p><b>HEAD</b> — «ти тут»: на якій гілці і коміті ти зараз. <code>HEAD -&gt; main</code> означає «я на гілці main».</p>
+<p><b>Навіщо гілки, якщо можна все в main?</b> Main має завжди працювати. Якщо експеримент не вдався — гілку просто видаляєш, main не постраждав. У команді кожен працює у своїй гілці, і люди не заважають одне одному. А зміни потрапляють у main тільки після перевірки (pull request).</p>
+<div class="analogy"><b>Аналогія</b>main — чистовик зошита. Гілка — чернетка, де пробуєш рішення. Вийшло — переписуєш у чистовик (merge). Не вийшло — викидаєш чернетку.</div>
+<div class="stone"><b>Камінь</b>Перед роботою дивись, у якій ти гілці (внизу ліворуч у VS Code або <code>git status</code>). Найчастіша помилка — працювати в main, думаючи, що ти у своїй гілці.</div>
+
+<!-- 9 -->
+<h2 id="9">9. GitHub: push, pull, clone</h2>
+<div class="tbl"><table>
+<tr><th>Команда</th><th>Напрямок</th><th>Коли</th></tr>
+<tr><td><code>git push</code></td><td>Твій ПК → GitHub</td><td>Відправити свої коміти</td></tr>
+<tr><td><code>git pull</code></td><td>GitHub → твій ПК</td><td>Забрати нове в <b>вже існуючий</b> у тебе проєкт</td></tr>
+<tr><td><code>git clone адреса</code></td><td>GitHub → твій ПК</td><td><b>Перший раз</b> завантажити проєкт, якого в тебе ще немає</td></tr>
+<tr><td><code>git fetch</code></td><td>GitHub → твій ПК</td><td>Лише дізнатись, що нового, нічого не змінюючи у файлах</td></tr>
+</table></div>
+<p><b>Різниця pull і clone:</b> clone — «скопіювати весь проєкт з нуля» (робиться один раз). Pull — «докачати оновлення» в проєкт, який уже є.</p>
+<p><b>origin</b> — коротке ім'я твого репозиторію на GitHub (щоб не писати повну адресу). <code>origin/main</code> — гілка main на GitHub, як її пам'ятає твій комп'ютер.</p>
+<p><code>git push -u origin fix-readme</code> — перший push нової гілки: <code>-u</code> «зв'язує» її з GitHub, і далі достатньо просто <code>git push</code>.</p>
+<p><b>«Your branch is up to date»</b> — актуально <i>на момент останнього pull/fetch</i>, а не «зараз». Тому ти бачив «up to date», хоча на GitHub уже був злитий PR, — комп'ютер ще про нього не знав.</p>
+<p><b>«ahead of origin/main by 1 commit»</b> — у тебе є 1 коміт, якого ще немає на GitHub. Треба push.</p>
+<p><b>Private / Public</b>: приватний репозиторій бачиш тільки ти (і кого запросиш), публічний — увесь інтернет.</p>
+
+<!-- 10 -->
+<h2 id="10">10. Pull request і злиття</h2>
+<p><b>Pull request (PR)</b> — запит «будь ласка, злийте мою гілку в main». На GitHub це сторінка, де видно всі зміни (вкладка Files changed), можна обговорити і перевірити їх, а потім натиснути Merge. У командах саме тут колега робить рев'ю твого коду.</p>
+<p><b>Merge (злиття)</b> — перенести зміни з однієї гілки в іншу. Буває двох видів:</p>
+<p><b>Fast-forward</b> — якщо в main нічого нового не з'явилось, Git просто «пересуває» main вперед до останнього коміту гілки. Нового коміту не створює.</p>
+<p><b>Merge commit</b> — якщо обидві гілки мають свої нові коміти, Git створює окремий «коміт злиття», що об'єднує дві лінії (на графіку дві лінії сходяться в одну точку).</p>
+<p>Після злиття на GitHub твій комп'ютер про це не знає — тому <code>git switch main</code> → <code>git pull</code>.</p>
+
+<!-- 11 -->
+<h2 id="11">11. Конфлікт</h2>
+<p><b>Конфлікт</b> — коли дві гілки змінили <b>один і той самий рядок</b> по-різному. Git не вгадує, яка версія правильна, і просить вирішити людину. Якщо змінено різні рядки чи різні файли — Git зливає сам.</p>
+<pre>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD (Current Change)
+# Мої IT-курси            ← що вже є там, де ти зараз
+=======
+# Моє навчання            ← що приходить з іншої гілки
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; variant-b (Incoming Change)</pre>
+<p><b>Current</b> — «поточне», версія в гілці, куди зливаєш (у тебе main). <b>Incoming</b> — «вхідне», версія з гілки, яку зливаєш. Вирішення: залишити одну, обидві або написати свою — і обов'язково прибрати всі позначки <code>&lt;&lt;&lt;</code>, <code>===</code>, <code>&gt;&gt;&gt;</code>. Потім <code>git add</code> + <code>git commit</code>.</p>
+<div class="stone"><b>Камінь</b>Git дозволить закомітити файл разом з позначками конфлікту, ніби це звичайний текст. У коді програми це миттєва помилка. Перед add — переконайся, що позначок не лишилось.</div>
+
+<!-- 12 -->
+<h2 id="12">12. .gitignore і секрети</h2>
+<p><b>.gitignore</b> — файл зі списком того, що Git має <b>ігнорувати</b>: ніколи не додавати в коміти і не відправляти на GitHub. Назва починається з крапки — так у світі програмування позначають службові файли.</p>
+<p><b>Чому <code>node_modules/</code>:</b> там тисячі чужих файлів бібліотек, які займають сотні мегабайт і завжди відновлюються однією командою <code>npm install</code>. Зберігати їх у Git — як фотографувати весь магазин замість списку покупок.</p>
+<p><b>Чому <code>.env</code>:</b> туди кладуть секрети — паролі, API-ключі, токени. Якщо вони потраплять на GitHub, їх можуть знайти боти за хвилини і скористатись.</p>
+<p><b>Що робити першим, якщо ключ уже потрапив на GitHub:</b> негайно <b>замінити (відкликати) сам ключ</b> у сервісі, якому він належить, — створити новий, а старий вимкнути. Видалити файл з репозиторію недостатньо: ключ лишається в історії комітів, і його могли вже скопіювати. Спершу — новий ключ, потім — прибирання.</p>
+<div class="stone"><b>Камінь</b>.gitignore не допомагає, якщо файл <b>уже</b> був закомічений — Git і далі за ним стежить. Тому .gitignore створюють на самому початку проєкту, до першого секрету.</div>
+
+<!-- 13 -->
+<h2 id="13">13. README і Markdown</h2>
+<p><b>README.md</b> — «обкладинка» проєкту: що це, як запустити. GitHub показує його на головній сторінці репозиторію.</p>
+<p><b>Markdown</b> (<code>.md</code>) — простий спосіб оформити текст символами: <code># </code> — великий заголовок, <code>## </code> — менший, <code>1. </code> — нумерований список, <code>`код`</code> — код.</p>
+<p>Правило, на якому ти спіткнувся: звичайний перенос рядка в Markdown <b>не</b> створює новий абзац — рядки зливаються. Новий абзац — тільки після <b>порожнього рядка</b>.</p>
+
+<!-- 14 -->
+<h2 id="14">14. Словник кнопок</h2>
+<h3>VS Code</h3>
+<div class="tbl"><table>
+<tr><th>Кнопка</th><th>Що робить</th></tr>
+<tr><td>Open Folder</td><td>Відкрити папку проєкту</td></tr>
+<tr><td>New File / New Folder</td><td>Створити файл / папку (перша і друга іконки біля назви папки)</td></tr>
+<tr><td>Trust Folder &amp; Continue</td><td>Довіряю цій папці, можна запускати код</td></tr>
+<tr><td>Commit (у Source Control)</td><td>Те саме, що <code>git commit</code>, мишкою</td></tr>
+<tr><td>Publish Branch</td><td>Створити репозиторій на GitHub і вперше відправити гілку</td></tr>
+<tr><td>Sync Changes 3↑</td><td>Push + pull разом; ↑3 — три коміти чекають відправки, ↓ — є що забрати</td></tr>
+<tr><td>Accept Current / Incoming / Both</td><td>Вирішення конфлікту: залишити поточне / вхідне / обидва</td></tr>
+<tr><td>Allow / Skip (Copilot)</td><td>Дозволити / не дозволити AI виконати команду</td></tr>
+<tr><td>Keep / Undo (Copilot)</td><td>Залишити / скасувати текст, який вставив AI</td></tr>
+</table></div>
+<h3>GitHub</h3>
+<div class="tbl"><table>
+<tr><th>Кнопка (оригінал)</th><th>Автопереклад, який ти бачив</th><th>Що робить</th></tr>
+<tr><td>Compare &amp; pull request</td><td>«Порівняння та запит на зняття»</td><td>Почати PR з нової гілки</td></tr>
+<tr><td>Create pull request</td><td>«Створити запит на зняття»</td><td>Створити PR</td></tr>
+<tr><td>Files changed</td><td>—</td><td>Подивитись, що саме змінилось</td></tr>
+<tr><td>Merge pull request → Confirm merge</td><td>—</td><td>Злити гілку в main</td></tr>
+<tr><td>Delete branch</td><td>—</td><td>Видалити гілку після злиття</td></tr>
+<tr><td>Revert</td><td>—</td><td>Відкотити злиття, якщо щось зламалось</td></tr>
+<tr><td>Open / Merged</td><td>«Відчинено»</td><td>Зелений — PR відкритий; фіолетовий — злитий</td></tr>
+</table></div>
+<p>Порада: вимкни автопереклад для github.com — оригінальні назви ти зустрічатимеш у документації і на роботі.</p>
+
+<!-- 15 -->
+<h2 id="15">15. Весь шлях одною картинкою</h2>
+<p>Ось що ти зробив за один вечір — повний цикл роботи, яким щодня користуються програмісти в усьому світі:</p>
+<pre class="mermaid">
+flowchart TD
+  A[Встановив VS Code, Node.js, Git] --> B[Навчився ходити по папках у терміналі]
+  B --> C[git config: підписав свої коміти]
+  C --> D[git init: папка стала репозиторієм]
+  D --> E[Редагував файл → add → commit]
+  E --> F[Publish: репозиторій на GitHub]
+  F --> G[Гілка → коміт → push]
+  G --> H[Pull request → Merge → pull]
+  H --> I[Конфлікт → вирішив → commit]
+  I --> J[.gitignore: секрети не потрапляють на GitHub]
+</pre>
+<p>Цей цикл — <b>гілка → зміни → коміт → push → PR → merge → pull</b> — не зміниться, хоч ти робитимеш сайт, гру чи AI-продукт. Усе інше в курсі будуватиметься поверх нього.</p>
+
+<div class="end"><b>Далі — P1: сайт-візитка.</b> Тепер ти вмієш зберігати свою роботу і відправляти її на GitHub; наступний крок — нарешті зробити щось, що можна побачити в браузері.</div>
+</article>
+<script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.esm.min.mjs";
+mermaid.initialize({startOnLoad:true, theme: matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "default"});
+</script>
+</body>
+</html>
