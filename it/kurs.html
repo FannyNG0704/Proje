@@ -140,6 +140,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 <h1>Від нуля до проду</h1>
 <p class="lead">Курс зібраний з найсильніших безкоштовних програм (The Odin Project, Full Stack Open з Гельсінського університету, freeCodeCamp, CS50, MIT Missing Semester, roadmap.sh, Google SRE, OWASP, PortSwigger, документація Stripe і Telegram). Зайве з них прибрано. Кожну тему вчимо тільки тоді, коли вона потрібна в проєкті, і кожен проєкт доводимо до кінця.</p>
 
+<div class="principles" style="grid-template-columns:minmax(0,1fr)"><div><b>Як користуватись курсом</b>Курс розрахований на навчання разом з Claude (claude.ai). Відкрий новий чат і напиши, наприклад: <i>«Я проходжу курс „Від нуля до проду“, проєкт P0, задача 1. Пояснюй детально простими словами, з підводними каменями. Не давай готовий код одразу — спочатку підказку. В кінці перевір мене питаннями.»</i> Відмічай виконані задачі галочками на цій сторінці — прогрес у кожного свій. Курс оновлюється за цим самим посиланням.</div></div>
+
 <div class="overall" aria-live="polite">
   <div class="cnt" id="overallTxt">Виконано задач: 0</div>
   <div class="bar"><i id="overallBar"></i></div>
@@ -148,7 +150,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 <h2 id="pryntsyp">Принцип курсу</h2>
 <div class="principles">
-  <div><b>1. Проєкт спочатку, теорія під нього</b>Не «вивчити JavaScript», а «зробити калькулятор» і по дорозі взяти з JavaScript рівно те, що потрібно. Базу ти добираєш з практики, як і хотів.</div>
+  <div><b>1. Проєкт спочатку, теорія під нього</b>Не «вивчити JavaScript», а «зробити калькулятор» і по дорозі взяти з JavaScript рівно те, що потрібно. Базу добираєш з практики.</div>
   <div><b>2. Доводимо до кінця</b>Проєкт готовий не тоді, коли «у мене працює», а коли виконано блок «Готово, коли…»: задеплоєно, є тести, є обробка помилок, є README.</div>
   <div><b>3. Камені — до старту</b>Кожен проєкт починається з блоку «Підводні камені». Ти знаєш, де зламається, ще до першого рядка коду.</div>
   <div><b>4. Спіраль</b>Безпека, помилки, дані, деплой повертаються в кожному проєкті, щоразу глибше. Нічого не вчимо «один раз і забули».</div>
@@ -194,11 +196,11 @@ flowchart LR
 <div class="tbl"><table>
 <thead><tr><th>Крок</th><th>Що робимо</th><th>Навіщо</th></tr></thead>
 <tbody>
-<tr><td>1. Розбір</td><td>Я детально пояснюю тему поточної задачі: суть, як працює всередині, камені.</td><td>Розуміти, а не копіювати</td></tr>
+<tr><td>1. Розбір</td><td>Claude детально пояснює тему поточної задачі: суть, як працює всередині, камені.</td><td>Розуміти, а не копіювати</td></tr>
 <tr><td>2. Сам</td><td>Ти пишеш код сам. Застряг на 20–30 хв — просиш <b>підказку</b>, не готове рішення.</td><td>Мозок вчиться тільки коли сам бореться</td></tr>
-<tr><td>3. Рев'ю</td><td>Я перевіряю код як сеньйор на роботі: що погано, що небезпечно, як зробити краще.</td><td>Так працюють у компаніях</td></tr>
+<tr><td>3. Рев'ю</td><td>Показуєш код Claude — він перевіряє як сеньйор на роботі: що погано, що небезпечно, як зробити краще.</td><td>Так працюють у компаніях</td></tr>
 <tr><td>4. Самоперевірка</td><td>2–3 питання. Відповідаєш своїми словами.</td><td>Перевірити, що зрозумів, а не запам'ятав</td></tr>
-<tr><td>5. Прогрес</td><td>Відмічаєш задачі на цій сторінці, я оновлюю <code>it/progres.md</code> і пишу конспект.</td><td>Видно шлях, нічого не губиться</td></tr>
+<tr><td>5. Прогрес</td><td>Відмічаєш задачі на цій сторінці і записуєш короткий конспект: що зрозумів, що лишилось незрозумілим.</td><td>Видно шлях, нічого не губиться</td></tr>
 </tbody></table></div>
 
 <!-- ===================== P0 ===================== -->
@@ -742,7 +744,7 @@ flowchart LR
 <li><input type="checkbox" id="p9-2"><label for="p9-2">Підключити Sentry до фронту і бекенду.</label></li>
 <li><input type="checkbox" id="p9-3"><label for="p9-3">Uptime-моніторинг (UptimeRobot / Better Stack) з алертом у Telegram — через бот з P5.</label></li>
 <li><input type="checkbox" id="p9-4"><label for="p9-4">Endpoint <code>/health</code> (перевіряє і базу), дашборд з 4 золотими сигналами.</label></li>
-<li><input type="checkbox" id="p9-5"><label for="p9-5"><b>Game day:</b> я навмисно ламаю апку (впала база, заповнений диск, неправильна змінна середовища, повільний запит, витік пам'яті). Ти знаходиш причину за логами.</label></li>
+<li><input type="checkbox" id="p9-5"><label for="p9-5"><b>Game day:</b> Claude або друг навмисно ламає апку (впала база, заповнений диск, неправильна змінна середовища, повільний запит, витік пам'яті). Ти знаходиш причину за логами.</label></li>
 <li><input type="checkbox" id="p9-6"><label for="p9-6">Написати runbook на 5 типових аварій: симптом → де дивитись → що робити.</label></li>
 <li><input type="checkbox" id="p9-7"><label for="p9-7">Написати postmortem по одній аварії з game day.</label></li>
 </ul>
@@ -1034,7 +1036,7 @@ flowchart TB
 </tbody></table></div>
 <h3>Задачі</h3>
 <ul class="tasks">
-<li><input type="checkbox" id="p14-1"><label for="p14-1">Симуляція команди: кожна задача — окрема гілка і маленький PR, я роблю жорстке рев'ю як сеньйор.</label></li>
+<li><input type="checkbox" id="p14-1"><label for="p14-1">Симуляція команди: кожна задача — окрема гілка і маленький PR, Claude робить жорстке рев'ю як сеньйор.</label></li>
 <li><input type="checkbox" id="p14-2"><label for="p14-2">E2E-тести Playwright для 3 головних сценаріїв (реєстрація, оплата, чат).</label></li>
 <li><input type="checkbox" id="p14-3"><label for="p14-3">Feature flag для нової функції і поступове ввімкнення.</label></li>
 <li><input type="checkbox" id="p14-4"><label for="p14-4">System design розбір: URL-скорочувач, чат на мільйон людей, магазин з оплатою. Схема + слабкі місця.</label></li>
@@ -1069,7 +1071,7 @@ flowchart TB
 <p class="why"><b>Задача:</b> барбершоп / клініка в Іспанії хоче онлайн-запис: вибір майстра і часу, передоплата карткою, нагадування в Telegram, адмінка для власника, статистика. Ти проходиш повний цикл, як на справжньому замовленні. Тут зібрано все: гроші, персональні дані, реальний час, сторонні сервіси.</p>
 <h3>Задачі</h3>
 <ul class="tasks">
-<li><input type="checkbox" id="fin-1"><label for="fin-1">Пройти з «замовником» (я граю роль) <a href="#ryzyky">карту ризиків</a> і питання перед стартом. Записати вимоги.</label></li>
+<li><input type="checkbox" id="fin-1"><label for="fin-1">Пройти з «замовником» (Claude грає його роль) <a href="#ryzyky">карту ризиків</a> і питання перед стартом. Записати вимоги.</label></li>
 <li><input type="checkbox" id="fin-2"><label for="fin-2">Оцінка часу і вартості з поясненням, куди йде час (безпека, тести, моніторинг).</label></li>
 <li><input type="checkbox" id="fin-3"><label for="fin-3">Design doc: архітектура, схема бази, ризики.</label></li>
 <li><input type="checkbox" id="fin-4"><label for="fin-4">Захист від подвійного бронювання одного слота (дві людини одночасно — транзакція / обмеження в БД).</label></li>
@@ -1283,9 +1285,10 @@ flowchart TD
     timer = setTimeout(function(){
       var body = { done: Object.assign({}, state), updatedAt: new Date().toISOString() };
       writing = writing.then(function(){ return docRef.set(body); }).then(function(){
-        syncTxt.textContent = 'Прогрес збережено. Claude бачить його на наступному занятті.';
+        syncTxt.textContent = 'Прогрес збережено у твоєму акаунті.';
       }).catch(function(){
-        syncTxt.textContent = 'Не вдалося зберегти на сервері — прогрес лишився в цьому браузері.';
+        docRef = null;
+        syncTxt.textContent = 'Прогрес зберігається в цьому браузері.';
       });
     }, 600);
   }
@@ -1301,18 +1304,23 @@ flowchart TD
   syncTxt.textContent = 'Прогрес зберігається в цьому браузері.';
 
   if (window.claude && typeof window.claude.use === 'function') {
-    window.claude.use('db').then(function(ns){
-      if (!ns) return;
+    Promise.all([window.claude.use('db'), window.claude.use('user')]).then(function(r){
+      var ns = r[0], user = r[1];
+      if (!ns || !user) return null;
       db = ns;
-      try { docRef = db.doc('progress/main'); } catch(e){ return; }
+      return user.id();
+    }).then(function(uid){
+      if (!uid) return;
+      try { docRef = db.doc('data/users/' + uid + '/progress'); } catch(e){ return; }
       docRef.get().then(function(snap){
         var remote = (snap.exists && snap.data() && snap.data().done) || {};
         var merged = Object.assign({}, remote, state);
         var changed = Object.keys(merged).length !== Object.keys(remote).length;
         state = merged; apply(); writeLocal();
-        syncTxt.textContent = 'Прогрес синхронізовано. Claude бачить його на наступному занятті.';
+        syncTxt.textContent = 'Прогрес синхронізовано з твоїм акаунтом.';
         if (changed && Object.keys(state).length) save();
       }).catch(function(){
+        docRef = null;
         syncTxt.textContent = 'Прогрес зберігається в цьому браузері.';
       });
     }).catch(function(){});
