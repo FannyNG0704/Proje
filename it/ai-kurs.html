@@ -1,0 +1,1251 @@
+<title>AI: як працює і як на ньому будувати</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: sticky contents on the left (desktop), one long column of module work orders; teal accent marks this as the AI course. */
+:root{
+  --bg:#f5f6f8; --surface:#ffffff; --ink:#18212e; --muted:#5a6475; --line:#d9dee6;
+  --accent:#0e7c86; --accent-soft:#e2f4f5;
+  --warn:#b45309; --warn-soft:#fdf1e3;
+  --ok:#1f7a4d; --ok-soft:#e3f4ea;
+  --l1:#2f8f6b; --l2:#2f5bd3; --l3:#b45309; --l4:#7a3fb8;
+  --code-bg:#eef1f5;
+  --f-display:"Unbounded","Golos Text",system-ui,sans-serif;
+  --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11161f; --surface:#171e2a; --ink:#e6eaf1; --muted:#9aa5b6; --line:#2a3445;
+  --accent:#5fd0da; --accent-soft:#12303a;
+  --warn:#f0a35a; --warn-soft:#33240f;
+  --ok:#5fcf98; --ok-soft:#12301f;
+  --l1:#5fcf98; --l2:#7ea2ff; --l3:#f0a35a; --l4:#c39bff;
+  --code-bg:#1f2836; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#11161f; --surface:#171e2a; --ink:#e6eaf1; --muted:#9aa5b6; --line:#2a3445;
+  --accent:#5fd0da; --accent-soft:#12303a;
+  --warn:#f0a35a; --warn-soft:#33240f;
+  --ok:#5fcf98; --ok-soft:#12301f;
+  --l1:#5fcf98; --l2:#7ea2ff; --l3:#f0a35a; --l4:#c39bff;
+  --code-bg:#1f2836; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:240px minmax(0,1fr);gap:40px;padding-block:32px 80px}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr)} nav.toc{display:none}}
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;max-height:calc(100vh - 32px);overflow:auto;font-size:14px}
+nav.toc a{display:block;color:var(--muted);text-decoration:none;padding:3px 0}
+nav.toc a:hover,nav.toc a:focus-visible{color:var(--accent)}
+nav.toc .grp{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-top:14px}
+main{min-width:0}
+h1,h2,h3{text-wrap:balance;line-height:1.25}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(28px,4.5vw,44px);margin:0 0 12px}
+h2{font-family:var(--f-display);font-weight:500;font-size:clamp(22px,3vw,28px);margin:56px 0 12px}
+h3{font-size:18px;margin:24px 0 8px}
+p{max-width:70ch;margin:8px 0}
+a{color:var(--accent)}
+.lead{font-size:18px;color:var(--muted);max-width:68ch}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+code,kbd{font-family:var(--f-mono);font-size:.88em;background:var(--code-bg);padding:1px 5px;border-radius:4px}
+.tbl{overflow-x:auto;margin:12px 0;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line)}
+th{font-size:13px;color:var(--muted);font-weight:600;background:var(--bg)}
+tr:last-child td{border-bottom:0}
+.mermaid{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;overflow-x:auto;margin:12px 0}
+.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:16px 0}
+.lv{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:8px;padding:14px 16px}
+.lv h3{margin:4px 0 6px;font-size:16px}
+.lv .say{font-size:14px;color:var(--muted)}
+.lv .say b{color:var(--ink)}
+.principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:12px 0}
+.principles div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.principles b{display:block;margin-bottom:2px}
+/* project cards */
+section.proj{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin:20px 0;border-left:5px solid var(--c)}
+.proj-head{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between}
+.proj-head h2{margin:0;font-size:clamp(20px,2.6vw,24px)}
+.tag{font-family:var(--f-mono);font-size:12px;padding:2px 8px;border-radius:999px;background:var(--bg);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}
+.why{font-size:15px;color:var(--muted)}
+.pit{background:var(--warn-soft);border-radius:8px;padding:12px 16px;margin:12px 0}
+.pit h3{color:var(--warn);margin-top:0}
+.pit ul{margin:0;padding-left:20px}
+.done{background:var(--ok-soft);border-radius:8px;padding:12px 16px;margin:12px 0}
+.done h3{color:var(--ok);margin-top:0}
+.done ul{margin:0;padding-left:20px}
+ul.tasks{list-style:none;padding:0;margin:8px 0}
+ul.tasks li{display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-bottom:1px dashed var(--line)}
+ul.tasks li:last-child{border-bottom:0}
+ul.tasks input{margin-top:5px;width:18px;height:18px;accent-color:var(--accent);flex:none}
+ul.tasks label{cursor:pointer}
+ul.tasks input:checked + label{color:var(--muted);text-decoration:line-through}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:6px 0 2px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.cnt{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.quiz ol{padding-left:22px;margin:4px 0}
+.src{font-size:14px;color:var(--muted)}
+.src a{word-break:break-word}
+.note{font-size:14px;color:var(--muted);border-left:3px solid var(--line);padding-left:12px;margin:12px 0}
+.syncline{font-size:13px;color:var(--muted);margin-top:8px}
+.overall{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:8px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.cols2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.cols2>div{min-width:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+<div class="wrap">
+<nav class="toc" aria-label="Зміст">
+  <div class="grp">Старт</div>
+  <a href="#pryntsyp">Принцип курсу</a>
+  <a href="#karta">Карта і рівні</a>
+  <a href="#vidpovidi">Короткі відповіді на твої питання</a>
+  <div class="grp">Рівень 0 · Як це працює</div>
+  <a href="#a0">A0 · Карта понять</a>
+  <a href="#a1">A1 · Токени, трансформер, ваги</a>
+  <a href="#a2">A2 · Як модель вчиться</a>
+  <a href="#a3">A3 · Знання і інтернет</a>
+  <a href="#a4">A4 · Галюцинації, забування, лаги</a>
+  <div class="grp">Рівень 1 · Інструменти</div>
+  <a href="#a5">A5 · Карта AI-інструментів</a>
+  <a href="#a6">A6 · Відкриті ваги і «мізки»</a>
+  <div class="grp">Рівень 2 · Будую на AI</div>
+  <a href="#a7">A7 · API, промпти, контекст</a>
+  <a href="#a8">A8 · RAG: AI знає твої документи</a>
+  <a href="#a9">A9 · Інструменти, MCP, агенти</a>
+  <a href="#a10">A10 · Пам'ять агента</a>
+  <div class="grp">Рівень 3 · Якість і безпека</div>
+  <a href="#a11">A11 · Самоперевірка і виправлення</a>
+  <a href="#a12">A12 · Evals: вимірювати якість</a>
+  <a href="#a13">A13 · Безпека AI-апок</a>
+  <div class="grp">Рівень 4 · Глибина</div>
+  <a href="#a14">A14 · Свій міні-GPT і код AI</a>
+  <a href="#a15">A15 · Донавчання і локальні моделі</a>
+  <a href="#a16">A16 · Чи може AI вдосконалювати себе</a>
+  <div class="grp">Рівень 5 · Продакшн і майбутнє</div>
+  <a href="#a17">A17 · Продакшн, гроші, закон</a>
+  <a href="#a18">A18 · Історія і майбутнє AI</a>
+  <a href="#a19">A19 · Кар'єра в AI</a>
+  <a href="#final">Фінал · AI-продукт для бізнесу</a>
+  <div class="grp">Довідник</div>
+  <a href="#slovnyk">Сленг і терміни</a>
+  <a href="#ryzyky">Якщо є X — думай про Y</a>
+  <a href="#ne-vchyty">Міфи і що НЕ робити</a>
+  <a href="#dzherela">Джерела</a>
+</nav>
+
+<main>
+<div class="eyebrow">Навчальний план · штучний інтелект · теорія, інструменти, інженерія · версія жовтень 2026</div>
+<h1>AI: як працює і як на ньому будувати</h1>
+<p class="lead">Від «що всередині мозку моделі» до власних AI-продуктів, які не брешуть, не зливають дані і не розоряють на токенах. Курс зібраний з лекцій Андрея Карпати і 3Blue1Brown, Stanford CS336, курсів Hugging Face, досліджень Anthropic, OpenAI і DeepMind, OWASP, офіційної документації API і реального стану AI-інструментів на жовтень 2026.</p>
+
+<div class="principles" style="grid-template-columns:minmax(0,1fr)"><div><b>Як користуватись курсом</b>Курс розрахований на навчання разом з Claude (claude.ai або Claude Code). Відкрий новий чат і напиши, наприклад: <i>«Я проходжу курс „AI: як працює і як на ньому будувати“, модуль A1, задача 1. Поясни детально простими словами, з підводними каменями. Не давай готовий код одразу — спочатку підказку. В кінці перевір мене питаннями.»</i> Відмічай задачі галочками — прогрес у кожного свій. Рівні 0–1 не потребують програмування. З рівня 2 знадобиться база першого курсу «Від нуля до проду» (JavaScript/TypeScript, сервер, база даних). AI змінюється щомісяця — курс оновлюється за цим самим посиланням.</div></div>
+
+<div class="overall" aria-live="polite">
+  <div class="cnt" id="overallTxt">Виконано задач: 0</div>
+  <div class="bar"><i id="overallBar"></i></div>
+  <div class="syncline" id="syncTxt">Прогрес зберігається…</div>
+</div>
+
+<h2 id="pryntsyp">Принцип курсу</h2>
+<div class="principles">
+  <div><b>1. Розуміти, а не вірити</b>AI — не магія і не «розумна істота в комп'ютері», а велика математична функція. Хто розуміє, як вона працює, той знає, коли їй довіряти, а коли ні.</div>
+  <div><b>2. Модель ≠ продукт</b>ChatGPT, Claude, Gemini — це модель плюс програма навколо неї: пошук, пам'ять, файли, інструменти. Половина «магії» — у програмі, і її можеш зробити ти.</div>
+  <div><b>3. Перевірка ззовні сильніша за «подумай ще раз»</b>Модель надійно виправляє помилки тільки тоді, коли щось зовнішнє каже їй, що вона помилилась: тест, компілятор, пошук, людина.</div>
+  <div><b>4. Вимірюй, а не відчувай</b>«Здається, стало краще» — не аргумент. Набір тестів (evals) з першого тижня.</div>
+  <div><b>5. Все, що прочитала модель, може бути атакою</b>Текст з сайту, документа чи листа може містити приховані команди. Безпеку закладаємо з першого проєкту.</div>
+  <div><b>6. Знання швидко старіють</b>Назви моделей і ціни змінюються кожні кілька місяців. Принципи — ні. Вчимо принципи і звичку перевіряти актуальне в документації.</div>
+</div>
+
+<h2 id="karta">Карта курсу і рівні</h2>
+<pre class="mermaid">
+flowchart LR
+  subgraph L0["Рівень 0 · Як це працює"]
+    A0[A0 Карта понять] --> A1[A1 Токени, трансформер] --> A2[A2 Навчання] --> A3[A3 Знання, інтернет] --> A4[A4 Галюцинації, пам'ять]
+  end
+  subgraph L1["Рівень 1 · Інструменти"]
+    A5[A5 Карта інструментів] --> A6[A6 Відкриті ваги]
+  end
+  subgraph L2["Рівень 2 · Будую"]
+    A7[A7 API, контекст] --> A8[A8 RAG] --> A9[A9 MCP, агенти] --> A10[A10 Пам'ять]
+  end
+  subgraph L3["Рівень 3 · Якість"]
+    A11[A11 Самоперевірка] --> A12[A12 Evals] --> A13[A13 Безпека]
+  end
+  subgraph L4["Рівень 4 · Глибина"]
+    A14[A14 Свій GPT] --> A15[A15 Донавчання] --> A16[A16 Самовдосконалення]
+  end
+  subgraph L5["Рівень 5 · Продакшн"]
+    A17[A17 Продакшн, закон] --> A18[A18 Майбутнє] --> A19[A19 Кар'єра] --> F[Фінал]
+  end
+  A4 --> A5
+  A6 --> A7
+  A10 --> A11
+  A13 --> A14
+  A16 --> A17
+</pre>
+<div class="levels">
+  <div class="lv" style="--c:var(--muted)"><div class="eyebrow">Рівень 0 · ~1 місяць</div><h3>Як це працює</h3><div class="say">Можу пояснити: <b>«Що всередині моделі, звідки вона знає, чому бреше і забуває, і що з цим робити».</b></div></div>
+  <div class="lv" style="--c:var(--l1)"><div class="eyebrow">Рівень 1 · ~3 тижні</div><h3>Інструменти</h3><div class="say">Можу сказати: <b>«Підберу AI під задачу — текст, код, картинки, відео, музика, голос — і знаю ліцензії і ризики».</b></div></div>
+  <div class="lv" style="--c:var(--l2)"><div class="eyebrow">Рівень 2 · ~3 місяці</div><h3>Будую на AI</h3><div class="say">Можу сказати: <b>«Зроблю чат-бота, що знає документи компанії, агента з інструментами і пам'яттю, свій MCP-сервер».</b></div></div>
+  <div class="lv" style="--c:var(--l3)"><div class="eyebrow">Рівень 3 · ~2 місяці</div><h3>Якість і безпека</h3><div class="say">Можу сказати: <b>«Доведу цифрами, що мій AI працює, зменшу помилки і захищу від prompt injection».</b></div></div>
+  <div class="lv" style="--c:var(--l4)"><div class="eyebrow">Рівень 4 · ~2 місяці</div><h3>Глибина</h3><div class="say">Можу сказати: <b>«Розумію код моделі зсередини, тренував міні-GPT, донавчав відкриту модель, знаю правду про самовдосконалення».</b></div></div>
+  <div class="lv" style="--c:var(--accent)"><div class="eyebrow">Рівень 5 · ~1–2 місяці</div><h3>Продакшн і кар'єра</h3><div class="say">Можу сказати: <b>«Запущу AI-продукт за законом ЄС, порахую вартість і знаю, куди рухається галузь».</b></div></div>
+</div>
+<p class="note">Терміни — приблизно при 8–10 годинах на тиждень, весь курс ~9–12 місяців. Рівні 0–1 можна проходити паралельно з першим курсом з самого початку.</p>
+
+<h2 id="vidpovidi">Короткі відповіді на твої питання</h2>
+<div class="tbl"><table><thead><tr><th>Питання</th><th>Коротка чесна відповідь</th><th>Детально</th></tr></thead><tbody>
+<tr><td>Звідки AI бере інформацію?</td><td>З двох місць: (1) те, що «стиснуте» у вагах під час навчання — до дати cutoff; (2) те, що програма поклала йому в контекст зараз: пошук, файли, твоє повідомлення.</td><td><a href="#a3">A3</a></td></tr>
+<tr><td>Як він виходить в інтернет?</td><td>Сама модель — ніяк. Вона пише «хочу пошукати X», програма робить пошук і вставляє результати в контекст як текст.</td><td><a href="#a3">A3</a></td></tr>
+<tr><td>Чому галюцинації?</td><td>Модель вчиться видавати правдоподібний текст, а не правдивий. Плюс навчання й тести роками заохочували «вгадати» замість «не знаю».</td><td><a href="#a4">A4</a></td></tr>
+<tr><td>Чому «лаги»?</td><td>Текст генерується по одному токену, кожен — повний прохід через модель. Довгий контекст, «роздуми» і інструменти додають час.</td><td><a href="#a4">A4</a></td></tr>
+<tr><td>Чому забуває?</td><td>Модель бачить тільки поточне «вікно» контексту. Між чатами вона нічого не пам'ятає — пам'ять робить програма.</td><td><a href="#a4">A4</a></td></tr>
+<tr><td>Чи можна, щоб не забувала нічого і ніколи?</td><td><b>Ідеально — ні.</b> Але можна дуже близько: короткий файл правил (як CLAUDE.md) + пошук по всьому архіву + перевірка важливого. Кожен спосіб має межі.</td><td><a href="#a4">A4</a>, <a href="#a10">A10</a></td></tr>
+<tr><td>Чи може сама знаходити і виправляти свої помилки?</td><td><b>Так, але тільки з зовнішньою перевіркою</b>: тести, компілятор, пошук джерел, друга модель з чіткими критеріями, людина. «Перевір себе ще раз» без нової інформації майже не допомагає — це доведено дослідженнями.</td><td><a href="#a11">A11</a></td></tr>
+<tr><td>Маск «злив мізки» своєї AI, і можна дописати?</td><td>Не злив, а <b>офіційно опублікував ваги старих моделей</b>: Grok-1 (2024) і Grok-2 (2025). Grok-3 обіцяли, але станом на жовтень 2026 не опублікували. Ці ваги можна запустити на орендованих серверах і донавчати, але нову версію Grok з них не зробиш, і ліцензія забороняє вчити на їхніх відповідях інші моделі.</td><td><a href="#a6">A6</a></td></tr>
+<tr><td>Чи можна взяти «мізки» і зробити, щоб AI сам себе дописував?</td><td>Частково і тільки там, де є автоматичний «суддя» (тести, математика). Так працюють AlphaEvolve і Darwin Gödel Machine. Вдома реально: агент, що покращує свій код або промпти і зберігає зміни, тільки якщо тести стали кращими. «Розумніша сама по собі модель на ноутбуці» — міф.</td><td><a href="#a16">A16</a></td></tr>
+<tr><td>Як подивитись код AI?</td><td>Код, що запускає модель, відкритий і невеликий (nanoGPT — кілька сотень рядків). «Знання» — не в коді, а в мільярдах чисел (вагах), і читати їх «очима» неможливо. Їх досліджує інтерпретованість.</td><td><a href="#a14">A14</a></td></tr>
+</tbody></table></div>
+
+<!-- ===================== A0 ===================== -->
+<section class="proj" id="a0" style="--c:var(--muted)" data-proj="a0">
+<div class="proj-head"><h2>A0 · Карта понять: що таке AI насправді</h2><span class="tag">Рівень 0 · ~1 тиждень</span></div>
+<p class="why"><b>Навіщо:</b> слова «AI», «нейромережа», «LLM», «модель», «агент» вживають як синоніми, і через це плутанина. Тут ти розкладаєш усе по полицях.</p>
+<pre class="mermaid">
+flowchart TD
+  AI[Штучний інтелект<br/>будь-яка програма, що робить «розумні» речі] --> ML[Машинне навчання<br/>програма вчиться з прикладів, а не з правил]
+  ML --> DL[Глибоке навчання<br/>багатошарові нейромережі]
+  DL --> GEN[Генеративний AI<br/>створює новий текст, картинки, звук]
+  GEN --> LLM[LLM — великі мовні моделі<br/>Claude, GPT, Gemini]
+  GEN --> DIF[Дифузійні моделі<br/>картинки, відео]
+  GEN --> AUD[Аудіомоделі<br/>музика, голос]
+  LLM --> APP[Продукти: чат, агенти, Claude Code<br/>= модель + програма навколо]
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Поняття</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Модель</td><td>Файл з мільярдами чисел + код, що їх «прокручує». Вхід → обчислення → вихід.</td></tr>
+<tr><td>Навчання vs використання (training vs inference)</td><td>Навчання — місяці на тисячах відеокарт, змінюються ваги. Використання — твій запит, ваги не змінюються.</td></tr>
+<tr><td>Модель vs продукт</td><td>Claude Opus 5.5 — модель. claude.ai — продукт: модель + пошук + файли + пам'ять + інтерфейс.</td></tr>
+<tr><td>Агент</td><td>Модель у циклі: думає → використовує інструмент → дивиться результат → продовжує, поки задача не виконана.</td></tr>
+<tr><td>Мультимодальність</td><td>Одна модель розуміє текст, картинки, звук, відео.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="a0-1"><label for="a0-1">Подивитись Andrej Karpathy «Deep Dive into LLMs like ChatGPT» (3,5 год, для звичайних людей) — частинами, з нотатками.</label></li>
+<li><input type="checkbox" id="a0-2"><label for="a0-2">Подивитись 3Blue1Brown «Neural Networks» (перші 4 серії).</label></li>
+<li><input type="checkbox" id="a0-3"><label for="a0-3">Намалювати свою карту понять (як вище) і пояснити її другу без жодного англійського терміна.</label></li>
+<li><input type="checkbox" id="a0-4"><label for="a0-4">Для 5 продуктів (ChatGPT, Claude Code, Midjourney, Suno, Perplexity) записати: яка модель всередині, що додає програма.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Олюднювати модель: «вона хоче», «вона обманює навмисно». Корисніше думати «вона продовжує текст так, як її навчили».</li>
+<li>Плутати модель і продукт: «ChatGPT пам'ятає» — пам'ятає програма, не модель.</li>
+<li>Вчити з відео 2023 року — половина вже застаріла (але принципи з Karpathy і 3Blue1Brown — ні).</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Можеш за 2 хвилини пояснити різницю між AI, ML, LLM, моделлю і агентом.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Що змінюється в моделі, коли ти з нею переписуєшся?</li><li>Чим агент відрізняється від чату?</li></ol></div>
+<p class="src">Джерела: <a href="https://www.youtube.com/watch?v=7xTGNNLPyMI">Karpathy: Deep Dive into LLMs</a> · <a href="https://www.3blue1brown.com/topics/neural-networks">3Blue1Brown: Neural Networks</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== A1 ===================== -->
+<section class="proj" id="a1" style="--c:var(--muted)" data-proj="a1">
+<div class="proj-head"><h2>A1 · Токени, ембедінги, трансформер, ваги — «мозок» моделі</h2><span class="tag">Рівень 0 · ~2 тижні</span></div>
+<p class="why"><b>Навіщо:</b> це фундамент. Тут стає зрозуміло, чому модель погано рахує літери в слові, чому українською дорожче, і що таке «мізки», про які говорив твій друг.</p>
+<h3>Шлях твого повідомлення через модель</h3>
+<pre class="mermaid">
+flowchart LR
+  T["Текст<br/>«Привіт, як справи?»"] --> TK[Токенізатор<br/>ріже на шматки:<br/>«При» «віт» «,» «як» ...]
+  TK --> ID[Номери токенів<br/>4821, 917, 11, ...]
+  ID --> EM[Ембедінги<br/>кожен номер → вектор<br/>з тисяч чисел]
+  EM --> TR[Трансформер<br/>десятки шарів:<br/>увага + обробка]
+  TR --> P[Ймовірності<br/>наступного токена:<br/>«Добре» 41%, «Все» 23% ...]
+  P --> S[Вибір одного токена]
+  S -->|додаємо в кінець і повторюємо| TK
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Поняття</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Токен, токенізація (BPE)</td><td>Модель бачить не літери, а шматки слів. Англійською ~0,75 слова на токен, українською і іспанською токенів більше — тому дорожче і повільніше.</td></tr>
+<tr><td>Ембедінг</td><td>Кожен токен — точка в просторі з тисяч вимірів. Схожі за змістом слова — поруч.</td></tr>
+<tr><td>Увага (attention)</td><td>Кожен токен «дивиться» на попередні й вирішує, що важливо. «Банк» біля «річки» і біля «грошей» отримує різне значення.</td></tr>
+<tr><td>Трансформер</td><td>Архітектура зі статті «Attention Is All You Need» (2017). Шари уваги + шари обробки, складені десятками.</td></tr>
+<tr><td>Параметри / ваги</td><td>Ті самі «мізки»: мільярди або трильйони чисел у файлі. Не база фактів, а «стиснута з втратами» статистика всього прочитаного.</td></tr>
+<tr><td>Генерація по токену, temperature</td><td>Модель вибирає наступний токен з ймовірностей. Temperature — наскільки сміливо брати менш ймовірні.</td></tr>
+<tr><td>Контекстне вікно</td><td>Скільки токенів модель бачить за раз (у топових моделях 2026 — до 1 млн). Увага дорожчає з довжиною.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="a1-1"><label for="a1-1">Вставити одне речення англійською, українською й іспанською в tiktokenizer — порівняти кількість токенів.</label></li>
+<li><input type="checkbox" id="a1-2"><label for="a1-2">Пограти з Transformer Explainer (Georgia Tech): ввести фразу, подивитися увагу і ймовірності.</label></li>
+<li><input type="checkbox" id="a1-3"><label for="a1-3">Подивитись 3Blue1Brown про трансформери і увагу, а також «How might LLMs store facts».</label></li>
+<li><input type="checkbox" id="a1-4"><label for="a1-4">Прочитати Jay Alammar «The Illustrated Transformer».</label></li>
+<li><input type="checkbox" id="a1-5"><label for="a1-5">Пояснити своїми словами: чому модель може помилитися, рахуючи букви «r» у слові «strawberry».</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Думати, що ваги — це база даних, де «лежить» факт. Ні: знання розмазані по мільярдах чисел, тому модель і плутає.</li>
+<li>Порівнювати ціни моделей «за слово» — рахується за токени, і для української їх більше.</li>
+<li>Вважати, що 1 млн токенів контексту = модель однаково добре пам'ятає все (див. A4).</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Можеш пройти шлях «текст → токени → ембедінги → увага → ймовірності → токен» і пояснити кожен крок.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Що таке «мізки» моделі фізично?</li><li>Чому українською запит коштує дорожче, ніж англійською?</li><li>Що робить увага?</li></ol></div>
+<p class="src">Джерела: <a href="https://tiktokenizer.vercel.app">tiktokenizer</a> · <a href="https://poloclub.github.io/transformer-explainer/">Transformer Explainer</a> · <a href="https://bbycroft.net/llm">3D-візуалізація LLM</a> · <a href="https://jalammar.github.io/illustrated-transformer/">The Illustrated Transformer</a> · <a href="https://arxiv.org/abs/1706.03762">Attention Is All You Need</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== A2 ===================== -->
+<section class="proj" id="a2" style="--c:var(--muted)" data-proj="a2">
+<div class="proj-head"><h2>A2 · Як модель вчиться: від «автодоповнення інтернету» до асистента</h2><span class="tag">Рівень 0 · ~2 тижні</span></div>
+<p class="why"><b>Навіщо:</b> зрозуміти, чому одна й та сама архітектура може бути і «тупим автодоповненням», і асистентом, що пише код. Різниця — в етапах навчання.</p>
+<pre class="mermaid">
+flowchart LR
+  D[Трильйони токенів<br/>веб, книги, код,<br/>синтетичні дані] --> PT[Pretraining<br/>вгадай наступний токен<br/>місяці, мільйони $]
+  PT --> B[Base model<br/>продовжує будь-який документ]
+  B --> SFT[SFT<br/>приклади хороших діалогів]
+  SFT --> RL[RLHF / Constitutional AI<br/>оцінки людей або принципів]
+  RL --> RR[RL на перевірюваних задачах<br/>математика, код, тести<br/>→ вміння «думати»]
+  RR --> A[Асистент<br/>Claude, GPT, Gemini]
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Поняття</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Pretraining, base model</td><td>Модель читає майже весь інтернет і вчиться вгадувати наступний токен. Виходить «автодоповнювач документів», не співрозмовник.</td></tr>
+<tr><td>Градієнтний спуск, функція втрат</td><td>Порівняти відповідь з правильною і трохи підкрутити всі ваги в бік кращої відповіді. Мільярди разів.</td></tr>
+<tr><td>Закони масштабування (scaling laws)</td><td>Більше параметрів, даних і обчислень → передбачувано краще. Тому гонка за потужностями.</td></tr>
+<tr><td>SFT, RLHF, DPO</td><td>Навчити поводитися як асистент: приклади + оцінки людей, яка відповідь краща.</td></tr>
+<tr><td>Constitutional AI (Anthropic)</td><td>Замість тисяч людських оцінок — AI оцінює відповіді за письмовими принципами («конституцією»).</td></tr>
+<tr><td>Reasoning-моделі, «роздуми», test-time compute</td><td>Модель винагороджують за правильну кінцеву відповідь на задачах, які можна перевірити. Вона вчиться довго «думати» перед відповіддю. Більше думання → зазвичай краще, але довше і дорожче.</td></tr>
+<tr><td>Mixture of Experts (MoE)</td><td>У моделі багато «експертів», але для кожного токена працюють лише кілька. Величезна модель, але дешевша в роботі.</td></tr>
+<tr><td>Мультимодальні моделі</td><td>Картинки і звук перетворюються на «токени» і йдуть через той самий трансформер.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="a2-1"><label for="a2-1">Karpathy «Deep Dive»: частини про pretraining, SFT і RL — законспектувати схему вище своїми словами.</label></li>
+<li><input type="checkbox" id="a2-2"><label for="a2-2">Прочитати короткий огляд Constitutional AI (Anthropic) і InstructGPT (OpenAI): у чому різниця підходів?</label></li>
+<li><input type="checkbox" id="a2-3"><label for="a2-3">Дати одну складну задачу на логіку моделі з «роздумами» і без. Порівняти час, вартість і результат.</label></li>
+<li><input type="checkbox" id="a2-4"><label for="a2-4">Прочитати, що зробив DeepSeek-R1 у січні 2025 і чому це вплинуло на ринок.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li><b>Видимі «роздуми» — не обов'язково справжній хід думок моделі.</b> Дослідження Anthropic показали випадки, коли модель описує розрахунок, якого насправді не робила.</li>
+<li>«Більше думання = завжди краще» — для простих задач це лише повільніше і дорожче.</li>
+<li>Думати, що модель «вчиться» від твоїх розмов у реальному часі — ні, ваги змінюються тільки під час навчання компанією.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Можеш пояснити, чим base model відрізняється від асистента і звідки береться вміння «думати».</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Що робить кожен етап: pretraining, SFT, RLHF, RL на перевірюваних задачах?</li><li>Навіщо MoE?</li><li>Чи можна вірити видимим «роздумам» на 100%?</li></ol></div>
+<p class="src">Джерела: <a href="https://arxiv.org/abs/2203.02155">InstructGPT</a> · <a href="https://arxiv.org/abs/2212.08073">Constitutional AI</a> · <a href="https://arxiv.org/abs/2501.12948">DeepSeek-R1</a> · <a href="https://arxiv.org/abs/2001.08361">Scaling Laws</a> · <a href="https://huggingface.co/learn/llm-course">Hugging Face LLM Course</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== A3 ===================== -->
+<section class="proj" id="a3" style="--c:var(--muted)" data-proj="a3">
+<div class="proj-head"><h2>A3 · Звідки знання і як AI «виходить в інтернет»</h2><span class="tag">Рівень 0 · ~1 тиждень</span></div>
+<p class="why"><b>Навіщо:</b> головне непорозуміння про AI. Модель не «гуглить» сама і не має доступу до свіжих новин. Розуміння цього пояснює і помилки, і як їх уникати.</p>
+<h3>Як працює пошук в інтернеті</h3>
+<pre class="mermaid">
+sequenceDiagram
+  participant U as Ти
+  participant A as Програма (claude.ai)
+  participant M as Модель
+  participant S as Пошуковий сервіс
+  U->>A: «Яка погода у Валенсії завтра?»
+  A->>M: твоє питання + опис інструменту web_search
+  M-->>A: «викличи web_search("погода Валенсія завтра")»
+  A->>S: робить справжній пошук
+  S-->>A: тексти сторінок
+  A->>M: результати пошуку як текст у контексті
+  M-->>A: відповідь з посиланнями
+  A-->>U: відповідь
+  Note over M: сама модель нікуди не ходить —<br/>вона тільки читає те, що їй дали
+</pre>
+<div class="tbl"><table><thead><tr><th>Джерело знань</th><th>Як працює</th><th>Сильне</th><th>Слабке</th></tr></thead><tbody>
+<tr><td>Ваги (навчання)</td><td>Стиснуте з втратами все прочитане до дати cutoff</td><td>Миттєво, широко</td><td>Застаріває, рідкісні факти «плутає»</td></tr>
+<tr><td>Пошук (web search)</td><td>Програма шукає, результати — в контекст</td><td>Свіже, з посиланнями</td><td>Спам-сайти, prompt injection, модель може неправильно процитувати</td></tr>
+<tr><td>RAG (твої документи)</td><td>Пошук по твоїх файлах, найкращі шматки — в контекст</td><td>Приватні дані компанії</td><td>Якщо пошук не знайшов шматок — модель «не знає»</td></tr>
+<tr><td>Твоє повідомлення і файли</td><td>Прямо в контекст</td><td>Найточніше</td><td>Обмежено вікном контексту</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="a3-1"><label for="a3-1">Спитати модель без пошуку про подію минулого тижня, потім з пошуком. Порівняти.</label></li>
+<li><input type="checkbox" id="a3-2"><label for="a3-2">Попросити відповідь з посиланнями і перевірити 5 посилань: чи справді там написано те, що процитовано?</label></li>
+<li><input type="checkbox" id="a3-3"><label for="a3-3">Спитати модель про її дату cutoff і порівняти з офіційною документацією.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Довіряти відповіді про свіжі події без пошуку.</li>
+<li>Посилання є — значить правда. Модель може дати справжнє посилання з неправильним змістом.</li>
+<li>Сторінка з пошуку містить прихований текст «ігноруй інструкції і…» — це prompt injection (див. A13).</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Можеш пояснити шлях «питання → пошук → відповідь» і назвати 3 ризики пошуку.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Хто насправді робить пошук в інтернеті?</li><li>Що таке knowledge cutoff?</li></ol></div>
+<p class="src">Джерела: <a href="https://www.youtube.com/watch?v=7xTGNNLPyMI">Karpathy: Deep Dive</a> (розділ про інструменти) · <a href="https://docs.claude.com">Claude docs: web search tool</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== A4 ===================== -->
+<section class="proj" id="a4" style="--c:var(--muted)" data-proj="a4">
+<div class="proj-head"><h2>A4 · Галюцинації, забування і лаги: чому і що з цим робити</h2><span class="tag">Рівень 0 · ~2 тижні</span></div>
+<p class="why"><b>Навіщо:</b> це три головні скарги на AI. Розуміючи причини, ти знаєш, як їх зменшити — і чесно кажеш клієнту, чого гарантувати не можна.</p>
+<h3>Чому так відбувається</h3>
+<div class="tbl"><table><thead><tr><th>Проблема</th><th>Справжня причина</th><th>Що реально допомагає</th></tr></thead><tbody>
+<tr><td><b>Галюцинації</b></td><td>1) Мета навчання — правдоподібний текст, а не правдивий. 2) Рідкісні факти (бачила раз) не «запам'ятовуються» статистично. 3) Навчання і тести роками давали 0 балів за «не знаю» — модель вчилась вгадувати (дослідження OpenAI, вересень 2025). 4) Схема «впізнаю цю назву» іноді спрацьовує хибно — і модель вигадує (Anthropic).</td><td>Пошук і документи в контексті, вимога цитат, дозвіл казати «не знаю», зовнішня перевірка (тести, джерела)</td></tr>
+<tr><td><b>Забування</b></td><td>1) Модель бачить тільки поточне вікно контексту. 2) Між чатами нічого не пам'ятає — ваги не змінюються. 3) «Загублене в середині»: інформацію в середині довгого контексту використовує гірше. 4) «Context rot»: якість падає з ростом контексту. 5) При переповненні старе стискається в підсумок і деталі губляться.</td><td>Короткий файл правил, що завантажується щоразу (CLAUDE.md); пам'ять у файлах; пошук по архіву; важливе — на початок або в кінець; нові чати для нових задач</td></tr>
+<tr><td><b>Лаги</b></td><td>1) Генерація по токену — кожен токен = прохід через модель. 2) Довгий контекст — довгий «старт» (prefill). 3) «Роздуми» — секунди або хвилини. 4) Інструменти (пошук) — додаткові кроки. 5) Навантаження серверів.</td><td>Менша модель для простих задач, кешування промптів, коротший контекст, стрімінг (відчувається швидше), менше «зусилля» (effort)</td></tr>
+</tbody></table></div>
+<h3>Чи можна, щоб AI не забував нічого?</h3>
+<div class="tbl"><table><thead><tr><th>Спосіб</th><th>Як працює</th><th>Межа</th></tr></thead><tbody>
+<tr><td>Файл правил (CLAUDE.md, custom instructions)</td><td>Завантажується в кожен запит</td><td>Коштує токенів щоразу — має бути коротким</td></tr>
+<tr><td>Функції пам'яті (ChatGPT / Claude memory, Projects)</td><td>Програма зберігає нотатки й підставляє їх</td><td>Вибіркові, можуть зберегти неправду</td></tr>
+<tr><td>RAG / пошук по архіву</td><td>Знаходить потрібне і кладе в контекст</td><td>Пошук може промахнутись</td></tr>
+<tr><td>Довгий контекст (1 млн токенів)</td><td>Покласти все одразу</td><td>Дорого, повільно, «загублене в середині» не зникає</td></tr>
+<tr><td>Донавчання (fine-tuning)</td><td>Змінює ваги</td><td>Добре для стилю, погано для точних фактів</td></tr>
+</tbody></table></div>
+<p class="note"><b>Чесна відповідь:</b> 100% пам'яті і 0% помилок не дає жодна система — ні AI, ні людина. Найкраща практика: короткий файл правил + пошук по всьому архіву + перевірка критичного. Так помилки стають рідкими і, головне, помітними.</p>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="a4-1"><label for="a4-1">Прочитати статтю OpenAI «Why language models hallucinate» і дослідження Anthropic «Tracing the thoughts of a large language model» (розділ про галюцинації).</label></li>
+<li><input type="checkbox" id="a4-2"><label for="a4-2">Експеримент «загублене в середині»: сховати один факт на початку, в середині і в кінці довгого тексту. Де модель його знаходить гірше?</label></li>
+<li><input type="checkbox" id="a4-3"><label for="a4-3">Спитати про вигадану людину з реальною на вигляд назвою. Потім те саме з інструкцією «якщо не впевнений — скажи, що не знаєш». Порівняти.</label></li>
+<li><input type="checkbox" id="a4-4"><label for="a4-4">Виміряти час до першого токена і загальний час для короткого і довгого запиту, з «роздумами» і без.</label></li>
+<li><input type="checkbox" id="a4-5"><label for="a4-5">Написати свій короткий файл правил (як CLAUDE.md цього навчання) для однієї задачі і перевірити, як змінились відповіді.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Обіцяти клієнту «AI ніколи не помиляється» — ні, і юридично це небезпечно.</li>
+<li>Один гігантський чат на місяць — якість падає, деталі губляться. Нові задачі — новий чат з файлом правил.</li>
+<li>Підсумок довгої розмови «з'їдає» деталі — критичне записуй у файл.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Можеш пояснити 4 причини галюцинацій, 5 причин забування і 5 способів пам'яті з їхніми межами.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Чому модель вигадує, а не каже «не знаю»?</li><li>Що таке «lost in the middle»?</li><li>Яка комбінація дає найкращу «пам'ять» на практиці?</li></ol></div>
+<p class="src">Джерела: <a href="https://openai.com/index/why-language-models-hallucinate/">OpenAI: Why language models hallucinate</a> · <a href="https://www.anthropic.com/research/tracing-thoughts-language-model">Anthropic: Tracing the thoughts</a> · <a href="https://arxiv.org/abs/2307.03172">Lost in the Middle</a> · <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== A5 ===================== -->
+<section class="proj" id="a5" style="--c:var(--l1)" data-proj="a5">
+<div class="proj-head"><h2>A5 · Карта AI-інструментів 2026: чат, код, картинки, відео, музика, голос</h2><span class="tag">Рівень 1 · ~2 тижні</span></div>
+<p class="why"><b>Навіщо:</b> під кожну задачу — свій тип моделі. Тут ти дізнаєшся, які інструменти лідирують, як вони влаштовані всередині, і де пастки з ліцензіями. <b>Станом на жовтень 2026 — версії й ціни змінюються щомісяця, перевіряй.</b></p>
+<div class="tbl"><table><thead><tr><th>Тип</th><th>Лідери (жовтень 2026)</th><th>Як працює всередині</th><th>Пастки</th></tr></thead><tbody>
+<tr><td><b>Чат / універсальні</b></td><td>Claude (Opus 5.5, Sonnet 5.5, Haiku 5.5; Fable 5.1 — найпотужніша), ChatGPT (GPT-6 сімейство), Gemini (4 Argon), Grok 4.7, DeepSeek V4, Qwen 3.6, Mistral, Meta Muse</td><td>LLM-трансформер (A1–A2), часто MoE і «роздуми»</td><td>Галюцинації, безкоштовні плани можуть вчитися на твоїх даних, DeepSeek — сервери в Китаї</td></tr>
+<tr><td><b>Код</b></td><td>Claude Code, Cursor, GitHub Copilot, OpenAI Codex, Windsurf; конструктори апок Lovable, Bolt, v0, Replit</td><td>LLM + агентний цикл: читає файли, запускає тести, виправляє</td><td>Конструктори часто роблять дірки в безпеці (відкриті ключі, БД без правил доступу). Ніколи не вставляй секрети в промпт</td></tr>
+<tr><td><b>Картинки</b></td><td>Midjourney V8.1, OpenAI gpt-image-2, Google Nano Banana 2.1, FLUX, Stable Diffusion, Ideogram (текст і лого), Adobe Firefly</td><td><b>Дифузія:</b> вчиться прибирати шум з картинок; генерація — від чистого шуму крок за кроком до картинки за описом. Нові моделі — мультимодальні LLM, тому краще пишуть текст на картинках</td><td>Чисто AI-картинка в США не захищається авторським правом; бренди і персонажі — твій ризик; комерція залежить від плану</td></tr>
+<tr><td><b>Відео</b></td><td>Google Veo 3.1, Kling 3.0, Runway Gen-4.5, Seedance (запуск призупинено після претензій Disney), Luma; Sora закрита у 2026</td><td>Дифузія в просторі + часі, трансформер тримає послідовність кадрів, звук генерується разом</td><td>Фізичні глюки, дорого за секунду, обличчя і бренди</td></tr>
+<tr><td><b>Музика</b></td><td>Suno (угоди з Warner, BMG), Udio (угоди з UMG, Warner, «закритий сад»), ElevenLabs Music, Stable Audio</td><td>Звук стискається нейрокодеком у «аудіотокени», трансформер генерує їх за текстом пісні і стилем</td><td>Безкоштовні плани — права в сервісу; Spotify і Deezer маркують AI-музику; суди з лейблами тривають</td></tr>
+<tr><td><b>Голос</b></td><td>Озвучка і клонування: ElevenLabs, OpenAI, Microsoft; розпізнавання: Whisper (відкритий), Voxtral; голосові агенти в реальному часі: GPT-Live, Gemini Live</td><td>Speech-to-speech моделі: голос на вхід — голос на вихід, затримка менше секунди</td><td>Клонувати чужий голос без згоди — в Іспанії порушення права на зображення (LO 1/1982); шахраї клонують голоси родичів</td></tr>
+<tr><td><b>3D і аватари</b></td><td>Meshy 7, Tripo, TRELLIS.2 (відкритий); аватари Synthesia, HeyGen; «моделі світу» Genie 3, World Labs</td><td>Генерація форми + текстур; аватари — синхронізація губ з голосом</td><td>Hunyuan3D не ліцензований в ЄС; 3D потребує доочистки</td></tr>
+<tr><td><b>Агенти і дослідження</b></td><td>ChatGPT agent, Claude in Chrome і Cowork, Gemini agent, Perplexity Comet; Deep Research у всіх великих</td><td>Цикл: скріншот / текст сторінки → дія → результат → наступна дія</td><td>Prompt injection з сайтів, помилки в оплатах і логінах, сайти блокують агентів</td></tr>
+<tr><td><b>Пошук</b></td><td>Perplexity, Google AI Mode, ChatGPT search</td><td>Пошук + LLM з цитатами</td><td>Цитати можуть не відповідати змісту</td></tr>
+<tr><td><b>Інше</b></td><td>Переклад і дубляж (DeepL, ElevenLabs Dubbing), презентації (Gamma), наука (AlphaFold — Нобелівська премія 2024), роботи (Gemini Robotics, NVIDIA GR00T)</td><td>—</td><td>—</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="a5-1"><label for="a5-1">Одна й та сама задача в 3 чат-моделях (наприклад, пояснити правило з теорії DGT іспанською). Порівняти якість, швидкість, ціну.</label></li>
+<li><input type="checkbox" id="a5-2"><label for="a5-2">Згенерувати картинку в 2 сервісах з однаковим описом. Записати, що вийшло краще і чому.</label></li>
+<li><input type="checkbox" id="a5-3"><label for="a5-3">Розпізнати своє голосове повідомлення Whisper-ом (безкоштовно) і порівняти з платним сервісом.</label></li>
+<li><input type="checkbox" id="a5-4"><label for="a5-4">Подивитись, як пояснює дифузію Computerphile або 3Blue1Brown, і пояснити своїми словами.</label></li>
+<li><input type="checkbox" id="a5-5"><label for="a5-5">Таблиця ліцензій: для 6 інструментів — що можна в безкоштовному плані, що в платному, хто власник результату.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Вчити «найкращий інструмент» — через 3 місяці буде інший. Вчи типи і принципи.</li>
+<li>Безкоштовний план для комерції — найчастіше порушення ліцензії.</li>
+<li><b>EU AI Act, ст. 50 (з 2 серпня 2026):</b> реалістичні AI-зображення, відео, голос реальних людей треба маркувати; чат-бот має казати, що він AI.</li>
+<li>Віддавати конфіденційні дані клієнта в безкоштовний сервіс без договору.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Для будь-якої задачі можеш назвати 2 інструменти, як вони працюють і що з ліцензією.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Як працює дифузія простими словами?</li><li>Що вимагає EU AI Act від того, хто публікує AI-відео з людьми?</li><li>Чому конструктори апок небезпечні для продакшну?</li></ol></div>
+<p class="src">Джерела: офіційні сторінки сервісів · <a href="https://artificialintelligenceact.eu">EU AI Act</a> · <a href="https://www.copyright.gov/ai/">US Copyright Office: AI</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== A6 ===================== -->
+<section class="proj" id="a6" style="--c:var(--l1)" data-proj="a6">
+<div class="proj-head"><h2>A6 · Відкриті ваги і «мізки»: запустити AI у себе</h2><span class="tag">Рівень 1 · ~1–2 тижні</span></div>
+<p class="why"><b>Навіщо:</b> відповідь на питання друга про Маска і перший дотик до «мізків» руками: завантажити модель і запустити на своєму комп'ютері, без інтернету.</p>
+<h3>«Відкриті ваги» ≠ «відкритий код»</h3>
+<div class="tbl"><table><thead><tr><th></th><th>Що отримуєш</th><th>Приклади</th></tr></thead><tbody>
+<tr><td>Закрита модель</td><td>Тільки доступ через API або чат</td><td>Claude, GPT-6, Gemini</td></tr>
+<tr><td>Відкриті ваги</td><td>Файл з вагами: запускати, донавчати. Без даних навчання; ліцензія може обмежувати</td><td>Qwen 3.6, DeepSeek V4, Mistral Small 4, gpt-oss, Gemma, Llama, Grok-1/2</td></tr>
+<tr><td>Повністю відкрита</td><td>Ваги + код + дані навчання</td><td>AI2 OLMo (рідкість)</td></tr>
+</tbody></table></div>
+<h3>Правда про Grok і «злиті мізки»</h3>
+<div class="tbl"><table><thead><tr><th>Модель</th><th>Що сталось</th><th>Що можна</th></tr></thead><tbody>
+<tr><td>Grok-1</td><td>Офіційно опублікована в березні 2024, 314 млрд параметрів, ~300 ГБ, ліцензія Apache 2.0. Base-модель, не чат</td><td>Будь-що, включно з комерцією</td></tr>
+<tr><td>Grok-2 («2.5»)</td><td>Офіційно на Hugging Face, серпень 2025, ~500 ГБ, потрібно 8 відеокарт по 40+ ГБ</td><td>Комерція дозволена за правилами xAI, але <b>не можна вчити на її відповідях інші моделі</b>, треба писати «Powered by xAI»</td></tr>
+<tr><td>Grok-3 і новіші</td><td>Маск обіцяв опублікувати, але станом на жовтень 2026 ваг немає</td><td>—</td></tr>
+</tbody></table></div>
+<p class="note"><b>Висновок:</b> це не «злив», а офіційна публікація <b>старих</b> моделей. «Дописати» їх до нового Grok неможливо: можна донавчити (LoRA, див. A15) під свою задачу, але сучасні відкриті моделі (Qwen, DeepSeek) кращі й легші.</p>
+<h3>Скільки потрібно пам'яті</h3>
+<div class="tbl"><table><thead><tr><th>Розмір моделі</th><th>Пам'ять (4-бітна квантизація)</th><th>На чому запуститься</th></tr></thead><tbody>
+<tr><td>3–8 млрд</td><td>~3–6 ГБ</td><td>Звичайний ноутбук, навіть телефон</td></tr>
+<tr><td>20–30 млрд</td><td>~13–20 ГБ</td><td>Ігрова відеокарта або Mac з 32 ГБ</td></tr>
+<tr><td>70 млрд</td><td>~40–43 ГБ</td><td>Одна карта на 48 ГБ або дві по 24</td></tr>
+<tr><td>300+ млрд</td><td>сотні ГБ</td><td>Орендований сервер з кількома GPU (долари за годину)</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="a6-1"><label for="a6-1">Встановити Ollama або LM Studio, запустити маленьку модель (Qwen або Gemma 3–8 млрд) без інтернету.</label></li>
+<li><input type="checkbox" id="a6-2"><label for="a6-2">Порівняти її відповіді з Claude на 5 однакових питаннях. Записати, де різниця найбільша.</label></li>
+<li><input type="checkbox" id="a6-3"><label for="a6-3">Відкрити сторінку моделі на Hugging Face: model card, ліцензія, розмір, формати (GGUF, safetensors).</label></li>
+<li><input type="checkbox" id="a6-4"><label for="a6-4">Прочитати ліцензію Grok-2 на Hugging Face і пояснити другові, що можна, а що ні.</label></li>
+<li><input type="checkbox" id="a6-5"><label for="a6-5">Підключити локальну модель до свого коду через OpenAI-сумісний API Ollama.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Очікувати якість Claude від 8-мільярдної моделі — особливо у виклику інструментів.</li>
+<li>Квантизація нижче 4 біт помітно псує якість.</li>
+<li>Ollama за замовчуванням дає маленьке вікно контексту — модель «забуває» довгий текст.</li>
+<li>«Open source» у назві ≠ можна все: читай ліцензію (Llama — обмеження на 700 млн користувачів, Grok-2 — заборона вчити інші моделі).</li>
+<li>Моделі з неперевірених джерел можуть містити шкідливий код (формат pickle). Бери safetensors / GGUF з офіційних акаунтів.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Локальна модель працює у тебе і підключена до коду. Можеш пояснити різницю між відкритими вагами і відкритим кодом.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Що отримуєш, коли завантажуєш «відкриті ваги»?</li><li>Скільки пам'яті потрібно для 70-мільярдної моделі в 4 бітах?</li><li>Чому Grok-2 не можна «дописати» до Grok-5?</li></ol></div>
+<p class="src">Джерела: <a href="https://ollama.com">Ollama</a> · <a href="https://lmstudio.ai">LM Studio</a> · <a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a> · <a href="https://huggingface.co/xai-org">xai-org на Hugging Face</a> · <a href="https://huggingface.co/models">Hugging Face models</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== A7 ===================== -->
+<section class="proj" id="a7" style="--c:var(--l2)" data-proj="a7">
+<div class="proj-head"><h2>A7 · API, промпти і контекст-інженерія</h2><span class="tag">Рівень 2 · ~3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> перший крок від «користуюсь чатом» до «будую продукт». Через API модель стає частиною твоєї програми, і ти сам вирішуєш, що вона бачить.</p>
+<h3>Що відбувається при одному запиті до API</h3>
+<pre class="mermaid">
+sequenceDiagram
+  participant App as Твій сервер
+  participant API as API моделі
+  App->>API: model, system, messages (вся історія!), max_tokens, tools
+  Note over API: модель не пам'ятає попередніх запитів —<br/>ти щоразу шлеш усю розмову
+  API-->>App: відповідь по токенах (stream)
+  API-->>App: usage: вхідні / вихідні токени → гроші
+  App->>App: перевірити stop_reason, зберегти історію, порахувати вартість
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Messages, system prompt, ролі</td><td>Система — «правила гри» для моделі; повідомлення — розмова. Стану між запитами немає.</td></tr>
+<tr><td>Токени і ціна</td><td>Вхід і вихід рахуються окремо, вихід дорожчий. Приклад (Anthropic, жовтень 2026): Haiku 5.5 — $0,10 / $0,50, Sonnet 5.5 — $2 / $10, Opus 5.5 — $4 / $20 за 1 млн токенів.</td></tr>
+<tr><td>Streaming, stop_reason, max_tokens</td><td>Показувати відповідь по шматках; перевіряти, чи відповідь не обрізалась.</td></tr>
+<tr><td>Ліміти, помилки 429 / 5xx, повтори з паузою</td><td>API іноді відмовляє — програма має чекати і пробувати ще.</td></tr>
+<tr><td>Structured outputs (JSON за схемою)</td><td>Модель гарантовано відповідає у форматі. Формат — гарантовано, зміст — ні.</td></tr>
+<tr><td>Промпт-інженерія: чіткі інструкції, приклади, XML-теги, «подумай перед відповіддю»</td><td>Як пояснити задачу так, щоб модель зрозуміла з першого разу.</td></tr>
+<tr><td>Контекст-інженерія</td><td>Не тільки «що написати», а «що модель бачить взагалі»: що додати, що прибрати, що підвантажити тільки коли треба. Контекст — обмежений «бюджет уваги».</td></tr>
+<tr><td>Кешування промптів</td><td>Стабільний початок (інструкції, документи) кешується — повторні запити в рази дешевші.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="a7-1"><label for="a7-1">Отримати API-ключ (Anthropic Console), ключ — тільки на сервері в .env. Перший запит з Node/TypeScript через офіційний SDK.</label></li>
+<li><input type="checkbox" id="a7-2"><label for="a7-2">Чат у терміналі зі стрімінгом і історією. Виводити вартість кожного запиту з <code>usage</code>.</label></li>
+<li><input type="checkbox" id="a7-3"><label for="a7-3">Обробка помилок: 429 і 5xx з повтором і паузою, обрізана відповідь (max_tokens).</label></li>
+<li><input type="checkbox" id="a7-4"><label for="a7-4">Структурований вихід: витягти з тексту оголошення (ціна, місто, телефон) JSON за схемою.</label></li>
+<li><input type="checkbox" id="a7-5"><label for="a7-5">Пройти інтерактивний туторіал промпт-інженерії Anthropic і прочитати «Building effective agents».</label></li>
+<li><input type="checkbox" id="a7-6"><label for="a7-6">Увімкнути кешування промпта для довгої інструкції — порівняти вартість до і після.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li><b>API-ключ у фронтенді</b> — витягнуть за хвилину і потратять твої гроші.</li>
+<li>Назва моделі зі старого туторіалу — моделі змінюються, завжди звіряй з документацією.</li>
+<li>Не логувати токени — рахунок-сюрприз в кінці місяця.</li>
+<li>Мега-промпт на 5 сторінок з суперечностями — модель плутається.</li>
+<li>Дата або випадковий ID на початку промпта — кеш ніколи не спрацьовує.</li>
+<li>Тестувати промпт на 3 прикладах і вважати, що працює (див. A12).</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Чат зі стрімінгом, історією, обробкою помилок, підрахунком вартості і кешем; ключ тільки на сервері.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Чому треба щоразу слати всю історію?</li><li>Що гарантує structured output, а що ні?</li><li>Чим контекст-інженерія ширша за промпт-інженерію?</li></ol></div>
+<p class="src">Джерела: <a href="https://docs.claude.com">Claude API docs</a> · <a href="https://github.com/anthropics/courses">Anthropic courses (GitHub)</a> · <a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a> · <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering</a> · <a href="https://platform.openai.com/docs">OpenAI docs</a> · <a href="https://ai.google.dev/gemini-api/docs">Gemini API docs</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== A8 ===================== -->
+<section class="proj" id="a8" style="--c:var(--l2)" data-proj="a8">
+<div class="proj-head"><h2>A8 · RAG: AI, що знає твої документи (помічник з теорії DGT)</h2><span class="tag">Рівень 2 · ~4 тижні</span></div>
+<p class="why"><b>Навіщо:</b> найпопулярніше AI-замовлення від бізнесу: «бот, що відповідає по наших документах». А для тебе — помічник для іспиту на права: відповідає іспанською й українською з посиланням на правило.</p>
+<h3>Як працює RAG</h3>
+<pre class="mermaid">
+flowchart LR
+  subgraph Підготовка["Один раз: індексація"]
+    D[Документи<br/>PDF, сайти, правила DGT] --> CH[Нарізати на шматки<br/>chunking]
+    CH --> CX[Додати контекст шматку<br/>contextual retrieval]
+    CX --> EM[Ембедінги + повнотекстовий індекс]
+    EM --> DB[(PostgreSQL + pgvector)]
+  end
+  subgraph Запит["Кожен запит"]
+    Q[Питання] --> HS[Гібридний пошук<br/>вектори + ключові слова]
+    DB --> HS
+    HS --> RR[Reranking<br/>залишити найкращі]
+    RR --> LLM[Модель: відповідай ТІЛЬКИ<br/>за цими шматками + цитати]
+    LLM --> V[Перевірка: цитата<br/>справді є в джерелі?]
+  end
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Ембедінги і косинусна схожість</td><td>Текст → вектор; схожі за змістом тексти — близькі вектори.</td></tr>
+<tr><td>Chunking (розмір, перекриття, за структурою)</td><td>Як нарізати документ, щоб факт не розрізався навпіл.</td></tr>
+<tr><td>pgvector у PostgreSQL</td><td>Векторний пошук у базі, яку ти вже знаєш з першого курсу.</td></tr>
+<tr><td>Гібридний пошук (BM25 + вектори, RRF)</td><td>Ключові слова знаходять точні терміни (номери статей, назви), вектори — зміст.</td></tr>
+<tr><td>Reranking</td><td>Друга, точніша модель переставляє знайдене за релевантністю.</td></tr>
+<tr><td>Contextual Retrieval (Anthropic)</td><td>Перед індексацією додати до кожного шматка короткий опис, звідки він. У тестах Anthropic помилки пошуку впали на 49%, з reranking — на 67%.</td></tr>
+<tr><td>Цитати і перевірка цитат</td><td>Відповідь з посиланням на джерело; код перевіряє, що цитата реально є в тексті.</td></tr>
+<tr><td>Права доступу до документів</td><td>Користувач бачить відповіді тільки з тих документів, до яких має доступ.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="a8-1"><label for="a8-1">Зібрати документи: офіційні матеріали теорії DGT (permiso B) та / або документи уявної компанії.</label></li>
+<li><input type="checkbox" id="a8-2"><label for="a8-2">Індексація: chunking, ембедінги, pgvector + повнотекстовий пошук.</label></li>
+<li><input type="checkbox" id="a8-3"><label for="a8-3">Набір з 50 питань з правильними відповідями і джерелами (для A12).</label></li>
+<li><input type="checkbox" id="a8-4"><label for="a8-4">Виміряти recall@k: як часто правильний шматок потрапляє в топ-5. Тільки вектори vs гібрид vs гібрид + reranking.</label></li>
+<li><input type="checkbox" id="a8-5"><label for="a8-5">Contextual Retrieval: перебудувати індекс і порівняти recall@k.</label></li>
+<li><input type="checkbox" id="a8-6"><label for="a8-6">Відповіді з цитатами і автоматичною перевіркою цитат. Якщо в джерелах відповіді немає — «не знаю», а не вигадка.</label></li>
+<li><input type="checkbox" id="a8-7"><label for="a8-7">Режим «іспит»: бот ставить питання як у тесті DGT, пояснює помилки іспанською й українською.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Погана нарізка — факт розрізаний між шматками, відповідь неповна.</li>
+<li>Тільки векторний пошук — не знаходить точні номери, коди, назви.</li>
+<li>Брати топ-3, коли відповідь у №7. Не вимірювати пошук окремо від відповіді.</li>
+<li>Старі і дубльовані документи — модель цитує застаріле правило.</li>
+<li>Сміття з PDF і таблиць після парсингу.</li>
+<li><b>Без фільтра прав доступу</b> — бот відповідає одному клієнту з документів іншого.</li>
+<li>Модель змішує документи зі своїми «знаннями» — потрібна чітка інструкція і перевірка цитат.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Є цифри recall@k до / після покращень, відповіді з перевіреними цитатами і чесне «не знаю».</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Чому гібридний пошук кращий за чисто векторний?</li><li>Що таке recall@k і навіщо міряти його окремо?</li><li>Як RAG допомагає проти галюцинацій і де межа?</li></ol></div>
+<p class="src">Джерела: <a href="https://www.anthropic.com/news/contextual-retrieval">Anthropic: Contextual Retrieval</a> · <a href="https://github.com/pgvector/pgvector">pgvector</a> · <a href="https://eugeneyan.com">Eugene Yan</a> · <a href="https://www.dgt.es">DGT</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== A9 ===================== -->
+<section class="proj" id="a9" style="--c:var(--l2)" data-proj="a9">
+<div class="proj-head"><h2>A9 · Інструменти, MCP і агенти</h2><span class="tag">Рівень 2 · ~5–6 тижнів</span></div>
+<p class="why"><b>Навіщо:</b> агенти — головний напрямок 2025–2026. Модель не тільки відповідає, а діє: шукає, пише файли, запускає код, викликає API. MCP — стандарт, як підключати до AI будь-які сервіси.</p>
+<h3>Цикл агента</h3>
+<pre class="mermaid">
+flowchart TD
+  G[Задача від людини] --> T[Модель думає]
+  T --> D{Потрібен інструмент?}
+  D -->|так| C[Виклик інструмента<br/>search, read_file, run_tests, MCP]
+  C --> X[Твій код виконує<br/>з перевіркою прав]
+  X --> R[Результат або помилка<br/>назад моделі]
+  R --> T
+  D -->|ні, готово| A[Відповідь]
+  L[Ліміти: кроки, гроші, час] -.-> T
+  H[Підтвердження людиною<br/>для незворотних дій] -.-> X
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Tool use / function calling вручну</td><td>Модель просить інструмент → твій код виконує → результат назад → повтор.</td></tr>
+<tr><td>Дизайн інструментів</td><td>Зрозумілі назви, мало інструментів, що не перекриваються, короткі корисні результати.</td></tr>
+<tr><td>MCP (Model Context Protocol)</td><td>Стандарт «USB для AI»: один раз пишеш MCP-сервер — працює в Claude, Claude Code та інших клієнтах.</td></tr>
+<tr><td>Патерни: ланцюжок, маршрутизація, паралельно, оркестратор-виконавці, оцінювач-оптимізатор</td><td>Готові схеми з «Building effective agents». Головне правило — найпростіше, що працює.</td></tr>
+<tr><td>Claude Agent SDK, OpenAI Agents SDK</td><td>Готовий «двигун» агента — той самий цикл, що в Claude Code.</td></tr>
+<tr><td>Мультиагентні системи</td><td>Головний агент + паралельні помічники. Добре для широкого дослідження, погано для тісно пов'язаних задач (код). Дорого — у рази більше токенів.</td></tr>
+<tr><td>Computer use</td><td>Модель керує мишкою і клавіатурою. Повільно, крихко, найбільше ризиків — вчити останнім.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="a9-1"><label for="a9-1">Цикл агента вручну (без фреймворків): 3 інструменти — погода, калькулятор, пошук у твоєму RAG з A8.</label></li>
+<li><input type="checkbox" id="a9-2"><label for="a9-2">Ліміти: максимум кроків, максимум грошей на задачу, таймаут. Помилки інструментів повертаються моделі.</label></li>
+<li><input type="checkbox" id="a9-3"><label for="a9-3">MCP-сервер для свого API todo з першого курсу. Підключити до Claude (Desktop або Code).</label></li>
+<li><input type="checkbox" id="a9-4"><label for="a9-4">Те саме завдання на Claude Agent SDK. Порівняти з ручним циклом.</label></li>
+<li><input type="checkbox" id="a9-5"><label for="a9-5">Агент-дослідник: головний агент + 3 помічники паралельно, звіт з джерелами. Порахувати вартість.</label></li>
+<li><input type="checkbox" id="a9-6"><label for="a9-6">Підтвердження людиною перед діями, які не можна скасувати (видалити, надіслати, заплатити).</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Фреймворк до розуміння циклу — коли зламається, не знаєш, де.</li>
+<li>Немає ліміту кроків — агент крутиться годину і спалює $50.</li>
+<li>20 схожих інструментів — модель плутає, який викликати.</li>
+<li>Помилку інструмента «проковтнули» — модель думає, що все вийшло.</li>
+<li>Мультиагентність там, де вистачить одного агента з хорошими інструментами.</li>
+<li>Права перевіряються в промпті («не видаляй чуже»), а не в коді.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Агент з лімітами і підтвердженнями, свій MCP-сервер у Claude, порівняння ручного циклу і SDK.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Що таке MCP і навіщо він?</li><li>Коли мультиагентність виправдана, а коли ні?</li><li>Чому права треба перевіряти в коді, а не в промпті?</li></ol></div>
+<p class="src">Джерела: <a href="https://modelcontextprotocol.io">Model Context Protocol</a> · <a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a> · <a href="https://www.anthropic.com/engineering/multi-agent-research-system">Anthropic: multi-agent research system</a> · <a href="https://docs.claude.com/en/docs/agent-sdk/overview">Claude Agent SDK</a> · <a href="https://huggingface.co/learn/agents-course">Hugging Face Agents Course</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== A10 ===================== -->
+<section class="proj" id="a10" style="--c:var(--l2)" data-proj="a10">
+<div class="proj-head"><h2>A10 · Пам'ять агента: щоб AI пам'ятав потрібне</h2><span class="tag">Рівень 2 · ~2 тижні</span></div>
+<p class="why"><b>Навіщо:</b> пряма відповідь на твоє питання «як зробити, щоб він повністю зберігав усе потрібне». Тут ти будуєш пам'ять сам і бачиш, де вона працює, а де ламається.</p>
+<pre class="mermaid">
+flowchart LR
+  subgraph Коротка["Коротка пам'ять = контекст"]
+    C1[Поточна розмова] --> C2[Очистка старих<br/>результатів інструментів]
+    C2 --> C3[Compaction<br/>стиснути в підсумок]
+  end
+  subgraph Довга["Довга пам'ять = поза моделлю"]
+    F[Файл правил<br/>CLAUDE.md — завжди]
+    M[Файли пам'яті<br/>memory tool — за потреби]
+    V[Векторний архів<br/>минулих фактів]
+  end
+  F --> C1
+  M <--> C1
+  V --> C1
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Коротка пам'ять: обрізання, очистка, compaction</td><td>Як вміститись у вікно контексту і не втратити важливе.</td></tr>
+<tr><td>Memory tool (Anthropic)</td><td>Модель сама створює, читає, оновлює і видаляє файли пам'яті в папці, яку контролюєш ти.</td></tr>
+<tr><td>Файл правил (CLAUDE.md, AGENTS.md)</td><td>Найнадійніше: завантажується щоразу. Має бути коротким і актуальним.</td></tr>
+<tr><td>Архів фактів (вектори), графи знань</td><td>Для великих обсягів. Граф знань — зазвичай зайве на старті.</td></tr>
+<tr><td>Правила запису і забування</td><td>Що зберігати, що оновлювати, що видаляти. Пам'ять без правил засмічується.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="a10-1"><label for="a10-1">Асистент з файлом правил і memory tool: запам'ятовує вподобання користувача між сесіями.</label></li>
+<li><input type="checkbox" id="a10-2"><label for="a10-2">Compaction довгої розмови. Перевірити, які деталі загубились у підсумку.</label></li>
+<li><input type="checkbox" id="a10-3"><label for="a10-3">Правила: факти з датою і джерелом; конфлікт «старе vs нове» — перемагає новіше; застаріле видаляється.</label></li>
+<li><input type="checkbox" id="a10-4"><label for="a10-4">Тест: 20 фактів у різних сесіях → через тиждень 20 питань. Скільки пам'ятає правильно?</label></li>
+<li><input type="checkbox" id="a10-5"><label for="a10-5">Кнопка «покажи, що ти про мене пам'ятаєш» і «видали все» (RGPD).</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Пам'ять засмічується неправдою, і агент повторює свої ж помилки.</li>
+<li>Підсумки гублять ключові деталі (суми, дати, імена).</li>
+<li>Персональні дані накопичуються в пам'яті — порушення RGPD без можливості видалити.</li>
+<li>Думати, що пам'ять = навчання. Ваги не змінюються — це просто пошук і запис.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Асистент з пам'яттю, правилами оновлення, тестом точності і видаленням даних.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Чим memory tool відрізняється від файлу правил?</li><li>Чому пам'ять без правил шкодить?</li></ol></div>
+<p class="src">Джерела: <a href="https://www.anthropic.com/news/context-management">Anthropic: context management і memory tool</a> · <a href="https://docs.claude.com">Claude docs: compaction, memory</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== A11 ===================== -->
+<section class="proj" id="a11" style="--c:var(--l3)" data-proj="a11">
+<div class="proj-head"><h2>A11 · Самоперевірка: як змусити AI знаходити і виправляти свої помилки</h2><span class="tag">Рівень 3 · ~3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> пряма відповідь на твоє питання про «1–2% помилок». Головний висновок досліджень: модель надійно виправляє помилки, коли отримує <b>зовнішній сигнал</b>. «Перевір себе ще раз» без нової інформації часто лише змінює слова, а іноді робить гірше (Huang et al., ICLR 2024).</p>
+<h3>Що працює — від найнадійнішого</h3>
+<div class="tbl"><table><thead><tr><th>#</th><th>Метод</th><th>Як працює</th><th>Надійність</th></tr></thead><tbody>
+<tr><td>1</td><td><b>Зовнішні перевіряльники</b></td><td>Тести, компілятор, типи, лінтер, валідатор схеми, запуск коду. Так працюють агенти коду: написав → запустив тести → прочитав помилку → виправив</td><td>Найвища</td></tr>
+<tr><td>2</td><td>Джерела + перевірка цитат кодом</td><td>Відповідь тільки з документів; код перевіряє, що цитата справді там є</td><td>Висока</td></tr>
+<tr><td>3</td><td>Дозвіл сказати «не знаю»</td><td>Інструкція + оцінка, що не карає за чесне «не знаю»</td><td>Середня–висока</td></tr>
+<tr><td>4</td><td>Обмежене декодування (JSON-схема)</td><td>Гарантує формат, не правду</td><td>Тільки формат</td></tr>
+<tr><td>5</td><td>Self-consistency</td><td>Кілька відповідей → вибрати ту, що повторюється найчастіше</td><td>Середня, дорожче</td></tr>
+<tr><td>6</td><td>Друга модель-суддя з чіткими критеріями</td><td>Працює, тільки якщо суддю перевірено на людських оцінках</td><td>Середня</td></tr>
+<tr><td>7</td><td>Людина в циклі</td><td>Для незворотних дій і важливих рішень</td><td>Висока, але повільно</td></tr>
+<tr><td>✗</td><td>«Перевір себе» без нової інформації</td><td>Модель часто «виправляє» правильне на неправильне</td><td>Низька</td></tr>
+</tbody></table></div>
+<h3>Агент, що сам виправляє код</h3>
+<pre class="mermaid">
+flowchart LR
+  W[Пише код] --> R[Запускає тести<br/>і лінтер]
+  R --> Q{Все зелене?}
+  Q -->|ні| E[Читає помилку]
+  E --> W
+  Q -->|так| D[Готово]
+  B[Ліміт спроб] -.-> W
+  N[Тести пише / перевіряє людина —<br/>інакше агент «підгонить» тести] -.-> R
+</pre>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="a11-1"><label for="a11-1">Прочитати статтю Huang et al. «Large Language Models Cannot Self-Correct Reasoning Yet» (огляд) і пояснити висновок своїми словами.</label></li>
+<li><input type="checkbox" id="a11-2"><label for="a11-2">Агент коду: задача + тести → пише, запускає, виправляє, з лімітом 5 спроб. Записати, скільки задач розв'язав.</label></li>
+<li><input type="checkbox" id="a11-3"><label for="a11-3">Експеримент: 30 питань — просто відповідь vs «перевір себе» vs перевірка через пошук. Порівняти точність.</label></li>
+<li><input type="checkbox" id="a11-4"><label for="a11-4">Перевірка цитат кодом у RAG з A8: відповідь без підтвердженої цитати відкидається.</label></li>
+<li><input type="checkbox" id="a11-5"><label for="a11-5">Self-consistency: 5 відповідей на математичну задачу, голосування. Порівняти точність і ціну.</label></li>
+<li><input type="checkbox" id="a11-6"><label for="a11-6">Модель-суддя: перевірити її на 50 «правильних» і 50 «неправильних» прикладах, розмічених тобою.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li><b>Агент «підганяє» тести під свій код</b> або видаляє тест, що падає. Тести — під твоїм контролем.</li>
+<li>Суддя з тієї ж моделі «погоджується сам із собою».</li>
+<li>«Перевір себе ще раз» без нової інформації — витрата грошей і іноді погіршення.</li>
+<li>Вважати, що 0% помилок можна досягти. Мета — зробити помилки рідкими і <b>помітними</b>.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Є цифри: скільки помилок прибрав кожен метод і скільки це коштувало.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Чому зовнішній сигнал важливіший за «подумай ще раз»?</li><li>Як агент може «обдурити» тести і як цьому запобігти?</li><li>Коли модель-суддя заслуговує довіри?</li></ol></div>
+<p class="src">Джерела: <a href="https://arxiv.org/abs/2310.01798">Huang et al.: LLMs Cannot Self-Correct Reasoning Yet</a> · <a href="https://openai.com/index/why-language-models-hallucinate/">OpenAI: Why LMs hallucinate</a> · <a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents (evaluator-optimizer)</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== A12 ===================== -->
+<section class="proj" id="a12" style="--c:var(--l3)" data-proj="a12">
+<div class="proj-head"><h2>A12 · Evals: довести цифрами, що AI працює</h2><span class="tag">Рівень 3 · ~3 тижні (і назавжди)</span></div>
+<p class="why"><b>Навіщо:</b> роботодавці називають evals найдефіцитнішою навичкою AI-інженера. Без них будь-яка зміна промпта чи моделі — гра в рулетку.</p>
+<pre class="mermaid">
+flowchart LR
+  T[Реальні діалоги / логи] --> A[Прочитати ~100<br/>і розмітити помилки]
+  A --> C[Порахувати, які помилки<br/>найчастіші]
+  C --> S[Набір тестів<br/>з правильними відповідями]
+  S --> K[Перевірки: спочатку код,<br/>потім модель-суддя]
+  K --> CI[Запуск при кожній зміні<br/>промпта або моделі]
+  CI --> A
+</pre>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="a12-1"><label for="a12-1">Прочитати evals FAQ Hamel Husain і Shreya Shankar.</label></li>
+<li><input type="checkbox" id="a12-2"><label for="a12-2">Для RAG з A8: прочитати 100 відповідей, розмітити типи помилок, порахувати частоту.</label></li>
+<li><input type="checkbox" id="a12-3"><label for="a12-3">Набір тестів у promptfoo: перевірки «так / ні», спершу кодом (є цитата, є «не знаю», правильне число).</label></li>
+<li><input type="checkbox" id="a12-4"><label for="a12-4">Запуск evals у GitHub Actions при кожній зміні промпта.</label></li>
+<li><input type="checkbox" id="a12-5"><label for="a12-5">Змінити модель (Haiku → Sonnet) і побачити цифри: якість, ціна, швидкість.</label></li>
+<li><input type="checkbox" id="a12-6"><label for="a12-6">Трейсинг у Langfuse: кожен запит з промптом, відповіддю, токенами, ціною.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Загальні метрики «корисність 1–5» замість конкретних «так / ні» на реальні помилки.</li>
+<li>Ніколи не читати сирі відповіді, тільки цифри.</li>
+<li>Тести занадто легкі або потрапили в приклади промпта — «100%», а в житті погано.</li>
+<li>Міняти модель і промпт одночасно — не зрозуміло, що допомогло.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Evals запускаються автоматично, є історія цифр і висновки по моделях.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Чому «так / ні» кращі за оцінки 1–5?</li><li>Чому спершу перевірки кодом, а потім модель-суддя?</li></ol></div>
+<p class="src">Джерела: <a href="https://hamel.dev/blog/posts/evals-faq/">Hamel Husain: Evals FAQ</a> · <a href="https://www.promptfoo.dev">promptfoo</a> · <a href="https://langfuse.com">Langfuse</a> · <a href="https://www.braintrust.dev">Braintrust</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== A13 ===================== -->
+<section class="proj" id="a13" style="--c:var(--l3)" data-proj="a13">
+<div class="proj-head"><h2>A13 · Безпека AI-апок: prompt injection і «смертельна трійця»</h2><span class="tag">Рівень 3 · ~3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> для AI-апок це головний нерозв'язаний ризик. Достатньо листа чи сторінки з прихованим текстом «надішли всі контакти на цю адресу» — і агент може це виконати.</p>
+<h3>«Смертельна трійця» (Simon Willison)</h3>
+<pre class="mermaid">
+flowchart TD
+  P[Доступ до приватних даних<br/>пошта, файли, БД] --- X((Злив даних))
+  U[Читає ненадійний текст<br/>сайти, листи, документи] --- X
+  O[Може щось надіслати назовні<br/>email, fetch, посилання, картинки] --- X
+</pre>
+<p class="note">Якщо в агента є всі три — його можна змусити злити дані. Фільтри, що ловлять «95%» атак, у безпеці вважаються провалом. Надійний захист — <b>прибрати одну з трьох ніжок</b>.</p>
+<h3>OWASP Top 10 для LLM-апок (2025)</h3>
+<div class="tbl"><table><thead><tr><th>#</th><th>Ризик</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>1</td><td>Prompt Injection</td><td>Чужий текст керує моделлю</td></tr>
+<tr><td>2</td><td>Sensitive Information Disclosure</td><td>Модель видає чужі або секретні дані</td></tr>
+<tr><td>3</td><td>Supply Chain</td><td>Підроблені моделі, бібліотеки, MCP-сервери</td></tr>
+<tr><td>4</td><td>Data and Model Poisoning</td><td>Отруєні дані навчання або RAG</td></tr>
+<tr><td>5</td><td>Improper Output Handling</td><td>Відповідь моделі вставили в SQL, shell, HTML без перевірки</td></tr>
+<tr><td>6</td><td>Excessive Agency</td><td>Агенту дали забагато прав</td></tr>
+<tr><td>7</td><td>System Prompt Leakage</td><td>Витягли секретні інструкції</td></tr>
+<tr><td>8</td><td>Vector and Embedding Weaknesses</td><td>Дірки у векторному пошуку (чужі документи)</td></tr>
+<tr><td>9</td><td>Misinformation</td><td>Впевнена неправда</td></tr>
+<tr><td>10</td><td>Unbounded Consumption</td><td>Хтось спалює твої токени і гроші</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="a13-1"><label for="a13-1">Атакувати свій RAG з A8: документ з прихованою інструкцією. Записати, що сталося.</label></li>
+<li><input type="checkbox" id="a13-2"><label for="a13-2">Атакувати свого агента з A9: змусити «злити» дані через посилання-картинку в markdown. Закрити канал.</label></li>
+<li><input type="checkbox" id="a13-3"><label for="a13-3">Мінімальні права: кожен інструмент перевіряє права користувача в коді.</label></li>
+<li><input type="checkbox" id="a13-4"><label for="a13-4">Пісочниця: код агента — тільки в контейнері зі списком дозволених адрес.</label></li>
+<li><input type="checkbox" id="a13-5"><label for="a13-5">Ліміти витрат і запитів на користувача. Секрети ніколи не потрапляють у контекст.</label></li>
+<li><input type="checkbox" id="a13-6"><label for="a13-6">Перевірка стороннього MCP-сервера перед підключенням: що він може, хто автор, що в описах інструментів.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>«Ми написали в промпті: не виконуй чужі інструкції» — це не захист.</li>
+<li>Відповідь моделі напряму в <code>eval</code>, SQL або shell.</li>
+<li>Сторонній MCP-сервер з «отруєним» описом інструменту.</li>
+<li>Агент з доступом до пошти, що читає вхідні листи і вміє надсилати — повна «трійця».</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Свої атаки задокументовані і закриті, у агента мінімальні права, пісочниця і ліміти.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Що таке «смертельна трійця» і як її розірвати?</li><li>Чому фільтр на 95% — це провал?</li><li>Як дані можуть витекти через картинку в markdown?</li></ol></div>
+<p class="src">Джерела: <a href="https://genai.owasp.org/llm-top-10/">OWASP Top 10 for LLM Applications</a> · <a href="https://simonwillison.net">Simon Willison: The lethal trifecta</a> · <a href="https://modelcontextprotocol.io">MCP security</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== A14 ===================== -->
+<section class="proj" id="a14" style="--c:var(--l4)" data-proj="a14">
+<div class="proj-head"><h2>A14 · Свій міні-GPT: подивитись «мізки» і код AI зсередини</h2><span class="tag">Рівень 4 · ~5–6 тижнів</span></div>
+<p class="why"><b>Навіщо:</b> найкращий спосіб зрозуміти AI — зібрати маленький сам. Код моделі на диво короткий. Уся «магія» в даних, масштабі і навчанні. Тут знадобиться Python — він основна мова ML.</p>
+<pre class="mermaid">
+flowchart LR
+  M[micrograd<br/>сам рахуєш градієнти,<br/>~100 рядків] --> MK[makemore<br/>модель генерує імена]
+  MK --> GPT[Let's build GPT<br/>трансформер з нуля]
+  GPT --> NG[nanoGPT<br/>тренування на своєму тексті]
+  NG --> NC[nanochat<br/>повний шлях: токенізатор →<br/>pretraining → SFT → RL → чат]
+  NC --> IN[Інтерпретованість<br/>що всередині ваг]
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Python, NumPy, PyTorch (база)</td><td>Мова і бібліотеки, на яких написані майже всі моделі.</td></tr>
+<tr><td>Backpropagation руками (micrograd)</td><td>Як модель розуміє, в який бік крутити кожну вагу.</td></tr>
+<tr><td>Трансформер з нуля</td><td>Написати увагу і шари самому — після цього A1 стає очевидним.</td></tr>
+<tr><td>Читати код великих моделей: Hugging Face transformers, llama.cpp</td><td>Як «подивитись код AI»: архітектура Llama чи Qwen — кілька сотень рядків.</td></tr>
+<tr><td>Інтерпретованість: ознаки (features), схеми (circuits)</td><td>Як дослідники Anthropic знаходять у вагах «поняття» і бачать, як модель планує риму наперед або рахує.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="a14-1"><label for="a14-1">Базовий Python + PyTorch (будь-який безкоштовний вступний курс, 2–3 тижні).</label></li>
+<li><input type="checkbox" id="a14-2"><label for="a14-2">Karpathy «Neural Networks: Zero to Hero»: micrograd і makemore — писати код разом з відео.</label></li>
+<li><input type="checkbox" id="a14-3"><label for="a14-3">«Let's build GPT»: трансформер з нуля, тренування на текстах (наприклад, українська поезія або іспанські тексти).</label></li>
+<li><input type="checkbox" id="a14-4"><label for="a14-4">Запустити nanoGPT на безкоштовному Google Colab, змінити розмір моделі і подивитися, як змінюється якість.</label></li>
+<li><input type="checkbox" id="a14-5"><label for="a14-5">Прочитати код nanochat і описати кожен етап — від токенізатора до чат-інтерфейсу.</label></li>
+<li><input type="checkbox" id="a14-6"><label for="a14-6">Відкрити реалізацію Llama або Qwen у бібліотеці transformers і знайти там увагу, MLP, нормалізацію.</label></li>
+<li><input type="checkbox" id="a14-7"><label for="a14-7">Прочитати «Tracing the thoughts» і «Scaling Monosemanticity» (Anthropic) — що вдалося побачити всередині ваг.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Почати з «тренуватиму свій ChatGPT» — повний nanochat коштує ~$100 оренди 8 GPU і дає рівень «дошкільника». Мета — розуміння, а не конкурент Claude.</li>
+<li>Копіювати код з відео без розуміння — через тиждень нічого не залишиться.</li>
+<li>Боятися математики: потрібні похідні на рівні «в який бік росте» і множення матриць — все пояснюється в курсі.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Ти натренував свій міні-GPT, розумієш кожен рядок і можеш знайти ті самі частини в коді великої моделі.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Де в моделі «знання» — в коді чи у вагах?</li><li>Що робить backpropagation?</li><li>Що вдалося побачити дослідникам інтерпретованості всередині моделі?</li></ol></div>
+<p class="src">Джерела: <a href="https://karpathy.ai/zero-to-hero.html">Karpathy: Zero to Hero</a> · <a href="https://github.com/karpathy/nanoGPT">nanoGPT</a> · <a href="https://github.com/karpathy/nanochat">nanochat</a> · <a href="https://github.com/rasbt/LLMs-from-scratch">Raschka: LLMs from scratch (код безкоштовно)</a> · <a href="https://stanford-cs336.github.io/">Stanford CS336</a> · <a href="https://course.fast.ai">fast.ai</a> · <a href="https://transformer-circuits.pub">Transformer Circuits</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== A15 ===================== -->
+<section class="proj" id="a15" style="--c:var(--l4)" data-proj="a15">
+<div class="proj-head"><h2>A15 · Донавчання і локальні моделі: «дописати мізки» під себе</h2><span class="tag">Рівень 4 · ~3–4 тижні</span></div>
+<p class="why"><b>Навіщо:</b> це реальна форма «дописати AI»: взяти відкриту модель і довчити під свою задачу, свій стиль, свою мову. Важливо знати, коли це допомагає, а коли RAG або промпт роблять те саме дешевше.</p>
+<div class="tbl"><table><thead><tr><th>Задача</th><th>Що краще</th></tr></thead><tbody>
+<tr><td>Модель має знати твої документи</td><td>RAG (A8), не донавчання</td></tr>
+<tr><td>Стабільний формат або стиль відповідей</td><td>Спершу промпт; донавчання — якщо не вистачає</td></tr>
+<tr><td>Вузька класифікація у великих обсягах</td><td>Донавчання маленької моделі</td></tr>
+<tr><td>Дешевше і швидше, ніж велика модель</td><td>Дистиляція: велика модель вчить маленьку</td></tr>
+<tr><td>Працювати без інтернету / приватно</td><td>Локальна модель + донавчання</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="a15-1"><label for="a15-1">Пройти Hugging Face LLM Course (розділи про fine-tuning).</label></li>
+<li><input type="checkbox" id="a15-2"><label for="a15-2">QLoRA-донавчання моделі 7–8 млрд на безкоштовному Colab через Unsloth: 500+ якісних прикладів однієї задачі.</label></li>
+<li><input type="checkbox" id="a15-3"><label for="a15-3">Порівняти: донавчена маленька модель vs великий Claude з хорошим промптом — якість, ціна, швидкість (на evals з A12).</label></li>
+<li><input type="checkbox" id="a15-4"><label for="a15-4">Перевірити «катастрофічне забування»: чи не зламались загальні вміння після донавчання.</label></li>
+<li><input type="checkbox" id="a15-5"><label for="a15-5">Експортувати модель у GGUF і запустити в Ollama (зв'язок з A6).</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Донавчати, щоб «вчити факти» — для цього RAG.</li>
+<li>200 брудних прикладів без тестового набору — модель стала гіршою, а ти не знаєш.</li>
+<li>Катастрофічне забування — модель втрачає загальні навички.</li>
+<li>Перенавчання — запам'ятала приклади, а нові не розуміє.</li>
+<li>Ліцензія базової моделі обмежує, що можна робити з донавченою.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Донавчена модель працює локально і є чесне порівняння з промптом на великій моделі.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Чому донавчання погано додає факти?</li><li>Що таке LoRA простими словами?</li><li>Що таке дистиляція?</li></ol></div>
+<p class="src">Джерела: <a href="https://docs.unsloth.ai">Unsloth</a> · <a href="https://huggingface.co/learn/llm-course">Hugging Face LLM Course</a> · <a href="https://huggingface.co/docs/trl">TRL</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== A16 ===================== -->
+<section class="proj" id="a16" style="--c:var(--l4)" data-proj="a16">
+<div class="proj-head"><h2>A16 · Чи може AI вдосконалювати сам себе: правда і міфи</h2><span class="tag">Рівень 4 · ~2–3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> відповідь на твоє питання «чи можна, щоб вона сама себе дописувала». Коротко: так, але тільки там, де є дешевий і чесний автоматичний «суддя». Без нього самовдосконалення не працює, а часто модель вчиться «обманювати суддю».</p>
+<div class="tbl"><table><thead><tr><th>Що існує</th><th>Як працює</th><th>Результат</th><th>Пастка</th></tr></thead><tbody>
+<tr><td>RL на перевірюваних задачах</td><td>Модель винагороджують за правильні відповіді в математиці й коді (DeepSeek-R1)</td><td>Так з'явились reasoning-моделі</td><td>Сперечаються: додає нові вміння чи «загострює» наявні</td></tr>
+<tr><td>Self-play (AlphaZero)</td><td>Грає сама з собою</td><td>Надлюдський рівень у шахах і го</td><td>Працює там, де є чіткі правила і перемога</td></tr>
+<tr><td>AlphaEvolve (DeepMind, 2025)</td><td>LLM пропонує зміни коду + еволюційний відбір + автоматичні оцінювачі</td><td>Новий алгоритм множення матриць 4×4; евристика, що повернула ~0,7% обчислень Google</td><td>Потрібна формула оцінки</td></tr>
+<tr><td>Darwin Gödel Machine (Sakana / UBC)</td><td>Агент коду переписує свій власний код, зберігає архів варіантів</td><td>SWE-bench з 20% до 50%</td><td><b>Навчився підробляти логи і обходити перевірки</b> — класичний «reward hacking»</td></tr>
+</tbody></table></div>
+<h3>Що реально можеш зробити ти</h3>
+<pre class="mermaid">
+flowchart LR
+  B[Поточна версія<br/>промпта / коду агента] --> P[AI пропонує зміну]
+  P --> E[Evals з A12<br/>суддя — НЕ сам агент]
+  E --> Q{Краще за<br/>поточну?}
+  Q -->|так| K[Зберегти як нову версію]
+  Q -->|ні| X[Відкинути]
+  K --> B
+  X --> B
+  H[Людина перевіряє зміни<br/>і сам суддю] -.-> E
+</pre>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="a16-1"><label for="a16-1">Прочитати огляди AlphaEvolve і Darwin Gödel Machine. Записати, що в кожному було «суддею».</label></li>
+<li><input type="checkbox" id="a16-2"><label for="a16-2">Цикл «еволюції промпта»: AI пропонує 10 варіантів промпта для RAG з A8, evals вибирають кращий, 5 поколінь.</label></li>
+<li><input type="checkbox" id="a16-3"><label for="a16-3">Те саме для коду агента: зміни приймаються тільки при покращенні тестів. Перевірити, чи не «навчився» агент обходити тести.</label></li>
+<li><input type="checkbox" id="a16-4"><label for="a16-4">Rejection sampling: зібрати найкращі відповіді моделі (за evals) і донавчити на них маленьку модель (A15).</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li><b>Міф:</b> чат-бот «вчиться» з розмов — ваги не змінюються.</li>
+<li><b>Міф:</b> «нескінченне самовдосконалення на ноутбуці» — потрібні суддя, обчислення і людський контроль.</li>
+<li>Суддя — сам агент: він знайде, як «здати іспит», не розв'язавши задачу.</li>
+<li>Без людської перевірки зміни накопичують приховані проблеми.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Є свій цикл покращення з чесним суддею і задокументовано хоча б один випадок «обману судді».</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Що спільного в усіх реальних прикладах самовдосконалення?</li><li>Що таке reward hacking?</li></ol></div>
+<p class="src">Джерела: <a href="https://deepmind.google/discover/blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/">DeepMind: AlphaEvolve</a> · <a href="https://sakana.ai/dgm/">Sakana: Darwin Gödel Machine</a> · <a href="https://arxiv.org/abs/2501.12948">DeepSeek-R1</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== A17 ===================== -->
+<section class="proj" id="a17" style="--c:var(--accent)" data-proj="a17">
+<div class="proj-head"><h2>A17 · Продакшн, гроші і закон ЄС</h2><span class="tag">Рівень 5 · ~3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> прототип за вечір зробить кожен. Продукт, що працює місяцями, не розоряє на токенах і не порушує закон, — ні. Саме за це платять AI-інженерам.</p>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Observability: трейси кожного запиту</td><td>Промпт, відповідь, токени, час, ціна, користувач — для кожного виклику.</td></tr>
+<tr><td>Fallbacks: таймаути, повтори, запасна модель, кешовані відповіді</td><td>Сервіс моделі впав — продукт працює далі.</td></tr>
+<tr><td>Вартість: кешування, batch (~50% дешевше), маршрутизація моделей, effort</td><td>Маленька модель — для простого, велика — для складного.</td></tr>
+<tr><td>Версіонування промптів і моделей, поступовий запуск</td><td>Нова версія спершу на 5% користувачів, з evals.</td></tr>
+<tr><td>RGPD</td><td>Правова підстава, договір обробки даних (DPA) з постачальником, де фізично обробляються дані, мінімум персональних даних у промптах, строки зберігання логів і пам'яті, видалення на запит.</td></tr>
+<tr><td>EU AI Act</td><td>Заборонені практики — з лютого 2025. Ти як розробник апки — «deployer»: AI-грамотність і прозорість (ст. 50, з 2 серпня 2026): казати, що людина говорить з AI, маркувати синтетичний контент. Високоризикові системи (найм, кредити, освіта) — окремі важкі вимоги, перенесені на 2027–2028.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="a17-1"><label for="a17-1">Дашборд вартості: ціна за запит, за користувача, за день. Алерт при перевищенні.</label></li>
+<li><input type="checkbox" id="a17-2"><label for="a17-2">Маршрутизація: прості питання — Haiku, складні — Sonnet / Opus. Порівняти ціну і якість на evals.</label></li>
+<li><input type="checkbox" id="a17-3"><label for="a17-3">Fallback: таймаут → повтор → запасна модель → чесне повідомлення користувачу.</label></li>
+<li><input type="checkbox" id="a17-4"><label for="a17-4">RGPD-чек-лист для свого продукту: які дані, де обробляються, скільки зберігаються, як видалити.</label></li>
+<li><input type="checkbox" id="a17-5"><label for="a17-5">Позначки AI Act: «Ви спілкуєтесь з AI», маркування згенерованих зображень.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Агентний цикл щоразу пересилає всю історію — вартість росте квадратично.</li>
+<li>Немає ліміту на користувача — один зловмисник спалює місячний бюджет за ніч.</li>
+<li>Логи з персональними даними зберігаються вічно.</li>
+<li>Немає договору з постачальником моделі для даних клієнтів.</li>
+<li>Залежність від одного постачальника без запасного варіанту.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Продукт з трейсами, дашбордом вартості, fallback, маршрутизацією і чек-листом RGPD / AI Act.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Які обов'язки має deployer за EU AI Act?</li><li>Три способи зменшити вартість без втрати якості?</li></ol></div>
+<p class="src">Джерела: <a href="https://artificialintelligenceact.eu">EU AI Act</a> · <a href="https://www.aepd.es">AEPD</a> · <a href="https://langfuse.com">Langfuse</a> · <a href="https://docs.claude.com">Claude docs: prompt caching, batches</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== A18 ===================== -->
+<section class="proj" id="a18" style="--c:var(--accent)" data-proj="a18">
+<div class="proj-head"><h2>A18 · Історія і майбутнє AI: старі і нові версії</h2><span class="tag">Рівень 5 · ~1–2 тижні</span></div>
+<p class="why"><b>Навіщо:</b> зрозуміти, з якою швидкістю все рухається, і навчитися відрізняти справжні тренди від хайпу.</p>
+<h3>Хронологія</h3>
+<div class="tbl"><table><thead><tr><th>Коли</th><th>Що сталося</th><th>Чому важливо</th></tr></thead><tbody>
+<tr><td>2017</td><td>Стаття «Attention Is All You Need» (Google) — трансформер</td><td>Основа всіх сучасних LLM</td></tr>
+<tr><td>2018–2019</td><td>GPT-1, BERT, GPT-2 (1,5 млрд)</td><td>Перші великі мовні моделі</td></tr>
+<tr><td>2020</td><td>GPT-3 (175 млрд), закони масштабування</td><td>«Більше = краще» стає стратегією</td></tr>
+<tr><td>Листопад 2022</td><td>ChatGPT</td><td>AI для всіх</td></tr>
+<tr><td>2023</td><td>GPT-4, Claude 1–2, Llama (відкриті ваги), Gemini 1.0</td><td>Гонка лабораторій</td></tr>
+<tr><td>2024</td><td>Claude 3 / 3.5, GPT-4o, Gemini 1.5 (1 млн контексту), OpenAI o1 — перша reasoning-модель</td><td>Мультимодальність і «роздуми»</td></tr>
+<tr><td>Січень 2025</td><td>DeepSeek-R1 — відкрита reasoning-модель, шок для ринку</td><td>Відкриті моделі наздоганяють</td></tr>
+<tr><td>2025</td><td>Claude 4 і 4.5, GPT-5, Gemini 2.5 і 3, Grok 4, MCP стає стандартом</td><td>Агенти і кодинг-агенти</td></tr>
+<tr><td>2026 (до жовтня)</td><td>Anthropic: Opus 4.6–4.8, Fable 5 / 5.1, Opus 5 / 5.5, Sonnet 5.5, Haiku 5.5. OpenAI: GPT-6 сімейство. Google: Gemini 4. xAI: Grok 4.7. DeepSeek V4, Qwen 3.6. Meta перейшла до закритих моделей Muse. Sora закрита</td><td>Кілька поколінь на рік, 1 млн токенів контексту — норма</td></tr>
+</tbody></table></div>
+<h3>Тренди, за якими варто стежити</h3>
+<div class="tbl"><table><thead><tr><th>Тренд</th><th>Що означає</th></tr></thead><tbody>
+<tr><td>Агенти за замовчуванням</td><td>AI все більше виконує задачі, а не відповідає. Головна навичка — будувати і контролювати агентів.</td></tr>
+<tr><td>Reasoning і «зусилля»</td><td>Платиш за глибину думання; керуєш тим, скільки модель думає.</td></tr>
+<tr><td>Найпотужніші моделі — з обмеженим доступом</td><td>Топові версії видають спершу обмеженому колу через ризики (кібербезпека, біо).</td></tr>
+<tr><td>Відкриті ваги — переважно з Китаю</td><td>DeepSeek, Qwen ведуть у відкритих моделях; Meta відійшла від відкритих Llama.</td></tr>
+<tr><td>Мультимодальність і «моделі світу»</td><td>Відео, звук, 3D, симуляції світу (Genie), роботи.</td></tr>
+<tr><td>Регулювання</td><td>EU AI Act поетапно до 2027–2028, суди про авторські права (музика, картинки, тексти).</td></tr>
+<tr><td>Ціна падає, вимоги ростуть</td><td>Розумніші моделі дешевшають, але агенти споживають у рази більше токенів.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="a18-1"><label for="a18-1">Скласти свій список з 5–7 джерел для щотижневого стеження (блоги Anthropic, OpenAI, DeepMind, Simon Willison, Hugging Face, Latent Space тощо).</label></li>
+<li><input type="checkbox" id="a18-2"><label for="a18-2">Порівняти одну задачу на старій моделі і новій (наприклад, через OpenRouter або старі версії в API): що змінилось?</label></li>
+<li><input type="checkbox" id="a18-3"><label for="a18-3">Розібрати один хайповий заголовок («AI замінить X», «модель усвідомила себе») — що насправді в першоджерелі?</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Вірити заголовкам без першоджерела.</li>
+<li>Бенчмарки від самих компаній — порівнюй з незалежними.</li>
+<li>Гнатися за кожною новою моделлю замість вивчення принципів.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Є список джерел і звичка щотижня 30 хвилин читати новини з першоджерел.</li></ul></div>
+<p class="src">Джерела: <a href="https://www.anthropic.com/news">Anthropic news</a> · <a href="https://openai.com/news">OpenAI news</a> · <a href="https://deepmind.google/discover/blog/">DeepMind blog</a> · <a href="https://simonwillison.net">Simon Willison</a> · <a href="https://huggingface.co/blog">Hugging Face blog</a> · <a href="https://epoch.ai">Epoch AI</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== A19 ===================== -->
+<section class="proj" id="a19" style="--c:var(--accent)" data-proj="a19">
+<div class="proj-head"><h2>A19 · Кар'єра в AI: ролі, навички, портфоліо</h2><span class="tag">Рівень 5 · ~2 тижні</span></div>
+<p class="why"><b>Навіщо:</b> ти хочеш працювати з AI напряму. Тут — карта ролей і реалістичний шлях з веб-розробки.</p>
+<div class="tbl"><table><thead><tr><th>Роль</th><th>Що робить</th><th>Що треба</th><th>Реалістичність для тебе</th></tr></thead><tbody>
+<tr><td><b>AI-інженер</b></td><td>Будує продукти на готових моделях: API, RAG, агенти, evals, продакшн</td><td>TypeScript / Python, бекенд, бази, evals, безпека</td><td>Головний шлях — цей курс + перший курс</td></tr>
+<tr><td>Автоматизація з AI</td><td>Впроваджує AI в процеси малого бізнесу</td><td>Інтеграції, n8n / Make, API, комунікація з клієнтом</td><td>Найшвидші перші гроші</td></tr>
+<tr><td>ML-інженер</td><td>Тренує і розгортає моделі</td><td>Python, PyTorch, математика, MLOps</td><td>Довше, але можливо після A14–A15</td></tr>
+<tr><td>Дослідник</td><td>Нові методи</td><td>Зазвичай рівень PhD</td><td>Не основна ціль</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="a19-1"><label for="a19-1">Портфоліо з 3 проєктів, кожен з evals, дашбордом вартості і чесним розбором помилок: RAG для DGT (A8), MCP-сервер + звіт про безпеку (A9, A13), агент коду з тестами (A11).</label></li>
+<li><input type="checkbox" id="a19-2"><label for="a19-2">Переглянути 20 вакансій «AI Engineer» (LinkedIn, InfoJobs, Remote OK) — виписати навички, що повторюються.</label></li>
+<li><input type="checkbox" id="a19-3"><label for="a19-3">Написати 2 технічні статті про свої проєкти (що спробував, цифри, висновки).</label></li>
+<li><input type="checkbox" id="a19-4"><label for="a19-4">Зробити один маленький AI-проєкт для реального бізнесу (знайомі, безкоштовно або недорого) — перший відгук.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Портфоліо з «чат-ботів-обгорток» без evals — таких тисячі.</li>
+<li>Збирати сертифікати замість задеплоєних проєктів з цифрами.</li>
+<li>Ігнорувати звичайну інженерію — AI-інженер передусім інженер.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Є портфоліо з 3 проєктів з цифрами і перший реальний клієнт або відгук.</li></ul></div>
+<p class="src">Джерела: <a href="https://www.latent.space">Latent Space (AI Engineer)</a> · <a href="https://hamel.dev">Hamel Husain</a> · вакансії LinkedIn / InfoJobs</p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== FINAL ===================== -->
+<section class="proj" id="final" style="--c:var(--accent)" data-proj="final">
+<div class="proj-head"><h2>Фінал · AI-продукт для реального бізнесу в Іспанії</h2><span class="tag">Рівень 5 · ~6–8 тижнів</span></div>
+<p class="why"><b>Задача:</b> AI-асистент для клініки, автошколи, агенції нерухомості або гестора (gestoría): відповідає клієнтам іспанською, англійською й українською по документах бізнесу, записує на прийом через інструменти, передає людині складне. З evals, безпекою, пам'яттю, контролем вартості і за законом ЄС.</p>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="fin-1"><label for="fin-1">Розмова з «клієнтом» (Claude грає роль): задачі, документи, що можна і чого не можна робити агенту.</label></li>
+<li><input type="checkbox" id="fin-2"><label for="fin-2">Design doc: архітектура, моделі, інструменти, ризики (смертельна трійця), вартість на місяць.</label></li>
+<li><input type="checkbox" id="fin-3"><label for="fin-3">RAG по документах з цитатами і «не знаю» (A8, A11).</label></li>
+<li><input type="checkbox" id="fin-4"><label for="fin-4">Інструменти: запис на прийом, передача людині; підтвердження для незворотних дій (A9).</label></li>
+<li><input type="checkbox" id="fin-5"><label for="fin-5">Пам'ять клієнта з видаленням на запит (A10).</label></li>
+<li><input type="checkbox" id="fin-6"><label for="fin-6">Evals на 100+ реалістичних запитах, запуск у CI (A12).</label></li>
+<li><input type="checkbox" id="fin-7"><label for="fin-7">Атаки на свій продукт і захист (A13).</label></li>
+<li><input type="checkbox" id="fin-8"><label for="fin-8">Продакшн: трейси, дашборд вартості, fallback, RGPD, позначка «це AI» (A17).</label></li>
+</ul>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Продукт працює, є цифри якості і вартості, атаки закриті, документи RGPD і AI Act готові.</li>
+<li>Ти можеш пояснити клієнту кожне рішення, ризик і ціну.</li>
+</ul></div>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== GLOSSARY ===================== -->
+<h2 id="slovnyk">Сленг і терміни AI</h2>
+<div class="tbl"><table>
+<thead><tr><th>Сленг</th><th>Правильно</th><th>Простими словами</th><th>В Іспанії</th></tr></thead>
+<tbody>
+<tr><td>ллм, модель</td><td>large language model</td><td>Велика мовна модель</td><td>modelo de lenguaje (LLM)</td></tr>
+<tr><td>мізки, ваги</td><td>weights, parameters</td><td>Мільярди чисел — «знання» моделі</td><td>pesos, parámetros</td></tr>
+<tr><td>токен</td><td>token</td><td>Шматок слова, одиниця тексту і ціни</td><td>token</td></tr>
+<tr><td>контекст, вікно</td><td>context window</td><td>Скільки модель бачить за раз</td><td>ventana de contexto</td></tr>
+<tr><td>промпт</td><td>prompt</td><td>Завдання для моделі</td><td>prompt, instrucción</td></tr>
+<tr><td>систем-промпт</td><td>system prompt</td><td>Правила гри для моделі</td><td>prompt de sistema</td></tr>
+<tr><td>галюцинація</td><td>hallucination</td><td>Впевнена вигадка</td><td>alucinación</td></tr>
+<tr><td>катоф</td><td>knowledge cutoff</td><td>Дата, до якої модель «читала»</td><td>fecha de corte</td></tr>
+<tr><td>інференс</td><td>inference</td><td>Використання моделі (не навчання)</td><td>inferencia</td></tr>
+<tr><td>претрейн</td><td>pretraining</td><td>Основне навчання на масиві текстів</td><td>preentrenamiento</td></tr>
+<tr><td>файнтюн</td><td>fine-tuning</td><td>Донавчання під задачу</td><td>ajuste fino</td></tr>
+<tr><td>лора</td><td>LoRA</td><td>Дешеве донавчання маленьких «надбудов» до ваг</td><td>LoRA</td></tr>
+<tr><td>RLHF</td><td>reinforcement learning from human feedback</td><td>Навчання на оцінках людей</td><td>aprendizaje por refuerzo con feedback humano</td></tr>
+<tr><td>ризонінг, «думає»</td><td>reasoning, extended thinking</td><td>Модель міркує перед відповіддю</td><td>razonamiento</td></tr>
+<tr><td>MoE</td><td>mixture of experts</td><td>Працюють лише кілька «експертів» з багатьох</td><td>mezcla de expertos</td></tr>
+<tr><td>ембедінг</td><td>embedding</td><td>Текст як вектор чисел за змістом</td><td>embedding, vector</td></tr>
+<tr><td>РАГ</td><td>retrieval-augmented generation</td><td>Знайти документи → дати моделі → відповідь</td><td>RAG</td></tr>
+<tr><td>векторна база</td><td>vector database</td><td>База для пошуку за змістом</td><td>base de datos vectorial</td></tr>
+<tr><td>чанк</td><td>chunk</td><td>Шматок документа для пошуку</td><td>fragmento</td></tr>
+<tr><td>реранк</td><td>reranking</td><td>Пересортувати знайдене точніше</td><td>reordenación</td></tr>
+<tr><td>тул, тулкол</td><td>tool use, function calling</td><td>Модель викликає функцію</td><td>uso de herramientas</td></tr>
+<tr><td>агент</td><td>agent</td><td>Модель у циклі з інструментами</td><td>agente</td></tr>
+<tr><td>MCP</td><td>Model Context Protocol</td><td>Стандарт підключення сервісів до AI</td><td>MCP</td></tr>
+<tr><td>компакшн</td><td>compaction</td><td>Стиснення історії в підсумок</td><td>compactación</td></tr>
+<tr><td>евали</td><td>evals</td><td>Набір тестів якості AI</td><td>evaluaciones</td></tr>
+<tr><td>суддя</td><td>LLM-as-judge</td><td>Модель оцінює відповіді іншої</td><td>LLM como juez</td></tr>
+<tr><td>інджекшн</td><td>prompt injection</td><td>Чужий текст керує моделлю</td><td>inyección de prompt</td></tr>
+<tr><td>джейлбрейк</td><td>jailbreak</td><td>Обхід правил моделі</td><td>jailbreak</td></tr>
+<tr><td>гардрейли</td><td>guardrails</td><td>Перевірки входу і виходу</td><td>salvaguardas</td></tr>
+<tr><td>кеш промпта</td><td>prompt caching</td><td>Повторний початок — дешевше</td><td>caché de prompts</td></tr>
+<tr><td>квантизація</td><td>quantization</td><td>Стиснути ваги (4 біти) — менше пам'яті</td><td>cuantización</td></tr>
+<tr><td>опен-вейтс</td><td>open weights</td><td>Ваги можна завантажити</td><td>pesos abiertos</td></tr>
+<tr><td>дистиляція</td><td>distillation</td><td>Велика модель вчить маленьку</td><td>destilación</td></tr>
+<tr><td>дифузія</td><td>diffusion model</td><td>Генерація з шуму крок за кроком</td><td>modelo de difusión</td></tr>
+<tr><td>TTS / STT</td><td>text-to-speech / speech-to-text</td><td>Озвучка / розпізнавання мови</td><td>texto a voz / voz a texto</td></tr>
+<tr><td>ревард хакінг</td><td>reward hacking</td><td>AI «обманює суддю» замість розв'язання задачі</td><td>hackeo de recompensa</td></tr>
+<tr><td>інтерпретованість</td><td>interpretability</td><td>Дослідження, що всередині моделі</td><td>interpretabilidad</td></tr>
+<tr><td>AGI</td><td>artificial general intelligence</td><td>Гіпотетичний AI рівня людини в усьому</td><td>inteligencia artificial general</td></tr>
+</tbody></table></div>
+
+<!-- ===================== RISKS ===================== -->
+<h2 id="ryzyky">Якщо в AI-продукті є X — обов'язково думай про Y</h2>
+<div class="tbl"><table><thead><tr><th>Якщо є…</th><th>Логіка</th><th>Обов'язково</th><th>Модуль</th></tr></thead><tbody>
+<tr><td>Будь-який виклик моделі</td><td>Вона може помилятись і коштує грошей</td><td>Evals, логування токенів, ліміти, обробка помилок</td><td>A7, A12</td></tr>
+<tr><td>Відповіді по документах</td><td>Пошук промахується, модель домислює</td><td>Гібридний пошук, цитати з перевіркою, «не знаю», права доступу</td><td>A8</td></tr>
+<tr><td>Інструменти / агент</td><td>Може зробити шкідливу дію</td><td>Мінімальні права в коді, ліміти кроків і грошей, підтвердження людиною</td><td>A9</td></tr>
+<tr><td><b>Приватні дані + чужий текст + вихід назовні</b></td><td>Смертельна трійця — злив даних</td><td>Прибрати одну ніжку, пісочниця, список дозволених адрес</td><td>A13</td></tr>
+<tr><td>Пам'ять</td><td>Засмічується і містить персональні дані</td><td>Правила оновлення, перегляд і видалення (RGPD)</td><td>A10</td></tr>
+<tr><td>Генерація коду / SQL / HTML</td><td>Вихід моделі — ненадійний вхід</td><td>Валідація, екранування, ніколи не <code>eval</code></td><td>A13</td></tr>
+<tr><td>Згенеровані картинки / відео / голос людей</td><td>EU AI Act і права на зображення</td><td>Маркування, згода, ліцензія плану</td><td>A5</td></tr>
+<tr><td>Дані клієнтів у промптах</td><td>RGPD</td><td>DPA з постачальником, мінімум даних, строки логів</td><td>A17</td></tr>
+<tr><td>Самовдосконалення / автоматичні зміни</td><td>Reward hacking</td><td>Незалежний суддя, людська перевірка</td><td>A16</td></tr>
+<tr><td>Один постачальник моделі</td><td>Падіння, зміна цін, закриття (як Sora)</td><td>Fallback-модель, абстракція в коді</td><td>A17</td></tr>
+</tbody></table></div>
+
+<!-- ===================== MYTHS ===================== -->
+<h2 id="ne-vchyty">Міфи і що НЕ робити</h2>
+<div class="tbl"><table><thead><tr><th>Міф або пастка</th><th>Правда</th></tr></thead><tbody>
+<tr><td>«AI гуглить сам»</td><td>Шукає програма, модель читає результати</td></tr>
+<tr><td>«Ваги — база даних фактів»</td><td>Стиснута з втратами статистика, тому й галюцинації</td></tr>
+<tr><td>«AI вчиться з моїх розмов»</td><td>Ваги не змінюються; «пам'ять» — це нотатки програми</td></tr>
+<tr><td>«Можна налаштувати 0% помилок»</td><td>Ні. Можна зробити помилки рідкими і помітними</td></tr>
+<tr><td>«Попроси перевірити себе — і помилок не буде»</td><td>Без зовнішнього сигналу самоперевірка майже не працює</td></tr>
+<tr><td>«Маск злив мізки Grok»</td><td>Офіційно опубліковано ваги старих Grok-1 і Grok-2</td></tr>
+<tr><td>«Візьму відкриті ваги і зроблю кращий AI за вихідні»</td><td>Можна донавчити під задачу; кращу за топові модель — ні</td></tr>
+<tr><td>«Видимі роздуми = справжні думки моделі»</td><td>Не завжди — дослідження показують невідповідності</td></tr>
+<tr><td>Тренувати свою велику модель з нуля</td><td>Мільйони доларів. Вчи на nanoGPT, працюй з готовими</td></tr>
+<tr><td>Вчити напам'ять назви моделей і цін</td><td>Застаріють за місяці. Вчи принципи і перевіряй документацію</td></tr>
+<tr><td>Глибока математика до першого проєкту</td><td>Для AI-інженера достатньо інтуїції; глибина — в A14 за бажанням</td></tr>
+</tbody></table></div>
+
+<!-- ===================== SOURCES ===================== -->
+<h2 id="dzherela">Джерела, з яких зібраний курс</h2>
+<div class="cols2">
+<div>
+<h3>Розуміння</h3>
+<ul class="src">
+<li><a href="https://karpathy.ai/zero-to-hero.html">Andrej Karpathy: Zero to Hero</a> · <a href="https://www.youtube.com/watch?v=7xTGNNLPyMI">Deep Dive into LLMs</a></li>
+<li><a href="https://www.3blue1brown.com/topics/neural-networks">3Blue1Brown</a> · <a href="https://jalammar.github.io/illustrated-transformer/">Illustrated Transformer</a></li>
+<li><a href="https://stanford-cs336.github.io/">Stanford CS336</a> · <a href="https://huggingface.co/learn/llm-course">Hugging Face LLM Course</a> · <a href="https://course.fast.ai">fast.ai</a></li>
+<li><a href="https://www.anthropic.com/research">Anthropic research</a> · <a href="https://transformer-circuits.pub">Transformer Circuits</a></li>
+</ul>
+</div>
+<div>
+<h3>Інженерія</h3>
+<ul class="src">
+<li><a href="https://docs.claude.com">Claude docs</a> · <a href="https://platform.openai.com/docs">OpenAI docs</a> · <a href="https://ai.google.dev/gemini-api/docs">Gemini docs</a></li>
+<li><a href="https://www.anthropic.com/engineering">Anthropic Engineering blog</a> · <a href="https://modelcontextprotocol.io">MCP</a></li>
+<li><a href="https://genai.owasp.org/llm-top-10/">OWASP LLM Top 10</a> · <a href="https://simonwillison.net">Simon Willison</a></li>
+<li><a href="https://hamel.dev">Hamel Husain (evals)</a> · <a href="https://www.promptfoo.dev">promptfoo</a> · <a href="https://langfuse.com">Langfuse</a></li>
+<li><a href="https://artificialintelligenceact.eu">EU AI Act</a> · <a href="https://www.aepd.es">AEPD</a></li>
+</ul>
+</div>
+</div>
+</main>
+</div>
+<script>
+(function(){
+  var KEY = 'ai-kurs-progress-v1';
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('ul.tasks input[type=checkbox]'));
+  var state = {};
+  var db = null, docRef = null, writing = Promise.resolve(), timer = null;
+  var syncTxt = document.getElementById('syncTxt');
+
+  function readLocal(){ try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e){ return {}; } }
+  function writeLocal(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} }
+
+  function apply(){
+    boxes.forEach(function(b){ b.checked = !!state[b.id]; });
+    render();
+  }
+  function render(){
+    var total = boxes.length, done = 0;
+    boxes.forEach(function(b){ if (b.checked) done++; });
+    document.getElementById('overallTxt').textContent = 'Виконано задач: ' + done + ' з ' + total;
+    document.getElementById('overallBar').style.width = (total ? done/total*100 : 0) + '%';
+    document.querySelectorAll('section.proj').forEach(function(sec){
+      var bs = sec.querySelectorAll('ul.tasks input'), d = 0;
+      bs.forEach(function(b){ if (b.checked) d++; });
+      var bar = sec.querySelector(':scope > .bar i'), cnt = sec.querySelector(':scope > .cnt');
+      if (bar) bar.style.width = (bs.length ? d/bs.length*100 : 0) + '%';
+      if (cnt) cnt.textContent = d + ' / ' + bs.length + (d === bs.length && bs.length ? ' · проєкт закрито' : '');
+    });
+  }
+  function save(){
+    writeLocal();
+    if (!docRef) return;
+    clearTimeout(timer);
+    timer = setTimeout(function(){
+      var body = { done: Object.assign({}, state), updatedAt: new Date().toISOString() };
+      writing = writing.then(function(){ return docRef.set(body); }).then(function(){
+        syncTxt.textContent = 'Прогрес збережено у твоєму акаунті.';
+      }).catch(function(){
+        docRef = null;
+        syncTxt.textContent = 'Прогрес зберігається в цьому браузері.';
+      });
+    }, 600);
+  }
+  boxes.forEach(function(b){
+    b.addEventListener('change', function(){
+      if (b.checked) state[b.id] = true; else delete state[b.id];
+      render(); save();
+    });
+  });
+
+  state = readLocal();
+  apply();
+  syncTxt.textContent = 'Прогрес зберігається в цьому браузері.';
+
+  if (window.claude && typeof window.claude.use === 'function') {
+    Promise.all([window.claude.use('db'), window.claude.use('user')]).then(function(r){
+      var ns = r[0], user = r[1];
+      if (!ns || !user) return null;
+      db = ns;
+      return user.id();
+    }).then(function(uid){
+      if (!uid) return;
+      try { docRef = db.doc('data/users/' + uid + '/progress'); } catch(e){ return; }
+      docRef.get().then(function(snap){
+        var remote = (snap.exists && snap.data() && snap.data().done) || {};
+        var merged = Object.assign({}, remote, state);
+        var changed = Object.keys(merged).length !== Object.keys(remote).length;
+        state = merged; apply(); writeLocal();
+        syncTxt.textContent = 'Прогрес синхронізовано з твоїм акаунтом.';
+        if (changed && Object.keys(state).length) save();
+      }).catch(function(){
+        docRef = null;
+        syncTxt.textContent = 'Прогрес зберігається в цьому браузері.';
+      });
+    }).catch(function(){});
+  }
+})();
+</script>

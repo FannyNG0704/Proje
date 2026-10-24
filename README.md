@@ -7,6 +7,7 @@
 | IT (веб/апки, безпека, підводні камені) | [`it/`](it/) | ▶ зараз |
 | IT: відео, 3D, моушн, дизайн | [`it/media-kurs.html`](it/media-kurs.html) · https://claude.ai/artifact/LxzWTQfaqEyNHXQWGxB6qG | ▶ паралельно |
 | IT: розробка ігор | [`it/games-kurs.html`](it/games-kurs.html) · https://claude.ai/artifact/8dApJpdxaFi2vcLJ6qKeMi | ▶ паралельно |
+| IT: штучний інтелект (головна ціль) | [`it/ai-kurs.html`](it/ai-kurs.html) · https://claude.ai/artifact/WZb8Y7Lg57Pqqnp3M96hex | ▶ паралельно |
 | Іспанська + теорія на права (permiso B) | [`espanol-dgt/`](espanol-dgt/) | ⏸ пізніше |
 | Біблія іспанською | [`biblia/`](biblia/) | ⏸ пізніше |
 

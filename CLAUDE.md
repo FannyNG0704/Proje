@@ -37,6 +37,7 @@
 - План курсу: `it/plan-kursu.md`, повна сторінка з задачами: `it/kurs.html` (https://claude.ai/artifact/7a82nP9mL1FagUNTNyd5Ww). Прогрес задач — у базі сторінки, у кожного свій (`data/users/me/progress`). Сторінка відкрита за посиланням (брат теж користується).
 - Другий курс «Відео, 3D і моушн»: `it/media-kurs.html` (https://claude.ai/artifact/LxzWTQfaqEyNHXQWGxB6qG), прогрес так само в `data/users/me/progress`.
 - Третій курс «Ігри: від Pong до релізу»: `it/games-kurs.html` (https://claude.ai/artifact/8dApJpdxaFi2vcLJ6qKeMi), прогрес так само.
+- Четвертий курс «AI: як працює і як на ньому будувати»: `it/ai-kurs.html` (https://claude.ai/artifact/WZb8Y7Lg57Pqqnp3M96hex), прогрес так само. Це головний напрямок, з яким хочу працювати в майбутньому.
 - Прогрес і що вже пройдено: `it/progres.md` — оновлюй після кожного заняття
   (тема, що зрозумів, що слабко, питання на повторення).
 - Конспекти занять: `it/konspekty/NN-tema.md`.
