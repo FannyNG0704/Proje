@@ -1,4 +1,15 @@
-<!doctype html><html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}img{max-width:100%}body{margin:0}</style></head><body><div style="font:14px system-ui,sans-serif;padding:10px 16px;background:#fff7e0;color:#4a3b00;border-bottom:1px solid #e6d9a8">Офлайн-копія курсу. Актуальна версія з прогресом: <a href="https://claude.ai/artifact/8dApJpdxaFi2vcLJ6qKeMi">https://claude.ai/artifact/8dApJpdxaFi2vcLJ6qKeMi</a> · <a href="index.html">← Бібліотека</a></div><title>Ігри: від Pong до релізу</title>
+<!doctype html><html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}img{max-width:100%}body{margin:0}.offbar{font:14px system-ui,sans-serif;padding:10px 16px;background:#fff7e0;color:#4a3b00;border-bottom:1px solid #e6d9a8;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}.offbar a{color:#7a4b00}.offbar button,.offbar label{font:13px system-ui,sans-serif;padding:4px 10px;border:1px solid #c9b36a;border-radius:6px;background:#fff;color:#4a3b00;cursor:pointer}</style></head><body><div class="offbar"><span>Офлайн-копія. Галочки зберігаються в цьому браузері.</span>
+<button type="button" id="expBtn">Зберегти прогрес у файл</button>
+<label>Завантажити з файлу<input type="file" id="impFile" accept=".json" hidden></label>
+<a href="index.html">← Бібліотека</a> <a href="https://claude.ai/artifact/8dApJpdxaFi2vcLJ6qKeMi">Онлайн-версія</a></div>
+<script>
+(function(){var K="games-kurs-progress-v1";
+document.getElementById("expBtn").onclick=function(){var d;try{d=localStorage.getItem(K)||"{}"}catch(e){d="{}"}
+var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([d],{type:"application/json"}));a.download="progres-03-igry.json";a.click();};
+document.getElementById("impFile").onchange=function(ev){var f=ev.target.files[0];if(!f)return;var r=new FileReader();
+r.onload=function(){try{JSON.parse(r.result);localStorage.setItem(K,r.result);location.reload()}catch(e){alert("Це не файл прогресу")}};r.readAsText(f);};
+})();
+</script><title>Ігри: від Pong до релізу</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
