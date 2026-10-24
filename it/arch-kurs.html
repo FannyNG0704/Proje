@@ -1,0 +1,1262 @@
+<title>Архітектура: від коду до систем</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: sticky contents on the left (desktop), one long column of module work orders; crimson accent marks this as the architecture course. */
+:root{
+  --bg:#f5f6f8; --surface:#ffffff; --ink:#18212e; --muted:#5a6475; --line:#d9dee6;
+  --accent:#b4233c; --accent-soft:#fbe7ea;
+  --warn:#b45309; --warn-soft:#fdf1e3;
+  --ok:#1f7a4d; --ok-soft:#e3f4ea;
+  --l1:#2f8f6b; --l2:#2f5bd3; --l3:#b45309; --l4:#7a3fb8;
+  --code-bg:#eef1f5;
+  --f-display:"Unbounded","Golos Text",system-ui,sans-serif;
+  --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11161f; --surface:#171e2a; --ink:#e6eaf1; --muted:#9aa5b6; --line:#2a3445;
+  --accent:#ff8fa3; --accent-soft:#3a1820;
+  --warn:#f0a35a; --warn-soft:#33240f;
+  --ok:#5fcf98; --ok-soft:#12301f;
+  --l1:#5fcf98; --l2:#7ea2ff; --l3:#f0a35a; --l4:#c39bff;
+  --code-bg:#1f2836; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#11161f; --surface:#171e2a; --ink:#e6eaf1; --muted:#9aa5b6; --line:#2a3445;
+  --accent:#ff8fa3; --accent-soft:#3a1820;
+  --warn:#f0a35a; --warn-soft:#33240f;
+  --ok:#5fcf98; --ok-soft:#12301f;
+  --l1:#5fcf98; --l2:#7ea2ff; --l3:#f0a35a; --l4:#c39bff;
+  --code-bg:#1f2836; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:240px minmax(0,1fr);gap:40px;padding-block:32px 80px}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr)} nav.toc{display:none}}
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;max-height:calc(100vh - 32px);overflow:auto;font-size:14px}
+nav.toc a{display:block;color:var(--muted);text-decoration:none;padding:3px 0}
+nav.toc a:hover,nav.toc a:focus-visible{color:var(--accent)}
+nav.toc .grp{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-top:14px}
+main{min-width:0}
+h1,h2,h3{text-wrap:balance;line-height:1.25}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(28px,4.5vw,44px);margin:0 0 12px}
+h2{font-family:var(--f-display);font-weight:500;font-size:clamp(22px,3vw,28px);margin:56px 0 12px}
+h3{font-size:18px;margin:24px 0 8px}
+p{max-width:70ch;margin:8px 0}
+a{color:var(--accent)}
+.lead{font-size:18px;color:var(--muted);max-width:68ch}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+code,kbd{font-family:var(--f-mono);font-size:.88em;background:var(--code-bg);padding:1px 5px;border-radius:4px}
+.tbl{overflow-x:auto;margin:12px 0;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line)}
+th{font-size:13px;color:var(--muted);font-weight:600;background:var(--bg)}
+tr:last-child td{border-bottom:0}
+.mermaid{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;overflow-x:auto;margin:12px 0}
+.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:16px 0}
+.lv{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:8px;padding:14px 16px}
+.lv h3{margin:4px 0 6px;font-size:16px}
+.lv .say{font-size:14px;color:var(--muted)}
+.lv .say b{color:var(--ink)}
+.principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:12px 0}
+.principles div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.principles b{display:block;margin-bottom:2px}
+/* project cards */
+section.proj{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin:20px 0;border-left:5px solid var(--c)}
+.proj-head{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between}
+.proj-head h2{margin:0;font-size:clamp(20px,2.6vw,24px)}
+.tag{font-family:var(--f-mono);font-size:12px;padding:2px 8px;border-radius:999px;background:var(--bg);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}
+.why{font-size:15px;color:var(--muted)}
+.pit{background:var(--warn-soft);border-radius:8px;padding:12px 16px;margin:12px 0}
+.pit h3{color:var(--warn);margin-top:0}
+.pit ul{margin:0;padding-left:20px}
+.done{background:var(--ok-soft);border-radius:8px;padding:12px 16px;margin:12px 0}
+.done h3{color:var(--ok);margin-top:0}
+.done ul{margin:0;padding-left:20px}
+ul.tasks{list-style:none;padding:0;margin:8px 0}
+ul.tasks li{display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-bottom:1px dashed var(--line)}
+ul.tasks li:last-child{border-bottom:0}
+ul.tasks input{margin-top:5px;width:18px;height:18px;accent-color:var(--accent);flex:none}
+ul.tasks label{cursor:pointer}
+ul.tasks input:checked + label{color:var(--muted);text-decoration:line-through}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:6px 0 2px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.cnt{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.quiz ol{padding-left:22px;margin:4px 0}
+.src{font-size:14px;color:var(--muted)}
+.src a{word-break:break-word}
+.note{font-size:14px;color:var(--muted);border-left:3px solid var(--line);padding-left:12px;margin:12px 0}
+.syncline{font-size:13px;color:var(--muted);margin-top:8px}
+.overall{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:8px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.cols2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.cols2>div{min-width:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+<div class="wrap">
+<nav class="toc" aria-label="Зміст">
+  <div class="grp">Старт</div>
+  <a href="#pryntsyp">Принцип курсу</a>
+  <a href="#karta">Карта і рівні</a>
+  <div class="grp">Рівень 0 · Мислення</div>
+  <a href="#ar0">AR0 · Що таке архітектура</a>
+  <a href="#ar1">AR1 · Документувати рішення</a>
+  <div class="grp">Рівень 1 · Код, що не гниє</div>
+  <a href="#ar2">AR2 · Принципи: зв'язність, SOLID</a>
+  <a href="#ar3">AR3 · Патерни проєктування</a>
+  <a href="#ar4">AR4 · Чиста і гексагональна архітектура</a>
+  <a href="#ar5">AR5 · DDD: код говорить мовою бізнесу</a>
+  <div class="grp">Рівень 2 · Тести і легасі</div>
+  <a href="#ar6">AR6 · Тестування глибоко</a>
+  <a href="#ar7">AR7 · Рефакторинг і чужий код</a>
+  <div class="grp">Рівень 3 · Дані, API, конкурентність</div>
+  <a href="#ar8">AR8 · Дані глибоко</a>
+  <a href="#ar9">AR9 · Дизайн API</a>
+  <a href="#ar10">AR10 · Конкурентність і черги</a>
+  <div class="grp">Рівень 4 · Розподілені системи</div>
+  <a href="#ar11">AR11 · Архітектурні стилі</a>
+  <a href="#ar12">AR12 · System design</a>
+  <a href="#ar13">AR13 · Надійність і продуктивність</a>
+  <a href="#ar14">AR14 · Безпечна архітектура</a>
+  <div class="grp">Рівень 5 · Доповнення</div>
+  <a href="#ar15">AR15 · Open source і ліцензії</a>
+  <a href="#ar16">AR16 · Мобільна розробка</a>
+  <a href="#ar17">AR17 · Доступність і локалізація</a>
+  <a href="#ar18">AR18 · Основи Computer Science</a>
+  <a href="#ar19">AR19 · PWA, офлайн, desktop</a>
+  <a href="#ar20">AR20 · Іспанська специфіка</a>
+  <a href="#final">Фінал · Архітектурний розбір</a>
+  <div class="grp">Довідник</div>
+  <a href="#slovnyk">Сленг і терміни</a>
+  <a href="#ryzyky">Якщо є X — думай про Y</a>
+  <a href="#ne-vchyty">Пастки архітектора</a>
+  <a href="#dzherela">Джерела</a>
+</nav>
+
+<main>
+<div class="eyebrow">Навчальний план · архітектура і системний дизайн · версія жовтень 2026</div>
+<h1>Архітектура: від коду до систем</h1>
+<p class="lead">Як писати код, який не «гниє» через пів року, як проєктувати системи на мільйони людей і як працювати з чужим старим кодом. Курс зв'язує всі інші: архітектура однаково потрібна у вебі, іграх і AI-продуктах. В кінці — доповнення з важливими темами, яких не було в попередніх курсах. Джерела: Martin Fowler, Robert C. Martin («Clean Architecture»), Eric Evans і Vaughn Vernon (DDD), Martin Kleppmann («Designing Data-Intensive Applications»), Michael Feathers («Working Effectively with Legacy Code»), Simon Brown (C4), System Design Primer, Google SRE.</p>
+
+<div class="principles" style="grid-template-columns:minmax(0,1fr)"><div><b>Як користуватись курсом</b>Курс розрахований на навчання разом з Claude. Відкрий новий чат і напиши, наприклад: <i>«Я проходжу курс „Архітектура: від коду до систем“, модуль AR2, задача 1. Поясни детально простими словами, з підводними каменями. Не давай готовий код одразу — спочатку підказку. В кінці перевір мене питаннями.»</i> Відмічай задачі галочками — прогрес у кожного свій. Курс розрахований на тих, хто пройшов хоча б рівень 2 першого курсу «Від нуля до проду». Практика будується на твоїх проєктах з інших курсів.</div></div>
+
+<div class="overall" aria-live="polite">
+  <div class="cnt" id="overallTxt">Виконано задач: 0</div>
+  <div class="bar"><i id="overallBar"></i></div>
+  <div class="syncline" id="syncTxt">Прогрес зберігається…</div>
+</div>
+
+<h2 id="pryntsyp">Принцип курсу</h2>
+<div class="principles">
+  <div><b>1. Архітектура — це компроміси</b>Немає «правильної» архітектури, є відповідна задачі. Кожне рішення щось дає і щось забирає. Архітектор називає обидві сторони.</div>
+  <div><b>2. Найпростіше, що працює</b>Мікросервіси, Kafka і Kubernetes — інструменти для конкретних проблем. Якщо проблеми немає, вони тільки шкодять.</div>
+  <div><b>3. Змінюваність — головна якість</b>Код читають і змінюють у 10 разів частіше, ніж пишуть. Хороша архітектура робить зміни дешевими.</div>
+  <div><b>4. Рахуй, а не вгадуй</b>Скільки людей, запитів, гігабайт, євро. Оцінка «на серветці» за 5 хвилин рятує від місяців зайвої роботи.</div>
+  <div><b>5. Рішення записуються</b>Через рік ніхто не пам'ятає, чому зробили саме так. Діаграма і короткий запис рішення (ADR) — частина роботи.</div>
+  <div><b>6. Еволюція, а не революція</b>Системи змінюються поступово. «Перепишемо все з нуля» — найчастіший шлях до провалу.</div>
+</div>
+
+<h2 id="karta">Карта курсу і рівні</h2>
+<pre class="mermaid">
+flowchart LR
+  subgraph L0["Рівень 0 · Мислення"]
+    AR0[AR0 Що таке архітектура] --> AR1[AR1 Документування]
+  end
+  subgraph L1["Рівень 1 · Код"]
+    AR2[AR2 Принципи, SOLID] --> AR3[AR3 Патерни] --> AR4[AR4 Чиста архітектура] --> AR5[AR5 DDD]
+  end
+  subgraph L2["Рівень 2 · Тести і легасі"]
+    AR6[AR6 Тестування] --> AR7[AR7 Рефакторинг, легасі]
+  end
+  subgraph L3["Рівень 3 · Дані, API"]
+    AR8[AR8 Дані] --> AR9[AR9 API] --> AR10[AR10 Конкурентність]
+  end
+  subgraph L4["Рівень 4 · Системи"]
+    AR11[AR11 Стилі] --> AR12[AR12 System design] --> AR13[AR13 Надійність] --> AR14[AR14 Безпека]
+  end
+  subgraph L5["Рівень 5 · Доповнення"]
+    AR15[AR15 Ліцензії] --- AR16[AR16 Мобільна] --- AR17[AR17 Доступність] --- AR18[AR18 CS] --- AR19[AR19 PWA, офлайн] --- AR20[AR20 Іспанія]
+  end
+  AR1 --> AR2
+  AR5 --> AR6
+  AR7 --> AR8
+  AR10 --> AR11
+  AR14 --> F[Фінал: розбір системи]
+</pre>
+<div class="levels">
+  <div class="lv" style="--c:var(--muted)"><div class="eyebrow">Рівень 0 · ~2 тижні</div><h3>Мислення архітектора</h3><div class="say">Можу сказати: <b>«Опишу архітектуру будь-якої системи діаграмою і поясню, які компроміси в ній закладені».</b></div></div>
+  <div class="lv" style="--c:var(--l1)"><div class="eyebrow">Рівень 1 · ~2 місяці</div><h3>Код, що не гниє</h3><div class="say">Можу сказати: <b>«Структурую проєкт так, що його легко змінювати і тестувати через рік».</b></div></div>
+  <div class="lv" style="--c:var(--l2)"><div class="eyebrow">Рівень 2 · ~1,5 місяця</div><h3>Тести і легасі</h3><div class="say">Можу сказати: <b>«Візьмусь за старий чужий проєкт без тестів і безпечно його покращу».</b></div></div>
+  <div class="lv" style="--c:var(--l3)"><div class="eyebrow">Рівень 3 · ~2 місяці</div><h3>Дані, API, конкурентність</h3><div class="say">Можу сказати: <b>«Виберу базу під задачу, спроєктую API, яке не ламає клієнтів, і не загублю дані при одночасних діях».</b></div></div>
+  <div class="lv" style="--c:var(--l4)"><div class="eyebrow">Рівень 4 · ~2–3 місяці</div><h3>Розподілені системи</h3><div class="say">Можу сказати: <b>«Спроєктую систему на мільйон людей, порахую ресурси і поясню, як вона переживе аварію».</b></div></div>
+  <div class="lv" style="--c:var(--accent)"><div class="eyebrow">Рівень 5 · за потреби</div><h3>Доповнення</h3><div class="say">Можу сказати: <b>«Знаю ліцензії, мобільну специфіку, доступність, основи CS і іспанські інтеграції».</b></div></div>
+</div>
+<p class="note">Терміни — приблизно при 6–8 годинах на тиждень, основна частина ~8–10 місяців. Модулі рівня 5 незалежні: бери, коли потрібно.</p>
+
+<!-- ===================== AR0 ===================== -->
+<section class="proj" id="ar0" style="--c:var(--muted)" data-proj="ar0">
+<div class="proj-head"><h2>AR0 · Що таке архітектура і як думає архітектор</h2><span class="tag">Рівень 0 · ~1 тиждень</span></div>
+<p class="why"><b>Навіщо:</b> архітектура — це не «красиві діаграми», а <b>рішення, які дорого змінити потім</b>: яка база, як ділити систему, як компоненти спілкуються. Тут ти вчишся бачити ці рішення і їхню ціну.</p>
+<h3>Якості системи, між якими завжди доводиться вибирати</h3>
+<div class="tbl"><table><thead><tr><th>Якість</th><th>Питання</th><th>Конфліктує з</th></tr></thead><tbody>
+<tr><td>Продуктивність</td><td>Наскільки швидко?</td><td>Простота, вартість</td></tr>
+<tr><td>Масштабованість</td><td>Скільки людей витримає?</td><td>Простота, узгодженість даних</td></tr>
+<tr><td>Надійність / доступність</td><td>Як часто падає і як швидко піднімається?</td><td>Вартість, швидкість розробки</td></tr>
+<tr><td>Безпека</td><td>Кого і що захищаємо?</td><td>Зручність, швидкість</td></tr>
+<tr><td>Змінюваність</td><td>Наскільки легко додати нову функцію?</td><td>Швидкий старт «аби працювало»</td></tr>
+<tr><td>Вартість</td><td>Скільки коштує розробка і утримання?</td><td>Майже все інше</td></tr>
+<tr><td>Простота</td><td>Чи зрозуміє новий розробник за тиждень?</td><td>Масштабованість, гнучкість</td></tr>
+</tbody></table></div>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Поняття</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Архітектурне рішення vs деталь</td><td>Мову змінної можна змінити за хвилину, базу даних — за місяці. Перше — деталь, друге — архітектура.</td></tr>
+<tr><td>Компроміси (trade-offs)</td><td>«Все залежить від…» — і архітектор каже, від чого саме.</td></tr>
+<tr><td>Закон Конвея</td><td>Система повторює структуру команди: 3 команди → швидше за все 3 сервіси.</td></tr>
+<tr><td>Accidental vs essential complexity</td><td>Складність задачі (неминуча) і складність, яку ми самі додали (можна прибрати).</td></tr>
+<tr><td>Технічний борг</td><td>Свідомий «кредит»: швидше зараз, дорожче потім. Проблема — коли беруть несвідомо і не віддають.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="ar0-1"><label for="ar0-1">Прочитати Martin Fowler «Who Needs an Architect?» і «Is High Quality Software Worth the Cost?».</label></li>
+<li><input type="checkbox" id="ar0-2"><label for="ar0-2">Описати архітектуру свого проєкту з першого курсу: які 5 рішень найдорожче змінити?</label></li>
+<li><input type="checkbox" id="ar0-3"><label for="ar0-3">Для 3 застосунків (Telegram, інтернет-банк, мобільна гра) розставити пріоритети якостей і пояснити.</label></li>
+<li><input type="checkbox" id="ar0-4"><label for="ar0-4">Знайти в своєму коді 3 приклади «зайвої складності», яку можна прибрати.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>«Резюме-архітектура» — вибирати технології, бо вони модні або гарно виглядають у резюме.</li>
+<li>Оптимізувати всі якості одночасно — так не буває. Треба вибрати 2–3 головні.</li>
+<li>Відкладати всі рішення «на потім» — деякі потім вже не зміниш.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Для будь-якої системи можеш назвати її головні якості і ціну, яку за них заплатили.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Чим архітектурне рішення відрізняється від деталі реалізації?</li><li>Що каже закон Конвея?</li></ol></div>
+<p class="src">Джерела: <a href="https://martinfowler.com/architecture/">Martin Fowler: Software Architecture Guide</a> · Mark Richards, Neal Ford «Fundamentals of Software Architecture»</p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== AR1 ===================== -->
+<section class="proj" id="ar1" style="--c:var(--muted)" data-proj="ar1">
+<div class="proj-head"><h2>AR1 · Документувати рішення: C4, ADR, design doc</h2><span class="tag">Рівень 0 · ~1 тиждень</span></div>
+<p class="why"><b>Навіщо:</b> архітектура, яку ніхто не розуміє, не існує. Тут три інструменти, якими користуються в компаніях від стартапів до Google.</p>
+<h3>Модель C4: чотири рівні наближення</h3>
+<pre class="mermaid">
+flowchart TD
+  C1[1 · Context<br/>система і люди / зовнішні системи навколо] --> C2[2 · Containers<br/>апки, сервіси, бази — що окремо запускається]
+  C2 --> C3[3 · Components<br/>модулі всередині одного контейнера]
+  C3 --> C4[4 · Code<br/>класи — зазвичай не малюють]
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Інструмент</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>C4-діаграми</td><td>Як карта: від «країни» до «вулиці». Різним людям — різний рівень.</td></tr>
+<tr><td>ADR (Architecture Decision Record)</td><td>Одна сторінка: контекст → рішення → наслідки → які варіанти відкинули. Зберігається поруч з кодом.</td></tr>
+<tr><td>Design doc / RFC</td><td>Документ перед великою зміною: проблема, цілі, не-цілі, варіанти, ризики. Колеги коментують до написання коду.</td></tr>
+<tr><td>Діаграми послідовності</td><td>Хто кому що надсилає і в якому порядку — для складних потоків (оплата, логін).</td></tr>
+<tr><td>Діаграми як код (Mermaid, Structurizr, PlantUML)</td><td>Діаграми в Git поруч з кодом — оновлюються разом.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="ar1-1"><label for="ar1-1">Прочитати c4model.com. Намалювати рівні 1–3 для свого проєкту з першого курсу в Mermaid.</label></li>
+<li><input type="checkbox" id="ar1-2"><label for="ar1-2">Написати 3 ADR заднім числом: чому PostgreSQL, чому сесії замість JWT, чому моноліт.</label></li>
+<li><input type="checkbox" id="ar1-3"><label for="ar1-3">Design doc на нову функцію (наприклад, сповіщення): цілі, не-цілі, 2 варіанти, ризики.</label></li>
+<li><input type="checkbox" id="ar1-4"><label for="ar1-4">Діаграма послідовності для оплати з вебхуком (P11 першого курсу).</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Діаграма, на якій все одразу — ніхто нічого не розуміє.</li>
+<li>Документація у Confluence, яку ніхто не оновлює — гірше, ніж нічого (бреше).</li>
+<li>ADR без розділу «що відкинули і чому» — через рік ті самі суперечки знову.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Для свого проєкту є C4 (1–3), 3 ADR і один design doc у репозиторії.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Що показує рівень «Containers» у C4?</li><li>З яких частин складається ADR?</li></ol></div>
+<p class="src">Джерела: <a href="https://c4model.com">C4 model</a> · <a href="https://adr.github.io">ADR</a> · <a href="https://www.industrialempathy.com/posts/design-docs-at-google/">Design docs at Google</a> · <a href="https://mermaid.js.org">Mermaid</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== AR2 ===================== -->
+<section class="proj" id="ar2" style="--c:var(--l1)" data-proj="ar2">
+<div class="proj-head"><h2>AR2 · Принципи: зв'язність, зачеплення, SOLID</h2><span class="tag">Рівень 1 · ~3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> майже всі принципи хорошого коду зводяться до двох ідей: <b>те, що змінюється разом, має бути разом</b> (висока зв'язність), і <b>частини мають мало знати одна про одну</b> (слабке зачеплення).</p>
+<div class="tbl"><table><thead><tr><th>Принцип</th><th>Простими словами</th><th>Порушення виглядає так</th></tr></thead><tbody>
+<tr><td><b>S</b> — Single Responsibility</td><td>Модуль має одну причину для зміни</td><td>Клас «UserService» на 2000 рядків, що і логін, і email, і звіти</td></tr>
+<tr><td><b>O</b> — Open/Closed</td><td>Додаєш нове, не переписуючи старе</td><td><code>if (type === 'card') … else if (type === 'bizum') …</code> у 15 місцях</td></tr>
+<tr><td><b>L</b> — Liskov Substitution</td><td>Нащадок можна підставити замість батька — і нічого не зламається</td><td>«Квадрат» успадкований від «Прямокутника» і ламає setWidth</td></tr>
+<tr><td><b>I</b> — Interface Segregation</td><td>Маленькі інтерфейси замість одного гігантського</td><td>Інтерфейс з 30 методами, з яких кожен клієнт використовує 3</td></tr>
+<tr><td><b>D</b> — Dependency Inversion</td><td>Бізнес-логіка залежить від абстракцій, а не від бази чи фреймворку</td><td>Логіка замовлення напряму викликає Postgres і Stripe</td></tr>
+<tr><td>DRY, KISS, YAGNI</td><td>Не повторюй знання; простіше — краще; не роби «на майбутнє»</td><td>Абстракція для одного випадку, «бо колись знадобиться»</td></tr>
+<tr><td>Композиція замість успадкування</td><td>Збирати поведінку з частин, а не з ієрархій класів</td><td>Ієрархія з 6 рівнів успадкування</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="ar2-1"><label for="ar2-1">Прочитати розділ про code smells у Martin Fowler «Refactoring» (або refactoring.guru).</label></li>
+<li><input type="checkbox" id="ar2-2"><label for="ar2-2">Знайти в своїх проєктах по одному порушенню кожного принципу SOLID і виправити.</label></li>
+<li><input type="checkbox" id="ar2-3"><label for="ar2-3">Додати новий спосіб оплати в коді, де вже є два, — так, щоб не міняти старий код (Open/Closed).</label></li>
+<li><input type="checkbox" id="ar2-4"><label for="ar2-4">Знайти «передчасну абстракцію» (YAGNI) і спростити.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>SOLID як релігія: 10 інтерфейсів і фабрик для коду на 50 рядків.</li>
+<li>DRY понад усе: об'єднати два схожих, але різних за змістом шматки — потім їх доведеться розплутувати.</li>
+<li>Принципи придумані під ООП-мови; в TypeScript з функціями ті самі ідеї виглядають інакше — бери суть.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Можеш на своєму коді показати хорошу зв'язність, слабке зачеплення і кожен принцип SOLID.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Що означає «одна причина для зміни»?</li><li>Коли DRY шкодить?</li></ol></div>
+<p class="src">Джерела: <a href="https://refactoring.guru">refactoring.guru</a> · Robert C. Martin «Clean Code» і «Clean Architecture» · Martin Fowler «Refactoring» (2-ге видання, JavaScript)</p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== AR3 ===================== -->
+<section class="proj" id="ar3" style="--c:var(--l1)" data-proj="ar3">
+<div class="proj-head"><h2>AR3 · Патерни проєктування: тільки ті, що реально потрібні</h2><span class="tag">Рівень 1 · ~2–3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> патерни — готові назви для типових рішень. Головна користь — спільна мова: «тут Strategy» — і команда одразу розуміє. Вчити всі 23 з книги «банди чотирьох» напам'ять не треба.</p>
+<div class="tbl"><table><thead><tr><th>Патерн</th><th>Задача</th><th>Приклад з твоїх проєктів</th></tr></thead><tbody>
+<tr><td>Strategy</td><td>Кілька взаємозамінних алгоритмів</td><td>Способи оплати: картка, Bizum, PayPal</td></tr>
+<tr><td>Observer / події</td><td>Повідомити багатьох про зміну</td><td>«Замовлення створено» → email, аналітика, склад</td></tr>
+<tr><td>Adapter</td><td>Підігнати чужий інтерфейс під свій</td><td>Обгортка над API погоди, щоб легко замінити сервіс</td></tr>
+<tr><td>Facade</td><td>Простий вхід у складну підсистему</td><td>Один метод «оформити замовлення» замість 6 викликів</td></tr>
+<tr><td>Decorator / middleware</td><td>Додати поведінку без зміни коду</td><td>Логування, кеш, ретраї навколо запиту</td></tr>
+<tr><td>Factory</td><td>Сховати складне створення об'єктів</td><td>Створення клієнта API з різних налаштувань</td></tr>
+<tr><td>Command</td><td>Дія як об'єкт: черга, скасування</td><td>Undo в редакторі, задачі в черзі</td></tr>
+<tr><td>State</td><td>Поведінка залежить від стану</td><td>Статуси замовлення, стани персонажа в іграх</td></tr>
+<tr><td>Repository</td><td>Сховати базу даних за інтерфейсом</td><td>OrderRepository: логіка не знає про SQL</td></tr>
+<tr><td>Singleton</td><td>Один екземпляр на всю програму</td><td>Пул з'єднань з БД. Обережно: часто ховає глобальний стан</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="ar3-1"><label for="ar3-1">Пройти розділ «Патерни» на refactoring.guru (є українською): Strategy, Observer, Adapter, Facade, Decorator, Factory, Command, State.</label></li>
+<li><input type="checkbox" id="ar3-2"><label for="ar3-2">Знайти в своїх проєктах місця, де патерн уже є «неявно», і назвати його.</label></li>
+<li><input type="checkbox" id="ar3-3"><label for="ar3-3">Переписати вибір способу оплати на Strategy, а сповіщення — на події (Observer).</label></li>
+<li><input type="checkbox" id="ar3-4"><label for="ar3-4">Знайти місце, де патерн зайвий, і прибрати.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>«Патерн заради патерна» — фабрика фабрик для двох класів.</li>
+<li>Singleton усюди — прихований глобальний стан, код неможливо тестувати.</li>
+<li>Події без контролю — ніхто не розуміє, що спрацює після «замовлення створено».</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Можеш назвати і показати в коді 6–8 патернів і пояснити, коли кожен зайвий.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Чим Adapter відрізняється від Facade?</li><li>Чому Singleton заважає тестам?</li></ol></div>
+<p class="src">Джерела: <a href="https://refactoring.guru/uk/design-patterns">refactoring.guru: патерни (українською)</a> · <a href="https://gameprogrammingpatterns.com">Game Programming Patterns</a> · <a href="https://www.patterns.dev">patterns.dev</a> (для JavaScript і React)</p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== AR4 ===================== -->
+<section class="proj" id="ar4" style="--c:var(--l1)" data-proj="ar4">
+<div class="proj-head"><h2>AR4 · Шари, чиста і гексагональна архітектура</h2><span class="tag">Рівень 1 · ~3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> головна ідея: <b>бізнес-логіка в центрі і не залежить ні від бази, ні від фреймворку, ні від Stripe</b>. Тоді базу можна замінити, логіку — протестувати без інтернету, а фреймворк оновити без болю.</p>
+<pre class="mermaid">
+flowchart LR
+  subgraph Зовні["Адаптери (зовнішній світ)"]
+    HTTP[HTTP API / Express]
+    CLI[Telegram-бот]
+    DB[(PostgreSQL)]
+    PAY[Stripe / Redsys]
+    MAIL[Email]
+  end
+  subgraph Центр["Ядро: бізнес-логіка"]
+    UC[Сценарії<br/>«оформити замовлення»]
+    DOM[Доменна модель<br/>Замовлення, Товар, Ціна]
+    PORTS[Порти — інтерфейси<br/>OrderRepository, PaymentGateway]
+  end
+  HTTP --> UC
+  CLI --> UC
+  UC --> DOM
+  UC --> PORTS
+  DB -.реалізує.-> PORTS
+  PAY -.реалізує.-> PORTS
+  MAIL -.реалізує.-> PORTS
+</pre>
+<p class="note"><b>Правило залежностей:</b> стрілки залежностей ведуть тільки всередину. Ядро нічого не знає про Express, Postgres чи Stripe — тільки про свої інтерфейси (порти).</p>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="ar4-1"><label for="ar4-1">Прочитати статтю Alistair Cockburn «Hexagonal Architecture» і огляд «The Clean Architecture» (Uncle Bob).</label></li>
+<li><input type="checkbox" id="ar4-2"><label for="ar4-2">Переробити API з P6 першого курсу: ядро, порти, адаптери. Структура папок за модулями (orders, users), а не за типами (controllers, models).</label></li>
+<li><input type="checkbox" id="ar4-3"><label for="ar4-3">Тести ядра без бази і мережі — з фейковим репозиторієм у пам'яті. Порахувати, наскільки швидше.</label></li>
+<li><input type="checkbox" id="ar4-4"><label for="ar4-4">Додати другий вхід (Telegram-бот з P5) до тієї ж логіки без копіювання коду.</label></li>
+<li><input type="checkbox" id="ar4-5"><label for="ar4-5">Замінити платіжний адаптер на фейковий для тестів і на інший провайдер — ядро не змінюється.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Робити «чисту архітектуру» для CRUD на 3 таблиці — шари без користі.</li>
+<li>Доменна модель — просто копія таблиць без поведінки («анемічна модель»).</li>
+<li>Типи ORM (Prisma) просочуються в ядро — і вся ідея зламана.</li>
+<li>Папки controllers / services / models на весь проєкт — модуль «замовлення» розкиданий по 5 місцях.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Ядро тестується без бази, нові входи і провайдери додаються без зміни логіки.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Що таке порт і адаптер?</li><li>Куди ведуть стрілки залежностей і чому?</li><li>Коли чиста архітектура — перебір?</li></ol></div>
+<p class="src">Джерела: <a href="https://alistair.cockburn.us/hexagonal-architecture/">Alistair Cockburn: Hexagonal Architecture</a> · <a href="https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html">The Clean Architecture</a> · <a href="https://martinfowler.com/bliki/AnemicDomainModel.html">Fowler: Anemic Domain Model</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== AR5 ===================== -->
+<section class="proj" id="ar5" style="--c:var(--l1)" data-proj="ar5">
+<div class="proj-head"><h2>AR5 · DDD: код говорить мовою бізнесу</h2><span class="tag">Рівень 1 · ~4 тижні</span></div>
+<p class="why"><b>Навіщо:</b> великі системи розвалюються не через технології, а тому, що код не відповідає тому, як думає бізнес. Domain-Driven Design — набір способів «розкласти» складний бізнес на зрозумілі частини. Саме звідси береться правильна нарізка на модулі й сервіси.</p>
+<h3>Стратегічний DDD: межі контекстів</h3>
+<pre class="mermaid">
+flowchart LR
+  subgraph Каталог
+    P1[«Товар»: назва, фото, опис]
+  end
+  subgraph Склад
+    P2[«Товар»: кількість, місце на полиці]
+  end
+  subgraph Продажі
+    P3[«Товар»: ціна, знижка, IVA]
+  end
+  subgraph Доставка
+    P4[«Посилка»: вага, адреса]
+  end
+  Продажі -->|подія: ЗамовленняОплачено| Склад
+  Склад -->|подія: ТоварЗібрано| Доставка
+</pre>
+<p class="note">Те саме слово «Товар» у різних частинах бізнесу означає різне. Спроба зробити одну модель «Товар на все» — головна причина «великого клубка».</p>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Поняття</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Ubiquitous language (єдина мова)</td><td>Код називає речі так само, як бізнес: не <code>status = 3</code>, а <code>order.markAsPaid()</code>.</td></tr>
+<tr><td>Bounded context (межа контексту)</td><td>Частина системи, де слова мають одне чітке значення. Кандидат на модуль або сервіс.</td></tr>
+<tr><td>Context map</td><td>Як контексти спілкуються: події, API, перекладач (anti-corruption layer).</td></tr>
+<tr><td>Entity, value object</td><td>Сутність з ID (Замовлення №15) vs значення без ID (Гроші: 19,99 €).</td></tr>
+<tr><td>Aggregate</td><td>Група об'єктів, що змінюється тільки разом і зберігає свої правила (Замовлення + його рядки).</td></tr>
+<tr><td>Domain events</td><td>«Щось важливе сталось» — спосіб зв'язати контексти без жорстких залежностей.</td></tr>
+<tr><td>Event Storming</td><td>Воркшоп з бізнесом: на стіні стікерами всі події процесу — і межі видно самі.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="ar5-1"><label for="ar5-1">Прочитати «DDD Distilled» (Vaughn Vernon) або безкоштовний «Domain-Driven Design Quickly» (InfoQ).</label></li>
+<li><input type="checkbox" id="ar5-2"><label for="ar5-2">Event Storming (сам або з Claude у ролі бізнесу) для запису в барбершоп з фіналу першого курсу.</label></li>
+<li><input type="checkbox" id="ar5-3"><label for="ar5-3">Знайти 3–4 bounded contexts і намалювати context map.</label></li>
+<li><input type="checkbox" id="ar5-4"><label for="ar5-4">Агрегат «Бронювання» з правилами (не можна двічі на один слот, скасування за 24 год) і value object «Гроші» в центах.</label></li>
+<li><input type="checkbox" id="ar5-5"><label for="ar5-5">Доменні події між контекстами (бронювання → оплата → нагадування).</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>DDD для простого CRUD — величезні накладні витрати без користі.</li>
+<li>Тактичні патерни (агрегати, репозиторії) без стратегічних (межі, мова) — суть втрачена.</li>
+<li>Гігантські агрегати — повільно і конфлікти при одночасних змінах.</li>
+<li>Моделювати без розмови з бізнесом — придумана модель не відповідає реальності.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Є context map, агрегат з правилами і події між контекстами для реальної задачі.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Чому «Товар» у складі і в продажах — різні моделі?</li><li>Що таке агрегат і навіщо його межі?</li><li>Коли DDD не потрібен?</li></ol></div>
+<p class="src">Джерела: Eric Evans «Domain-Driven Design» · Vaughn Vernon «Domain-Driven Design Distilled» · <a href="https://www.infoq.com/minibooks/domain-driven-design-quickly/">DDD Quickly (безкоштовно)</a> · <a href="https://www.eventstorming.com">Event Storming</a> · <a href="https://github.com/ddd-crew">DDD Crew (GitHub)</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== AR6 ===================== -->
+<section class="proj" id="ar6" style="--c:var(--l2)" data-proj="ar6">
+<div class="proj-head"><h2>AR6 · Тестування глибоко: тести, яким можна вірити</h2><span class="tag">Рівень 2 · ~3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> тести — це те, що дозволяє змінювати архітектуру без страху. Погані тести — гірше, ніж жодних: вони заважають змінам і нічого не ловлять.</p>
+<div class="tbl"><table><thead><tr><th>Вид / техніка</th><th>Простими словами</th><th>Коли</th></tr></thead><tbody>
+<tr><td>Unit</td><td>Одна функція / клас, без мережі і бази</td><td>Бізнес-логіка, розрахунки</td></tr>
+<tr><td>Integration</td><td>Модуль + справжня база (Testcontainers)</td><td>Репозиторії, API</td></tr>
+<tr><td>E2E (Playwright)</td><td>Весь шлях користувача в браузері</td><td>3–10 головних сценаріїв</td></tr>
+<tr><td>Contract (Pact)</td><td>Перевірка, що клієнт і сервер домовились про формат</td><td>Кілька сервісів або мобільна апка + API</td></tr>
+<tr><td>Test doubles: stub, mock, fake, spy</td><td>Підміни залежностей. Fake (простий робочий замінник) часто кращий за mock</td><td>Ізоляція від зовнішнього</td></tr>
+<tr><td>TDD</td><td>Спершу тест, потім код, потім рефакторинг</td><td>Складна логіка з чіткими правилами</td></tr>
+<tr><td>Property-based (fast-check)</td><td>Генерує сотні випадкових входів і шукає зламаний випадок</td><td>Парсери, розрахунки, серіалізація</td></tr>
+<tr><td>Mutation testing (Stryker)</td><td>Псує код навмисно і перевіряє, чи тести це помітять</td><td>Перевірка якості самих тестів</td></tr>
+<tr><td>Snapshot / approval</td><td>Порівняти вихід з «затвердженим»</td><td>Легасі, великі виходи</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="ar6-1"><label for="ar6-1">Прочитати Martin Fowler «Practical Test Pyramid» і Kent C. Dodds «Testing Trophy».</label></li>
+<li><input type="checkbox" id="ar6-2"><label for="ar6-2">TDD-ката: калькулятор IVA або правила бронювання з AR5 — тільки через «червоний → зелений → рефакторинг».</label></li>
+<li><input type="checkbox" id="ar6-3"><label for="ar6-3">Інтеграційні тести з справжнім Postgres через Testcontainers.</label></li>
+<li><input type="checkbox" id="ar6-4"><label for="ar6-4">Property-based тест для функції з грошима (fast-check). Знайти хоча б один баг.</label></li>
+<li><input type="checkbox" id="ar6-5"><label for="ar6-5">Stryker на своєму проєкті: скільки «мутантів» вижили? Виправити тести.</label></li>
+<li><input type="checkbox" id="ar6-6"><label for="ar6-6">Знайти і полагодити один «flaky» тест (час, порядок, мережа).</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Тести перевіряють реалізацію, а не поведінку — будь-який рефакторинг ламає 50 тестів.</li>
+<li>Моки всього — тести зелені, а система не працює.</li>
+<li>100% покриття як мета — покриття не означає, що тести щось перевіряють (мутаційне тестування це показує).</li>
+<li>Нестабільні тести, які всі ігнорують — їм перестають вірити.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Є тести всіх рівнів, мутаційний бал виміряний, жодного нестабільного тесту.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Чим fake відрізняється від mock?</li><li>Що показує mutation testing, чого не показує покриття?</li></ol></div>
+<p class="src">Джерела: <a href="https://martinfowler.com/articles/practical-test-pyramid.html">Practical Test Pyramid</a> · <a href="https://kentcdodds.com/blog/the-testing-trophy-and-testing-classifications">Testing Trophy</a> · <a href="https://testcontainers.com">Testcontainers</a> · <a href="https://fast-check.dev">fast-check</a> · <a href="https://stryker-mutator.io">Stryker</a> · <a href="https://pact.io">Pact</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== AR7 ===================== -->
+<section class="proj" id="ar7" style="--c:var(--l2)" data-proj="ar7">
+<div class="proj-head"><h2>AR7 · Рефакторинг і робота з чужим старим кодом (легасі)</h2><span class="tag">Рівень 2 · ~4 тижні</span></div>
+<p class="why"><b>Навіщо:</b> на реальній роботі 80% часу — чужий код, часто старий і без тестів. Вміння безпечно в ньому працювати цінується більше, ніж вміння писати з нуля.</p>
+<h3>Поступова заміна системи (Strangler Fig)</h3>
+<pre class="mermaid">
+flowchart LR
+  U[Користувачі] --> R[Маршрутизатор / проксі]
+  R -->|старі функції| OLD[Стара система]
+  R -->|переписані функції| NEW[Нова система]
+  NEW -.поступово забирає.-> OLD
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Техніка</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Як читати великий код</td><td>README → як запустити → точки входу → шлях одного запиту від початку до кінця → тести → git log і blame: хто і чому змінював.</td></tr>
+<tr><td>Characterization tests</td><td>Тести, що фіксують, як код поводиться <i>зараз</i> (навіть з багами), щоб зміни нічого не зламали непомітно.</td></tr>
+<tr><td>Seams (шви, Michael Feathers)</td><td>Місця, де можна підмінити залежність без зміни коду — щоб вставити тест.</td></tr>
+<tr><td>Безпечні рефакторинги маленькими кроками</td><td>Перейменувати, виділити функцію, перемістити — кожен крок окремим комітом з зеленими тестами.</td></tr>
+<tr><td>Strangler Fig</td><td>Нова система поступово «обростає» стару, функція за функцією.</td></tr>
+<tr><td>Branch by abstraction, feature flags</td><td>Нова і стара реалізації живуть поруч, перемикання прапорцем.</td></tr>
+<tr><td>Пастка «перепишемо з нуля»</td><td>Стара система роками накопичувала знання і виправлення. Переписування втрачає їх і майже завжди затягується.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="ar7-1"><label for="ar7-1">Взяти великий open source проєкт (наприклад, Excalidraw, Cal.com або Ghost) і за 3 години описати його архітектуру і шлях одного запиту.</label></li>
+<li><input type="checkbox" id="ar7-2"><label for="ar7-2">Знайти в ньому «good first issue» і зробити свій перший pull request у чужий проєкт.</label></li>
+<li><input type="checkbox" id="ar7-3"><label for="ar7-3">Попросити Claude згенерувати «жахливий легасі» модуль (500 рядків, без тестів). Покрити характеризаційними тестами.</label></li>
+<li><input type="checkbox" id="ar7-4"><label for="ar7-4">Відрефакторити його маленькими кроками — 20+ комітів, тести зелені після кожного.</label></li>
+<li><input type="checkbox" id="ar7-5"><label for="ar7-5">Strangler Fig: перенести одну функцію старого модуля в новий, перемикання прапорцем, потім видалити стару.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Рефакторинг і нова функціональність в одному коміті — неможливо знайти, що зламало.</li>
+<li>«Виправити баг» у легасі, на який хтось покладається — хтось обов'язково покладається.</li>
+<li>Переписати все з нуля «за місяць» — через рік обидві системи живуть паралельно.</li>
+<li>Не питати авторів і не читати історію комітів — повторити їхні помилки.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Є перший PR у чужий проєкт і відрефакторений легасі-модуль з історією маленьких кроків.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Що таке характеризаційний тест?</li><li>Як працює Strangler Fig?</li><li>Чому «переписати з нуля» так часто провалюється?</li></ol></div>
+<p class="src">Джерела: Michael Feathers «Working Effectively with Legacy Code» · Martin Fowler «Refactoring» · <a href="https://martinfowler.com/bliki/StranglerFigApplication.html">Fowler: Strangler Fig</a> · <a href="https://www.joelonsoftware.com/2000/04/06/things-you-should-never-do-part-i/">Joel Spolsky: Things You Should Never Do</a> · <a href="https://goodfirstissue.dev">goodfirstissue.dev</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== AR8 ===================== -->
+<section class="proj" id="ar8" style="--c:var(--l3)" data-proj="ar8">
+<div class="proj-head"><h2>AR8 · Дані глибоко: моделювання, транзакції, вибір бази</h2><span class="tag">Рівень 3 · ~4 тижні</span></div>
+<p class="why"><b>Навіщо:</b> код можна переписати, дані — ні. Помилка в моделі даних живе роками, а неправильний рівень ізоляції транзакцій тихо губить гроші.</p>
+<h3>Аномалії при одночасних транзакціях</h3>
+<div class="tbl"><table><thead><tr><th>Аномалія</th><th>Що відбувається</th><th>Від якого рівня ізоляції захищає</th></tr></thead><tbody>
+<tr><td>Dirty read</td><td>Прочитали незбережені дані іншої транзакції</td><td>Read Committed (за замовчуванням у Postgres)</td></tr>
+<tr><td>Non-repeatable read</td><td>Прочитали рядок двічі — значення різні</td><td>Repeatable Read</td></tr>
+<tr><td>Lost update</td><td>Двоє прочитали баланс 100, кожен додав 10 — вийшло 110 замість 120</td><td>Блокування рядка (SELECT … FOR UPDATE) або атомарний UPDATE</td></tr>
+<tr><td>Write skew</td><td>Двоє лікарів одночасно знімаються з чергування, бо «інший ще є» — не лишилось нікого</td><td>Serializable або явні обмеження</td></tr>
+</tbody></table></div>
+<h3>Яку базу вибрати</h3>
+<div class="tbl"><table><thead><tr><th>Тип</th><th>Приклади</th><th>Коли</th></tr></thead><tbody>
+<tr><td>Реляційна</td><td>PostgreSQL, MySQL</td><td>За замовчуванням. Гроші, замовлення, зв'язки, транзакції</td></tr>
+<tr><td>Документна</td><td>MongoDB, Firestore</td><td>Гнучкі документи, мало зв'язків. (Postgres з JSONB часто закриває те саме)</td></tr>
+<tr><td>Key-value / кеш</td><td>Redis, Valkey</td><td>Кеш, сесії, черги, рейтинги, ліміти запитів</td></tr>
+<tr><td>Пошукова</td><td>Elasticsearch, OpenSearch, Meilisearch</td><td>Повнотекстовий пошук, фільтри</td></tr>
+<tr><td>Часові ряди</td><td>TimescaleDB, ClickHouse</td><td>Метрики, IoT, події з часом</td></tr>
+<tr><td>Графова</td><td>Neo4j</td><td>Багато зв'язків «друг друга друга»</td></tr>
+<tr><td>Аналітична (OLAP)</td><td>ClickHouse, BigQuery, DuckDB</td><td>Звіти по мільярдах рядків, не для щоденних транзакцій</td></tr>
+<tr><td>Векторна</td><td>pgvector, Qdrant</td><td>Пошук за змістом (AI-курс, A8)</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="ar8-1"><label for="ar8-1">Прочитати розділи 2, 3 і 7 «Designing Data-Intensive Applications» (моделі даних, зберігання, транзакції).</label></li>
+<li><input type="checkbox" id="ar8-2"><label for="ar8-2">Відтворити lost update і write skew у Postgres у двох вікнах psql. Виправити кожен.</label></li>
+<li><input type="checkbox" id="ar8-3"><label for="ar8-3">Нормалізувати «погану» таблицю до 3НФ, потім свідомо денормалізувати одне поле для швидкості — записати ADR.</label></li>
+<li><input type="checkbox" id="ar8-4"><label for="ar8-4">Індекси глибоко: складений індекс, частковий індекс, покриваючий індекс — виміряти через EXPLAIN ANALYZE.</label></li>
+<li><input type="checkbox" id="ar8-5"><label for="ar8-5">Кеш Redis для «гарячого» запиту + інвалідація при зміні. Виміряти до / після.</label></li>
+<li><input type="checkbox" id="ar8-6"><label for="ar8-6">Звіт по 10 млн рядків у Postgres vs DuckDB — порівняти час.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>MongoDB «бо простіше без схеми» — схема все одно є, тільки в коді і неперевірена.</li>
+<li>Лічильник через «прочитав → додав → записав» — lost update.</li>
+<li>Кеш без плану інвалідації — користувачі бачать старі дані.</li>
+<li>Звіти по головній базі в робочий час — сайт гальмує. Аналітика — окремо.</li>
+<li>Видаляти дані жорстко, коли закон або бізнес вимагає історії — краще soft delete або архів.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Відтворив і виправив аномалії, є ADR вибору бази, виміряні індекси і кеш.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Що таке write skew?</li><li>Коли денормалізація виправдана?</li><li>Чим OLTP відрізняється від OLAP?</li></ol></div>
+<p class="src">Джерела: Martin Kleppmann «Designing Data-Intensive Applications» · <a href="https://www.postgresql.org/docs/current/transaction-iso.html">PostgreSQL: Transaction Isolation</a> · <a href="https://use-the-index-luke.com">Use The Index, Luke</a> · <a href="https://duckdb.org">DuckDB</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== AR9 ===================== -->
+<section class="proj" id="ar9" style="--c:var(--l3)" data-proj="ar9">
+<div class="proj-head"><h2>AR9 · Дизайн API: щоб клієнти не ламались роками</h2><span class="tag">Рівень 3 · ~3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> API — це обіцянка. Мобільну апку з App Store не оновиш миттєво, партнер інтегрувався рік тому. Зламав API — зламав їм бізнес.</p>
+<div class="tbl"><table><thead><tr><th>Стиль</th><th>Сильний у</th><th>Слабкий у</th><th>Коли</th></tr></thead><tbody>
+<tr><td>REST + JSON</td><td>Простий, кешується, всі знають</td><td>Багато запитів для складних екранів</td><td>За замовчуванням, публічні API</td></tr>
+<tr><td>GraphQL</td><td>Клієнт сам вибирає поля, один запит</td><td>Складний кеш, N+1, ліміти складності запиту</td><td>Багато різних клієнтів з різними потребами</td></tr>
+<tr><td>gRPC</td><td>Швидкий, строгі контракти (protobuf), стрімінг</td><td>Незручно з браузера</td><td>Між внутрішніми сервісами</td></tr>
+<tr><td>tRPC</td><td>Типи TypeScript від сервера до клієнта без опису</td><td>Тільки TS, тільки свій клієнт</td><td>Свій фронт + бек на TypeScript</td></tr>
+<tr><td>Webhooks</td><td>Сервер сам повідомляє про подію</td><td>Повтори, порядок, безпека</td><td>Інтеграції (як Stripe)</td></tr>
+</tbody></table></div>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Зворотна сумісність</td><td>Додавати поля можна, видаляти і перейменовувати — ні. Клієнт має ігнорувати невідомі поля.</td></tr>
+<tr><td>Версіонування (/v2, заголовок, дата як у Stripe)</td><td>Як вводити зміни, що ламають, не ламаючи старих клієнтів.</td></tr>
+<tr><td>Пагінація курсором vs offset</td><td>Курсор не пропускає і не дублює записи, коли дані змінюються.</td></tr>
+<tr><td>Ідемпотентні ключі</td><td>Повторений запит «створити платіж» не створить другий платіж.</td></tr>
+<tr><td>Формат помилок (RFC 9457 Problem Details)</td><td>Єдиний зрозумілий формат помилок для всіх endpoint'ів.</td></tr>
+<tr><td>OpenAPI-first</td><td>Спершу контракт, потім код — фронт і бек працюють паралельно.</td></tr>
+<tr><td>Ліміти, квоти, deprecation</td><td>Як попередити клієнтів, що щось зникне, і дати їм час.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="ar9-1"><label for="ar9-1">Прочитати Google API Design Guide і Zalando REST Guidelines (розділи про сумісність і помилки).</label></li>
+<li><input type="checkbox" id="ar9-2"><label for="ar9-2">OpenAPI-контракт для API бронювання до написання коду. Згенерувати з нього типи для фронту.</label></li>
+<li><input type="checkbox" id="ar9-3"><label for="ar9-3">Пагінація курсором, ідемпотентні ключі на POST, помилки у форматі Problem Details.</label></li>
+<li><input type="checkbox" id="ar9-4"><label for="ar9-4">Змінити формат одного поля без поломки старого клієнта: v1 і v2 живуть поруч, deprecation-заголовок.</label></li>
+<li><input type="checkbox" id="ar9-5"><label for="ar9-5">Той самий запит у GraphQL і tRPC. Записати ADR, що вибрав би для мобільної апки і чому.</label></li>
+<li><input type="checkbox" id="ar9-6"><label for="ar9-6">Свої вебхуки: підпис HMAC, повтори з паузою, ідентифікатор події для дедуплікації.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Перейменувати поле «бо так красивіше» — зламана мобільна апка, яку не оновиш тиждень.</li>
+<li>Offset-пагінація по даних, що змінюються — дублікати і пропуски.</li>
+<li>GraphQL без ліміту глибини — один запит кладе сервер.</li>
+<li>Різний формат помилок у кожному endpoint'і.</li>
+<li>Повертати внутрішні ID і поля бази «як є» — API прив'язаний до схеми БД назавжди.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>API з контрактом, курсорною пагінацією, ідемпотентністю, єдиними помилками і безболісною v2.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Які зміни API ламають клієнтів, а які ні?</li><li>Коли GraphQL, коли gRPC, коли REST?</li></ol></div>
+<p class="src">Джерела: <a href="https://cloud.google.com/apis/design">Google API Design Guide</a> · <a href="https://opensource.zalando.com/restful-api-guidelines/">Zalando REST Guidelines</a> · <a href="https://www.rfc-editor.org/rfc/rfc9457">RFC 9457</a> · <a href="https://stripe.com/blog/api-versioning">Stripe: API versioning</a> · <a href="https://graphql.org/learn/">GraphQL</a> · <a href="https://trpc.io">tRPC</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== AR10 ===================== -->
+<section class="proj" id="ar10" style="--c:var(--l3)" data-proj="ar10">
+<div class="proj-head"><h2>AR10 · Конкурентність, черги і асинхронна обробка</h2><span class="tag">Рівень 3 · ~4 тижні</span></div>
+<p class="why"><b>Навіщо:</b> найпідступніші баги — ті, що з'являються тільки коли дві речі відбуваються одночасно. На тесті їх не видно, на проді — раз на тиждень і з грошима.</p>
+<h3>Патерн Outbox: не загубити подію</h3>
+<pre class="mermaid">
+sequenceDiagram
+  participant API as Сервіс
+  participant DB as База
+  participant W as Воркер
+  participant Q as Черга (RabbitMQ / Kafka)
+  API->>DB: в ОДНІЙ транзакції: замовлення + запис у outbox
+  W->>DB: бере нові записи з outbox
+  W->>Q: публікує подію
+  W->>DB: позначає «відправлено»
+  Note over W,Q: подія може піти двічі →<br/>отримувач має бути ідемпотентним
+</pre>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Race condition</td><td>Результат залежить від того, хто встиг першим.</td></tr>
+<tr><td>Песимістичне vs оптимістичне блокування</td><td>«Заблокую, поки працюю» vs «працюю, а при записі перевірю версію».</td></tr>
+<tr><td>Deadlock</td><td>Двоє чекають одне одного вічно. Лікується порядком блокувань.</td></tr>
+<tr><td>Event loop (Node) vs потоки</td><td>Чому важкий цикл у Node блокує всіх; worker threads.</td></tr>
+<tr><td>Черги і воркери: BullMQ, RabbitMQ, Kafka, SQS</td><td>Важку роботу (email, відео, звіти) — у фон.</td></tr>
+<tr><td>Гарантії доставки: at-most-once, at-least-once, «exactly-once»</td><td>На практиці — at-least-once + ідемпотентний отримувач.</td></tr>
+<tr><td>Outbox, dead letter queue, повтори з паузою</td><td>Не загубити подію; куди йдуть повідомлення, що падають завжди.</td></tr>
+<tr><td>Розподілені блокування, leases</td><td>Коли кілька серверів не повинні робити одне й те саме.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="ar10-1"><label for="ar10-1">Відтворити подвійне бронювання одного слота з двох одночасних запитів (скрипт на 50 паралельних). Виправити 3 способами: унікальний індекс, FOR UPDATE, оптимістична версія.</label></li>
+<li><input type="checkbox" id="ar10-2"><label for="ar10-2">Навмисно створити deadlock у Postgres і прочитати, як база його повідомляє.</label></li>
+<li><input type="checkbox" id="ar10-3"><label for="ar10-3">Черга BullMQ (Redis): email і генерація PDF у фоні, повтори, dead letter queue.</label></li>
+<li><input type="checkbox" id="ar10-4"><label for="ar10-4">Outbox-патерн: подія «бронювання створено» не губиться навіть при падінні сервера між кроками.</label></li>
+<li><input type="checkbox" id="ar10-5"><label for="ar10-5">Ідемпотентний отримувач: одна й та сама подія 3 рази — ефект один.</label></li>
+<li><input type="checkbox" id="ar10-6"><label for="ar10-6">Кілька екземплярів воркера: задача за розкладом виконується рівно один раз (лок або лізинг).</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>«Перевірити, що вільно» → «записати» без блокування — подвійне бронювання.</li>
+<li>Записати в базу і відправити в чергу окремо — одне з двох колись не відбудеться.</li>
+<li>Вірити в «exactly-once» — повідомлення прийде двічі, рано чи пізно.</li>
+<li>Важкі обчислення в обробнику запиту Node — весь сервер чекає.</li>
+<li>Kafka для 100 повідомлень на день — величезна складність без потреби.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Подвійне бронювання неможливе під навантаженням, події не губляться і не дублюють ефект.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Як працює outbox і яку проблему вирішує?</li><li>Чому exactly-once — майже міф?</li><li>Оптимістичне чи песимістичне блокування для бронювання — і чому?</li></ol></div>
+<p class="src">Джерела: «Designing Data-Intensive Applications», розділи 7, 11 · <a href="https://microservices.io/patterns/data/transactional-outbox.html">microservices.io: Outbox</a> · <a href="https://docs.bullmq.io">BullMQ</a> · <a href="https://www.rabbitmq.com/tutorials">RabbitMQ tutorials</a> · <a href="https://kafka.apache.org/documentation/">Kafka docs</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== AR11 ===================== -->
+<section class="proj" id="ar11" style="--c:var(--l4)" data-proj="ar11">
+<div class="proj-head"><h2>AR11 · Архітектурні стилі: моноліт, мікросервіси, події, CQRS</h2><span class="tag">Рівень 4 · ~4 тижні</span></div>
+<p class="why"><b>Навіщо:</b> «нарізка» системи — найдорожче рішення. Неправильний вибір — роки переробок. Головний урок індустрії останніх 10 років: <b>почни з модульного моноліту</b>.</p>
+<pre class="mermaid">
+flowchart LR
+  BM[Великий клубок<br/>все знає про все] -->|навести лад| MM[Модульний моноліт<br/>модулі з чіткими межами,<br/>один деплой]
+  MM -->|якщо реально треба:<br/>різні команди, різне<br/>навантаження| MS[Мікросервіси<br/>окремі деплої і бази]
+  MS -.->|помилка нарізки| DM[Розподілений моноліт<br/>всі недоліки обох]
+</pre>
+<div class="tbl"><table><thead><tr><th>Стиль</th><th>Плюси</th><th>Мінуси</th><th>Коли</th></tr></thead><tbody>
+<tr><td>Модульний моноліт</td><td>Просто деплоїти, транзакції, легко рефакторити межі</td><td>Один деплой на всіх, масштабується цілком</td><td>Майже завжди на старті і для команд до ~20–50 людей</td></tr>
+<tr><td>Мікросервіси</td><td>Незалежні команди і деплої, різне масштабування</td><td>Мережа, розподілені транзакції, моніторинг, вартість</td><td>Багато команд, реально різні навантаження і темпи змін</td></tr>
+<tr><td>Event-driven</td><td>Слабке зачеплення, легко додати нового «слухача»</td><td>Важко зрозуміти загальний потік, налагодження</td><td>Багато реакцій на одну подію, інтеграції</td></tr>
+<tr><td>CQRS</td><td>Окремі моделі для запису і читання, швидкі звіти</td><td>Дві моделі, затримка синхронізації</td><td>Читань у 100 разів більше, складні вітрини</td></tr>
+<tr><td>Event sourcing</td><td>Повна історія, можна «відмотати» стан</td><td>Складно, міграції подій, великий поріг входу</td><td>Фінанси, аудит, де історія — головне</td></tr>
+<tr><td>Serverless</td><td>Не думаєш про сервери, платиш за виклик</td><td>Холодний старт, ліміти, прив'язка до провайдера</td><td>Нерегулярне навантаження, фонові задачі</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="ar11-1"><label for="ar11-1">Прочитати Martin Fowler «MonolithFirst» і «Microservice Premium», Sam Newman «Monolith to Microservices» (огляд).</label></li>
+<li><input type="checkbox" id="ar11-2"><label for="ar11-2">Перетворити свій проєкт на модульний моноліт: модулі з контекстів AR5, публічні інтерфейси, заборона «лізти» в чужі таблиці (лінтер залежностей).</label></li>
+<li><input type="checkbox" id="ar11-3"><label for="ar11-3">Винести один модуль (сповіщення) в окремий сервіс через чергу. Записати, що стало складніше.</label></li>
+<li><input type="checkbox" id="ar11-4"><label for="ar11-4">CQRS для звіту: окрема таблиця-вітрина, що оновлюється подіями.</label></li>
+<li><input type="checkbox" id="ar11-5"><label for="ar11-5">Event sourcing для одного агрегата (баланс гаманця): відновити стан з подій.</label></li>
+<li><input type="checkbox" id="ar11-6"><label for="ar11-6">ADR: чому для фінального проєкту першого курсу — моноліт, і за яких умов ти б його розділив.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li><b>Мікросервіси з першого дня</b> для команди з 2 людей — місяці на інфраструктуру замість продукту.</li>
+<li>Розподілений моноліт: сервіси, які деплояться тільки разом і ділять одну базу.</li>
+<li>Спільна база між сервісами — фактично один сервіс, тільки гірший.</li>
+<li>Event sourcing «бо цікаво» — дуже важко виправити помилки в подіях.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Модульний моноліт з контрольованими межами, один винесений сервіс і ADR з умовами розділення.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Що таке розподілений моноліт?</li><li>Коли мікросервіси виправдані?</li><li>Чим CQRS відрізняється від event sourcing?</li></ol></div>
+<p class="src">Джерела: <a href="https://martinfowler.com/bliki/MonolithFirst.html">Fowler: MonolithFirst</a> · <a href="https://microservices.io">microservices.io</a> · Sam Newman «Building Microservices» · <a href="https://learn.microsoft.com/en-us/azure/architecture/patterns/">Azure Architecture Patterns</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== AR12 ===================== -->
+<section class="proj" id="ar12" style="--c:var(--l4)" data-proj="ar12">
+<div class="proj-head"><h2>AR12 · System design: системи на мільйони людей</h2><span class="tag">Рівень 4 · ~6 тижнів</span></div>
+<p class="why"><b>Навіщо:</b> обов'язкова частина співбесід на middle і senior і щоденна робота архітектора. Тут ти вчишся з'єднувати всі цеглинки в систему, яка витримує навантаження і аварії.</p>
+<h3>Типова масштабована система</h3>
+<pre class="mermaid">
+flowchart LR
+  U[Користувачі] --> CDN[CDN<br/>статика, картинки]
+  U --> LB[Балансувальник]
+  LB --> A1[Сервер 1]
+  LB --> A2[Сервер 2]
+  LB --> A3[Сервер N]
+  A1 --> C[(Кеш Redis)]
+  A2 --> C
+  A1 --> P[(Головна БД<br/>запис)]
+  P -->|реплікація| R1[(Репліка<br/>читання)]
+  A2 --> R1
+  A3 --> Q[Черга] --> W[Воркери]
+  W --> S3[(Об'єктне сховище<br/>файли)]
+</pre>
+<h3>Оцінка «на серветці»: числа, які треба знати</h3>
+<div class="tbl"><table><thead><tr><th>Що</th><th>Порядок величини</th></tr></thead><tbody>
+<tr><td>Секунд у добі</td><td>~86 400 ≈ 10⁵ → 1 млн запитів на день ≈ 12 запитів/с (у піку ×3–10)</td></tr>
+<tr><td>Читання з пам'яті / SSD / мережі в одному дата-центрі / між континентами</td><td>~100 нс / ~100 мкс / ~0,5 мс / ~150 мс</td></tr>
+<tr><td>Один сервер Postgres</td><td>Тисячі простих запитів/с — для більшості стартапів вистачає надовго</td></tr>
+<tr><td>Фото 2 МБ × 1 млн користувачів × 10 фото</td><td>20 ТБ — треба об'єктне сховище і CDN, не диск сервера</td></tr>
+</tbody></table></div>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Вертикальне vs горизонтальне масштабування</td><td>Потужніший сервер vs більше серверів. Спершу вертикальне — дешевше і простіше.</td></tr>
+<tr><td>Stateless-сервери, балансувальник</td><td>Сервер нічого не тримає в пам'яті між запитами — тоді їх можна додавати.</td></tr>
+<tr><td>Кешування: cache-aside, write-through, TTL, інвалідація</td><td>«Дві найскладніші речі — інвалідація кешу і назви».</td></tr>
+<tr><td>Реплікація, шардинг</td><td>Копії бази для читання; розділення даних між базами, коли одна не вміщує.</td></tr>
+<tr><td>CAP і PACELC, моделі узгодженості</td><td>При розриві мережі — або всі бачать однакове, або всі отримують відповідь. Eventual consistency.</td></tr>
+<tr><td>Saga</td><td>«Транзакція» через кілька сервісів з компенсаціями (скасувати оплату, якщо склад відмовив).</td></tr>
+<tr><td>Алгоритми лімітів: token bucket, sliding window</td><td>Як рахувати «не більше 100 запитів на хвилину».</td></tr>
+<tr><td>Консистентне хешування</td><td>Як розкидати дані по серверах, щоб додавання сервера не перемішувало все.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="ar12-1"><label for="ar12-1">Пройти System Design Primer (GitHub) — основні розділи.</label></li>
+<li><input type="checkbox" id="ar12-2"><label for="ar12-2">Фреймворк співбесіди: вимоги → оцінка навантаження → API → схема даних → висока архітектура → вузькі місця → компроміси.</label></li>
+<li><input type="checkbox" id="ar12-3"><label for="ar12-3">Спроєктувати 6 систем з діаграмою і оцінкою: URL-скорочувач, rate limiter, чат (WhatsApp), стрічка новин, сервіс бронювання, платіжна система.</label></li>
+<li><input type="checkbox" id="ar12-4"><label for="ar12-4">Для кожної — «що буде при ×10 і ×100 користувачів» і де перше вузьке місце.</label></li>
+<li><input type="checkbox" id="ar12-5"><label for="ar12-5">Пробна співбесіда з Claude в ролі інтерв'юера (45 хв, з таймером). Записати фідбек.</label></li>
+<li><input type="checkbox" id="ar12-6"><label for="ar12-6">Реалізувати rate limiter (token bucket) на Redis і перевірити k6.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Одразу малювати Kafka і шардинг без оцінки навантаження.</li>
+<li>Сесії в пам'яті сервера — другий сервер «не бачить» залогіненого користувача.</li>
+<li>Кеш як «джерело правди» — після перезапуску Redis дані зникли.</li>
+<li>Не назвати компроміси — на співбесіді це головне, що оцінюють.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>6 спроєктованих систем з оцінками і компромісами, пробна співбесіда пройдена.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Що каже теорема CAP простими словами?</li><li>Як працює saga?</li><li>Скільки запитів на секунду — 10 млн запитів на день?</li></ol></div>
+<p class="src">Джерела: <a href="https://github.com/donnemartin/system-design-primer">System Design Primer</a> · «Designing Data-Intensive Applications» · Alex Xu «System Design Interview» · <a href="https://bytebytego.com">ByteByteGo</a> · <a href="https://highscalability.com">High Scalability</a> · <a href="https://github.com/sirupsen/napkin-math">Napkin Math</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== AR13 ===================== -->
+<section class="proj" id="ar13" style="--c:var(--l4)" data-proj="ar13">
+<div class="proj-head"><h2>AR13 · Надійність і продуктивність</h2><span class="tag">Рівень 4 · ~4 тижні</span></div>
+<p class="why"><b>Навіщо:</b> у розподіленій системі щось ламається постійно. Архітектура вирішує, чи падіння одного сервісу покладе все, чи система «прогнеться» і продовжить працювати.</p>
+<h3>Захисні патерни</h3>
+<div class="tbl"><table><thead><tr><th>Патерн</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Таймаути</td><td>Кожен виклик назовні має межу часу. Без неї один «завислий» сервіс з'їдає всі з'єднання.</td></tr>
+<tr><td>Повтори з exponential backoff + jitter</td><td>Повторювати з паузою, що росте, і випадковістю — щоб не «добити» сервіс, який і так ледве живий.</td></tr>
+<tr><td>Circuit breaker</td><td>Якщо сервіс падає — перестати його смикати на хвилину і одразу віддавати запасну відповідь.</td></tr>
+<tr><td>Bulkhead</td><td>Окремі «відсіки» ресурсів: проблема зі звітами не забирає з'єднання в оплат.</td></tr>
+<tr><td>Graceful degradation</td><td>Рекомендації не працюють — показуємо популярне, а не помилку на весь екран.</td></tr>
+<tr><td>Backpressure, load shedding</td><td>Під перевантаженням чесно відмовляти частині запитів, а не падати всім.</td></tr>
+<tr><td>SLO і error budget</td><td>Обіцянка надійності в цифрах і «бюджет» помилок на експерименти.</td></tr>
+<tr><td>Chaos engineering</td><td>Навмисно ламати частини системи, щоб знайти слабкі місця до клієнтів.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="ar13-1"><label for="ar13-1">Прочитати Michael Nygard «Release It!» (розділи про стабільність) або огляди патернів на Azure Architecture Center.</label></li>
+<li><input type="checkbox" id="ar13-2"><label for="ar13-2">Таймаути, повтори з jitter і circuit breaker на виклику зовнішнього API. Вимкнути API і подивитися, як поводиться система.</label></li>
+<li><input type="checkbox" id="ar13-3"><label for="ar13-3">Навантажувальний тест k6 до падіння: знайти межу і перше вузьке місце.</label></li>
+<li><input type="checkbox" id="ar13-4"><label for="ar13-4">Профілювання Node (clinic.js або --inspect): знайти найповільнішу функцію і прискорити.</label></li>
+<li><input type="checkbox" id="ar13-5"><label for="ar13-5">Мінімальний chaos-експеримент: вбити Redis / репліку / воркер під навантаженням. Записати postmortem.</label></li>
+<li><input type="checkbox" id="ar13-6"><label for="ar13-6">Розрахунок вартості інфраструктури на місяць при ×1, ×10, ×100. Де найбільша стаття (FinOps)?</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Повтори без паузи — «шторм повторів» добиває сервіс.</li>
+<li>Повтори неідемпотентних операцій — подвійні платежі.</li>
+<li>Оптимізувати без профілювання — прискорили не те.</li>
+<li>Перевіряти тільки середній час — користувачі страждають від p99.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Система переживає падіння залежностей, межа навантаження відома, вартість розрахована.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Навіщо jitter у повторах?</li><li>Як працює circuit breaker?</li><li>Чому p99 важливіший за середнє?</li></ol></div>
+<p class="src">Джерела: Michael Nygard «Release It!» · <a href="https://sre.google/books/">Google SRE</a> · <a href="https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker">Azure: Circuit Breaker</a> · <a href="https://aws.amazon.com/builders-library/">Amazon Builders' Library</a> (таймаути, повтори, jitter) · <a href="https://grafana.com/docs/k6/latest/">k6</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== AR14 ===================== -->
+<section class="proj" id="ar14" style="--c:var(--l4)" data-proj="ar14">
+<div class="proj-head"><h2>AR14 · Безпечна архітектура</h2><span class="tag">Рівень 4 · ~2–3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> перший курс (P7, P13) вчив закривати дірки в коді. Тут — безпека на рівні архітектури: як спроєктувати систему, щоб одна дірка не відкривала все.</p>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Threat modeling (STRIDE)</td><td>Для кожної частини системи: підробка, зміна даних, заперечення дій, витік, відмова в обслуговуванні, підвищення прав.</td></tr>
+<tr><td>Zero trust, мінімальні права</td><td>Нікому не довіряти за замовчуванням, навіть всередині мережі. Кожен сервіс — тільки те, що йому треба.</td></tr>
+<tr><td>Мультитенантність</td><td>Дані різних клієнтів (компаній) в одній системі — ізоляція на рівні запитів, схем або баз. Row Level Security у Postgres.</td></tr>
+<tr><td>Секрети і ключі: vault, ротація, KMS</td><td>Де живуть ключі і як їх змінити без простою.</td></tr>
+<tr><td>Шифрування в дорозі і в спокої</td><td>TLS між сервісами, шифрування дисків і бекапів, окремо — особливо чутливі поля.</td></tr>
+<tr><td>Аудит-лог</td><td>Хто, що і коли змінив — незмінний журнал.</td></tr>
+<tr><td>Безпека ланцюга постачання</td><td>Залежності, образи, CI — як точки атаки.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="ar14-1"><label for="ar14-1">Threat model за STRIDE для фінального проєкту першого курсу (діаграма потоків даних + таблиця загроз).</label></li>
+<li><input type="checkbox" id="ar14-2"><label for="ar14-2">Мультитенантність: два «клієнти-барбершопи» в одній базі, Row Level Security — один не бачить даних іншого навіть при помилці в коді.</label></li>
+<li><input type="checkbox" id="ar14-3"><label for="ar14-3">Аудит-лог для дій адміна, який не можна відредагувати.</label></li>
+<li><input type="checkbox" id="ar14-4"><label for="ar14-4">План ротації всіх секретів без простою.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Безпека «по периметру»: все всередині мережі довіряє одне одному — один зламаний сервіс = все.</li>
+<li>Ізоляція клієнтів тільки через <code>WHERE tenant_id = ?</code> у коді — одна забута умова = витік.</li>
+<li>Логи з персональними даними без шифрування і строку зберігання.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Є threat model, ізоляція клієнтів на рівні бази, аудит-лог і план ротації.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Що означають літери STRIDE?</li><li>Чому Row Level Security надійніша за WHERE у коді?</li></ol></div>
+<p class="src">Джерела: <a href="https://owasp.org/www-community/Threat_Modeling">OWASP Threat Modeling</a> · <a href="https://www.postgresql.org/docs/current/ddl-rowsecurity.html">PostgreSQL Row Security</a> · <a href="https://sre.google/books/">Building Secure and Reliable Systems (Google, безкоштовно)</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<h2 id="dopovnennya">Рівень 5 · Доповнення: що було пропущено в інших курсах</h2>
+<p class="lead">Ці модулі незалежні — бери будь-який, коли він знадобиться. Кожен закриває тему, якої не було в чотирьох попередніх курсах, але яка часто трапляється в реальній роботі.</p>
+
+<!-- ===================== AR15 ===================== -->
+<section class="proj" id="ar15" style="--c:var(--accent)" data-proj="ar15">
+<div class="proj-head"><h2>AR15 · Open source і ліцензії: чи можна брати чужий код</h2><span class="tag">Доповнення · ~1–2 тижні</span></div>
+<p class="why"><b>Навіщо:</b> 80–90% коду в сучасному проєкті — чужі бібліотеки. Одна бібліотека з «не тією» ліцензією може зобов'язати відкрити весь код продукту клієнта.</p>
+<div class="tbl"><table><thead><tr><th>Ліцензія</th><th>Тип</th><th>Що можна</th><th>Що обов'язково</th></tr></thead><tbody>
+<tr><td>MIT, BSD</td><td>Дозвільна</td><td>Майже все, включно з закритим комерційним продуктом</td><td>Зберегти текст ліцензії і копірайт</td></tr>
+<tr><td>Apache-2.0</td><td>Дозвільна</td><td>Те саме + явний дозвіл на патенти</td><td>Ліцензія, NOTICE-файл, позначити зміни</td></tr>
+<tr><td>LGPL</td><td>Слабкий копілефт</td><td>Підключати (лінкувати) з закритого коду</td><td>Зміни в самій бібліотеці — відкрити</td></tr>
+<tr><td>GPL-3.0</td><td>Копілефт</td><td>Використовувати; SaaS без розповсюдження коду не «заражає»</td><td>Якщо розповсюджуєш програму (апка, десктоп) — весь похідний код під GPL</td></tr>
+<tr><td>AGPL-3.0</td><td>Мережевий копілефт</td><td>Використовувати</td><td><b>Навіть у SaaS</b>: користувачам по мережі треба дати код</td></tr>
+<tr><td>SSPL, BSL, ELv2</td><td>Не open source (не схвалені OSI)</td><td>Залежить від умов</td><td>Часто заборона конкурувати з автором</td></tr>
+</tbody></table></div>
+<h3>Реальні історії зміни ліцензій</h3>
+<div class="tbl"><table><thead><tr><th>Проєкт</th><th>Що сталось</th><th>Наслідок</th></tr></thead><tbody>
+<tr><td>HashiCorp Terraform (2023)</td><td>MPL → BSL</td><td>Спільнота зробила форк OpenTofu</td></tr>
+<tr><td>Elastic (2021 → 2024)</td><td>Apache → SSPL/ELv2, у 2024 додано AGPL</td><td>AWS зробила форк OpenSearch</td></tr>
+<tr><td>Redis (2024 → 2025)</td><td>BSD → SSPL, у 2025 (Redis 8) додано AGPL</td><td>Форк Valkey (Linux Foundation)</td></tr>
+</tbody></table></div>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Semver (MAJOR.MINOR.PATCH)</td><td>Що означають номери версій і чому <code>^1.2.3</code> може принести несподіванку.</td></tr>
+<tr><td>Lockfile, SBOM</td><td>Точний список усіх залежностей — для безпеки і закону.</td></tr>
+<tr><td>EU Cyber Resilience Act</td><td>З 11.09.2026 виробники продуктів з цифровими елементами мають повідомляти про вразливості, що експлуатуються (24 год / 72 год / 14 днів). Повністю — з 11.12.2027, включно з SBOM. Волонтерський некомерційний open source — переважно поза дією.</td></tr>
+<tr><td>Публікація свого пакета, внесок у чужий</td><td>npm publish, CONTRIBUTING, CLA, кодекс поведінки.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="ar15-1"><label for="ar15-1">Згенерувати список ліцензій усіх залежностей свого проєкту (license-checker). Знайти GPL / AGPL.</label></li>
+<li><input type="checkbox" id="ar15-2"><label for="ar15-2">Додати перевірку ліцензій у CI: заборонити AGPL у закритому продукті.</label></li>
+<li><input type="checkbox" id="ar15-3"><label for="ar15-3">Згенерувати SBOM (CycloneDX) для проєкту.</label></li>
+<li><input type="checkbox" id="ar15-4"><label for="ar15-4">Опублікувати маленький npm-пакет (наприклад, валідатор NIF/NIE з AR20) з ліцензією MIT і semver.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Скопіювати код зі Stack Overflow або GitHub без ліцензії — за замовчуванням «всі права захищені».</li>
+<li>AGPL-бібліотека в SaaS клієнта — обов'язок відкрити код.</li>
+<li>Не стежити за змінами ліцензій — нова версія вже не open source.</li>
+<li>Код, згенерований AI, може дослівно повторювати код під GPL.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Є звіт ліцензій, перевірка в CI, SBOM і свій опублікований пакет.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Чим GPL відрізняється від AGPL для SaaS?</li><li>Що означає зміна MAJOR-версії?</li></ol></div>
+<p class="src">Джерела: <a href="https://choosealicense.com">choosealicense.com</a> · <a href="https://opensource.org/licenses">OSI licenses</a> · <a href="https://tldrlegal.com">tldrlegal</a> · <a href="https://semver.org">semver.org</a> · <a href="https://cyclonedx.org">CycloneDX</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== AR16 ===================== -->
+<section class="proj" id="ar16" style="--c:var(--accent)" data-proj="ar16">
+<div class="proj-head"><h2>AR16 · Мобільна розробка: огляд і архітектура мобільних апок</h2><span class="tag">Доповнення · ~4–6 тижнів</span></div>
+<p class="why"><b>Навіщо:</b> «зробіть нам апку» — одне з найчастіших замовлень, а мобільний світ має свої правила: магазини, оновлення, які не можна відкликати, офлайн і пуші. Цей модуль — огляд і перший проєкт; для глибини потім потрібен окремий курс.</p>
+<h3>Підходи (жовтень 2026)</h3>
+<div class="tbl"><table><thead><tr><th>Підхід</th><th>Мова</th><th>Стан</th><th>Коли</th></tr></thead><tbody>
+<tr><td>React Native + Expo</td><td>TypeScript</td><td>Expo SDK 57 (RN 0.86), лише нова архітектура, Hermes V1, Expo Router</td><td>Ти вже знаєш JS/React — найкоротший шлях</td></tr>
+<tr><td>Flutter</td><td>Dart</td><td>3.47 (серпень 2026), рушій Impeller</td><td>Однаковий дизайн усюди, сильний UI</td></tr>
+<tr><td>Kotlin / Compose Multiplatform</td><td>Kotlin</td><td>iOS стабільний з травня 2025</td><td>Спільна логіка, Android-команди</td></tr>
+<tr><td>Нативно: SwiftUI, Jetpack Compose</td><td>Swift, Kotlin</td><td>Стандарт платформ</td><td>Максимум можливостей і продуктивності</td></tr>
+</tbody></table></div>
+<h3>Що вивчиш</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>Життєвий цикл апки, дозволи</td><td>Апку можуть згорнути або вбити будь-коли; камера і геолокація — тільки з дозволу.</td></tr>
+<tr><td>Офлайн-first</td><td>Локальна база + черга синхронізації + вирішення конфліктів + ідемпотентне API.</td></tr>
+<tr><td>Пуші: APNs (ключ .p8), FCM HTTP v1</td><td>Як сервер надсилає сповіщення на телефон.</td></tr>
+<tr><td>Deep links: Universal Links, App Links</td><td>Посилання відкриває потрібний екран апки. (Firebase Dynamic Links закрито в 2025.)</td></tr>
+<tr><td>OTA-оновлення (EAS Update)</td><td>Можна оновлювати JS-код без рев'ю, але не змінювати суть апки; нативні зміни — тільки новою збіркою.</td></tr>
+<tr><td>Підтримка старих версій</td><td>Половина користувачів не оновлюється тижнями: версіонування API, мінімальна версія, екран «оновіть апку».</td></tr>
+<tr><td>Вимоги магазинів</td><td>Apple: збірка з Xcode 26 / iOS 26 SDK з 28.04.2026. Google Play: target API 36 з 31.08.2026.</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="ar16-1"><label for="ar16-1">Expo-апка для API бронювання: логін, список, бронювання, Expo Router.</label></li>
+<li><input type="checkbox" id="ar16-2"><label for="ar16-2">Офлайн: бронювання створюється без інтернету і синхронізується пізніше, без дублікатів.</label></li>
+<li><input type="checkbox" id="ar16-3"><label for="ar16-3">Пуш-нагадування з сервера (Expo Notifications → APNs / FCM).</label></li>
+<li><input type="checkbox" id="ar16-4"><label for="ar16-4">Deep link з email відкриває конкретне бронювання.</label></li>
+<li><input type="checkbox" id="ar16-5"><label for="ar16-5">Бекенд: перевірка версії апки, екран примусового оновлення.</label></li>
+<li><input type="checkbox" id="ar16-6"><label for="ar16-6">Збірка через EAS, тестування на реальних телефонах (TestFlight, закрите тестування Google Play).</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Випустив баг — частина людей сидітиме з ним тижнями. Сервер має пам'ятати про старі версії.</li>
+<li>OTA-оновлення під іншу нативну версію — краш у старих збірках.</li>
+<li>Тестувати тільки в симуляторі — інші мережі, пам'ять, пуші.</li>
+<li>Секретні ключі в коді апки — її розбирають за хвилини.</li>
+<li>Рев'ю App Store може відхилити через дрібницю — закладай час.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Апка з офлайном, пушами, deep link і контролем версій працює на реальних телефонах.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Що можна, а що не можна оновлювати через OTA?</li><li>Як бекенд підтримує старі версії апки?</li></ol></div>
+<p class="src">Джерела: <a href="https://docs.expo.dev">Expo docs</a> · <a href="https://reactnative.dev">React Native</a> · <a href="https://docs.flutter.dev">Flutter</a> · <a href="https://kotlinlang.org/docs/multiplatform.html">Kotlin Multiplatform</a> · <a href="https://developer.apple.com/news/upcoming-requirements/">Apple: вимоги</a> · <a href="https://developer.android.com/google/play/requirements/target-sdk">Google Play: target SDK</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== AR17 ===================== -->
+<section class="proj" id="ar17" style="--c:var(--accent)" data-proj="ar17">
+<div class="proj-head"><h2>AR17 · Доступність і локалізація (a11y, i18n)</h2><span class="tag">Доповнення · ~2–3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> з 28 червня 2025 Європейський акт про доступність (в Іспанії — Ley 11/2023) зобов'язує багато сайтів і апок бути доступними: e-commerce, банки, квитки, телеком. А локалізація — це не «перекласти рядки»: в українській три форми множини, в Іспанії інші формати чисел і дат.</p>
+<h3>Доступність: що вимагає закон</h3>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Простими словами</th></tr></thead><tbody>
+<tr><td>WCAG 2.2 (рівень AA)</td><td>Стандарт доступності: контраст, клавіатура, альтернативний текст, фокус, розмір цілей. WCAG 3 — поки чернетка.</td></tr>
+<tr><td>EAA / Ley 11/2023</td><td>Діє з 28.06.2025. Мікропідприємства (до 10 працівників і ≤ 2 млн €) звільнені для послуг, але не для продуктів. Технічна основа — EN 301 549.</td></tr>
+<tr><td>Семантика і ARIA</td><td>Правильні HTML-теги замість div; ARIA — тільки там, де HTML не вистачає.</td></tr>
+<tr><td>Екранні читачі</td><td>VoiceOver, TalkBack, NVDA — тестувати руками, не тільки автоматикою.</td></tr>
+</tbody></table></div>
+<h3>Локалізація: пастки</h3>
+<div class="tbl"><table><thead><tr><th>Що</th><th>Приклад</th><th>Рішення</th></tr></thead><tbody>
+<tr><td>Множина в українській: one / few / many / other</td><td>1 день, 2 дні, 5 днів, 1,5 дня; але 11 днів, 21 день</td><td><code>Intl.PluralRules</code>, ICU MessageFormat — не <code>count === 1 ? … : …</code></td></tr>
+<tr><td>Числа і валюта</td><td>es-ES: <code>1.234,56 €</code>; en-US: <code>€1,234.56</code></td><td><code>Intl.NumberFormat</code></td></tr>
+<tr><td>Дати і часові пояси</td><td>01/02 — 1 лютого чи 2 січня? Канари на годину відстають від материкової Іспанії</td><td>Зберігати UTC, показувати в поясі користувача. Temporal API — ще без Safari, потрібен поліфіл</td></tr>
+<tr><td>Довжина тексту</td><td>Німецька і іспанська довші за англійську — кнопки ламаються</td><td>Гнучкий дизайн, тест з найдовшою мовою</td></tr>
+<tr><td>Склеювання рядків</td><td><code>"У вас " + n + " повідомлень"</code> — порядок слів різний у мовах</td><td>Повні повідомлення з параметрами</td></tr>
+<tr><td>Мови справа наліво</td><td>Арабська, іврит</td><td>CSS logical properties (<code>margin-inline-start</code>)</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="ar17-1"><label for="ar17-1">Аудит свого сайту: axe DevTools + Lighthouse + пройти тільки клавіатурою + VoiceOver / TalkBack. Виправити все критичне.</label></li>
+<li><input type="checkbox" id="ar17-2"><label for="ar17-2">Інтерфейс трьома мовами (uk, es, en) через i18next або FormatJS з ICU-множиною.</label></li>
+<li><input type="checkbox" id="ar17-3"><label for="ar17-3">Тест множини: 0, 1, 2, 5, 11, 21, 22, 25, 1,5 — правильні форми українською й іспанською.</label></li>
+<li><input type="checkbox" id="ar17-4"><label for="ar17-4">Дати, числа і валюта через Intl; бронювання з часовим поясом Канар.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>«Accessibility overlay» (віджет-накладка) замість виправлення коду — не відповідає вимогам і часто заважає.</li>
+<li>Тільки автоматичні перевірки — вони ловлять ~30–40% проблем.</li>
+<li>Мова визначається тільки за країною: в Іспанії багато хто хоче англійську, українську, каталанську.</li>
+<li>Час без поясу в базі — бронювання зсувається на годину.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Сайт проходить аудит WCAG AA, інтерфейс трьома мовами з правильною множиною і форматами.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Хто в Іспанії зобов'язаний дотримуватися EAA?</li><li>Скільки форм множини в українській і які?</li></ol></div>
+<p class="src">Джерела: <a href="https://www.w3.org/TR/WCAG22/">WCAG 2.2</a> · <a href="https://www.w3.org/WAI/">W3C WAI</a> · <a href="https://www.boe.es/buscar/act.php?id=BOE-A-2023-12203">Ley 11/2023</a> · <a href="https://cldr.unicode.org/index/cldr-spec/plural-rules">CLDR plural rules</a> · <a href="https://formatjs.github.io">FormatJS</a> · <a href="https://www.deque.com/axe/">axe</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== AR18 ===================== -->
+<section class="proj" id="ar18" style="--c:var(--accent)" data-proj="ar18">
+<div class="proj-head"><h2>AR18 · Основи Computer Science: як усе працює під капотом</h2><span class="tag">Доповнення · ~6–8 тижнів</span></div>
+<p class="why"><b>Навіщо:</b> без цього можна працювати роками, але саме тут пояснення «чому база повільна», «чому сервер з'їв пам'ять», «чому цикл у циклі вбиває сайт». Плюс — це база співбесід у великі компанії. Беремо практичний мінімум.</p>
+<div class="tbl"><table><thead><tr><th>Тема</th><th>Що треба знати</th><th>Навіщо в роботі</th></tr></thead><tbody>
+<tr><td>Як працює комп'ютер</td><td>Процесор, пам'ять, кеш процесора, диск; чому пам'ять у сотні разів швидша за SSD</td><td>Розуміти, звідки гальма</td></tr>
+<tr><td>Операційна система</td><td>Процеси vs потоки, пам'ять процесу, файлові дескриптори, системні виклики</td><td>Чому Node впав з «too many open files»</td></tr>
+<tr><td>Мережі</td><td>TCP/IP, UDP, DNS, TLS-рукостискання, HTTP/2 і HTTP/3</td><td>Налагодження «чому не з'єднується» і затримок</td></tr>
+<tr><td>Складність алгоритмів (Big-O)</td><td>O(1), O(log n), O(n), O(n log n), O(n²) — інтуїтивно</td><td>Цикл у циклі на 100 000 записів = 10 млрд операцій</td></tr>
+<tr><td>Структури даних</td><td>Масив, хеш-таблиця, дерево, купа, граф, черга, стек</td><td>Map замість пошуку в масиві; чому індекс БД — це дерево</td></tr>
+<tr><td>Алгоритми</td><td>Сортування, бінарний пошук, BFS / DFS, рекурсія, динамічне програмування (база)</td><td>Співбесіди, пошук шляху в іграх, оптимізація</td></tr>
+<tr><td>Як зберігаються дані</td><td>B-дерева, LSM, сторінки, журнал (WAL)</td><td>Як працюють індекси і чому бази швидкі</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="ar18-1"><label for="ar18-1">CS50x (Harvard): лекції про пам'ять, структури даних і алгоритми (без обов'язкового C — зрозуміти ідеї).</label></li>
+<li><input type="checkbox" id="ar18-2"><label for="ar18-2">Прочитати «Latency Numbers Every Programmer Should Know» і пояснити кожне число.</label></li>
+<li><input type="checkbox" id="ar18-3"><label for="ar18-3">Знайти в своєму коді O(n²) і переписати на O(n) через Map. Виміряти на 100 000 записів.</label></li>
+<li><input type="checkbox" id="ar18-4"><label for="ar18-4">Простежити один HTTPS-запит від браузера: DNS → TCP → TLS → HTTP (Wireshark або DevTools).</label></li>
+<li><input type="checkbox" id="ar18-5"><label for="ar18-5">50 задач на NeetCode (рівень easy / medium) — для співбесід.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Сидіти місяцями на LeetCode замість проєктів — потрібно перед співбесідою, а не замість роботи.</li>
+<li>Вчити C і асемблер «для глибини», коли мета — веб і AI.</li>
+<li>Оптимізувати «на око» без вимірювань.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Можеш пояснити шлях HTTPS-запиту, складність свого коду і чому індекс прискорює пошук.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Чим процес відрізняється від потоку?</li><li>Чому пошук у Map — O(1), а в масиві — O(n)?</li></ol></div>
+<p class="src">Джерела: <a href="https://cs50.harvard.edu/x/">CS50x</a> · <a href="https://teachyourselfcs.com">Teach Yourself CS</a> · <a href="https://missing.csail.mit.edu">MIT Missing Semester</a> · <a href="https://neetcode.io">NeetCode</a> · <a href="https://hpbn.co">High Performance Browser Networking (безкоштовно)</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== AR19 ===================== -->
+<section class="proj" id="ar19" style="--c:var(--accent)" data-proj="ar19">
+<div class="proj-head"><h2>AR19 · PWA, офлайн-режим, desktop-апки і розширення браузера</h2><span class="tag">Доповнення · ~3 тижні</span></div>
+<p class="why"><b>Навіщо:</b> не кожній задачі потрібна апка в магазині. Сайт можна встановити як апку (PWA), він може працювати без інтернету, а веб-навички підходять і для програм на комп'ютер та розширень Chrome.</p>
+<div class="tbl"><table><thead><tr><th>Технологія</th><th>Що дає</th><th>Обмеження</th></tr></thead><tbody>
+<tr><td>PWA: manifest, service worker</td><td>Сайт «встановлюється», працює офлайн, пуші (на iOS — тільки для встановлених PWA)</td><td>На iOS менше можливостей, ніж у нативних апок</td></tr>
+<tr><td>IndexedDB, Cache API</td><td>Дані і файли в браузері офлайн</td><td>Браузер може очистити при нестачі місця</td></tr>
+<tr><td>Local-first, CRDT (Yjs, Automerge)</td><td>Дані спершу локально, синхронізація без конфліктів — як Figma, Linear</td><td>Складніша модель даних</td></tr>
+<tr><td>Electron</td><td>Десктоп-апка на вебі (VS Code, Slack)</td><td>Важка — свій Chromium у кожній апці</td></tr>
+<tr><td>Tauri</td><td>Десктоп на вебі + Rust, використовує системний браузерний рушій</td><td>Різниця рушіїв між ОС</td></tr>
+<tr><td>Розширення браузера (Manifest V3)</td><td>Змінювати сайти, автоматизувати, інструменти</td><td>Рев'ю Chrome Web Store, обмеження MV3</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="ar19-1"><label for="ar19-1">Перетворити todo з першого курсу на PWA: встановлення, офлайн, синхронізація при появі мережі.</label></li>
+<li><input type="checkbox" id="ar19-2"><label for="ar19-2">Спільне редагування нотатки двома вкладками через Yjs (CRDT) — офлайн і без конфліктів.</label></li>
+<li><input type="checkbox" id="ar19-3"><label for="ar19-3">Desktop-версія через Tauri. Порівняти розмір з Electron.</label></li>
+<li><input type="checkbox" id="ar19-4"><label for="ar19-4">Розширення Chrome: наприклад, швидкий переклад виділеного іспанського слова з додаванням у словник DGT.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Service worker закешував стару версію — користувачі не бачать оновлень. Потрібна стратегія оновлення.</li>
+<li>Офлайн-дані без синхронізації конфліктів — зміни губляться.</li>
+<li>Розширення з широкими правами доступу — ризик безпеки і відмова в рев'ю.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>PWA працює офлайн, є CRDT-демо, desktop-збірка і власне розширення.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Що робить service worker?</li><li>Навіщо CRDT?</li></ol></div>
+<p class="src">Джерела: <a href="https://web.dev/learn/pwa">web.dev: PWA</a> · <a href="https://www.inkandswitch.com/local-first/">Ink &amp; Switch: Local-first software</a> · <a href="https://yjs.dev">Yjs</a> · <a href="https://tauri.app">Tauri</a> · <a href="https://developer.chrome.com/docs/extensions">Chrome Extensions</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== AR20 ===================== -->
+<section class="proj" id="ar20" style="--c:var(--accent)" data-proj="ar20">
+<div class="proj-head"><h2>AR20 · Іспанська специфіка: платежі, рахунки, податки, закони</h2><span class="tag">Доповнення · ~3–4 тижні</span></div>
+<p class="why"><b>Навіщо:</b> цього немає в жодному міжнародному курсі, а для роботи з іспанськими клієнтами — щодня. Банківський TPV замість Stripe, Bizum, нові правила програм для рахунків, NIF у кожній формі. <b>Дати законів змінюються — перед проєктом перевіряй BOE.</b></p>
+<h3>Платежі</h3>
+<div class="tbl"><table><thead><tr><th>Система</th><th>Що це</th><th>Як інтегрувати</th></tr></thead><tbody>
+<tr><td><b>Redsys (TPV Virtual)</b></td><td>Платіжний шлюз більшості іспанських банків</td><td>Три способи: переадресація на сторінку Redsys (підпис HMAC-SHA256), InSite (iframe на твоєму сайті), REST (сервер-сервер). 3-D Secure / PSD2 обов'язковий. Тестові доступи дає банк</td></tr>
+<tr><td><b>Bizum</b></td><td>Миттєві платежі за номером телефону</td><td>Через Redsys (окремий термінал від банку, <code>DS_MERCHANT_PAYMETHODS = "z"</code>) або через PSP (MONEI, PAYCOMET)</td></tr>
+<tr><td>Stripe, Adyen, PayPal</td><td>Міжнародні PSP</td><td>Простіша інтеграція, інші комісії; деякі підтримують Bizum</td></tr>
+</tbody></table></div>
+<h3>Рахунки і податки (станом на жовтень 2026)</h3>
+<div class="tbl"><table><thead><tr><th>Що</th><th>Суть</th><th>Дати</th></tr></thead><tbody>
+<tr><td><b>Verifactu</b> (RD 1007/2023)</td><td>Програми для рахунків: ланцюжок хешів SHA-256 (кожен запис містить хеш попереднього), незмінні записи, журнал подій, QR-код на рахунку з перевіркою в AEAT, режим «VERI*FACTU» — запис одразу в AEAT, декларація відповідності від розробника програми</td><td>За законом (RD-ley 15/2025): 01.01.2027 — компанії, 01.07.2027 — autónomos. <b>5.10.2026 Мінфін оголосив перенесення на жовтень 2028, але норми в BOE ще немає</b> — перевіряй</td></tr>
+<tr><td><b>Електронні рахунки B2B</b> (Ley «Crea y Crece», RD 238/2026, Orden HAC/1028/2026)</td><td>Обов'язкові e-рахунки між компаніями; державна платформа AEAT, формат UBL / EN 16931</td><td>06.10.2027 — оборот понад 8 млн €; 06.10.2028 — усі інші</td></tr>
+<tr><td>Facturae / FACe</td><td>Рахунки державним установам: XML Facturae з підписом XAdES</td><td>Обов'язково з 2015</td></tr>
+<tr><td>TicketBAI</td><td>Аналог Verifactu в Країні Басків (Araba, Gipuzkoa, Bizkaia)</td><td>Діє; там замість Verifactu</td></tr>
+<tr><td>SII</td><td>Онлайн-книги IVA для великих компаній (оборот понад 6 млн €)</td><td>Діє з 2017; на SII Verifactu не поширюється</td></tr>
+<tr><td>IVA</td><td>21% загальна, 10% знижена, 4% суперзнижена. На Канарах — IGIC, у Сеуті й Мелільї — IPSI</td><td>—</td></tr>
+</tbody></table></div>
+<h3>Ідентифікація і закони</h3>
+<div class="tbl"><table><thead><tr><th>Що</th><th>Суть</th></tr></thead><tbody>
+<tr><td>Перевірка DNI / NIF</td><td>Число mod 23 → буква з рядка «TRWAGMYFPDXBNJZSQVHLCKE»</td></tr>
+<tr><td>NIE</td><td>X / Y / Z замінюються на 0 / 1 / 2, далі той самий алгоритм</td></tr>
+<tr><td>CIF компаній</td><td>Перша буква — тип організації, контрольна цифра за окремим алгоритмом</td></tr>
+<tr><td>IBAN</td><td>ISO 13616, перевірка mod 97; іспанський IBAN — 24 символи</td></tr>
+<tr><td>Цифровий сертифікат (FNMT), Cl@ve</td><td>Сертифікат X.509 — для обміну сервер-сервер з AEAT; Cl@ve — вхід людини на сайти держустанов, не для API</td></tr>
+<tr><td>LSSI-CE (aviso legal)</td><td>На сайті бізнесу: назва, адреса, email, NIF, дані реєстру</td></tr>
+<tr><td>Cookies (гайд AEPD, обов'язковий з 11.01.2024)</td><td>Кнопка «Відхилити» на першому рівні, так само помітна, як «Прийняти»</td></tr>
+</tbody></table></div>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="ar20-1"><label for="ar20-1">Бібліотека валідації NIF / NIE / CIF / IBAN з property-based тестами (AR6) і публікацією в npm (AR15).</label></li>
+<li><input type="checkbox" id="ar20-2"><label for="ar20-2">Інтеграція Redsys переадресацією в тестовому середовищі: підпис, повідомлення про оплату (notificación) з перевіркою підпису, ідемпотентність.</label></li>
+<li><input type="checkbox" id="ar20-3"><label for="ar20-3">Архітектура платежів через порт PaymentGateway (AR4): Stripe і Redsys — два адаптери, ядро однакове.</label></li>
+<li><input type="checkbox" id="ar20-4"><label for="ar20-4">Прототип журналу рахунків за принципами Verifactu: ланцюжок хешів, незмінність, перевірка цілісності, QR-код.</label></li>
+<li><input type="checkbox" id="ar20-5"><label for="ar20-5">Банер cookies за гайдом AEPD і aviso legal для сайту з першого курсу.</label></li>
+<li><input type="checkbox" id="ar20-6"><label for="ar20-6">Розрахунок IVA для 21 / 10 / 4% і IGIC для клієнта з Канар, в центах, з правильним округленням.</label></li>
+</ul>
+<div class="pit"><h3>Підводні камені</h3><ul>
+<li>Повідомлення від Redsys без перевірки підпису — «оплатити» може будь-хто (як вебхук Stripe у P11).</li>
+<li>Перевірка NIF за контрольною буквою ≠ людина існує. Існування перевіряє тільки AEAT.</li>
+<li>Писати свою програму рахунків для клієнтів без вимог Verifactu — розробник теж відповідає.</li>
+<li>Довіряти даті з блогу — Verifactu переносили кілька разів. Тільки BOE.</li>
+<li>Канари без IGIC, клієнти з ЄС без правил IVA для B2B — неправильні рахунки.</li>
+</ul></div>
+<div class="done"><h3>Готово, коли…</h3><ul><li>Валідатор опублікований, Redsys працює в тесті через той самий порт, що і Stripe, є прототип журналу рахунків.</li></ul></div>
+<div class="quiz"><h3>Самоперевірка</h3><ol><li>Які три способи інтеграції Redsys і чим вони відрізняються?</li><li>Що таке ланцюжок хешів у Verifactu і навіщо він?</li><li>Як перевірити букву NIE?</li></ol></div>
+<p class="src">Джерела: <a href="https://pagosonline.redsys.es">Redsys: документація</a> · <a href="https://sede.agenciatributaria.gob.es">AEAT: Verifactu</a> · <a href="https://www.boe.es">BOE</a> · <a href="https://www.interior.gob.es/opencms/es/servicios-al-ciudadano/tramites-y-gestiones/dni/calculo-del-digito-de-control-del-nif-nie/">Interior: розрахунок букви NIF / NIE</a> · <a href="https://www.aepd.es">AEPD: guía de cookies</a> · <a href="https://www.facturae.gob.es">Facturae</a></p>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== FINAL ===================== -->
+<section class="proj" id="final" style="--c:var(--accent)" data-proj="final">
+<div class="proj-head"><h2>Фінал · Архітектурний розбір і еволюція системи</h2><span class="tag">~6–8 тижнів</span></div>
+<p class="why"><b>Задача:</b> взяти систему бронювання з фіналу першого курсу (або свій проєкт) і провести її через усе, що вивчив: задокументувати, розкласти на контексти, переробити ядро, підготувати до ×100 навантаження, підключити іспанські платежі, мобільну апку і зробити доступною трьома мовами. Як на роботі архітектора.</p>
+<h3>Задачі</h3>
+<ul class="tasks">
+<li><input type="checkbox" id="fin-1"><label for="fin-1">C4-діаграми «як є», 5 ADR рішень, що вже прийняті, список технічного боргу з пріоритетами.</label></li>
+<li><input type="checkbox" id="fin-2"><label for="fin-2">Event Storming і context map (AR5); модульний моноліт з контрольованими межами (AR11).</label></li>
+<li><input type="checkbox" id="fin-3"><label for="fin-3">Гексагональне ядро бронювання з тестами без інфраструктури (AR4, AR6); мутаційний бал ≥ 70%.</label></li>
+<li><input type="checkbox" id="fin-4"><label for="fin-4">Захист від подвійного бронювання під навантаженням, outbox для подій (AR10).</label></li>
+<li><input type="checkbox" id="fin-5"><label for="fin-5">Design doc «×100 користувачів»: оцінка на серветці, кеш, репліки, черги, вартість (AR12, AR13).</label></li>
+<li><input type="checkbox" id="fin-6"><label for="fin-6">Таймаути, circuit breaker, навантажувальний тест і chaos-експеримент з postmortem (AR13).</label></li>
+<li><input type="checkbox" id="fin-7"><label for="fin-7">Redsys / Bizum поруч зі Stripe через один порт (AR20), API v2 без поломки v1 (AR9).</label></li>
+<li><input type="checkbox" id="fin-8"><label for="fin-8">Мобільна апка з офлайном (AR16), доступність WCAG AA і три мови (AR17), звіт ліцензій і SBOM (AR15).</label></li>
+</ul>
+<div class="done"><h3>Готово, коли…</h3><ul>
+<li>Система задокументована, ядро чисте і протестоване, є план і докази готовності до ×100.</li>
+<li>Ти можеш захистити кожне архітектурне рішення як на співбесіді на senior-позицію.</li>
+</ul></div>
+<div class="bar"><i></i></div><div class="cnt"></div>
+</section>
+
+<!-- ===================== GLOSSARY ===================== -->
+<h2 id="slovnyk">Сленг і терміни архітектури</h2>
+<div class="tbl"><table>
+<thead><tr><th>Сленг</th><th>Правильно</th><th>Простими словами</th><th>В Іспанії</th></tr></thead>
+<tbody>
+<tr><td>архітектура</td><td>software architecture</td><td>Рішення, які дорого змінити</td><td>arquitectura de software</td></tr>
+<tr><td>трейдоф</td><td>trade-off</td><td>Компроміс: щось отримуєш, щось втрачаєш</td><td>compromiso, trade-off</td></tr>
+<tr><td>каплінг / кохіжн</td><td>coupling / cohesion</td><td>Зачеплення між частинами / зв'язність всередині частини</td><td>acoplamiento / cohesión</td></tr>
+<tr><td>солід</td><td>SOLID</td><td>П'ять принципів структури коду</td><td>SOLID</td></tr>
+<tr><td>патерн</td><td>design pattern</td><td>Типове рішення типової задачі</td><td>patrón de diseño</td></tr>
+<tr><td>гексагоналка, порти і адаптери</td><td>hexagonal architecture</td><td>Ядро логіки окремо від бази і фреймворків</td><td>arquitectura hexagonal</td></tr>
+<tr><td>DDD, домен</td><td>domain-driven design</td><td>Код будується навколо мови бізнесу</td><td>diseño guiado por el dominio</td></tr>
+<tr><td>баундед контекст</td><td>bounded context</td><td>Частина системи з однозначними словами</td><td>contexto delimitado</td></tr>
+<tr><td>агрегат</td><td>aggregate</td><td>Група об'єктів, що змінюється разом за правилами</td><td>agregado</td></tr>
+<tr><td>моноліт / мікросервіси</td><td>monolith / microservices</td><td>Одна програма / багато окремих сервісів</td><td>monolito / microservicios</td></tr>
+<tr><td>розподілений моноліт</td><td>distributed monolith</td><td>Мікросервіси, які не можуть жити окремо</td><td>monolito distribuido</td></tr>
+<tr><td>івент-дрівен</td><td>event-driven</td><td>Частини спілкуються подіями</td><td>arquitectura orientada a eventos</td></tr>
+<tr><td>CQRS</td><td>command query responsibility segregation</td><td>Окремо запис, окремо читання</td><td>CQRS</td></tr>
+<tr><td>івент сорсінг</td><td>event sourcing</td><td>Зберігати не стан, а всі події</td><td>event sourcing</td></tr>
+<tr><td>сага</td><td>saga</td><td>Розподілена «транзакція» з компенсаціями</td><td>saga</td></tr>
+<tr><td>аутбокс</td><td>outbox pattern</td><td>Подія в одній транзакції з даними</td><td>patrón outbox</td></tr>
+<tr><td>ідемпотентність</td><td>idempotency</td><td>Повтор не змінює результат</td><td>idempotencia</td></tr>
+<tr><td>рейс, гонка</td><td>race condition</td><td>Результат залежить від того, хто перший</td><td>condición de carrera</td></tr>
+<tr><td>дедлок</td><td>deadlock</td><td>Двоє чекають одне одного вічно</td><td>interbloqueo</td></tr>
+<tr><td>шардинг</td><td>sharding</td><td>Ділити дані між кількома базами</td><td>particionado, sharding</td></tr>
+<tr><td>репліка</td><td>replica</td><td>Копія бази для читання</td><td>réplica</td></tr>
+<tr><td>CAP</td><td>CAP theorem</td><td>При розриві мережі — узгодженість або доступність</td><td>teorema CAP</td></tr>
+<tr><td>евентуал консистенсі</td><td>eventual consistency</td><td>Дані стануть однаковими «згодом»</td><td>consistencia eventual</td></tr>
+<tr><td>серкіт брейкер</td><td>circuit breaker</td><td>«Запобіжник» для викликів сервісу, що падає</td><td>cortocircuito, circuit breaker</td></tr>
+<tr><td>бекоф, джитер</td><td>exponential backoff, jitter</td><td>Паузи між повторами, що ростуть, з випадковістю</td><td>reintento con espera exponencial</td></tr>
+<tr><td>легасі</td><td>legacy code</td><td>Старий код без тестів, який страшно чіпати</td><td>código heredado / legacy</td></tr>
+<tr><td>странглер</td><td>strangler fig</td><td>Поступова заміна старої системи</td><td>patrón strangler fig</td></tr>
+<tr><td>ADR</td><td>architecture decision record</td><td>Запис архітектурного рішення</td><td>registro de decisión de arquitectura</td></tr>
+<tr><td>дизайн-док, RFC</td><td>design doc</td><td>Документ перед великою зміною</td><td>documento de diseño</td></tr>
+<tr><td>техборг</td><td>technical debt</td><td>Свідомий або несвідомий «кредит» у коді</td><td>deuda técnica</td></tr>
+<tr><td>копілефт</td><td>copyleft</td><td>Ліцензія, що вимагає відкривати похідний код</td><td>copyleft</td></tr>
+<tr><td>a11y / i18n</td><td>accessibility / internationalization</td><td>Доступність / підготовка до багатьох мов</td><td>accesibilidad / internacionalización</td></tr>
+</tbody></table></div>
+
+<!-- ===================== RISKS ===================== -->
+<h2 id="ryzyky">Якщо в системі є X — обов'язково думай про Y</h2>
+<div class="tbl"><table><thead><tr><th>Якщо є…</th><th>Логіка</th><th>Обов'язково</th><th>Модуль</th></tr></thead><tbody>
+<tr><td>Складний бізнес з багатьма правилами</td><td>Без меж код стає клубком</td><td>DDD: контексти, агрегати, єдина мова</td><td>AR5</td></tr>
+<tr><td>Кілька способів зробити одне (оплата, доставка)</td><td>Нові способи додаватимуться</td><td>Порти і адаптери, Strategy</td><td>AR3, AR4</td></tr>
+<tr><td>Старий код без тестів</td><td>Будь-яка зміна ламає щось непомітно</td><td>Характеризаційні тести, маленькі кроки, Strangler Fig</td><td>AR7</td></tr>
+<tr><td>Одночасні дії над тим самим (бронювання, баланс)</td><td>Гонки і подвійні записи</td><td>Блокування або версії, унікальні обмеження</td><td>AR8, AR10</td></tr>
+<tr><td>Подія має дійти до іншої частини</td><td>Може загубитись або прийти двічі</td><td>Outbox, ідемпотентний отримувач, dead letter queue</td><td>AR10</td></tr>
+<tr><td>Публічне API або мобільна апка</td><td>Старі клієнти живуть роками</td><td>Зворотна сумісність, версіонування, deprecation</td><td>AR9, AR16</td></tr>
+<tr><td>Виклики інших сервісів</td><td>Вони повільні і падають</td><td>Таймаути, повтори з jitter, circuit breaker, деградація</td><td>AR13</td></tr>
+<tr><td>Ріст ×10–×100</td><td>Вузьке місце з'явиться несподівано</td><td>Оцінка на серветці, stateless, кеш, репліки, навантажувальні тести</td><td>AR12</td></tr>
+<tr><td>Кілька клієнтів-компаній в одній системі</td><td>Витік даних між клієнтами</td><td>Ізоляція на рівні бази (Row Level Security)</td><td>AR14</td></tr>
+<tr><td>Чужі бібліотеки</td><td>Ліцензії і вразливості</td><td>Звіт ліцензій, SBOM, оновлення</td><td>AR15</td></tr>
+<tr><td>Сайт для ЄС</td><td>EAA, мови, формати</td><td>WCAG AA, i18n з правильною множиною, часові пояси</td><td>AR17</td></tr>
+<tr><td>Клієнт в Іспанії</td><td>Місцеві платежі і податки</td><td>Redsys / Bizum, Verifactu, e-рахунки, IVA / IGIC, NIF</td><td>AR20</td></tr>
+</tbody></table></div>
+
+<!-- ===================== TRAPS ===================== -->
+<h2 id="ne-vchyty">Пастки архітектора</h2>
+<div class="tbl"><table><thead><tr><th>Пастка</th><th>Чому погано</th><th>Замість цього</th></tr></thead><tbody>
+<tr><td>Мікросервіси з першого дня</td><td>Місяці на інфраструктуру, розподілений моноліт</td><td>Модульний моноліт, розділення за реальною потребою</td></tr>
+<tr><td>«Резюме-архітектура» (модні технології)</td><td>Складність без проблеми, яку вона вирішує</td><td>ADR з чесним «чому»</td></tr>
+<tr><td>Переписати все з нуля</td><td>Втрачені знання, роки паралельних систем</td><td>Strangler Fig, поступова заміна</td></tr>
+<tr><td>Чиста архітектура і DDD для простого CRUD</td><td>Шари без користі</td><td>Простий код, поки складність не з'явилась</td></tr>
+<tr><td>Абстракції «на майбутнє»</td><td>Майбутнє виявляється іншим</td><td>YAGNI, рефакторинг, коли з'явиться потреба</td></tr>
+<tr><td>Kafka / Kubernetes без навантаження</td><td>Дорого і складно</td><td>Postgres + проста черга, поки вистачає</td></tr>
+<tr><td>Архітектура без документів</td><td>Через рік ніхто не знає «чому»</td><td>C4 + ADR поруч з кодом</td></tr>
+<tr><td>Оптимізація без вимірювань</td><td>Прискорили не те</td><td>Профілювання, p99, навантажувальні тести</td></tr>
+</tbody></table></div>
+
+<!-- ===================== SOURCES ===================== -->
+<h2 id="dzherela">Джерела, з яких зібраний курс</h2>
+<div class="cols2">
+<div>
+<h3>Книги</h3>
+<ul class="src">
+<li>Martin Kleppmann «Designing Data-Intensive Applications»</li>
+<li>Robert C. Martin «Clean Architecture», «Clean Code»</li>
+<li>Eric Evans «Domain-Driven Design»; Vaughn Vernon «DDD Distilled»</li>
+<li>Michael Feathers «Working Effectively with Legacy Code»</li>
+<li>Martin Fowler «Refactoring»; Michael Nygard «Release It!»</li>
+<li>Mark Richards, Neal Ford «Fundamentals of Software Architecture»</li>
+<li>Sam Newman «Building Microservices»; Alex Xu «System Design Interview»</li>
+</ul>
+</div>
+<div>
+<h3>Безкоштовні ресурси</h3>
+<ul class="src">
+<li><a href="https://martinfowler.com">martinfowler.com</a> · <a href="https://refactoring.guru/uk">refactoring.guru (українською)</a></li>
+<li><a href="https://c4model.com">C4 model</a> · <a href="https://adr.github.io">ADR</a></li>
+<li><a href="https://github.com/donnemartin/system-design-primer">System Design Primer</a> · <a href="https://microservices.io">microservices.io</a></li>
+<li><a href="https://learn.microsoft.com/en-us/azure/architecture/patterns/">Azure Architecture Patterns</a> · <a href="https://aws.amazon.com/builders-library/">Amazon Builders' Library</a></li>
+<li><a href="https://sre.google/books/">Google SRE books</a> · <a href="https://teachyourselfcs.com">Teach Yourself CS</a></li>
+<li><a href="https://www.boe.es">BOE</a> · <a href="https://sede.agenciatributaria.gob.es">AEAT</a> · <a href="https://www.aepd.es">AEPD</a></li>
+</ul>
+</div>
+</div>
+</main>
+</div>
+<script>
+(function(){
+  var KEY = 'arch-kurs-progress-v1';
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('ul.tasks input[type=checkbox]'));
+  var state = {};
+  var db = null, docRef = null, writing = Promise.resolve(), timer = null;
+  var syncTxt = document.getElementById('syncTxt');
+
+  function readLocal(){ try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e){ return {}; } }
+  function writeLocal(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} }
+
+  function apply(){
+    boxes.forEach(function(b){ b.checked = !!state[b.id]; });
+    render();
+  }
+  function render(){
+    var total = boxes.length, done = 0;
+    boxes.forEach(function(b){ if (b.checked) done++; });
+    document.getElementById('overallTxt').textContent = 'Виконано задач: ' + done + ' з ' + total;
+    document.getElementById('overallBar').style.width = (total ? done/total*100 : 0) + '%';
+    document.querySelectorAll('section.proj').forEach(function(sec){
+      var bs = sec.querySelectorAll('ul.tasks input'), d = 0;
+      bs.forEach(function(b){ if (b.checked) d++; });
+      var bar = sec.querySelector(':scope > .bar i'), cnt = sec.querySelector(':scope > .cnt');
+      if (bar) bar.style.width = (bs.length ? d/bs.length*100 : 0) + '%';
+      if (cnt) cnt.textContent = d + ' / ' + bs.length + (d === bs.length && bs.length ? ' · проєкт закрито' : '');
+    });
+  }
+  function save(){
+    writeLocal();
+    if (!docRef) return;
+    clearTimeout(timer);
+    timer = setTimeout(function(){
+      var body = { done: Object.assign({}, state), updatedAt: new Date().toISOString() };
+      writing = writing.then(function(){ return docRef.set(body); }).then(function(){
+        syncTxt.textContent = 'Прогрес збережено у твоєму акаунті.';
+      }).catch(function(){
+        docRef = null;
+        syncTxt.textContent = 'Прогрес зберігається в цьому браузері.';
+      });
+    }, 600);
+  }
+  boxes.forEach(function(b){
+    b.addEventListener('change', function(){
+      if (b.checked) state[b.id] = true; else delete state[b.id];
+      render(); save();
+    });
+  });
+
+  state = readLocal();
+  apply();
+  syncTxt.textContent = 'Прогрес зберігається в цьому браузері.';
+
+  if (window.claude && typeof window.claude.use === 'function') {
+    Promise.all([window.claude.use('db'), window.claude.use('user')]).then(function(r){
+      var ns = r[0], user = r[1];
+      if (!ns || !user) return null;
+      db = ns;
+      return user.id();
+    }).then(function(uid){
+      if (!uid) return;
+      try { docRef = db.doc('data/users/' + uid + '/progress'); } catch(e){ return; }
+      docRef.get().then(function(snap){
+        var remote = (snap.exists && snap.data() && snap.data().done) || {};
+        var merged = Object.assign({}, remote, state);
+        var changed = Object.keys(merged).length !== Object.keys(remote).length;
+        state = merged; apply(); writeLocal();
+        syncTxt.textContent = 'Прогрес синхронізовано з твоїм акаунтом.';
+        if (changed && Object.keys(state).length) save();
+      }).catch(function(){
+        docRef = null;
+        syncTxt.textContent = 'Прогрес зберігається в цьому браузері.';
+      });
+    }).catch(function(){});
+  }
+})();
+</script>
