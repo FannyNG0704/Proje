@@ -12,6 +12,6 @@
 
 ## З чого почати (IT)
 
-1. Прочитати [`it/plan-kursu.md`](it/plan-kursu.md) — весь курс по модулях.
+1. Відкрити сторінку курсу: https://claude.ai/artifact/7a82nP9mL1FagUNTNyd5Ww (коротко — [`it/plan-kursu.md`](it/plan-kursu.md)).
 2. Пройти діагностику в [`it/progres.md`](it/progres.md) — щоб не вчити те, що вже знаю.
 3. Тримати поруч [`it/karta-ryzykiv.md`](it/karta-ryzykiv.md) — «якщо в проєкті є X → думай про Y».
