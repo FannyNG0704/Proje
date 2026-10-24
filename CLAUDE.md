@@ -35,6 +35,7 @@
 ## Як вести прогрес
 
 - План курсу: `it/plan-kursu.md`, повна сторінка з задачами: `it/kurs.html` (https://claude.ai/artifact/7a82nP9mL1FagUNTNyd5Ww). Прогрес задач — у базі сторінки, у кожного свій (`data/users/me/progress`). Сторінка відкрита за посиланням (брат теж користується).
+- Другий курс «Відео, 3D і моушн»: `it/media-kurs.html` (https://claude.ai/artifact/LxzWTQfaqEyNHXQWGxB6qG), прогрес так само в `data/users/me/progress`.
 - Прогрес і що вже пройдено: `it/progres.md` — оновлюй після кожного заняття
   (тема, що зрозумів, що слабко, питання на повторення).
 - Конспекти занять: `it/konspekty/NN-tema.md`.

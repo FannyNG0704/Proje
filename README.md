@@ -5,6 +5,7 @@
 | Напрямок | Папка | Статус |
 |---|---|---|
 | IT (веб/апки, безпека, підводні камені) | [`it/`](it/) | ▶ зараз |
+| IT: відео, 3D, моушн, дизайн | [`it/media-kurs.html`](it/media-kurs.html) · https://claude.ai/artifact/LxzWTQfaqEyNHXQWGxB6qG | ▶ паралельно |
 | Іспанська + теорія на права (permiso B) | [`espanol-dgt/`](espanol-dgt/) | ⏸ пізніше |
 | Біблія іспанською | [`biblia/`](biblia/) | ⏸ пізніше |
 
