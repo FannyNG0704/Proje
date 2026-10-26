@@ -55,6 +55,8 @@ input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outli
 details{font-size:14px}
 summary{cursor:pointer;color:var(--accent)}
 .later{border-style:dashed}
+.ins{justify-self:start;font:inherit;font-size:14px;color:var(--accent);background:transparent;border:1px solid var(--accent);border-radius:6px;padding:6px 12px;cursor:pointer}
+.ins:hover{background:var(--field)}
 @media (prefers-reduced-motion:reduce){.meter i{transition:none}}
 </style>
 
@@ -76,10 +78,10 @@ summary{cursor:pointer;color:var(--accent)}
 const SECTIONS = [
  {t:"Хто ми", q:[
   {id:"name", l:"Назва (робоча)", h:"Можна змінити потім. Приклад: «Reformas Hermanos …», «… Obras Málaga».", s:1},
-  {id:"oneliner", l:"Одним реченням: що робимо", h:"Приклад: «Ремонт квартир і фасадів у Малазі: штукатурка, плитка, гіпсокартон».", s:1, ta:1},
-  {id:"me", l:"Про компанію (Quiénes somos)", h:"Хто ми як фірма, без імен і віку: чим займаємось, де, як працюємо.", s:1, ta:1},
-  {id:"brother", l:"Досвід і вміння команди", h:"Що вміємо і на якому рівні: штукатурка, шпаклівка, pladur, плитка, фасади. Без «я / брат».", s:1, ta:1},
-  {id:"adv", l:"3 переваги: чому нам довіряти", h:"Конкретно, не «якісно і швидко». Приклад: «прораб з 15 роками досвіду», «presupuesto письмово за 48 год», «фото кожного етапу у WhatsApp».", s:1, ta:1}
+  {id:"oneliner", l:"Одним реченням: що робимо", h:"Іспанською — сайт для іспанців. Кнопка нижче вставить готовий варіант.", s:1, ta:1, ex:"Reformas interiores y fachadas en Málaga y la Costa del Sol: yeso, pladur, alisados, alicatado, fachadas e impermeabilización. Trabajo limpio, bien hecho y a tiempo, con presupuesto por escrito."},
+  {id:"me", l:"Про компанію (Quiénes somos)", h:"Хто ми як фірма, без імен і віку: чим займаємось, де, як працюємо.", s:1, ta:1, big:1, ex:"Somos una empresa de reformas y acabados en Málaga. Nos ocupamos de todo el interior de su vivienda o local, y también de fachadas y terrazas: desde levantar un tabique hasta colocar el último azulejo. Cuidamos cada detalle del acabado, cumplimos los plazos acordados y dejamos la obra limpia. Antes de empezar, visitamos la obra y le entregamos un presupuesto claro por escrito."},
+  {id:"brother", l:"Досвід і вміння команди", h:"Що вміємо і на якому рівні. Без «я / брат».", s:1, ta:1, big:1, ex:"Nuestro equipo tiene experiencia en obra en España y en el extranjero, tanto ejecutando como dirigiendo obras. Trabajamos con los materiales y sistemas habituales en España y aplicamos un estándar de acabado muy exigente: paredes perfectamente lisas, juntas invisibles y esquinas rectas."},
+  {id:"adv", l:"3 переваги: чому нам довіряти", h:"Кнопка вставить 4 варіанти — залиш 3.", s:1, ta:1, big:1, ex:"Un solo equipo para todo el interior: yeso, pladur, alisados, alicatado y pintura, sin buscar un oficio para cada cosa.\nAcabado de alto nivel (Q3–Q4): paredes perfectamente lisas, listas para pintar.\nObra organizada: plazos claros y fotos de cada fase.\nPresupuesto claro por escrito: mano de obra y material por separado."}
  ]},
  {t:"Послуги", svc:true, q:[
   {id:"svc_note", l:"Що ще важливо про послуги", h:"Що НЕ робимо (сантехніка, електрика), мінімальний об'єм, чи беремо дрібні роботи.", ta:1}
@@ -120,14 +122,14 @@ const SECTIONS = [
 ];
 const SVC_N = 8;
 const SVC_HINTS = [
- ["Штукатурка yeso","стіни і стелі, вручну/по маяках","від 10 €/м²"],
- ["Плитка","стіни, підлога, великий формат, 45°","від 20 €/м²"],
- ["Гіпсокартон (pladur)","перегородки, стелі, обшивка","від 16 €/м²"],
- ["Фасад","monocapa, enfoscado, фарбування","від 15 €/м²"],
- ["Гідроізоляція тераси","tela asfáltica, 1–2 шари","від 12 €/м²"],
- ["Фарбування","стіни, стелі, зняти gotelé","від 5 €/м²"],
- ["Балюстради","бетон / штучний камінь","від 50 €/м.п."],
- ["Ламінат / двері","підлога, міжкімнатні двері","від 11 €/м²"]
+ ["Yesos y enlucidos","yeso a buena vista y maestreado, enlucidos, guardavivos, techos","desde 10 €/m²"],
+ ["Pladur y techos","tabiques, trasdosados, falsos techos, foseados, cortineros, aislamiento","desde 16 €/m²"],
+ ["Alisados y pintura","quitar gotelé, masilla, alisado Q3–Q4, pintura interior","desde 10 €/m²"],
+ ["Alicatado y solado","baños, cocinas, porcelánico, gran formato, ingletes a 45°, mosaico, rodapié","desde 20 €/m²"],
+ ["Fachadas","monocapa, enfoscado, revoco decorativo, pintura, reparación de fisuras","desde 15 €/m²"],
+ ["Impermeabilización","terrazas y cubiertas: tela asfáltica, lámina líquida","desde 12 €/m²"],
+ ["Balaustradas y terrazas","balaustradas, solado exterior, remates","desde 50 €/ml"],
+ ["Demolición y preparación","picado, desescombro, recrecidos, autonivelante","a consultar"]
 ];
 const PRICES = [
  ["Yeso вручну","7–14 €/м²"],["Yeso по маяках","11–20 €/м²"],["Monocapa фасад","11–20 €/м²"],
@@ -165,6 +167,13 @@ for (const sec of SECTIONS){
     const t = document.createElement("table"); t.className="prices";
     for (const [a,b] of PRICES){ const tr=t.insertRow(); tr.insertCell().textContent=a; tr.insertCell().textContent=b; }
     d.append(t); s.append(d);
+    const fill = document.createElement("button"); fill.type="button"; fill.className="ins";
+    fill.textContent = "Вставити приклад у порожні рядки";
+    fill.addEventListener("click", ()=>{
+      for (let i=0;i<SVC_N;i++) ["n","d","p"].forEach((k,j)=>{ const el=document.getElementById(`svc${i+1}_${k}`); if(!el.value.trim()) el.value=SVC_HINTS[i][j]; });
+      form.dispatchEvent(new Event("input"));
+    });
+    s.insertBefore(fill, d);
   }
   for (const q of sec.q){
     const w = document.createElement("div"); w.className = "q";
@@ -175,7 +184,14 @@ for (const sec of SECTIONS){
     if (!q.ta) f.type = "text";
     if (q.big) f.style.minHeight = "130px";
     f.id = q.id;
-    w.append(lab, h, f); s.append(w);
+    w.append(lab, h, f);
+    if (q.ex){
+      const b = document.createElement("button"); b.type="button"; b.className="ins";
+      b.textContent = "Вставити текст від Claude";
+      b.addEventListener("click", ()=>{ f.value = f.value.trim() ? f.value.trimEnd()+"\n\n"+q.ex : q.ex; form.dispatchEvent(new Event("input")); });
+      w.append(b);
+    }
+    s.append(w);
   }
   form.append(s);
 }
