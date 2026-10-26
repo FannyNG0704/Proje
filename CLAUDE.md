@@ -44,4 +44,4 @@
 - Фріланс в Іспанії (autónomo, IVA, договори, клієнти) — окремий курс пізніше.
 - Прогрес і що вже пройдено: `it/progres.md` — оновлюй після кожного заняття
   (тема, що зрозумів, що слабко, питання на повторення).
-- Конспекти занять: `it/konspekty/NN-tema.md`.
+- Конспекти занять: `it/konspekty/` (P0 — `00-maysternya.html`; P1 — `01-sait-vizytka.html`, https://claude.ai/artifact/BRKRpeLVqBwwZSrPfLfeHB).
