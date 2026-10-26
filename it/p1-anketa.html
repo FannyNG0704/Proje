@@ -57,6 +57,25 @@ summary{cursor:pointer;color:var(--accent)}
 .later{border-style:dashed}
 .ins{justify-self:start;font:inherit;font-size:14px;color:var(--accent);background:transparent;border:1px solid var(--accent);border-radius:6px;padding:6px 12px;cursor:pointer}
 .ins:hover{background:var(--field)}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:12px;align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--field)}
+.opt-t{min-width:0}
+.opt p{margin:0}
+.opt .ua{font-size:15px}
+.opt .es{font-size:13px;color:var(--muted);font-style:italic}
+.opt .ins{flex:none}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+.ptable{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+.ptable table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+.ptable th{font-size:12px;color:var(--muted);text-align:left;padding:8px;background:var(--bg);font-weight:600}
+.ptable td{padding:4px;border-top:1px solid var(--line)}
+.ptable td:first-child{width:46%}
+.ptable input{width:100%;font:inherit;color:var(--ink);background:transparent;border:1px solid transparent;border-radius:4px;padding:6px 8px}
+.ptable input:hover{border-color:var(--line)}
+.ptable td:nth-child(3) input,.ptable td:nth-child(4) input{font-family:var(--f-mono);text-align:right;font-variant-numeric:tabular-nums}
+.del{font:inherit;color:var(--muted);background:none;border:0;cursor:pointer;padding:4px 8px;font-size:18px;line-height:1}
+.del:hover{color:var(--warn)}
+@media (max-width:560px){.opt{flex-direction:column;align-items:stretch}.opt .ins{justify-self:start;align-self:flex-start}}
 @media (prefers-reduced-motion:reduce){.meter i{transition:none}}
 </style>
 
@@ -75,27 +94,61 @@ summary{cursor:pointer;color:var(--accent)}
 </main>
 
 <script>
+// Варіанти відповідей: [українською — щоб прочитати, іспанською — що вставиться на сайт]
 const SECTIONS = [
  {t:"Хто ми", q:[
-  {id:"name", l:"Назва (робоча)", h:"Можна змінити потім. Приклад: «Reformas Hermanos …», «… Obras Málaga».", s:1},
+  {id:"name", l:"Назва (робоча)", h:"Можна змінити потім.", s:1},
   {id:"oneliner", l:"Одним реченням: що робимо", h:"Іспанською — сайт для іспанців. Кнопка нижче вставить готовий варіант.", s:1, ta:1, ex:"Reformas interiores y fachadas en Málaga y la Costa del Sol: yeso, pladur, alisados, alicatado, fachadas e impermeabilización. Trabajo limpio, bien hecho y a tiempo, con presupuesto por escrito."},
   {id:"me", l:"Про компанію (Quiénes somos)", h:"Хто ми як фірма, без імен і віку: чим займаємось, де, як працюємо.", s:1, ta:1, big:1, ex:"Somos una empresa de reformas y acabados en Málaga. Nos ocupamos de todo el interior de su vivienda o local, y también de fachadas y terrazas: desde levantar un tabique hasta colocar el último azulejo. Cuidamos cada detalle del acabado, cumplimos los plazos acordados y dejamos la obra limpia. Antes de empezar, visitamos la obra y le entregamos un presupuesto claro por escrito."},
   {id:"brother", l:"Досвід і вміння команди", h:"Що вміємо і на якому рівні. Без «я / брат».", s:1, ta:1, big:1, ex:"Nuestro equipo tiene experiencia en obra en España y en el extranjero, tanto ejecutando como dirigiendo obras. Trabajamos con los materiales y sistemas habituales en España y aplicamos un estándar de acabado muy exigente: paredes perfectamente lisas, juntas invisibles y esquinas rectas."},
   {id:"adv", l:"3 переваги: чому нам довіряти", h:"Кнопка вставить 4 варіанти — залиш 3.", s:1, ta:1, big:1, ex:"Un solo equipo para todo el interior: yeso, pladur, alisados, alicatado y pintura, sin buscar un oficio para cada cosa.\nAcabado de alto nivel (Q3–Q4): paredes perfectamente lisas, listas para pintar.\nObra organizada: plazos claros y fotos de cada fase.\nPresupuesto claro por escrito: mano de obra y material por separado."}
  ]},
  {t:"Послуги", svc:true, q:[
-  {id:"svc_note", l:"Що ще важливо про послуги", h:"Що НЕ робимо (сантехніка, електрика), мінімальний об'єм, чи беремо дрібні роботи.", ta:1}
+  {id:"small", l:"Дрібні роботи", h:"Вибери варіант — вставиться іспанською.", ta:1, opts:[
+   ["Беремося і за дрібні роботи: замовлення замалого не буває.","También hacemos pequeños trabajos: ninguna obra es demasiado pequeña."],
+   ["Від заміни кількох плиток до ремонту всієї квартири.","Desde cambiar unos azulejos hasta reformar la vivienda completa."],
+   ["Дрібний ремонт і швидкі роботи: полагодити, зашити, пофарбувати, повісити.","Pequeñas reparaciones y trabajos rápidos: arreglar, tapar, pintar, colgar y montar."]
+  ]},
+  {id:"svc_note", l:"Інші роботи (без списку «що не робимо»)", h:"Сантехніку й електрику не пишемо, але даємо зрозуміти, що домовитись можна.", ta:1, opts:[
+   ["Потрібна інша робота? Зателефонуйте — обговоримо.","¿Necesita otro trabajo? Llámenos y lo hablamos."],
+   ["Крім цього, виконуємо й інші будівельні роботи — запитайте нас.","Además realizamos otros trabajos de obra. Consúltenos sin compromiso."],
+   ["Не знайшли свою роботу в списку? Напишіть у WhatsApp — найімовірніше, ми це теж робимо.","¿No ve su trabajo en la lista? Escríbanos por WhatsApp: lo más probable es que también lo hagamos."]
+  ]}
  ]},
+ {t:"Ціни", prices:true, q:[]},
  {t:"Де працюємо", q:[
-  {id:"areas", l:"Міста і райони", h:"Приклад: Málaga capital, Torremolinos, Benalmádena, Fuengirola, Marbella.", s:1, ta:1},
-  {id:"travel", l:"Далі — за доплату?", h:"Наприклад: «до 30 км безкоштовно, далі +… €»."}
+  {id:"areas", l:"Міста і райони", h:"Вся провінція, без доплат. Список міст корисний і для Google (люди шукають «reformas Marbella»).", s:1, ta:1, opts:[
+   ["Працюємо по всій провінції Малага без доплати за виїзд.","Trabajamos en toda la provincia de Málaga, sin coste de desplazamiento."],
+   ["Малага і вся Costa del Sol, від Нерхи до Естепони, а також внутрішні райони провінції.","Málaga capital y toda la Costa del Sol, de Nerja a Estepona, y también el interior de la provincia."],
+   ["Список міст + «і вся провінція».","Málaga, Torremolinos, Benalmádena, Fuengirola, Mijas, Marbella, Estepona, Rincón de la Victoria, Vélez-Málaga, Nerja, Alhaurín, Ronda, Antequera y toda la provincia."]
+  ]}
  ]},
  {t:"Як працюємо", q:[
-  {id:"visit", l:"Огляд об'єкта", h:"Безкоштовно чи платно? Якщо платно — скільки, і чи віднімається від ціни роботи.", s:1},
-  {id:"presu", l:"Presupuesto: за скільки днів і в якому вигляді", h:"Письмово, по позиціях (м², м.п., шт), робота і матеріал окремо.", s:1},
-  {id:"advance", l:"Аванс і оплата", h:"Типово 30–50% на старті, решта — по етапах або після здачі.", s:1},
-  {id:"guarantee", l:"Гарантія на роботу", h:"Скільки місяців і на що саме."},
-  {id:"materials", l:"Хто купує матеріал", h:"Ми / клієнт / як домовимось. Від цього залежить IVA 10% чи 21%."}
+  {id:"visit", l:"Огляд об'єкта", h:"", s:1, ta:1, opts:[
+   ["Огляд і presupuesto — безкоштовно і без зобов'язань.","Visita y presupuesto gratis y sin compromiso."],
+   ["Приїжджаємо безкоштовно, оцінюємо об'єкт і радимо найкраще рішення.","Visitamos su obra sin coste, la valoramos y le aconsejamos la mejor solución."],
+   ["Надішліть фото у WhatsApp — дамо орієнтовну ціну. Огляд на місці безкоштовний.","Envíenos fotos por WhatsApp y le damos un precio orientativo. La visita a obra es gratuita."]
+  ]},
+  {id:"presu", l:"Presupuesto і терміни", h:"", s:1, ta:1, opts:[
+   ["Presupuesto письмово, детально по кожній роботі.","Presupuesto por escrito, detallado partida por partida."],
+   ["Терміни та умови погоджуємо з вами до початку робіт.","Plazos y condiciones se acuerdan con usted antes de empezar."],
+   ["Presupuesto письмово за 24–48 годин після огляду.","Le enviamos el presupuesto por escrito en 24–48 horas tras la visita."]
+  ]},
+  {id:"advance", l:"Оплата", h:"", s:1, ta:1, opts:[
+   ["Умови оплати — за домовленістю.","Condiciones de pago a convenir."],
+   ["Оплата поетапно, по мірі виконання робіт.","Pago por fases, según avanza la obra."],
+   ["Без сюрпризів: платите тільки те, що погоджено в presupuesto.","Sin sorpresas: solo paga lo acordado en el presupuesto."]
+  ]},
+  {id:"guarantee", l:"Гарантія", h:"Закон і так дає клієнту мінімальну гарантію на роботу, навіть якщо ти нічого не пишеш.", ta:1, opts:[
+   ["Даємо гарантію на виконані роботи; умови вказані в presupuesto.","Garantizamos nuestros trabajos; las condiciones figuran en el presupuesto."],
+   ["Якщо щось вийшло не так — повертаємось і виправляємо.","Si algo no queda bien, volvemos y lo arreglamos."],
+   ["Гарантія — за домовленістю, залежно від типу робіт.","Garantía a convenir según el tipo de trabajo."]
+  ]},
+  {id:"materials", l:"Матеріал", h:"Від цього залежить ціна (дві колонки в «Цінах») і IVA 10% чи 21%.", ta:1, opts:[
+   ["Працюємо з вашим матеріалом або закуповуємо все самі — як вам зручніше.","Podemos trabajar con su material o encargarnos de comprarlo todo, como le resulte más cómodo."],
+   ["Матеріал — за домовленістю: ваш або наш.","Material a convenir: suyo o nuestro."],
+   ["Допомагаємо вибрати й закупити матеріал за найкращою ціною.","Le ayudamos a elegir y comprar el material al mejor precio."]
+  ]}
  ]},
  {t:"Портфоліо", q:[
   {id:"portfolio", l:"Об'єкти (по одному на рядок)", h:"Тип, м², роботи, термін, рік, країна (чесно: Україна чи Іспанія), чи є фото «до/після», чи є дозвіл клієнта.", s:1, ta:1, big:1},
@@ -120,25 +173,103 @@ const SECTIONS = [
   {id:"questions", l:"Що незрозуміло або що хочеш додати", h:"Будь-що: ідеї «фішок», сумніви, питання.", ta:1}
  ]}
 ];
-const SVC_N = 8;
+const SVC_N = 10;
 const SVC_HINTS = [
- ["Yesos y enlucidos","yeso a buena vista y maestreado, enlucidos, guardavivos, techos","desde 10 €/m²"],
- ["Pladur y techos","tabiques, trasdosados, falsos techos, foseados, cortineros, aislamiento","desde 16 €/m²"],
- ["Alisados y pintura","quitar gotelé, masilla, alisado Q3–Q4, pintura interior","desde 10 €/m²"],
- ["Alicatado y solado","baños, cocinas, porcelánico, gran formato, ingletes a 45°, mosaico, rodapié","desde 20 €/m²"],
- ["Fachadas","monocapa, enfoscado, revoco decorativo, pintura, reparación de fisuras","desde 15 €/m²"],
- ["Impermeabilización","terrazas y cubiertas: tela asfáltica, lámina líquida","desde 12 €/m²"],
- ["Balaustradas y terrazas","balaustradas, solado exterior, remates","desde 50 €/ml"],
- ["Demolición y preparación","picado, desescombro, recrecidos, autonivelante","a consultar"]
+ ["Yesos y enlucidos","yeso a buena vista y maestreado, enlucidos, guardavivos, techos","desde 7 €/m²"],
+ ["Pladur","tabiques, trasdosados, cajeados de vigas y bajantes, aislamiento","desde 8 €/m²"],
+ ["Techos y iluminación","falsos techos, foseados y cortineros, techos con tira LED","desde 8 €/m²"],
+ ["Masillas y alisados","quitar gotelé, masilla, alisado de paredes, acabado Q3–Q4","desde 5 €/m²"],
+ ["Pintura","interior, exterior, techos, puertas y carpintería","desde 3 €/m²"],
+ ["Alicatado y solado","azulejo, porcelánico, gran formato, ingletes a 45°, mosaico, rodapié","desde 14 €/m²"],
+ ["Fachadas","monocapa, enfoscado, revoco decorativo, pintura, reparación de fisuras","desde 7 €/m²"],
+ ["Impermeabilización","terrazas y cubiertas: tela asfáltica, lámina líquida","desde 5 €/m²"],
+ ["Balaustradas y terrazas","balaustradas, solado exterior, remates","desde 35 €/ml"],
+ ["Montajes y pequeñas reparaciones","colgar lámparas y estanterías, puertas, suelo laminado, picado y desescombro","a consultar"]
 ];
-const PRICES = [
- ["Yeso вручну","7–14 €/м²"],["Yeso по маяках","11–20 €/м²"],["Monocapa фасад","11–20 €/м²"],
- ["Плитка стандарт","15–28 €/м²"],["Великий формат 60×120","25–45 €/м²"],["Inglete 45°","12–25 €/м.п."],
- ["Pladur перегородка","12–22 €/м²"],["Стеля pladur","12–22 €/м²"],["Зняти gotelé + alisar","10–18 €/м²"],
- ["Фарба стіни","3–7 €/м²"],["Tela asfáltica 1 шар","8–15 €/м²"],["Балюстрада","35–70 €/м.п."]
+// Мінімальні ціни (з дослідження, колонка «дешево»). «З матеріалом» = з базовим матеріалом (гіпс, профілі, клей, фарба); плитку й підлогу клієнт обирає окремо. Усе без IVA, орієнтовно.
+const MIN_PRICES = [
+ ["Yeso a buena vista (вручну)","m²","7","10"],
+ ["Yeso maestreado (по маяках)","m²","11","15"],
+ ["Yeso proyectado (машиною)","m²","6","10"],
+ ["Enlucido (фінішний шар)","m²","2","3"],
+ ["Guardavivos (кутники)","ml","2","3.5"],
+ ["Pladur: tabique (перегородка)","m²","12","25"],
+ ["Pladur: trasdosado (обшивка стіни)","m²","8","16"],
+ ["Cajeado de vigas / bajantes (короб)","ml","12","20"],
+ ["Falso techo continuo","m²","12","22"],
+ ["Falso techo registrable 60×60","m²","8","18"],
+ ["Foseado / cortinero","ml","12","20"],
+ ["Foseado con tira LED","ml","18","30"],
+ ["Aislamiento lana mineral","m²","1.5","5"],
+ ["Juntas de pladur (стрічка + шпаклівка)","m²","3","4"],
+ ["Quitar gotelé + alisar","m²","10","13"],
+ ["Masilla / alisado Q3","m²","6","9"],
+ ["Alisado Q4 (ідеальна стіна)","m²","10","14"],
+ ["Pintura paredes (2 manos)","m²","3","5"],
+ ["Pintura techos","m²","4","6"],
+ ["Esmalte puertas","ud (cara)","25","35"],
+ ["Pintura fachada (sin andamio)","m²","5","8"],
+ ["Alicatado azulejo estándar","m²","15","19"],
+ ["Solado estándar","m²","14","18"],
+ ["Porcelánico","m²","18","22"],
+ ["Gran formato 60×120 (doble encolado)","m²","25","31"],
+ ["Mosaico / gresite","m²","20","25"],
+ ["Inglete a 45°","ml","12","12"],
+ ["Rodapié cerámico","ml","3","4"],
+ ["Recrecido de mortero","m²","6","12"],
+ ["Autonivelante","m²","4","12"],
+ ["Monocapa fachada","m²","11","18"],
+ ["Enfoscado maestreado","m²","10","14"],
+ ["Enfoscado / raseo","m²","7","10"],
+ ["Revoco decorativo (фактура губкою)","m²","14","22"],
+ ["Reparación de fisuras","ml","8","12"],
+ ["Tela asfáltica 1 capa","m²","8","20"],
+ ["Tela asfáltica 2 capas","m²","12","30"],
+ ["Lámina líquida / caucho","m²","5","12"],
+ ["Balaustrada (hormigón / piedra artificial)","ml","35","85"],
+ ["Picado de alicatado","m²","10","10"],
+ ["Suelo laminado","m²","8","9"],
+ ["Puerta en block","ud","50",""],
+ ["Colgar lámpara / estantería","ud","20",""],
+ ["Microcemento","m²","20","35"],
+ ["Hora oficial","h","18",""],
+ ["Visita mínima (дрібна робота)","ud","60",""]
 ];
 
 const form = document.getElementById("form");
+const priceBody = document.createElement("tbody");
+function priceRow(r){
+  const tr = document.createElement("tr");
+  ["Робота","Од.","Тільки робота €","З матеріалом €"].forEach((lab,i)=>{
+    const td = tr.insertCell(); const inp = document.createElement("input"); inp.type="text"; inp.className="pr";
+    inp.value = (r && r[i]) || ""; inp.setAttribute("aria-label", lab);
+    if (i>0) inp.inputMode = i===1 ? "text" : "decimal";
+    td.append(inp);
+  });
+  const td = tr.insertCell(); const del = document.createElement("button"); del.type="button"; del.className="del"; del.textContent="×";
+  del.setAttribute("aria-label","Видалити рядок");
+  del.addEventListener("click", ()=>{ tr.remove(); form.dispatchEvent(new Event("input")); });
+  td.append(del);
+  priceBody.append(tr);
+}
+function readPrices(){ return [...priceBody.rows].map(tr=>[...tr.querySelectorAll("input")].map(i=>i.value.trim())).filter(r=>r.some(Boolean)); }
+function renderPrices(rows){ priceBody.replaceChildren(); rows.forEach(priceRow); }
+
+function optsBlock(q, f){
+  const box = document.createElement("div"); box.className = "opts";
+  q.opts.forEach(([ua, es])=>{
+    const o = document.createElement("div"); o.className = "opt";
+    const t = document.createElement("div"); t.className = "opt-t";
+    const a = document.createElement("p"); a.className="ua"; a.textContent = ua;
+    const b = document.createElement("p"); b.className="es"; b.textContent = es;
+    t.append(a,b);
+    const btn = document.createElement("button"); btn.type="button"; btn.className="ins"; btn.textContent="Вибрати";
+    btn.addEventListener("click", ()=>{ f.value = f.value.trim() ? f.value.trimEnd()+" "+es : es; form.dispatchEvent(new Event("input")); });
+    o.append(t, btn); box.append(o);
+  });
+  return box;
+}
+
 let n = 0;
 for (const sec of SECTIONS){
   n++;
@@ -149,8 +280,15 @@ for (const sec of SECTIONS){
   s.append(head);
   if (sec.svc){
     const intro = document.createElement("p"); intro.className = "hint";
-    intro.innerHTML = "4–8 послуг. Ціна — тільки «від», точна після огляду. Сіре в полях — приклад, можеш переписати по-своєму. <span class='star'>⭐</span> мінімум 4.";
+    intro.innerHTML = "Основні групи робіт — ті, що закривають більшість замовлень. Ціна «від» — мінімальна, точна після огляду. Сіре в полях — приклад. <span class='star'>⭐</span> мінімум 4.";
     s.append(intro);
+    const fill = document.createElement("button"); fill.type="button"; fill.className="ins";
+    fill.textContent = "Вставити приклад у порожні рядки";
+    fill.addEventListener("click", ()=>{
+      for (let i=0;i<SVC_N;i++) ["n","d","p"].forEach((k,j)=>{ const el=document.getElementById(`svc${i+1}_${k}`); if(!el.value.trim()) el.value=SVC_HINTS[i][j]; });
+      form.dispatchEvent(new Event("input"));
+    });
+    s.append(fill);
     const g = document.createElement("div"); g.className = "svc";
     g.innerHTML = '<span class="h">Послуга</span><span class="h">Що входить</span><span class="h">Ціна «від»</span>';
     for (let i=0;i<SVC_N;i++){
@@ -162,29 +300,38 @@ for (const sec of SECTIONS){
       });
     }
     s.append(g);
-    const d = document.createElement("details");
-    d.innerHTML = "<summary>Ціни на роботу в Малазі (дешево–дорого, без матеріалу і IVA)</summary>";
-    const t = document.createElement("table"); t.className="prices";
-    for (const [a,b] of PRICES){ const tr=t.insertRow(); tr.insertCell().textContent=a; tr.insertCell().textContent=b; }
-    d.append(t); s.append(d);
-    const fill = document.createElement("button"); fill.type="button"; fill.className="ins";
-    fill.textContent = "Вставити приклад у порожні рядки";
+  }
+  if (sec.prices){
+    const intro = document.createElement("p"); intro.className = "hint";
+    intro.textContent = "Твій прайс: дві ціни — коли матеріал купує клієнт (тільки робота) і коли купуємо ми (з базовим матеріалом). Без IVA. Мінімальні ціни з дослідження по Малазі — орієнтир, міняй як хочеш. Цей прайс потім піде в калькулятор (P2).";
+    const row = document.createElement("div"); row.className = "btns";
+    const fill = document.createElement("button"); fill.type="button"; fill.className="ins"; fill.textContent="Вставити мінімальні ціни";
     fill.addEventListener("click", ()=>{
-      for (let i=0;i<SVC_N;i++) ["n","d","p"].forEach((k,j)=>{ const el=document.getElementById(`svc${i+1}_${k}`); if(!el.value.trim()) el.value=SVC_HINTS[i][j]; });
+      const have = new Set(readPrices().map(r=>r[0].toLowerCase()));
+      MIN_PRICES.filter(r=>!have.has(r[0].toLowerCase())).forEach(priceRow);
       form.dispatchEvent(new Event("input"));
     });
-    s.insertBefore(fill, d);
+    const add = document.createElement("button"); add.type="button"; add.className="ins"; add.textContent="+ Додати роботу";
+    add.addEventListener("click", ()=>{ priceRow(); priceBody.lastElementChild.querySelector("input").focus(); });
+    row.append(fill, add);
+    const wrap = document.createElement("div"); wrap.className = "ptable";
+    const t = document.createElement("table");
+    t.innerHTML = "<thead><tr><th>Робота</th><th>Од.</th><th>Тільки робота €</th><th>З матеріалом €</th><th></th></tr></thead>";
+    t.append(priceBody); wrap.append(t);
+    s.append(intro, row, wrap);
   }
   for (const q of sec.q){
     const w = document.createElement("div"); w.className = "q";
     const lab = document.createElement("label"); lab.htmlFor = q.id; lab.textContent = q.l;
     if (q.s){ const st=document.createElement("span"); st.className="star"; st.textContent=" ⭐"; lab.append(st); }
-    const h = document.createElement("p"); h.className="hint"; h.textContent = q.h;
+    w.append(lab);
+    if (q.h){ const h = document.createElement("p"); h.className="hint"; h.textContent = q.h; w.append(h); }
     const f = document.createElement(q.ta ? "textarea" : "input");
     if (!q.ta) f.type = "text";
     if (q.big) f.style.minHeight = "130px";
     f.id = q.id;
-    w.append(lab, h, f);
+    if (q.opts) w.append(optsBlock(q, f));
+    w.append(f);
     if (q.ex){
       const b = document.createElement("button"); b.type="button"; b.className="ins";
       b.textContent = "Вставити текст від Claude";
@@ -199,12 +346,12 @@ const later = document.createElement("section"); later.className="later";
 later.innerHTML = '<div class="shead"><span class="num">—</span><h2>Пізніше, перед публікацією</h2></div><p class="hint">Сайт поки тільки для навчання. Коли буде autónomo: ім\'я і NIE для aviso legal, сторінки privacidad і cookies, справжні контакти, домен. Зараз нічого не заповнюй.</p>';
 form.append(later);
 
-const fields = [...form.querySelectorAll("input,textarea")];
+const fields = [...form.querySelectorAll("input:not(.pr),textarea")];
 const starIds = SECTIONS.flatMap(s=>s.q.filter(q=>q.s).map(q=>q.id));
 const meter = document.getElementById("meter"), stat = document.getElementById("stat"), saveEl = document.getElementById("save");
 
-function collect(){ const o={}; for (const f of fields){ const v=f.value.trim(); if (v) o[f.id]=f.value; } return o; }
-function apply(o){ for (const f of fields){ if (o && typeof o[f.id]==="string") f.value=o[f.id]; } }
+function collect(){ const o={}; for (const f of fields){ const v=f.value.trim(); if (v) o[f.id]=f.value; } const p=readPrices(); if (p.length) o.prices=p; return o; }
+function apply(o){ if (!o) return; for (const f of fields){ if (typeof o[f.id]==="string") f.value=o[f.id]; } if (Array.isArray(o.prices)) renderPrices(o.prices); }
 function progress(){
   const svcDone = Array.from({length:SVC_N},(_,i)=>document.getElementById(`svc${i+1}_n`).value.trim()).filter(Boolean).length;
   const total = starIds.length + 1;
