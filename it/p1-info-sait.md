@@ -1,6 +1,6 @@
 # P1 — інформація для сайту (один файл)
 
-Заповнюй коротко, прямо тут. Порожнє = ще не знаю. ⭐ = обов'язково для P1, решта — пізніше.
+Зручніше заповнювати онлайн-анкету: https://claude.ai/artifact/6VnEqY7kD91NNShpiDP391 (`it/p1-anketa.html`, відповіді в `data/users/me/anketa`). Цей файл — запасний варіант.
 Ціни: [`tsiny-malaga.md`](tsiny-malaga.md). План проєкту: [`proekt-budivelnyi-sait.md`](proekt-budivelnyi-sait.md).
 
 ## 1. Хто ми ⭐

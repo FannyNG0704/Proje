@@ -1,0 +1,243 @@
+<title>Анкета сайту P1</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one form column; each block = a numbered section (real order of the site), each question shows its hint right under the label, a sticky bar shows save state and progress. */
+:root{
+  --bg:#f4f5f7; --surface:#ffffff; --ink:#18212e; --muted:#5a6475; --line:#d6dce5;
+  --accent:#2f5bd3; --ok:#1f7a4a; --warn:#a15c00; --field:#fbfcfd;
+  --f-display:"Unbounded","Golos Text",system-ui,sans-serif;
+  --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11161f; --surface:#171e2a; --ink:#e6eaf1; --muted:#9aa5b6; --line:#2c3647;
+  --accent:#7ea2ff; --ok:#5fd39a; --warn:#f0b35a; --field:#121925; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#11161f; --surface:#171e2a; --ink:#e6eaf1; --muted:#9aa5b6; --line:#2c3647;
+  --accent:#7ea2ff; --ok:#5fd39a; --warn:#f0b35a; --field:#121925; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+main{max-width:760px;margin:0 auto;padding-block:28px 80px}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(24px,5vw,34px);margin:4px 0 8px;text-wrap:balance}
+h2{font-family:var(--f-display);font-weight:500;font-size:clamp(18px,3vw,22px);margin:0;text-wrap:balance}
+p{margin:6px 0;max-width:66ch}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lead{color:var(--muted)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding-block:10px;border-bottom:1px solid var(--line);margin-bottom:18px}
+.meter{flex:1 1 180px;height:8px;background:var(--line);border-radius:4px;overflow:hidden;min-width:120px}
+.meter i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.stat{font-family:var(--f-mono);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.save{font-family:var(--f-mono);font-size:13px}
+.save.ok{color:var(--ok)} .save.warn{color:var(--warn)}
+section{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;margin-bottom:16px;display:grid;gap:16px}
+.shead{display:flex;gap:12px;align-items:baseline}
+.num{font-family:var(--f-mono);font-size:13px;color:var(--accent);flex:none}
+.q{display:grid;gap:4px;min-width:0}
+.q label{font-weight:600}
+.star{color:var(--accent);font-weight:700}
+.hint{font-size:14px;color:var(--muted);margin:0}
+input[type=text],textarea{width:100%;font:inherit;color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:6px;padding:9px 11px}
+textarea{min-height:76px;resize:vertical}
+input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+.svc{display:grid;grid-template-columns:1.2fr 1.6fr .8fr;gap:8px}
+.svc .h{font-size:12px;color:var(--muted);font-family:var(--f-mono)}
+@media (max-width:560px){.svc{grid-template-columns:1fr}.svc .h{display:none}.svc input:nth-child(3n+1){margin-top:10px}}
+.prices{font-size:14px;border-collapse:collapse;width:100%}
+.prices td{padding:4px 8px 4px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.prices td:last-child{font-family:var(--f-mono);white-space:nowrap;text-align:right;font-variant-numeric:tabular-nums}
+details{font-size:14px}
+summary{cursor:pointer;color:var(--accent)}
+.later{border-style:dashed}
+@media (prefers-reduced-motion:reduce){.meter i{transition:none}}
+</style>
+
+<main>
+<div class="eyebrow">Курс 1 · P1 · збір інформації</div>
+<h1>Анкета сайту P1</h1>
+<p class="lead">Пиши відповіді прямо тут. Підказка — під кожним питанням, нікуди виходити не треба. Усе зберігається само, і Claude бачить твої відповіді. ⭐ — потрібно для P1, решту можна пізніше. Не знаєш — залиш порожнім.</p>
+
+<div class="bar">
+  <div class="meter" aria-hidden="true"><i id="meter"></i></div>
+  <span class="stat" id="stat">⭐ 0 / 0</span>
+  <span class="save" id="save">Завантаження…</span>
+</div>
+
+<form id="form" autocomplete="off"></form>
+</main>
+
+<script>
+const SECTIONS = [
+ {t:"Хто ми", q:[
+  {id:"name", l:"Назва (робоча)", h:"Можна змінити потім. Приклад: «Reformas Hermanos …», «… Obras Málaga».", s:1},
+  {id:"oneliner", l:"Одним реченням: що робимо", h:"Приклад: «Ремонт квартир і фасадів у Малазі: штукатурка, плитка, гіпсокартон».", s:1, ta:1},
+  {id:"me", l:"Я: досвід і роль", h:"Скільки років, що вмієш найкраще, що робив в Іспанії.", s:1, ta:1},
+  {id:"brother", l:"Брат: досвід і роль", h:"Прораб — скільки років, які об'єкти, що контролював.", s:1, ta:1},
+  {id:"adv", l:"3 переваги: чому нам довіряти", h:"Конкретно, не «якісно і швидко». Приклад: «прораб з 15 роками досвіду», «presupuesto письмово за 48 год», «фото кожного етапу у WhatsApp».", s:1, ta:1}
+ ]},
+ {t:"Послуги", svc:true, q:[
+  {id:"svc_note", l:"Що ще важливо про послуги", h:"Що НЕ робимо (сантехніка, електрика), мінімальний об'єм, чи беремо дрібні роботи.", ta:1}
+ ]},
+ {t:"Де працюємо", q:[
+  {id:"areas", l:"Міста і райони", h:"Приклад: Málaga capital, Torremolinos, Benalmádena, Fuengirola, Marbella.", s:1, ta:1},
+  {id:"travel", l:"Далі — за доплату?", h:"Наприклад: «до 30 км безкоштовно, далі +… €»."}
+ ]},
+ {t:"Як працюємо", q:[
+  {id:"visit", l:"Огляд об'єкта", h:"Безкоштовно чи платно? Якщо платно — скільки, і чи віднімається від ціни роботи.", s:1},
+  {id:"presu", l:"Presupuesto: за скільки днів і в якому вигляді", h:"Письмово, по позиціях (м², м.п., шт), робота і матеріал окремо.", s:1},
+  {id:"advance", l:"Аванс і оплата", h:"Типово 30–50% на старті, решта — по етапах або після здачі.", s:1},
+  {id:"guarantee", l:"Гарантія на роботу", h:"Скільки місяців і на що саме."},
+  {id:"materials", l:"Хто купує матеріал", h:"Ми / клієнт / як домовимось. Від цього залежить IVA 10% чи 21%."}
+ ]},
+ {t:"Портфоліо", q:[
+  {id:"portfolio", l:"Об'єкти (по одному на рядок)", h:"Тип, м², роботи, термін, рік, країна (чесно: Україна чи Іспанія), чи є фото «до/після», чи є дозвіл клієнта.", s:1, ta:1, big:1},
+  {id:"brother_status", l:"Що вже надіслав брат", h:"Скільки фото/відео, чого бракує."}
+ ]},
+ {t:"Відгуки", q:[
+  {id:"reviews", l:"2–3 відгуки", h:"Ім'я (або ініціали), місто, що робили, текст. Тільки з дозволу людини.", ta:1, big:1}
+ ]},
+ {t:"Контакти", q:[
+  {id:"whatsapp", l:"WhatsApp", h:"На етапі навчання можна вигаданий номер, справжній — при публікації.", s:1},
+  {id:"email", l:"Email", h:"Краще окремий робочий, не особистий."},
+  {id:"hours", l:"Години відповіді", h:"Приклад: L–V 8:00–19:00, S 9:00–14:00."},
+  {id:"langs", l:"Мови сайту", h:"Для P1 — одна мова. Яка головна і які додамо потім (es / uk / en / ru)?", s:1}
+ ]},
+ {t:"Вигляд", q:[
+  {id:"competitors", l:"3–5 сайтів конкурентів", h:"Пошук: «reformas Málaga». Посилання + що подобається / що ні.", s:1, ta:1, big:1},
+  {id:"style", l:"Кольори і настрій", h:"Приклад: «світлий, синій + сірий, строгий» або «теплий, як камінь і дерево».", s:1},
+  {id:"logo", l:"Логотип", h:"Є / потрібен / поки просто назва текстом."},
+  {id:"domain", l:"Ідеї домену", h:"2–3 варіанти, .es або .com. Купувати поки не треба."}
+ ]},
+ {t:"Питання до Claude", q:[
+  {id:"questions", l:"Що незрозуміло або що хочеш додати", h:"Будь-що: ідеї «фішок», сумніви, питання.", ta:1}
+ ]}
+];
+const SVC_N = 8;
+const SVC_HINTS = [
+ ["Штукатурка yeso","стіни і стелі, вручну/по маяках","від 10 €/м²"],
+ ["Плитка","стіни, підлога, великий формат, 45°","від 20 €/м²"],
+ ["Гіпсокартон (pladur)","перегородки, стелі, обшивка","від 16 €/м²"],
+ ["Фасад","monocapa, enfoscado, фарбування","від 15 €/м²"],
+ ["Гідроізоляція тераси","tela asfáltica, 1–2 шари","від 12 €/м²"],
+ ["Фарбування","стіни, стелі, зняти gotelé","від 5 €/м²"],
+ ["Балюстради","бетон / штучний камінь","від 50 €/м.п."],
+ ["Ламінат / двері","підлога, міжкімнатні двері","від 11 €/м²"]
+];
+const PRICES = [
+ ["Yeso вручну","7–14 €/м²"],["Yeso по маяках","11–20 €/м²"],["Monocapa фасад","11–20 €/м²"],
+ ["Плитка стандарт","15–28 €/м²"],["Великий формат 60×120","25–45 €/м²"],["Inglete 45°","12–25 €/м.п."],
+ ["Pladur перегородка","12–22 €/м²"],["Стеля pladur","12–22 €/м²"],["Зняти gotelé + alisar","10–18 €/м²"],
+ ["Фарба стіни","3–7 €/м²"],["Tela asfáltica 1 шар","8–15 €/м²"],["Балюстрада","35–70 €/м.п."]
+];
+
+const form = document.getElementById("form");
+let n = 0;
+for (const sec of SECTIONS){
+  n++;
+  const s = document.createElement("section");
+  const head = document.createElement("div"); head.className = "shead";
+  head.innerHTML = `<span class="num">${String(n).padStart(2,"0")}</span><h2></h2>`;
+  head.querySelector("h2").textContent = sec.t;
+  s.append(head);
+  if (sec.svc){
+    const intro = document.createElement("p"); intro.className = "hint";
+    intro.innerHTML = "4–8 послуг. Ціна — тільки «від», точна після огляду. Сіре в полях — приклад, можеш переписати по-своєму. <span class='star'>⭐</span> мінімум 4.";
+    s.append(intro);
+    const g = document.createElement("div"); g.className = "svc";
+    g.innerHTML = '<span class="h">Послуга</span><span class="h">Що входить</span><span class="h">Ціна «від»</span>';
+    for (let i=0;i<SVC_N;i++){
+      ["n","d","p"].forEach((k,j)=>{
+        const inp = document.createElement("input"); inp.type="text";
+        inp.id = `svc${i+1}_${k}`; inp.placeholder = SVC_HINTS[i][j];
+        inp.setAttribute("aria-label", `Послуга ${i+1}: ${["назва","що входить","ціна"][j]}`);
+        g.append(inp);
+      });
+    }
+    s.append(g);
+    const d = document.createElement("details");
+    d.innerHTML = "<summary>Ціни на роботу в Малазі (дешево–дорого, без матеріалу і IVA)</summary>";
+    const t = document.createElement("table"); t.className="prices";
+    for (const [a,b] of PRICES){ const tr=t.insertRow(); tr.insertCell().textContent=a; tr.insertCell().textContent=b; }
+    d.append(t); s.append(d);
+  }
+  for (const q of sec.q){
+    const w = document.createElement("div"); w.className = "q";
+    const lab = document.createElement("label"); lab.htmlFor = q.id; lab.textContent = q.l;
+    if (q.s){ const st=document.createElement("span"); st.className="star"; st.textContent=" ⭐"; lab.append(st); }
+    const h = document.createElement("p"); h.className="hint"; h.textContent = q.h;
+    const f = document.createElement(q.ta ? "textarea" : "input");
+    if (!q.ta) f.type = "text";
+    if (q.big) f.style.minHeight = "130px";
+    f.id = q.id;
+    w.append(lab, h, f); s.append(w);
+  }
+  form.append(s);
+}
+const later = document.createElement("section"); later.className="later";
+later.innerHTML = '<div class="shead"><span class="num">—</span><h2>Пізніше, перед публікацією</h2></div><p class="hint">Сайт поки тільки для навчання. Коли буде autónomo: ім\'я і NIE для aviso legal, сторінки privacidad і cookies, справжні контакти, домен. Зараз нічого не заповнюй.</p>';
+form.append(later);
+
+const fields = [...form.querySelectorAll("input,textarea")];
+const starIds = SECTIONS.flatMap(s=>s.q.filter(q=>q.s).map(q=>q.id));
+const meter = document.getElementById("meter"), stat = document.getElementById("stat"), saveEl = document.getElementById("save");
+
+function collect(){ const o={}; for (const f of fields){ const v=f.value.trim(); if (v) o[f.id]=f.value; } return o; }
+function apply(o){ for (const f of fields){ if (o && typeof o[f.id]==="string") f.value=o[f.id]; } }
+function progress(){
+  const svcDone = Array.from({length:SVC_N},(_,i)=>document.getElementById(`svc${i+1}_n`).value.trim()).filter(Boolean).length;
+  const total = starIds.length + 1;
+  const done = starIds.filter(id=>document.getElementById(id).value.trim()).length + (svcDone>=4?1:0);
+  meter.style.width = Math.round(done/total*100)+"%";
+  stat.textContent = `⭐ ${done} / ${total}`;
+}
+function setSave(t,c){ saveEl.textContent=t; saveEl.className="save "+(c||""); }
+
+const LS="p1-anketa-draft";
+function lsGet(){ try{ return JSON.parse(localStorage.getItem(LS)||"null"); }catch(e){ return null; } }
+function lsSet(o){ try{ localStorage.setItem(LS, JSON.stringify(o)); }catch(e){} }
+
+let ref = null, timer = null, writing = false, pending = false, lastSent = "";
+async function flush(){
+  if (!ref) return;
+  if (writing){ pending = true; return; }
+  const data = collect(); const js = JSON.stringify(data);
+  if (js === lastSent){ setSave("Збережено ✓","ok"); return; }
+  writing = true; setSave("Зберігаю…");
+  try{ await ref.set({answers:data, updated:Date.now()}); lastSent = js; setSave("Збережено ✓","ok"); }
+  catch(e){ setSave("Не зберіглось — збережено лише в цьому браузері","warn"); }
+  writing = false;
+  if (pending){ pending=false; flush(); }
+}
+form.addEventListener("input", ()=>{
+  progress(); lsSet(collect());
+  if (!ref){ setSave("Збережено в цьому браузері","warn"); return; }
+  setSave("Пишеш…"); clearTimeout(timer); timer = setTimeout(flush, 1200);
+});
+form.addEventListener("submit", e=>e.preventDefault());
+
+const draft = lsGet(); if (draft) apply(draft); progress();
+setSave(draft ? "Чернетка з браузера" : "Підключаюсь…");
+
+(async()=>{
+  try{
+    const [db, user] = await Promise.all([claude.use("db"), claude.use("user")]);
+    const id = user ? await user.id() : null;
+    if (!db || !id){ setSave("Збережено лише в цьому браузері (увійди в Claude, щоб Claude бачив)","warn"); return; }
+    ref = db.collection("data/users/"+id).doc("anketa");
+    const snap = await ref.get();
+    const remote = snap.exists ? (snap.data().answers||{}) : null;
+    if (remote && Object.keys(remote).length){
+      apply(remote); lastSent = JSON.stringify(collect());
+      if (draft){ apply(draft); }
+    }
+    progress();
+    if (JSON.stringify(collect()) !== lastSent) flush(); else setSave("Збережено ✓","ok");
+  }catch(e){ setSave("Збережено лише в цьому браузері","warn"); }
+})();
+</script>
