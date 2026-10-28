@@ -1,21 +1,22 @@
-# Фото для карток послуг — кандидати (вільні ліцензії)
+# Фото для карток послуг — перевірений шорт-лист (28.10.2026)
 
-Перевіряти на сторінці фото: Unsplash — «Free to use under the Unsplash License» (НЕ «Unsplash+»); Pexels — «Free to use».
-Після вибору записати в `img/fuentes.txt`: файл → посилання → автор → ліцензія.
+Ліцензія: Pexels License / Unsplash License — безкоштовно, можна для сайту фірми, підпис не обов'язковий.
+«✓ліц.» = сторінку відкрито і ліцензію перевірено; інші — зі сторінки пошуку Pexels (перевірити кнопку «Descarga gratuita»).
+Орієнтація: П = портретна (обріжемо CSS), Г = горизонтальна.
 
-| Послуга | Конкретне фото | Пошук (вибрати самому) |
-|---|---|---|
-| Yesos y enlucidos | https://unsplash.com/photos/man-plastering-a-wall-with-a-trowel--WK5bA14jt0 | https://www.pexels.com/search/plastering/ |
-| Pladur | https://www.pexels.com/photo/man-cutting-a-plasterboard-11427405/ · https://www.pexels.com/photo/a-man-doing-construction-work-4981770/ | https://unsplash.com/s/photos/drywall-installation |
-| Techos e iluminación | — | https://www.pexels.com/search/led%20strip%20light%20ceiling%20ideas/ · https://unsplash.com/s/photos/plasterboard |
-| Masillas y alisados | https://www.pexels.com/photo/man-polishing-the-ceiling-6474343/ | https://www.pexels.com/search/drywall%20construction/ · https://www.pexels.com/search/plaster%20skimming/ |
-| Pintura | https://unsplash.com/photos/paint-roller-applying-blue-paint-Cl-OpYWFFm0 | https://www.pexels.com/search/painting%20walls/ |
-| Alicatado y solado | — | https://unsplash.com/s/photos/tile-work · https://unsplash.com/s/photos/tiler |
-| Fachadas | — | https://www.pexels.com/search/plaster%20work/ · https://www.pexels.com/search/exterior%20wall%20painting/ |
-| Impermeabilización | — | https://www.pexels.com/search/roofer/ · https://www.pexels.com/search/flat%20roof/ |
-| Balaustradas y terrazas | https://www.pexels.com/photo/exterior-of-terrace-in-resort-hotel-4906510/ | https://www.pexels.com/search/balustrades/ · https://unsplash.com/s/photos/balustrade |
-| Suelos laminados | — | https://www.pexels.com/search/floor%20installation/ · https://unsplash.com/s/photos/laminate-flooring |
-| Microcemento | — | https://www.pexels.com/search/microcement/ |
-| Montajes y reparaciones | https://www.pexels.com/photo/person-holding-a-drill-5493677/ | https://www.pexels.com/search/drilling%20wall/ |
+| Послуга | Основне | Запасне | Що перевірити оком |
+|---|---|---|---|
+| Yesos | pexels.com/photo/close-up-of-hand-applying-plaster-with-trowel-38561969 (✓ліц., Г) | pexels.com/photo/a-man-working-at-a-construction-site-10383588 (✓ліц., П, видно обличчя) | Основа — цегла/блок або чорнова штукатурка, не готова гладка стіна |
+| Pladur | unsplash.com/photos/0Pd_qKGIZ5k (✓ліц., профілі + листи, без людей) | unsplash.com/photos/interior-hallway-under-construction-with-metal-studs-and-drywall--4UBEwr2qaM | Лист на металевих профілях |
+| Masillas | фото, яке вибрав сам (Pexels, серія Tima Miroshnichenko) | pexels.com/photo/worker-leveling-walls-with-trowel-during-repairs-5767932 (без обличчя) | Широка гладилка по всій стіні |
+| Pintura | pexels.com/photo/crop-faceless-painter-rolling-walls-in-light-apartment-5691694 | pexels.com/photo/fresh-white-paint-applied-on-indoor-wall-34046207 (✓ліц., П) | Валик на великій площі |
+| Techos LED | pexels.com/photo/spacious-hall-with-wooden-doors-in-modern-house-6238607 (✓ліц., Г) | pexels.com/photo/corridor-with-doors-and-backlight-6444242 | Чи це прихована LED-стрічка (ніша), а не просто точкові світильники |
+| Fachadas | pexels.com/photo/house-renovation-27134625 (риштування + фасад) | pexels.com/photo/construction-worker-on-scaffolding-in-abuja-37352217 | Штукатурка гладилкою; НЕ брати 4953232 (мотузки + щітка — інша технологія) |
+| Alicatado y solado | pexels.com/photo/unfinished-wall-tiling-in-construction-site-29181495 (стіна напівобкладена) | pexels.com/photo/a-close-up-shot-of-a-person-putting-tile-levelers-11806490 (✓ліц., Г, ймовірно підлога = solado) | Хрестики/кліпси, клей |
+| Impermeabilización | pexels.com/photo/roofer-applying-bitumen-waterproofing-on-roof-38781391 (✓ліц., П, пальник + бітум) | pexels.com/photo/worker-applying-waterproofing-coating-on-roof-38781390 (✓ліц., П, рідка мембрана) | — |
+| Balaustradas | pexels.com/photo/beautiful-classic-balustrade-5864653 (✓ліц., П) | pexels.com/photo/terrace-and-balustrade-with-a-view-of-the-sea-14335460 (✓ліц., П) | Без людей, класична балюстрада |
+| Laminado | pexels.com/photo/crop-man-installing-laminate-flooring-4263067 (✓ліц., Г, руки + киянка) | pexels.com/photo/person-holding-pencil-1388944 | — |
+| Microcemento | pexels.com/photo/modern-minimalist-interior-with-indoor-garden-38290263 (✓ліц., Г, прямо «microcement») | pexels.com/photo/a-gray-themed-bathroom-11076065 | Безшовна поверхня |
+| Montajes | pexels.com/photo/crop-man-screwing-light-bulb-into-ornamental-lamp-4792526 (без обличчя) | pexels.com/photo/man-fixing-ceiling-light-in-empty-room-32391477 (✓ліц., П) | Логотипи на інструментах (DeWalt тощо) — уникати |
 
-Не брати (платні Unsplash+): «Construction worker plastering gypsum walls…», «A man painting a wall with a paint roller» (Ahmed), «Man installing new laminate…», «handyman … laser leveler».
+Платні (не брати): усе з позначкою Unsplash+, iStock, Getty.
