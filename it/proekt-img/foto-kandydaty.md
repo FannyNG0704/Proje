@@ -36,3 +36,12 @@
 - 6 Fachadas: pexels 37352217 (риштування) або власне фото з кельмою (raw/yeso.jpg → fachada).
 - 9 Balaustradas: unsplash 7avL0Wt4_Oc (біла, на фоні неба) · unsplash jszY1yTeKd8.
 - 11 Microcemento: pexels 20818874 (гладка сіра, квадрат) · unsplash OL2tYVcApI4.
+
+## Раунд 5 — заміна 6 карток (різкі, світлі, вся категорія)
+- Yesos: pexels 5493658 (Antoni Shkraba, зі спини) · pexels 6473966 (Tima M., 6000×4000)
+- Pladur: pexels 7937303 (Pavel Danilyuk, світлі нові стіни) · pexels 4981812 (монтаж)
+- Techos: pexels 7005453 (вітальня з LED, Max Vakhtbovych) · pexels 6489097
+- Alicatado y solado: pexels 16501255 (ванна з душами, Curtis Adams) · pexels 7614405
+- Balaustradas: pexels 35919939 (біла балюстрада, море, Roman Chernov) · pexels 29865268
+- Laminado: pexels 7031603 (світла кімната з ламінатом, Max Vakhtbovych) · pexels 7031616
+- Fachadas: pexels 37352217 (akoonie, риштування) — вже скачано
