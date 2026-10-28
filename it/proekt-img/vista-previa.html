@@ -49,9 +49,22 @@ body{--bg:#2f4a36;--page-text:#f3efe6;--page-muted:#cfd9cc;--line:#3f5c46}
 .footer{background:#22362a;color:#cfd9cc}
 .hero{background:linear-gradient(180deg,rgba(34,54,42,.15) 0%,rgba(34,54,42,.9) 75%),url("img/hero-movil.webp") center/cover no-repeat}
 @media (min-width:768px){.hero{background:linear-gradient(90deg,rgba(34,54,42,.92) 0%,rgba(34,54,42,.6) 45%,rgba(34,54,42,0) 75%),url("img/hero.webp") center/cover no-repeat}}
+
+/* Варіант A: обвідка помаранчевим (як просив) */
+body[data-v="a"] .hero h1{text-shadow:-2px -2px 0 #b8541a, -2px 0px 0 #b8541a, -2px 2px 0 #b8541a, 0px -2px 0 #b8541a, 0px 2px 0 #b8541a, 2px -2px 0 #b8541a, 2px 0px 0 #b8541a, 2px 2px 0 #b8541a}
+body[data-v="a"] .section h2{text-shadow:-1px -1px 0 #b8541a, -1px 0px 0 #b8541a, -1px 1px 0 #b8541a, 0px -1px 0 #b8541a, 0px 1px 0 #b8541a, 1px -1px 0 #b8541a, 1px 0px 0 #b8541a, 1px 1px 0 #b8541a}
+body[data-v="a"] .card h3{text-shadow:-1px -1px 0 #b8541a, -1px 0px 0 #b8541a, -1px 1px 0 #b8541a, 0px -1px 0 #b8541a, 0px 1px 0 #b8541a, 1px -1px 0 #b8541a, 1px 0px 0 #b8541a, 1px 1px 0 #b8541a}
+/* Варіант B: порада — тінь для читабельності + помаранчева риска */
+body[data-v="b"] .hero h1{text-shadow:0 2px 12px rgba(0,0,0,.55)}
+body[data-v="b"] .hero h1::after,body[data-v="b"] .section h2::after{content:"";display:block;width:64px;height:4px;margin-top:.5rem;background:#b8541a;border-radius:2px}
+body[data-v="b"] .card h3{border-left:4px solid #b8541a;padding-left:.6rem;margin-left:1.25rem}
+.hero .btn{align-self:flex-start}
+.pick2{display:inline-flex;gap:6px;margin-left:8px}
+.pick2 button{font:inherit;font-size:.8rem;padding:2px 10px;border-radius:12px;border:1px solid #f3efe6;background:transparent;color:#f3efe6;cursor:pointer}
+.pick2 button[aria-pressed="true"]{background:#b8541a;border-color:#b8541a}
 </style>
 
-<div class="note-top wrap">Vista previa de prueba · dirección de diseño: verde oscuro</div>
+<div class="note-top wrap">Vista previa · títulos: <span class="pick2"><button data-v="a" aria-pressed="true">A · contorno naranja</button><button data-v="b" aria-pressed="false">B · consejo</button><button data-v="" aria-pressed="false">Sin cambios</button></span></div>
 <header class="header wrap">
   <a class="logo" href="#">Gldprof</a>
   <nav class="nav">
@@ -93,6 +106,14 @@ body{--bg:#2f4a36;--page-text:#f3efe6;--page-muted:#cfd9cc;--line:#3f5c46}
     <p class="note">Muy pronto: fotos de nuestras obras.</p>
   </section>
 
+  <section id="como-trabajamos" class="section">
+    <h2>Cómo trabajamos</h2>
+    <ol><li><strong>Visita gratuita.</strong> Vemos la obra sin coste y le aconsejamos la mejor solución.</li><li><strong>Presupuesto por escrito.</strong> Detallado partida por partida.</li><li><strong>Ejecución.</strong> Plazos acordados y fotos de cada fase.</li><li><strong>Entrega limpia.</strong> Revisamos todo con usted.</li></ol>
+  </section>
+  <section id="nosotros" class="section">
+    <h2>Nosotros</h2>
+    <p>Somos una empresa de reformas y acabados en Málaga.</p>
+  </section>
   <section id="contacto" class="section">
     <h2>Contacto</h2>
     <p>Trabajamos en Málaga capital, toda la Costa del Sol y el interior de la provincia.</p>
@@ -102,3 +123,11 @@ body{--bg:#2f4a36;--page-text:#f3efe6;--page-muted:#cfd9cc;--line:#3f5c46}
 
 <footer class="footer wrap">© 2026 Gldprof · Reformas y acabados en Málaga</footer>
 
+
+<script>
+document.body.dataset.v="a";
+document.querySelectorAll('.pick2 button').forEach(b=>b.addEventListener('click',()=>{
+  document.body.dataset.v=b.dataset.v;
+  document.querySelectorAll('.pick2 button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));
+}));
+</script>
