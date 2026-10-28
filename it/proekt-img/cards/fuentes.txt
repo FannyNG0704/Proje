@@ -1,16 +1,16 @@
-Джерела фото для карток послуг (ліцензія Pexels / Unsplash — безкоштовно, можна змінювати).
-Оброблено 28.10.2026: обрізано 4:3, 1200x900, WebP; masilla — обличчя поза кадром + розмиття; impermeabilizacion — логотип фірми на футболці поза кадром.
-Заповни посилання там, де «?» (сторінка, з якої скачав).
+Джерела фото (ліцензія Pexels / Unsplash: безкоштовно, можна змінювати; підпис не обов'язковий).
+Оброблено: обрізка 4:3, 1200x900, WebP. «?» — дописати посилання/автора перед публікацією.
 
-yeso.webp               -> ?
-pladur.webp             -> ? (Pexels, серія Tima Miroshnichenko)
-masilla.webp            -> ? (Pexels, ймовірно Antoni Shkraba, 5493667)
-pintura.webp            -> ?
-techos.webp             -> https://www.pexels.com/photo/photo-of-white-painted-ceiling-3615726/ (La Miko) — перевір
-fachada.webp            -> ?
-alicatado.webp          -> ?
-impermeabilizacion.webp -> ? (Pexels, Bulat843)
-balaustrada.webp        -> ?
-laminado.webp           -> ?
-microcemento.webp       -> https://www.pexels.com/photo/smooth-gray-concrete-texture-20818874/ — перевір
-montajes.webp           -> https://www.pexels.com/photo/crop-man-screwing-light-bulb-into-ornamental-lamp-4792526/ — перевір
+1  yeso.webp               -> ? (знайдено самостійно; декоративна штукатурка з тінями)
+2  pladur.webp             -> ? (Pexels, ймовірно серія Antoni Shkraba — той самий майстер, що на masilla)
+3  techos.webp             -> ? (Pexels, ймовірно Max Vakhtbovych / artbovich); обрізано власноруч
+4  masilla.webp            -> pexels-shkrabaanthony-5493667 (Antoni Shkraba); обличчя поза кадром + розмиття
+5  pintura.webp            -> pexels-kseniachernaya-5691694 (Ksenia Chernaya)
+6  alicatado.webp          -> ? (знайдено самостійно; ванна з мармуровою плиткою)
+7  fachada.webp            -> ТИМЧАСОВО pexels-davidcruz-38561969 — ЗАМІНИТИ на pexels-akoonie-37352217 (риштування)
+8  impermeabilizacion.webp -> pexels-bulat843-1243575272-38781391 (Bulat843); написи на мембрані прибрано
+9  balaustrada.webp        -> ? (знайдено самостійно; біла балюстрада, море)
+10 laminado.webp           -> pexels-kelly-4263067 (Kelly)
+11 microcemento.webp       -> pexels-834934396-20818874 (Artem Dvoretskyi)
+12 montajes.webp           -> pexels-anete-lusina-4792526 (Anete Lusina)
+hero.webp / hero-movil.webp -> згенеровано AI (банер), «imagen ilustrativa»
