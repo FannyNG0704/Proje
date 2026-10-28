@@ -27,3 +27,12 @@
 - Techos: чистого варіанту немає; тимчасово pexels 6238608 (коридор з LED). Краще власне фото.
 - Fachadas: pexels.com/photo/charming-mediterranean-house-detail-in-murcia-30528967 (готовий фасад, Іспанія, П) · pexels 37352217 (штукатурка з риштування, Г).
 - Impermeabilización: чистого (без написів) немає. Spray-foam (unsplash ce2r9sPR_9E) — інша технологія, відкинуто. Варіант: вибрати кадр bulat843 без написів оком або власна ілюстрація.
+
+## Раунд 3 (28.10.2026) — до скачування
+- 1 Yeso: pexels 11427055 (рука, крупно, Г) · pexels 38561969 (сторінка жива — спробувати ще раз) · pexels 6473966.
+- 2 Pladur: pexels 6474207 (зелений пладур змонтований, П) · pexels 4981812.
+- 3 Masilla: pexels 6474192 (та сама серія, що вибрав користувач, Г).
+- 5 Techos: pexels 3615726 (стеля знизу, без LED, Г) · pexels 6238608 (LED, обрізати).
+- 6 Fachadas: pexels 37352217 (риштування) або власне фото з кельмою (raw/yeso.jpg → fachada).
+- 9 Balaustradas: unsplash 7avL0Wt4_Oc (біла, на фоні неба) · unsplash jszY1yTeKd8.
+- 11 Microcemento: pexels 20818874 (гладка сіра, квадрат) · unsplash OL2tYVcApI4.
