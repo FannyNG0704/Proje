@@ -10,7 +10,7 @@
 7  fachada.webp            -> pexels-akoonie-37352217 (Mukhtar Shuaib Mukhtar); обрізано, тіні трохи висвітлено
 8  impermeabilizacion.webp -> pexels-bulat843-1243575272-38781391 (Bulat843); написи на мембрані прибрано
 9  balaustrada.webp        -> ? (знайдено самостійно; біла балюстрада, море)
-10 laminado.webp           -> pexels-kelly-4263067 (Kelly)
+10 laminado.webp           -> ? (знайдено самостійно; світла кімната з темним ламінатом)
 11 microcemento.webp       -> pexels-834934396-20818874 (Artem Dvoretskyi)
 12 montajes.webp           -> pexels-anete-lusina-4792526 (Anete Lusina)
 hero.webp / hero-movil.webp -> згенеровано AI (банер), «imagen ilustrativa»
