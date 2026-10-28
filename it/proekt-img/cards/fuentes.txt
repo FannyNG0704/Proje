@@ -1,0 +1,16 @@
+Джерела фото для карток послуг (ліцензія Pexels / Unsplash — безкоштовно, можна змінювати).
+Оброблено 28.10.2026: обрізано 4:3, 1200x900, WebP; masilla — обличчя поза кадром + розмиття; impermeabilizacion — логотип фірми на футболці поза кадром.
+Заповни посилання там, де «?» (сторінка, з якої скачав).
+
+yeso.webp               -> ?
+pladur.webp             -> ? (Pexels, серія Tima Miroshnichenko)
+masilla.webp            -> ? (Pexels, ймовірно Antoni Shkraba, 5493667)
+pintura.webp            -> ?
+techos.webp             -> https://www.pexels.com/photo/photo-of-white-painted-ceiling-3615726/ (La Miko) — перевір
+fachada.webp            -> ?
+alicatado.webp          -> ?
+impermeabilizacion.webp -> ? (Pexels, Bulat843)
+balaustrada.webp        -> ?
+laminado.webp           -> ?
+microcemento.webp       -> https://www.pexels.com/photo/smooth-gray-concrete-texture-20818874/ — перевір
+montajes.webp           -> https://www.pexels.com/photo/crop-man-screwing-light-bulb-into-ornamental-lamp-4792526/ — перевір
