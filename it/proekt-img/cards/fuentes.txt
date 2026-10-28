@@ -1,16 +1,16 @@
-Джерела фото (ліцензія Pexels / Unsplash: безкоштовно, можна змінювати; підпис не обов'язковий).
-Оброблено: обрізка 4:3, 1200x900, WebP. «?» — дописати посилання/автора перед публікацією.
+Джерела фото (Pexels License: безкоштовно, можна змінювати; підпис не обов'язковий).
+Оброблено: обрізка 4:3, 1200x900, WebP. Перевірено користувачем 29.10.2026.
 
-1  yeso.webp               -> ? джерело невідоме (фактурна штукатурка з тінями листя) — підтвердити
-2  pladur.webp             -> ймовірно Pexels, серія Antoni Shkraba (той самий майстер, що masilla 5493667) — підтвердити
-3  techos.webp             -> ймовірно Pexels, Max Vakhtbovych (серія інтер'єрів з LED) — підтвердити; обрізано власноруч
-4  masilla.webp            -> pexels-shkrabaanthony-5493667 (Antoni Shkraba); обличчя поза кадром + розмиття
-5  pintura.webp            -> pexels-kseniachernaya-5691694 (Ksenia Chernaya)
-6  alicatado.webp          -> ? джерело невідоме (ванна з мармуровою плиткою, ванна + душ) — підтвердити
-7  fachada.webp            -> pexels-akoonie-37352217 (Mukhtar Shuaib Mukhtar); обрізано, тіні трохи висвітлено
-8  impermeabilizacion.webp -> pexels-bulat843-1243575272-38781391 (Bulat843); написи на мембрані прибрано
-9  balaustrada.webp        -> ? джерело невідоме (біла балюстрада, море) — підтвердити
-10 laminado.webp           -> ймовірно https://www.pexels.com/photo/spacious-empty-room-with-white-walls-7031603/ (Max Vakhtbovych) — підтвердити
-11 microcemento.webp       -> pexels-834934396-20818874 (Artem Dvoretskyi)
-12 montajes.webp           -> pexels-anete-lusina-4792526 (Anete Lusina)
-hero.webp / hero-movil.webp -> згенеровано AI (банер), «imagen ilustrativa»
+1  yeso.webp               <- pexels-studio-pepite-193599117-14816072   https://www.pexels.com/photo/14816072/
+2  pladur.webp             <- pexels-shkrabaanthony-5493673             https://www.pexels.com/photo/5493673/
+3  techos.webp             <- pexels-artbovich-7227643                  https://www.pexels.com/photo/7227643/  (обрізано власноруч)
+4  masilla.webp            <- pexels-shkrabaanthony-5493667             https://www.pexels.com/photo/5493667/  (обличчя поза кадром + розмиття)
+5  pintura.webp            <- pexels-kseniachernaya-5691694             https://www.pexels.com/photo/5691694/
+6  alicatado.webp          <- pexels-curtis-adams-1694007-8583758       https://www.pexels.com/photo/8583758/
+7  fachada.webp            <- pexels-akoonie-37352217                   https://www.pexels.com/photo/37352217/ (тіні висвітлено)
+8  impermeabilizacion.webp <- pexels-bulat843-1243575272-38781391       https://www.pexels.com/photo/38781391/ (написи прибрано)
+9  balaustrada.webp        <- pexels-dmitry93-12279223                  https://www.pexels.com/photo/12279223/
+10 laminado.webp           <- pexels-artbovich-7031603                  https://www.pexels.com/photo/7031603/
+11 microcemento.webp       <- pexels-834934396-20818874                 https://www.pexels.com/photo/20818874/
+12 montajes.webp           <- pexels-anete-lusina-4792526               https://www.pexels.com/photo/4792526/
+hero.webp / hero-movil.webp <- згенеровано AI (банер), «imagen ilustrativa»
