@@ -40,9 +40,18 @@ body[data-bg="oscuro"]{--bg:#2f4a36;--page-text:#f3efe6;--page-muted:#cfd9cc;--l
 }
 @media (min-width:1024px){.hero h1{font-size:3.25rem;max-width:18ch}}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* Напрям: темно-зелений (пальма) + помаранчевий акцент */
+body{--bg:#2f4a36;--page-text:#f3efe6;--page-muted:#cfd9cc;--line:#3f5c46}
+.header{background:#2f4a36;border-bottom:3px solid var(--accent)}
+.logo{color:#f3efe6}.nav a{color:#cfd9cc}.nav a:hover{color:#f0a36b}
+.card h3{color:#2a231e}.card .price{color:#2f4a36}
+.footer{background:#22362a;color:#cfd9cc}
+.hero{background:linear-gradient(180deg,rgba(34,54,42,.15) 0%,rgba(34,54,42,.9) 75%),url("img/hero-movil.webp") center/cover no-repeat}
+@media (min-width:768px){.hero{background:linear-gradient(90deg,rgba(34,54,42,.92) 0%,rgba(34,54,42,.6) 45%,rgba(34,54,42,0) 75%),url("img/hero.webp") center/cover no-repeat}}
 </style>
 
-<div class="note-top wrap">Vista previa de prueba · fondo verde: <span class="pick"><button data-v="claro" style="background:#e4ebe0" aria-pressed="true" aria-label="Verde claro"></button><button data-v="medio" style="background:#c3d5bf" aria-pressed="false" aria-label="Verde medio"></button><button data-v="oscuro" style="background:#2f4a36" aria-pressed="false" aria-label="Verde oscuro"></button></span></div>
+<div class="note-top wrap">Vista previa de prueba · dirección de diseño: verde oscuro</div>
 <header class="header wrap">
   <a class="logo" href="#">Gldprof</a>
   <nav class="nav">
@@ -93,9 +102,3 @@ body[data-bg="oscuro"]{--bg:#2f4a36;--page-text:#f3efe6;--page-muted:#cfd9cc;--l
 
 <footer class="footer wrap">© 2026 Gldprof · Reformas y acabados en Málaga</footer>
 
-<script>
-document.querySelectorAll('.pick button').forEach(b=>b.addEventListener('click',()=>{
-  document.body.dataset.bg=b.dataset.v;
-  document.querySelectorAll('.pick button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));
-}));
-</script>
