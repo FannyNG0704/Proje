@@ -7,7 +7,7 @@
 4  masilla.webp            -> pexels-shkrabaanthony-5493667 (Antoni Shkraba); обличчя поза кадром + розмиття
 5  pintura.webp            -> pexels-kseniachernaya-5691694 (Ksenia Chernaya)
 6  alicatado.webp          -> ? (знайдено самостійно; ванна з мармуровою плиткою)
-7  fachada.webp            -> ТИМЧАСОВО pexels-davidcruz-38561969 — ЗАМІНИТИ на pexels-akoonie-37352217 (риштування)
+7  fachada.webp            -> pexels-akoonie-37352217 (Mukhtar Shuaib Mukhtar); обрізано, тіні трохи висвітлено
 8  impermeabilizacion.webp -> pexels-bulat843-1243575272-38781391 (Bulat843); написи на мембрані прибрано
 9  balaustrada.webp        -> ? (знайдено самостійно; біла балюстрада, море)
 10 laminado.webp           -> pexels-kelly-4263067 (Kelly)
