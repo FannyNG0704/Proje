@@ -20,3 +20,10 @@
 | Montajes | pexels.com/photo/crop-man-screwing-light-bulb-into-ornamental-lamp-4792526 (без обличчя) | pexels.com/photo/man-fixing-ceiling-light-in-empty-room-32391477 (✓ліц., П) | Логотипи на інструментах (DeWalt тощо) — уникати |
 
 Платні (не брати): усе з позначкою Unsplash+, iStock, Getty.
+
+## Повторний пошук (28.10.2026)
+- Microcemento: unsplash.com/photos/OL2tYVcApI4 (текстура стіни, без людей) — основне.
+- Balaustradas: pexels.com/photo/close-up-of-white-vintage-handrail-16760548 (біла, П) · pexels.com/photo/close-up-of-stone-balustrade-pattern-28821639 (камінь, Г).
+- Techos: чистого варіанту немає; тимчасово pexels 6238608 (коридор з LED). Краще власне фото.
+- Fachadas: pexels.com/photo/charming-mediterranean-house-detail-in-murcia-30528967 (готовий фасад, Іспанія, П) · pexels 37352217 (штукатурка з риштування, Г).
+- Impermeabilización: чистого (без написів) немає. Spray-foam (unsplash ce2r9sPR_9E) — інша технологія, відкинуто. Варіант: вибрати кадр bulat843 без написів оком або власна ілюстрація.
