@@ -88,6 +88,7 @@ div.mermaid{background:#ffffff!important}div.mermaid svg{max-width:100%;height:a
 <a href="#b7">20. Викласти в інтернет</a>
 <a href="#b8">21. Перевірка якості</a>
 <a href="#b9">22. Закони Іспанії для сайту</a>
+<a href="#b10">25. Кольори: редактор і сайт</a>
 <b>Довідка</b>
 <a href="#c1">23. Джерела</a>
 <a href="#c2">24. Словник EN · UA · ES</a>
@@ -521,6 +522,41 @@ header { display: flex; justify-content: space-between; align-items: center; }
 </tbody></table></div>
 <div class="chain"><b>Логічний ланцюжок</b>Хочеш сайт без банера cookies → не став аналітику з cookies, шрифти завантаж собі, замість вбудованої карти — посилання «Ver en Google Maps», замість вбудованого YouTube — посилання або своє відео → сайт чистіший, швидший і юридично простіший.</div>
 <p class="note"><i>Це загальна орієнтація, не юридична консультація. Перед запуском тексти Aviso legal і Privacidad варто показати gestoría.</i></p>
+
+
+<!-- B10 -->
+<h2 id="b10">25. Кольори: у редакторі і на сайті</h2>
+<h3>Підсвітка синтаксису (syntax highlighting)</h3>
+<p>Кольори коду у VS Code — тільки для людини: щоб одразу бачити, де назва, де значення, де помилка. На сайт вони <b>не впливають</b> і залежать від теми редактора (в іншій темі будуть інші кольори). У твоїй темі приблизно так:</p>
+<div class="tbl"><table>
+<tr><th>Що</th><th>Приклад</th><th>Колір</th></tr>
+<tr><td>Селектор (кого стилізуємо)</td><td><code>.card</code>, <code>.header</code></td><td>білий</td></tr>
+<tr><td>Тег у селекторі</td><td><code>img</code>, <code>h3</code>, <code>li</code></td><td>синій</td></tr>
+<tr><td>Властивість (що міняємо)</td><td><code>width</code>, <code>color</code>, <code>margin-left</code></td><td>оливково-зелений</td></tr>
+<tr><td>Числа й одиниці</td><td><code>100%</code>, <code>1.25rem</code>, <code>3px</code></td><td>рожевий</td></tr>
+<tr><td>Слова-значення</td><td><code>auto</code>, <code>cover</code>, <code>solid</code></td><td>сірий/білий</td></tr>
+<tr><td>Функція</td><td><code>var(…)</code></td><td>синій</td></tr>
+<tr><td>Псевдоелемент</td><td><code>::before</code>, <code>::marker</code></td><td>сірий</td></tr>
+<tr><td>Коментар</td><td><code>/* … */</code></td><td>сірий курсив</td></tr>
+<tr><td>HTML: тег / атрибут / значення</td><td><code>&lt;img</code> / <code>src=</code> / <code>"img/yeso.webp"</code></td><td>синій / блакитний / помаранчевий</td></tr>
+</table></div>
+<div class="stone"><b>Підводний камінь</b>Якщо після твоєї правки кольори «поїхали» (половина файлу раптом стала одного кольору) — майже напевно незакрита дужка <code>{</code>, лапка <code>"</code> або коментар <code>/*</code>. Підсвітка — безкоштовна перевірка помилок.</div>
+<h3>Палітра сайту (змінні в <code>:root</code>)</h3>
+<div class="tbl"><table>
+<tr><th>Змінна</th><th>Колір</th><th>Роль</th><th>Контраст</th></tr>
+<tr><td><code>--bg</code></td><td>#f7f2ea пісок</td><td>фон сторінки</td><td>—</td></tr>
+<tr><td><code>--text</code></td><td>#2a231e темне дерево</td><td>текст, темні блоки (банер, низ)</td><td>13.9</td></tr>
+<tr><td><code>--muted</code></td><td>#6b5e52</td><td>другорядний текст</td><td>5.6</td></tr>
+<tr><td><code>--accent</code></td><td>#b8541a захід сонця</td><td>кнопки, ціни, лінія шапки</td><td>4.9 на білому</td></tr>
+<tr><td><code>--green</code></td><td>#3e6b47 пальма</td><td>галочки, номери кроків</td><td>5.5</td></tr>
+<tr><td><code>--wood</code></td><td>#7a5232 стовбур</td><td>деталі, рамки</td><td>6.1</td></tr>
+<tr><td><code>--line</code></td><td>#e5dacb</td><td>тонкі рамки карток</td><td>—</td></tr>
+</table></div>
+<ul>
+<li><b>Змінна</b> — колір записаний один раз; всюди в коді стоїть <code>var(--accent)</code>. Змінив один рядок — перефарбувався весь сайт.</li>
+<li><b>Логіка ролей:</b> помаранчевий — «дія» (натисни), зелений — «добре/готово», темне дерево — «каркас» сторінки.</li>
+<li><b>Контраст ≥ 4.5:1</b> (WCAG) — інакше текст важко читати. Помаранчевий на пісочному = 4.36 → дрібний помаранчевий текст тільки на білих картках.</li>
+</ul>
 
 <div class="part">Довідка</div>
 
