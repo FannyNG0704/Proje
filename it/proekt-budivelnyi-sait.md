@@ -61,4 +61,12 @@
 ## Логотип (29.10.2026)
 - Знак HLD за сіткою (H | L | D однакової ширини), білий на зеленому: `it/proekt-img/logo/`.
 - Анімація в шапці: D виїжджає → очі «:D» (зліва від D, вертикально) моргають → L → H. Варіант 1 (очі всередині D): https://claude.ai/artifact/FQP6VxRMfwZ9f7vwkDHFiX · варіант 2: https://claude.ai/artifact/Fa78rLxHLUfvc71r7nFDnZ
-- Відкрите питання: назва бренду HLD (знак) vs GLD (email, Gldprof) — вибрати одне написання.
+- ~~Відкрите питання HLD vs GLD~~ → вирішено (29.10.2026).
+
+## Назва: HLD Casa (29.10.2026)
+- Головний бренд — знак **HLD** (за прізвищем Hladun), слово поруч змінне: зараз **Casa**; пізніше можливі HLD Construcciones / HLD Promociones.
+- На сайті: анімація v2 (очі «:D») + «Casa» поруч (з'являється в кінці, 3.3 s). Демо: https://claude.ai/artifact/Fa78rLxHLUfvc71r7nFDnZ
+- Папка проєкту: `Gldprof` → `HldCasa`; у коді «Gldprof» → «HLD Casa».
+- Домен — при публікації (hldcasa.com був вільний 29.10.2026; запасні hldgrupo.com, hldobras.com). Не безкоштовні піддомени (DuckDNS) — для фірми ні.
+- До публікації: контакти — заглушки; WhatsApp/Instagram/email/autónomo/Aviso legal — перед релізом.
+- Авторство знака: git-коміти + архів собі на пошту; пізніше Safe Creative; marca в OEPM (клас 37) — платно.
