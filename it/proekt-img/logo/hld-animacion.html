@@ -1,0 +1,39 @@
+<title>HLD анімація</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+:root{--bg:#2f4a36;--fg:#f3efe6;--muted:#cfd9cc}
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--fg);font-family:system-ui,Segoe UI,Arial,sans-serif;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{display:grid;gap:18px;justify-items:center}
+#logo{width:min(560px,90vw);height:auto;overflow:visible}
+.d{transform:translateX(-68px);opacity:0;animation:dIn .9s cubic-bezier(.2,.8,.2,1) .2s forwards}
+.eyes{opacity:0;animation:eyesIn .3s ease 1.15s forwards}
+.eyes ellipse{transform-box:fill-box;transform-origin:center;animation:blink .32s ease 1.6s 1, blinkLoop 5s ease 3.6s infinite}
+.l{transform:translateX(34px);opacity:0;animation:slideIn .7s cubic-bezier(.2,.8,.2,1) 2.1s forwards}
+.h{transform:translateX(34px);opacity:0;animation:slideIn .7s cubic-bezier(.2,.8,.2,1) 2.8s forwards}
+@keyframes dIn{0%{opacity:0;transform:translateX(-68px)}15%{opacity:1}100%{opacity:1;transform:none}}
+@keyframes slideIn{0%{opacity:0}20%{opacity:1}100%{opacity:1;transform:none}}
+@keyframes eyesIn{to{opacity:1}}
+@keyframes blink{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.1)}}
+@keyframes blinkLoop{0%,92%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+button{font:inherit;color:var(--fg);background:transparent;border:1px solid var(--muted);border-radius:8px;padding:8px 16px;cursor:pointer}
+button:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+p{margin:0;color:var(--muted);font-size:14px;text-align:center;max-width:46ch}
+@media (prefers-reduced-motion:reduce){.d,.l,.h,.eyes,.eyes ellipse{animation:none;opacity:1;transform:none}}
+</style>
+<div class="wrap">
+<svg id="logo" viewBox="0 0 146 100" role="img" aria-label="HLD">
+ <g fill="none" stroke="#f3efe6" stroke-width="7" stroke-linecap="square" stroke-linejoin="miter">
+  <path class="h" d="M22 22 V78 M22 50.0 H56"/>
+  <path class="l" d="M56 22 V78 H90"/>
+  <path class="d" d="M90 78 V22 H100.2 A23.799999999999997 28.0 0 0 1 100.2 78 H90"/>
+ </g>
+ <g class="eyes" fill="#f3efe6"><ellipse cx="104.28" cy="36.0" rx="2.6" ry="2.6"/><ellipse cx="112.44" cy="36.0" rx="2.6" ry="2.6"/></g>
+</svg>
+<button id="again" type="button">Повторити анімацію</button>
+<p>D виїжджає → очі з'являються і моргають → L виїжджає вліво → H.</p>
+</div>
+<script>
+document.getElementById('again').addEventListener('click',()=>{
+  const s=document.getElementById('logo'); const c=s.cloneNode(true); s.replaceWith(c);
+});
+</script>
