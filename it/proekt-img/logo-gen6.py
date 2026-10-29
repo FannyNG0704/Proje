@@ -6,7 +6,7 @@ def mark(bg,fg,lc,s=7,W=34,H=56,grid=False,size=(440,260),rad=18,bgfill=True):
         f'M{x2} {b} V{t} H{x2+a} A{rx} {ry} 0 0 1 {x2+a} {b} H{x2}')
     # L як заливка: ніжка + низ, низ закінчується рівно на лівому краю ніжки D
     L=(f'<rect x="{x1-h}" y="{t-h}" width="{s}" height="{H+s}" fill="{lc}"/>'
-       f'<rect x="{x1-h}" y="{b-h}" width="{(x2-h)-(x1-h)}" height="{s}" fill="{lc}"/>')
+       f'<rect x="{x1-h}" y="{b-h}" width="{(x2-h)-(x1-h)+(h if lc==fg else 0)}" height="{s}" fill="{lc}"/>')
     vbw=x3+pad; vbh=b+pad; g=''
     if grid:
         g='<g stroke="#e07a3a" stroke-width="0.4" opacity=".8">'
