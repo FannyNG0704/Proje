@@ -1,0 +1,37 @@
+<title>HLD анімація v1</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+:root{--bg:#2f4a36;--page-text:#f3efe6;--muted:#cfd9cc}
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--page-text);font-family:system-ui,Segoe UI,Arial,sans-serif;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{display:grid;gap:18px;justify-items:center}
+/* Логотип HLD: анімація при завантаженні */
+.hld { height: 2.4rem; width: auto; color: var(--page-text); overflow: visible; }
+.hld-d { opacity: 0; transform: translateX(-68px); animation: hld-in .9s cubic-bezier(.2,.8,.2,1) .2s forwards; }
+.hld-eyes { opacity: 0; animation: hld-fade .3s ease 1.15s forwards; }
+.hld-eyes circle { transform-box: fill-box; transform-origin: center; animation: hld-blink .32s ease 1.6s, hld-blink-loop 5s ease 3.6s infinite; }
+.hld-l { opacity: 0; transform: translateX(34px); animation: hld-in .7s cubic-bezier(.2,.8,.2,1) 2.1s forwards; }
+.hld-h { opacity: 0; transform: translateX(34px); animation: hld-in .7s cubic-bezier(.2,.8,.2,1) 2.8s forwards; }
+@keyframes hld-in { 0% { opacity: 0; } 20% { opacity: 1; } 100% { opacity: 1; transform: none; } }
+@keyframes hld-fade { to { opacity: 1; } }
+@keyframes hld-blink { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(.1); } }
+@keyframes hld-blink-loop { 0%, 92%, 100% { transform: scaleY(1); } 96% { transform: scaleY(.1); } }
+@media (prefers-reduced-motion: reduce) {
+    .hld-d, .hld-l, .hld-h, .hld-eyes, .hld-eyes circle { animation: none; opacity: 1; transform: none; }
+}
+
+#big .hld{height:auto;width:min(560px,90vw)}
+.bar{display:flex;align-items:center;gap:12px;background:var(--bg);border-bottom:3px solid #b8541a;padding:12px 18px;border-radius:8px;outline:1px solid #3f5c46}
+.bar b{font-size:1.3rem}
+button{font:inherit;color:var(--page-text);background:transparent;border:1px solid var(--muted);border-radius:8px;padding:8px 16px;cursor:pointer}
+button:focus-visible{outline:2px solid var(--page-text);outline-offset:2px}
+p{margin:0;color:var(--muted);font-size:14px;text-align:center;max-width:46ch}
+</style>
+<div class="wrap" id="w">
+<div id="big"><svg class="hld" viewBox="0 0 146 100" role="img" aria-label="HLD"><g fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="square" stroke-linejoin="miter"><path class="hld-h" d="M22 22 V78 M22 50.0 H56"/><path class="hld-l" d="M56 22 V78 H90"/><path class="hld-d" d="M90 78 V22 H100.2 A23.799999999999997 28.0 0 0 1 100.2 78 H90"/></g><g class="hld-eyes" fill="currentColor"><circle cx="104.3" cy="36" r="3.2"/><circle cx="113.2" cy="36" r="3.2"/></g></svg></div>
+<div class="bar"><span id="small"><svg class="hld" viewBox="0 0 146 100" role="img" aria-label="HLD"><g fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="square" stroke-linejoin="miter"><path class="hld-h" d="M22 22 V78 M22 50.0 H56"/><path class="hld-l" d="M56 22 V78 H90"/><path class="hld-d" d="M90 78 V22 H100.2 A23.799999999999997 28.0 0 0 1 100.2 78 H90"/></g><g class="hld-eyes" fill="currentColor"><circle cx="104.3" cy="36" r="3.2"/><circle cx="113.2" cy="36" r="3.2"/></g></svg></span><b>Gldprof</b></div>
+<button id="again" type="button">Повторити анімацію</button>
+<p>Варіант 1: очі всередині D, поруч горизонтально.</p>
+</div>
+<script>
+document.getElementById('again').addEventListener('click',()=>{for(const id of ['big','small']){const e=document.getElementById(id);e.innerHTML=e.innerHTML;}});
+</script>
