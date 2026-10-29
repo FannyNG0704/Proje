@@ -1,0 +1,106 @@
+<title>HLD CASA знак</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: варіанти знака один під одним; у кожного великий вид на сітці + розміри шапки комп'ютера й телефона. Один темний вигляд (бренд). */
+:root{--ground:#1d2b22;--green:#2f4a36;--line:#3f5c46;--text:#f3efe6;--muted:#cfd9cc;--accent:#b8541a;--grid:#e9a36b;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 40px}
+.page{max-width:980px;margin:0 auto;display:grid;gap:22px}
+h1{margin:0;font-size:1.3rem}
+h2{margin:0;font-size:1.05rem}
+p{margin:0;color:var(--muted);max-width:65ch}
+.controls{display:flex;flex-wrap:wrap;gap:8px}
+button{font:inherit;font-size:.9rem;color:var(--text);background:transparent;border:1px solid var(--muted);border-radius:8px;padding:6px 12px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent)}
+button:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+#list{display:grid;gap:30px}
+.var{display:grid;gap:10px}
+.big{background:var(--green);border:1px solid var(--line);border-radius:10px;padding:24px 18px;overflow:hidden}
+.big svg{display:block;height:clamp(64px,13vw,120px);width:auto;max-width:100%;color:var(--text);overflow:visible}
+.sizes{display:flex;flex-wrap:wrap;gap:10px}
+.bar{background:var(--green);border-bottom:3px solid var(--accent);border-radius:8px;padding:12px 16px;display:grid;gap:4px;justify-items:start}
+.bar small{color:var(--muted);font-size:.75rem}
+.bar svg{display:block;width:auto;color:var(--text);overflow:visible}
+.pc svg{height:2.2rem}
+.tel svg{height:1.7rem}
+.gridlayer{display:none}
+body.showgrid .gridlayer{display:inline}
+
+/* Анімація: D → очі → L → H, потім CASA виїжджає з відступу */
+.hld-d{opacity:0;transform:translateX(-68px);animation:hld-in .9s cubic-bezier(.2,.8,.2,1) .2s forwards}
+.hld-eyes{opacity:0;animation:hld-fade .3s ease 1.15s forwards}
+.hld-eyes circle{transform-box:fill-box;transform-origin:center;animation:hld-blink .32s ease 1.6s,hld-blink-loop 5s ease 3.6s infinite}
+.hld-l{opacity:0;transform:translateX(34px);animation:hld-in .7s cubic-bezier(.2,.8,.2,1) 2.1s forwards}
+.hld-h{opacity:0;transform:translateX(34px);animation:hld-in .7s cubic-bezier(.2,.8,.2,1) 2.8s forwards}
+.hld-casa{transform:translateX(var(--casa-from));animation:hld-slide 1s cubic-bezier(.2,.8,.2,1) 3.6s forwards}
+@keyframes hld-in{0%{opacity:0}20%{opacity:1}100%{opacity:1;transform:none}}
+@keyframes hld-fade{to{opacity:1}}
+@keyframes hld-slide{to{transform:none}}
+@keyframes hld-blink{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.1)}}
+@keyframes hld-blink-loop{0%,92%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+@media (prefers-reduced-motion:reduce){.hld-d,.hld-l,.hld-h,.hld-eyes,.hld-eyes circle,.hld-casa{animation:none;opacity:1;transform:none}}
+</style>
+
+<div class="page">
+  <div style="display:grid;gap:6px">
+    <h1>HLD CASA: варіанти розміру слова</h1>
+    <p>Товщина 11. Літери CASA стоять щільніше, а кінці C і S не виходять за клітинку. У варіантах 2–4 слово менше за HLD, тому головним у знаку стає HLD. Під кожним варіантом показано, як він виглядає в шапці на комп'ютері й на телефоні.</p>
+  </div>
+  <div class="controls">
+    <button id="again" type="button">Повторити анімацію</button>
+    <button id="grid" type="button" aria-pressed="true">Сітка</button>
+  </div>
+  <div id="list"></div>
+</div>
+
+<script>
+const W=34, TOP=22, BOT=78, MID=50, S=11, h=S/2, dEdge=124+h;
+const VARS=[
+  {n:'1',t:'Слово того ж розміру, ущільнене',k:1,space:8,gap:30,al:'bottom'},
+  {n:'2',t:'Слово 72% від HLD, по нижній лінії',k:.72,space:9,gap:20,al:'bottom'},
+  {n:'3',t:'Слово 60% від HLD, по нижній лінії',k:.6,space:10,gap:18,al:'bottom'},
+  {n:'4',t:'Слово 60% від HLD, по центру',k:.6,space:10,gap:18,al:'center'},
+];
+// Літери CASA у власних координатах; кінці C і S закінчуються на межі клітинки
+const C=x=>`M${x+W-h} ${TOP} H${x+23.8} A23.8 28 0 0 0 ${x+23.8} ${BOT} H${x+W-h}`;
+const A=x=>`M${x} ${BOT} V${MID} A17 28 0 0 1 ${x+W} ${MID} V${BOT} M${x} ${MID+6} H${x+W}`;
+const Sl=x=>`M${x+W-h} ${TOP} H${x+14} A14 14 0 0 0 ${x+14} ${MID} H${x+20} A14 14 0 0 1 ${x+20} ${BOT} H${x+h}`;
+let uid=0;
+function mark(v,withGrid){
+  const id='c'+(++uid);
+  const xs=[0,1,2,3].map(i=>h+i*(W+S+v.space));
+  const localW=xs[3]+W+h;
+  const tx=dEdge+v.gap, ty=v.al==='bottom'?(BOT+h)*(1-v.k):MID*(1-v.k);
+  const end=tx+v.k*localW, vx=TOP-h, vy=TOP-h;
+  const casaGrid=`<g class="gridlayer" fill="rgba(233,163,107,.08)" stroke="var(--grid)" stroke-width="${.6/v.k}" opacity=".75">${xs.map(x=>`<rect x="${x}" y="${TOP}" width="${W}" height="${BOT-TOP}"/>`).join('')}</g>`;
+  const hldGrid=`<g class="gridlayer" fill="rgba(233,163,107,.08)" stroke="var(--grid)" stroke-width=".6" opacity=".75">${[22,56,90].map(c=>`<rect x="${c}" y="${TOP}" width="${W}" height="${BOT-TOP}"/>`).join('')}
+    <g fill="none" stroke-dasharray="1 2"><line x1="${vx}" x2="${end}" y1="${TOP-h}" y2="${TOP-h}"/><line x1="${vx}" x2="${end}" y1="${BOT+h}" y2="${BOT+h}"/><line x1="${vx}" x2="${end}" y1="${MID}" y2="${MID}"/></g></g>`;
+  return `<svg viewBox="${vx} ${vy} ${end-vx} ${BOT-TOP+S}" role="img" aria-label="HLD CASA">
+  <defs><clipPath id="${id}"><rect x="${dEdge+1}" y="0" width="${end}" height="100"/></clipPath></defs>
+  ${withGrid?hldGrid:''}
+  <g fill="none" stroke="currentColor" stroke-width="${S}" stroke-linecap="square" stroke-linejoin="miter">
+    <path class="hld-h" d="M22 22 V78 M22 50 H56"/>
+    <path class="hld-l" d="M56 22 V78 H90"/>
+    <path class="hld-d" d="M90 78 V22 H100.2 A23.8 28 0 0 1 100.2 78 H90"/>
+  </g>
+  <g clip-path="url(#${id})"><g transform="translate(${tx} ${ty}) scale(${v.k})">
+    ${withGrid?casaGrid:''}
+    <path class="hld-casa" style="--casa-from:${-(end-dEdge)/v.k}px" fill="none" stroke="currentColor" stroke-width="${S}" stroke-linecap="square" stroke-linejoin="miter" d="${C(xs[0])} ${A(xs[1])} ${Sl(xs[2])} ${A(xs[3])}"/>
+  </g></g>
+  <g class="hld-eyes" fill="currentColor"><circle cx="73" cy="37" r="${S*.5}"/><circle cx="73" cy="${37+S*1.4}" r="${S*.5}"/></g>
+</svg>`;
+}
+function render(){
+  document.getElementById('list').innerHTML=VARS.map(v=>`<section class="var">
+    <h2>${v.n} · ${v.t}</h2>
+    <div class="big">${mark(v,true)}</div>
+    <div class="sizes"><div class="bar pc"><small>шапка, комп'ютер</small>${mark(v,false)}</div><div class="bar tel"><small>шапка, телефон</small>${mark(v,false)}</div></div>
+  </section>`).join('');
+}
+render();
+document.getElementById('again').addEventListener('click',render);
+const g=document.getElementById('grid');
+document.body.classList.add('showgrid');
+g.addEventListener('click',()=>{const on=!document.body.classList.contains('showgrid');document.body.classList.toggle('showgrid',on);g.setAttribute('aria-pressed',String(on));});
+</script>
