@@ -1,39 +1,37 @@
 <title>HLD анімація</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
-:root{--bg:#2f4a36;--fg:#f3efe6;--muted:#cfd9cc}
-body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--fg);font-family:system-ui,Segoe UI,Arial,sans-serif;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+:root{--bg:#2f4a36;--page-text:#f3efe6;--muted:#cfd9cc}
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--page-text);font-family:system-ui,Segoe UI,Arial,sans-serif;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .wrap{display:grid;gap:18px;justify-items:center}
-#logo{width:min(560px,90vw);height:auto;overflow:visible}
-.d{transform:translateX(-68px);opacity:0;animation:dIn .9s cubic-bezier(.2,.8,.2,1) .2s forwards}
-.eyes{opacity:0;animation:eyesIn .3s ease 1.15s forwards}
-.eyes ellipse{transform-box:fill-box;transform-origin:center;animation:blink .32s ease 1.6s 1, blinkLoop 5s ease 3.6s infinite}
-.l{transform:translateX(34px);opacity:0;animation:slideIn .7s cubic-bezier(.2,.8,.2,1) 2.1s forwards}
-.h{transform:translateX(34px);opacity:0;animation:slideIn .7s cubic-bezier(.2,.8,.2,1) 2.8s forwards}
-@keyframes dIn{0%{opacity:0;transform:translateX(-68px)}15%{opacity:1}100%{opacity:1;transform:none}}
-@keyframes slideIn{0%{opacity:0}20%{opacity:1}100%{opacity:1;transform:none}}
-@keyframes eyesIn{to{opacity:1}}
-@keyframes blink{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.1)}}
-@keyframes blinkLoop{0%,92%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
-button{font:inherit;color:var(--fg);background:transparent;border:1px solid var(--muted);border-radius:8px;padding:8px 16px;cursor:pointer}
-button:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+/* Логотип HLD: анімація при завантаженні */
+.hld { height: 2.4rem; width: auto; color: var(--page-text); overflow: visible; }
+.hld-d { opacity: 0; transform: translateX(-68px); animation: hld-in .9s cubic-bezier(.2,.8,.2,1) .2s forwards; }
+.hld-eyes { opacity: 0; animation: hld-fade .3s ease 1.15s forwards; }
+.hld-eyes circle { transform-box: fill-box; transform-origin: center; animation: hld-blink .32s ease 1.6s, hld-blink-loop 5s ease 3.6s infinite; }
+.hld-l { opacity: 0; transform: translateX(34px); animation: hld-in .7s cubic-bezier(.2,.8,.2,1) 2.1s forwards; }
+.hld-h { opacity: 0; transform: translateX(34px); animation: hld-in .7s cubic-bezier(.2,.8,.2,1) 2.8s forwards; }
+@keyframes hld-in { 0% { opacity: 0; } 20% { opacity: 1; } 100% { opacity: 1; transform: none; } }
+@keyframes hld-fade { to { opacity: 1; } }
+@keyframes hld-blink { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(.1); } }
+@keyframes hld-blink-loop { 0%, 92%, 100% { transform: scaleY(1); } 96% { transform: scaleY(.1); } }
+@media (prefers-reduced-motion: reduce) {
+    .hld-d, .hld-l, .hld-h, .hld-eyes, .hld-eyes circle { animation: none; opacity: 1; transform: none; }
+}
+
+#big .hld{height:auto;width:min(560px,90vw)}
+.bar{display:flex;align-items:center;gap:12px;background:var(--bg);border-bottom:3px solid #b8541a;padding:12px 18px;border-radius:8px;outline:1px solid #3f5c46}
+.bar b{font-size:1.3rem}
+button{font:inherit;color:var(--page-text);background:transparent;border:1px solid var(--muted);border-radius:8px;padding:8px 16px;cursor:pointer}
+button:focus-visible{outline:2px solid var(--page-text);outline-offset:2px}
 p{margin:0;color:var(--muted);font-size:14px;text-align:center;max-width:46ch}
-@media (prefers-reduced-motion:reduce){.d,.l,.h,.eyes,.eyes ellipse{animation:none;opacity:1;transform:none}}
 </style>
-<div class="wrap">
-<svg id="logo" viewBox="0 0 146 100" role="img" aria-label="HLD">
- <g fill="none" stroke="#f3efe6" stroke-width="7" stroke-linecap="square" stroke-linejoin="miter">
-  <path class="h" d="M22 22 V78 M22 50.0 H56"/>
-  <path class="l" d="M56 22 V78 H90"/>
-  <path class="d" d="M90 78 V22 H100.2 A23.799999999999997 28.0 0 0 1 100.2 78 H90"/>
- </g>
- <g class="eyes" fill="#f3efe6"><ellipse cx="104.28" cy="36.0" rx="2.6" ry="2.6"/><ellipse cx="112.44" cy="36.0" rx="2.6" ry="2.6"/></g>
-</svg>
+<div class="wrap" id="w">
+<div id="big"><svg class="hld" viewBox="0 0 146 100" role="img" aria-label="HLD"><g fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="square" stroke-linejoin="miter"><path class="hld-h" d="M22 22 V78 M22 50.0 H56"/><path class="hld-l" d="M56 22 V78 H90"/><path class="hld-d" d="M90 78 V22 H100.2 A23.799999999999997 28.0 0 0 1 100.2 78 H90"/></g><g class="hld-eyes" fill="currentColor"><circle cx="79.8" cy="36.6" r="3.2"/><circle cx="79.8" cy="48.9" r="3.2"/></g></svg></div>
+<div class="bar"><span id="small"><svg class="hld" viewBox="0 0 146 100" role="img" aria-label="HLD"><g fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="square" stroke-linejoin="miter"><path class="hld-h" d="M22 22 V78 M22 50.0 H56"/><path class="hld-l" d="M56 22 V78 H90"/><path class="hld-d" d="M90 78 V22 H100.2 A23.799999999999997 28.0 0 0 1 100.2 78 H90"/></g><g class="hld-eyes" fill="currentColor"><circle cx="79.8" cy="36.6" r="3.2"/><circle cx="79.8" cy="48.9" r="3.2"/></g></svg></span><b>Gldprof</b></div>
 <button id="again" type="button">Повторити анімацію</button>
-<p>D виїжджає → очі з'являються і моргають → L виїжджає вліво → H.</p>
+<p>Очі — як «:D»: двокрапка зліва від D, трохи вище середини. D — усмішка.</p>
 </div>
 <script>
-document.getElementById('again').addEventListener('click',()=>{
-  const s=document.getElementById('logo'); const c=s.cloneNode(true); s.replaceWith(c);
-});
+document.getElementById('again').addEventListener('click',()=>{for(const id of ['big','small']){const e=document.getElementById(id);e.innerHTML=e.innerHTML;}});
 </script>

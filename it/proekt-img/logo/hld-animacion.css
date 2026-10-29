@@ -1,0 +1,14 @@
+/* Логотип HLD: анімація при завантаженні */
+.hld { height: 2.4rem; width: auto; color: var(--page-text); overflow: visible; }
+.hld-d { opacity: 0; transform: translateX(-68px); animation: hld-in .9s cubic-bezier(.2,.8,.2,1) .2s forwards; }
+.hld-eyes { opacity: 0; animation: hld-fade .3s ease 1.15s forwards; }
+.hld-eyes circle { transform-box: fill-box; transform-origin: center; animation: hld-blink .32s ease 1.6s, hld-blink-loop 5s ease 3.6s infinite; }
+.hld-l { opacity: 0; transform: translateX(34px); animation: hld-in .7s cubic-bezier(.2,.8,.2,1) 2.1s forwards; }
+.hld-h { opacity: 0; transform: translateX(34px); animation: hld-in .7s cubic-bezier(.2,.8,.2,1) 2.8s forwards; }
+@keyframes hld-in { 0% { opacity: 0; } 20% { opacity: 1; } 100% { opacity: 1; transform: none; } }
+@keyframes hld-fade { to { opacity: 1; } }
+@keyframes hld-blink { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(.1); } }
+@keyframes hld-blink-loop { 0%, 92%, 100% { transform: scaleY(1); } 96% { transform: scaleY(.1); } }
+@media (prefers-reduced-motion: reduce) {
+    .hld-d, .hld-l, .hld-h, .hld-eyes, .hld-eyes circle { animation: none; opacity: 1; transform: none; }
+}
