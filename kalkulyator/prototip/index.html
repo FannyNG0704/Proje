@@ -1,10 +1,10 @@
 <title>Калькулятор будівельника</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
-/* Layout: одна колонка великих карток; у кожної своя кнопка «Більше». Підсумок прилипає до низу екрана. Великі шрифти й кнопки для роботи пальцем. */
-:root{--bg:#f2f3ef;--card:#ffffff;--fg:#1c211e;--muted:#55605a;--line:#cfd5cc;--accent:#2f4a36;--accent-fg:#ffffff;--minus:#9c2f22;--ok:#256b43;--bad:#b3261e;--field:#ffffff;--bar:#22362a;--bar-fg:#f3efe6}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121613;--card:#1c221e;--fg:#eef1ec;--muted:#aab4ad;--line:#38423b;--accent:#9fd0ab;--accent-fg:#0f1510;--minus:#ff9a88;--ok:#86dba8;--bad:#ff8a80;--field:#232a25;--bar:#0b0f0c;--bar-fg:#eef1ec;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#121613;--card:#1c221e;--fg:#eef1ec;--muted:#aab4ad;--line:#38423b;--accent:#9fd0ab;--accent-fg:#0f1510;--minus:#ff9a88;--ok:#86dba8;--bad:#ff8a80;--field:#232a25;--bar:#0b0f0c;--bar-fg:#eef1ec;color-scheme:dark}
+/* Layout: одна колонка великих карток у порядку роботи: Що рахуємо → Ціна → Розміри → Додаткові витрати → Разом. Тонкий рядок-підсумок прилипає до низу. */
+:root{--bg:#f2f3ef;--card:#ffffff;--fg:#1c211e;--muted:#55605a;--line:#cfd5cc;--accent:#2f4a36;--accent-fg:#ffffff;--minus:#9c2f22;--ok:#256b43;--bad:#b3261e;--field:#ffffff;--hl:#e8f0e6}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121613;--card:#1c221e;--fg:#eef1ec;--muted:#aab4ad;--line:#38423b;--accent:#9fd0ab;--accent-fg:#0f1510;--minus:#ff9a88;--ok:#86dba8;--bad:#ff8a80;--field:#232a25;--hl:#24302a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121613;--card:#1c221e;--fg:#eef1ec;--muted:#aab4ad;--line:#38423b;--accent:#9fd0ab;--accent-fg:#0f1510;--minus:#ff9a88;--ok:#86dba8;--bad:#ff8a80;--field:#232a25;--hl:#24302a;color-scheme:dark}
 *{box-sizing:border-box}
 html{font-size:18px}
 body{margin:0;background:var(--bg);color:var(--fg);font:1rem/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
@@ -17,8 +17,8 @@ h1{margin:0;font-size:1.3rem}
 button{font:inherit;color:var(--fg);background:var(--field);border:2px solid var(--line);border-radius:12px;padding:10px 16px;min-height:48px;cursor:pointer}
 button.prim{background:var(--accent);color:var(--accent-fg);border-color:var(--accent);font-weight:600}
 button.min{color:var(--minus);border-color:currentColor}
-button.link{border:none;background:none;color:var(--muted);text-decoration:underline;padding:6px 4px;min-height:40px}
 button.q{min-width:48px;padding:6px;font-weight:700}
+button.toggle{width:100%;text-align:left;display:flex;justify-content:space-between;align-items:center;font-weight:600}
 button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
 button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
@@ -27,33 +27,39 @@ label.f{display:grid;gap:4px;font-size:.85rem;color:var(--muted);min-width:0}
 input,select{font:inherit;font-size:1.1rem;color:var(--fg);background:var(--field);border:2px solid var(--line);border-radius:10px;padding:8px 10px;min-height:48px;min-width:0}
 input.n{width:7.5ch;font-variant-numeric:tabular-nums}
 input.w{width:100%}
-select{padding-right:6px}
-.list{display:grid;gap:8px}
+.list{display:grid}
 .item{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
 .item .no{font-weight:700;min-width:1.6em;color:var(--muted)}
 .item .x{color:var(--muted)}
 .item .eq{font-variant-numeric:tabular-nums;font-weight:600;margin-right:auto}
 .sec{display:grid;gap:6px}
-.sec h3{margin:0;font-size:1rem;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px}
+.sec h3{margin:0;font-size:1rem}
 .minus h3{color:var(--minus)}
+.units{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:.9rem;color:var(--muted)}
 .seg{display:inline-flex;border:2px solid var(--line);border-radius:10px;overflow:hidden}
-.seg button{border:none;border-radius:0;min-height:40px;padding:6px 12px}
+.seg button{border:none;border-radius:0;min-height:42px;padding:6px 12px}
 .hint{color:var(--muted);font-size:.95rem}
-.err{color:var(--bad);font-size:.95rem}
-.more{border-top:2px dashed var(--line);padding-top:12px;display:grid;gap:12px}
+.panel{border:2px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:12px}
 .box{border:2px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:10px}
 .box .head h3{margin:0;font-size:1rem}
+.mini{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line)}
+.mini .t{margin-right:auto}
+.mini .t small{display:block;color:var(--muted);font-size:.85rem}
+.mini strong{font-variant-numeric:tabular-nums}
+.total{background:var(--hl);border-radius:12px;padding:14px;display:grid;gap:6px}
+.total .big{font-size:1.9rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.15}
+.total .ln{display:flex;justify-content:space-between;gap:10px;font-variant-numeric:tabular-nums;font-size:.95rem}
+.total .ln span:first-child{color:var(--muted)}
 table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:.95rem}
 td{padding:6px 4px;border-bottom:1px solid var(--line);vertical-align:top}
 td.r{text-align:right;white-space:nowrap}
 .exp{display:block;color:var(--muted);font-size:.8rem}
 .wrap{overflow-x:auto}
-.bar{position:sticky;bottom:0;z-index:5;background:var(--bar);color:var(--bar-fg);padding:12px max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
-.bar .in{max-width:680px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between}
-.bar .calc{font-variant-numeric:tabular-nums;font-size:.95rem;opacity:.9}
-.bar .tot{font-size:1.5rem;font-weight:800;font-variant-numeric:tabular-nums}
-.bar button{background:transparent;color:var(--bar-fg);border-color:var(--bar-fg)}
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(110px + env(safe-area-inset-bottom,0px));z-index:9;background:var(--fg);color:var(--bg);border-radius:12px;padding:10px 14px;display:flex;gap:12px;align-items:center;max-width:calc(100% - 32px)}
+.strip{position:sticky;bottom:0;z-index:5;background:var(--card);border-top:2px solid var(--line);font-variant-numeric:tabular-nums;
+  padding:8px max(16px,env(safe-area-inset-right,0px)) calc(8px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.strip button{width:100%;max-width:680px;margin:0 auto;display:flex;justify-content:space-between;gap:10px;border:none;background:none;min-height:36px;padding:2px 0;font-size:.95rem}
+.strip b{font-size:1.05rem}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(64px + env(safe-area-inset-bottom,0px));z-index:9;background:var(--fg);color:var(--bg);border-radius:12px;padding:8px 12px;display:flex;gap:12px;align-items:center;max-width:calc(100% - 32px)}
 .toast button{background:transparent;color:var(--bg);border-color:var(--bg);min-height:40px}
 .ok{color:var(--ok)}.bad{color:var(--bad)}
 details summary{cursor:pointer;color:var(--muted);min-height:44px;display:flex;align-items:center}
@@ -71,33 +77,34 @@ const N = window.Nucleo;
 // ===== УСІ ТЕКСТИ В ОДНОМУ МІСЦІ (можна переписати, не чіпаючи логіку) =====
 const T = {
   titulo: 'Калькулятор будівельника',
-  unidad: 'Що рахуємо', unidades: { m2: 'Площа m²', ml: 'Довжина ml', m3: 'Об\'єм m³', ud: 'Штуки', h: 'Години', global: 'Одна сума' },
+  unidad: 'Що рахуємо', unidades: { m2: 'Площа m²', ml: 'Довжина m', m3: 'Об\'єм m³', ud: 'Штуки', h: 'Години', global: 'Одна сума' },
   hUnidad: 'Вибери, як рахуєш роботу: за квадратний метр, за метр довжини, за куб, поштучно, за годину або однією сумою.',
   precio: 'Ціна', precioPor: { m2: 'Ціна за 1 m²', ml: 'Ціна за 1 метр', m3: 'Ціна за 1 m³', ud: 'Ціна за 1 шт', h: 'Ціна за 1 годину', global: 'Сума за всю роботу' },
-  hPrecio: 'Впиши, скільки береш за одиницю. Валюта — просто значок, нічого не перераховується.',
+  hPrecio: 'Впиши, скільки береш за одиницю. Валюта не обов\'язкова — це просто значок біля чисел.',
   medidas: { m2: 'Розміри', ml: 'Довжини', m3: 'Розміри', ud: 'Кількість', h: 'Години' },
-  hMedidas: { m2: 'Додай кожну стіну (або підлогу) окремо. Вікна й двері впиши нижче — вони віднімуться самі.', ml: 'Додай кожен відрізок окремо. Двері чи прорізи — нижче, вони віднімуться.', m3: 'Додай кожну частину: довжина × ширина × глибина.', ud: 'Скільки штук.', h: 'Скільки годин.' },
+  hMedidas: { m2: 'Додай кожну стіну (або підлогу) окремо. Вікна, двері й отвори впиши нижче — вони віднімуться самі.', ml: 'Додай кожен відрізок окремо. Прорізи (двері тощо) — нижче, вони віднімуться.', m3: 'Додай кожну частину: довжина × ширина × глибина.', ud: 'Скільки штук.', h: 'Скільки годин.' },
   saber: { m2: 'Знаю площу', ml: 'Знаю довжину', m3: 'Знаю об\'єм' }, medir: 'Поміряти',
-  add: { m2: 'Стіни / площі', ml: 'Відрізки', m3: 'Частини' }, addBtn: { m2: '+ Додати стіну', ml: '+ Додати відрізок', m3: '+ Додати частину' },
-  sub: { m2: 'Вікна і двері', ml: 'Прорізи', m3: 'Відняти' }, subBtn: { m2: '− Відняти вікно / двері', ml: '− Відняти проріз', m3: '− Відняти частину' },
-  extras: 'Додаткові витрати', hExtras: 'Те, що не входить у ціну за одиницю: техніка, матеріал, доплата.',
-  fin: 'Похибка, знижка, податок, оплата', hFin: 'Тут можна додати похибку, знижку чи надбавку, податок і поділити оплату на етапи. Все необов\'язково.',
-  mas: 'Більше', menos: 'Сховати', borrar: 'Видалити', devolver: 'Повернути', borrado: 'Видалено',
+  add: { m2: 'Стіни / площі — додаються', ml: 'Відрізки — додаються', m3: 'Частини — додаються' }, addBtn: { m2: '+ Додати стіну', ml: '+ Додати відрізок', m3: '+ Додати частину' },
+  sub: { m2: 'Вікна, двері, отвори — віднімаються', ml: 'Прорізи — віднімаються', m3: 'Що відняти' }, subBtn: { m2: '− Відняти (вікно, двері, отвір…)', ml: '− Відняти проріз', m3: '− Відняти частину' },
+  ajustesQ: 'Запас і округлення',
+  extras: 'Додаткові витрати', hExtras: 'Те, що не входить у ціну за одиницю: матеріал, доплата, техніка.',
+  total: 'Разom', finMas: 'Знижка, податок, етапи оплати',
+  borrar: 'Видалити', devolver: 'Повернути', borrado: 'Видалено', listo: 'Готово', cambiar: 'Змінити',
 };
+T.total = 'Разом';
 const DIMS = { m2: [['a', 'Довжина'], ['b', 'Ширина']], ml: [['a', 'Довжина']], m3: [['a', 'Довжина'], ['b', 'Ширина'], ['c', 'Глибина']] };
 const UTXT = { m2: 'm²', ml: 'm', m3: 'm³', ud: 'шт', h: 'год', global: '' };
-const MONEDAS = ['€', '₴', '$', 'zł', '£', 'lei', 'Kč'];
+const MONEDAS = [['', 'без валюти'], ['€', '€ євро'], ['₴', '₴ гривня'], ['$', '$ долар'], ['₽', '₽ рубль'], ['zł', 'zł злотий'], ['£', '£ фунт'], ['lei', 'lei лей'], ['Kč', 'Kč крона'], ['₸', '₸ тенге'], ['₾', '₾ ларі'], ['Ft', 'Ft форинт']];
 
 // ===== Стан =====
-let uid = 0; const nid = () => ++uid;
+let uid = 1e5; const nid = () => ++uid;
 const fila = () => ({ id: nid(), a: '', b: '', c: '' });
-const nuevo = () => ({ unidad: 'm2', moneda: '€', precio: '', coste: '', modo: 'medir', saber: '', add: [fila()], sub: [], cmAdd: false, cmSub: false,
+const nuevo = () => ({ unidad: 'm2', moneda: '', precio: '', modo: 'medir', saber: '', add: [fila()], sub: [], cmAdd: false, cmSub: false,
   reserva: { tipo: 'pct', v: '' }, manual: '', ud: { modo: 'numero', v: '', l: '', paso: '', extremos: 'ambos' }, h: { modo: 'numero', v: '', ini: '', fin: '', pausa: '', dias: '', hd: '', p: '', hp: '' },
-  extras: [], error: { tipo: 'pct', v: '' }, ajuste: { tipo: 'pct', v: '' }, iva: 'no', ivaPct: '', ret: 'no', retPct: '', etapas: [],
-  abierto: { precio: false, medidas: false, fin: false }, ayuda: {} });
-const LS = 'calc-v2-estado', LSC = 'calc-v2-cabinete';
-let S; try { S = JSON.parse(localStorage.getItem(LS)) || nuevo(); } catch { S = nuevo(); }
-uid = 1e5;
+  extras: [], ajuste: { tipo: 'pct', v: '' }, iva: 'no', ivaPct: '', ret: 'no', retPct: '', etapas: [],
+  abierto: { q: false, fin: false, extras: true }, ayuda: {} });
+const LS = 'calc-v3-estado', LSC = 'calc-v3-cabinete';
+let S; try { S = { ...nuevo(), ...(JSON.parse(localStorage.getItem(LS)) || {}) }; } catch { S = nuevo(); }
 const guardarEstado = () => { try { localStorage.setItem(LS, JSON.stringify(S)); } catch {} };
 
 // ===== Утиліти =====
@@ -105,44 +112,49 @@ const $ = (t, a = {}, ...k) => { const e = document.createElement(t); for (const
 const num = s => { if (s === '' || s === undefined || s === null) return ''; const v = Number(String(s).replace(/\s/g, '').replace(',', '.')); return Number.isFinite(v) ? v : NaN; };
 const lleno = s => s !== '' && s !== undefined && s !== null && String(s).trim() !== '';
 const money = c => N.dinero(c, S.moneda);
-function inp(obj, key, label, { w, ph, mode = 'decimal' } = {}) {
-  return $('label', { class: 'f' }, label, $('input', { class: w ? 'w' : 'n', inputmode: mode, value: obj[key] ?? '', placeholder: ph || '', on: { input: e => { obj[key] = e.target.value; recalc(); } } }));
+const sym = () => S.moneda ? ' ' + S.moneda : '';
+const limpiar = (el, neg) => { const v = el.value, c = v.replace(neg ? /[^0-9.,\-]/g : /[^0-9.,]/g, ''); if (c !== v) el.value = c; return c; };
+function inp(obj, key, label, { w, ph, mode = 'decimal', neg, onEnter } = {}) {
+  return $('label', { class: 'f' }, label, $('input', { class: w ? 'w' : 'n', inputmode: mode === 'text' ? 'text' : 'decimal', value: obj[key] ?? '', placeholder: ph || '',
+    on: { input: e => { obj[key] = mode === 'text' ? e.target.value : limpiar(e.target, neg); recalc(); }, keydown: e => { if (e.key === 'Enter' && onEnter) { e.preventDefault(); onEnter(); } } } }));
 }
-function sel(obj, key, ops, label, onch) {
-  return $('label', { class: 'f' }, label, $('select', { on: { change: e => { obj[key] = e.target.value; onch ? (onch(), render()) : recalc(); } } }, ops.map(([v, t]) => $('option', { value: v, selected: String(obj[key]) === String(v) }, t))));
+function sel(obj, key, ops, label) {
+  return $('label', { class: 'f' }, label, $('select', { on: { change: e => { obj[key] = e.target.value; render(); } } }, ops.map(([v, t]) => $('option', { value: v, selected: String(obj[key]) === String(v) }, t))));
 }
 function seg(obj, key, ops, label) {
   return $('span', { class: 'seg', role: 'group', 'aria-label': label }, ops.map(([v, t]) => $('button', { type: 'button', 'aria-pressed': String(obj[key] === v), on: { click: () => { obj[key] = v; render(); } } }, t)));
 }
-function cabecera(titulo, clave, ayuda) {
-  return [$('div', { class: 'head' }, $('h2', {}, titulo), $('button', { type: 'button', class: 'q', 'aria-label': 'Підказка', 'aria-expanded': String(!!S.ayuda[clave]), on: { click: () => { S.ayuda[clave] = !S.ayuda[clave]; render(); } } }, '?')),
+function cabecera(titulo, clave, ayuda, extra) {
+  return [$('div', { class: 'head' }, $('h2', {}, titulo), $('div', { class: 'row' }, extra || null, $('button', { type: 'button', class: 'q', 'aria-label': 'Підказка', 'aria-expanded': String(!!S.ayuda[clave]), on: { click: () => { S.ayuda[clave] = !S.ayuda[clave]; render(); } } }, '?'))),
     S.ayuda[clave] ? $('p', { class: 'help' }, ayuda) : null];
 }
-function masBtn(clave) {
-  return $('button', { type: 'button', class: 'link', 'aria-expanded': String(!!S.abierto[clave]), on: { click: () => { S.abierto[clave] = !S.abierto[clave]; render(); } } }, S.abierto[clave] ? '▴ ' + T.menos : '▾ ' + T.mas);
+function toggle(clave, texto, resumen) {
+  return $('button', { type: 'button', class: 'toggle', 'aria-expanded': String(!!S.abierto[clave]), on: { click: () => { S.abierto[clave] = !S.abierto[clave]; render(); } } },
+    $('span', {}, texto, resumen ? $('span', { class: 'exp' }, resumen) : null), $('span', {}, S.abierto[clave] ? '▴' : '▾'));
 }
 
 // ===== Undo =====
 let toast = null, toastT;
-function borrar(arr, i, nombre) { const [x] = arr.splice(i, 1); toast = { texto: `${T.borrado}: ${nombre}`, undo: () => { arr.splice(i, 0, x); } }; clearTimeout(toastT); toastT = setTimeout(() => { toast = null; render(); }, 7000); render(); }
+function avisar(texto, undo) { toast = { texto, undo }; clearTimeout(toastT); toastT = setTimeout(() => { toast = null; render(); }, 7000); }
+function borrar(arr, i, nombre) { const [x] = arr.splice(i, 1); avisar(`${T.borrado}: ${nombre}`, () => arr.splice(i, 0, x)); render(); }
 
 // ===== Розрахунок (тільки через ядро) =====
 const humano = m => Object.assign(new Error(m), { humano: true });
+const EXTRAS_NOMBRE = { mat: 'Матеріал', dop: 'Доплата', maq: 'Техніка' };
 function calcular() {
-  const o = { q: null, aviso: '', lineas: [], base: null, extras: [], extrasC: 0, res: null, err: '', margen: null, etapas: null, etErr: '' };
+  const o = { q: null, aviso: '', lineas: [], base: null, extras: [], extrasC: 0, res: null, falta: '', etapas: null, etErr: '' };
   const U = S.unidad;
   try {
-    if (U === 'global') { /* без кількості */ }
-    else if (U === 'ud' || U === 'h') {
+    if (U === 'ud' || U === 'h') {
       const m = S[U]; let g;
       if (m.modo === 'numero') { if (!lleno(m.v)) throw humano(U === 'ud' ? 'Впиши, скільки штук' : 'Впиши, скільки годин'); const v = num(m.v); if (!(v > 0)) throw humano('Число має бути більше 0'); g = { v, exp: '' }; }
       else if (m.modo === 'porPaso') g = N.simples.porPaso({ l: num(m.l), paso: num(m.paso), extremos: m.extremos });
       else if (m.modo === 'inicioFin') g = N.simples.horasInicioFin({ ini: m.ini, fin: m.fin, pausa: num(m.pausa) || 0 });
       else if (m.modo === 'dias') g = N.simples.horasDias({ dias: num(m.dias), h: num(m.hd) });
-      else if (m.modo === 'personas') g = N.simples.horasPersonas({ p: num(m.p), h: num(m.hp) });
+      else g = N.simples.horasPersonas({ p: num(m.p), h: num(m.hp) });
       const f = N.cantidadFinal(g.v, { manual: num(S.manual), reserva: { tipo: S.reserva.tipo, v: num(S.reserva.v) } });
-      o.q = f; if (g.exp) o.lineas.push(`${g.exp} = ${N.num(g.v)}`); f.exp.forEach(x => o.lineas.push(x));
-    } else {
+      o.q = f; if (g.exp) o.lineas.push(`${g.exp} = ${N.num(g.v)}`); f.exp.forEach(x => o.lineas.push(x.replace('(ручна правка)', '(округлено)')));
+    } else if (U !== 'global') {
       const k = S.cmAdd ? 0.01 : 1, ks = S.cmSub ? 0.01 : 1, dims = DIMS[U];
       const parts = []; let incompletas = 0;
       const aParte = (r, signo, kk) => { const vals = dims.map(([d]) => r[d]); if (vals.every(v => !lleno(v))) return; if (vals.some(v => !lleno(v))) { incompletas++; return; }
@@ -151,18 +163,17 @@ function calcular() {
       if (S.modo === 'saber') { if (!lleno(S.saber)) throw humano(`Впиши ${U === 'm2' ? 'площу' : U === 'ml' ? 'довжину' : 'об\'єм'}`); parts.push({ signo: 1, figura: 'numero', datos: { v: num(S.saber) } }); }
       else S.add.forEach(r => aParte(r, 1, k));
       S.sub.forEach(r => aParte(r, -1, ks));
-      if (!parts.some(p => p.signo > 0)) throw humano(dims.length > 1 ? 'Впиши розміри — калькулятор порахує сам' : 'Впиши довжину');
+      if (!parts.some(p => p.signo > 0)) throw humano(dims.length > 1 ? 'Впиши розміри' : 'Впиши довжину');
       if (incompletas) o.aviso = 'Є рядок, де вписано не всі розміри — він поки не рахується.';
       const c = N.cantidad(U, parts, { regla: { tipo: 'todos' } });
       const f = N.cantidadFinal(c.neta, { manual: num(S.manual), reserva: { tipo: S.reserva.tipo, v: num(S.reserva.v) } });
-      o.q = { ...c, ...f }; if (c.menos) o.lineas.push(`${N.num(c.mas)} − ${N.num(c.menos)} = ${N.num(c.neta)} ${UTXT[U]}`); f.exp.forEach(x => o.lineas.push(x));
+      o.q = { ...c, ...f }; if (c.menos) o.lineas.push(`${N.num(c.mas)} − ${N.num(c.menos)} = ${N.num(c.neta)} ${UTXT[U]}`); f.exp.forEach(x => o.lineas.push(x.replace('(ручна правка)', '(округлено)')));
     }
-  } catch (e) { o.err = e.humano ? e.message : 'Помилка: ' + e.message; }
+  } catch (e) { o.falta = e.humano ? e.message : 'Помилка: ' + e.message; }
   try {
-    if (U !== 'global' && !o.q) throw humano('');
+    if (U !== 'global' && !o.q) throw humano(o.falta);
     if (!lleno(S.precio)) throw humano(U === 'global' ? 'Впиши суму' : 'Впиши ціну');
     o.base = N.base({ modo: U === 'global' ? 'global' : 'u', cant: o.q ? o.q.total : 0, precio: num(S.precio) });
-    if (lleno(S.coste) && num(S.coste) > 0) { const cc = U === 'global' ? N.aCentimos(num(S.coste)) : N.importe(o.q.total, N.aDiezmil(num(S.coste))); o.margen = { ...N.margen(o.base.c, cc), cc }; }
     o.extras = S.extras.map(x => { try {
       if (x.tipo === 'maq') return x.detalle ? N.maquinaria({ h: num(x.h) || 0, ph: num(x.ph) || 0, hp: num(x.hp) || 0, pp: num(x.pp) || 0, min: num(x.min) || 0, tr: num(x.tr) || 0 }) : N.extra({ tipo: 'suma', v: num(x.v) || 0 }, 0);
       if (x.tipo === 'mat') return N.extra({ tipo: 'uds', n: num(x.n) || 0, p: num(x.p) || 0 }, 0);
@@ -172,9 +183,9 @@ function calcular() {
     const imp = [];
     if (S.iva !== 'no') imp.push({ nombre: S.iva === 'otro' ? 'Податок' : S.iva === 'rc' ? 'IVA (inversión sujeto pasivo)' : 'IVA / ПДВ', pct: S.iva === 'otro' ? num(S.ivaPct) || 0 : S.iva === 'rc' ? 0 : Number(S.iva), signo: 1 });
     if (S.ret !== 'no') imp.push({ nombre: 'Утримання (retención)', pct: S.ret === 'otro' ? num(S.retPct) || 0 : Number(S.ret), signo: -1 });
-    o.res = N.resumen({ baseC: o.base.c, extrasC: o.extrasC, error: { tipo: S.error.tipo, v: num(S.error.v) || 0 }, ajuste: { tipo: S.ajuste.tipo, v: num(S.ajuste.v) || 0 }, impuestos: imp });
+    o.res = N.resumen({ baseC: o.base.c, extrasC: o.extrasC, ajuste: { tipo: S.ajuste.tipo, v: num(S.ajuste.v) || 0 }, impuestos: imp });
     if (S.etapas.length) { try { o.etapas = N.etapas(o.res.total, S.etapas.map(e => num(e.pct) || 0)); } catch (e) { o.etErr = e.message; } }
-  } catch (e) { if (e.message) o.err2 = e.humano ? e.message : 'Помилка: ' + e.message; }
+  } catch (e) { if (!o.falta) o.falta = e.humano ? e.message : 'Помилка: ' + e.message; }
   return o;
 }
 
@@ -190,138 +201,150 @@ function render() {
     $('div', { class: 'tabs', role: 'group', 'aria-label': T.unidad }, Object.entries(T.unidades).map(([k, t]) => $('button', { type: 'button', 'aria-pressed': String(U === k), on: { click: () => { if (S.unidad !== k) { S.unidad = k; S.modo = 'medir'; S.add = [fila()]; S.sub = []; S.saber = ''; S.manual = ''; render(); } } } }, t)))));
 
   // 2. Ціна
-  const pc = $('section', { class: 'card' }, ...cabecera(T.precio, 'p', T.hPrecio),
-    $('div', { class: 'row' }, inp(S, 'precio', T.precioPor[U], { ph: U === 'global' ? 'напр. 700' : 'напр. 12' }), sel(S, 'moneda', MONEDAS.map(m => [m, m]), 'Валюта', () => {})), masBtn('precio'));
-  if (S.abierto.precio) { R.margen = $('div', { class: 'hint' }); pc.append($('div', { class: 'more' }, $('div', { class: 'row' }, inp(S, 'coste', U === 'global' ? 'Мені це коштує (всього)' : `Мені коштує за 1 ${UTXT[U]}`, { ph: 'необов.' })), R.margen)); }
-  main.append(pc);
+  main.append($('section', { class: 'card' }, ...cabecera(T.precio, 'p', T.hPrecio),
+    $('div', { class: 'row' }, inp(S, 'precio', T.precioPor[U], { ph: U === 'global' ? 'напр. 700' : 'напр. 12' }), sel(S, 'moneda', MONEDAS, 'Валюта (необов.)'))));
 
   // 3. Розміри / кількість
   if (U !== 'global') {
     const mc = $('section', { class: 'card' }, ...cabecera(T.medidas[U], 'm', T.hMedidas[U]));
     if (U === 'ud' || U === 'h') {
       const m = S[U];
-      mc.append($('div', { class: 'row' }, inp(m, 'v', U === 'ud' ? 'Скільки штук' : 'Скільки годин', { ph: U === 'ud' ? 'напр. 11' : 'напр. 8' })));
-      if (m.modo !== 'numero') mc.lastChild.remove();
-      mc.append(masBtn('medidas'));
-      if (S.abierto.medidas) {
-        const ops = U === 'ud' ? [['numero', 'Просто число'], ['porPaso', 'Порахувати за кроком (стовпи, профілі)']] : [['numero', 'Просто число'], ['inicioFin', 'Від–до (07:30–16:00)'], ['dias', 'Дні × години'], ['personas', 'Люди × години']];
-        const more = $('div', { class: 'more' }, sel(m, 'modo', ops, 'Як рахувати', () => {}));
-        if (m.modo === 'porPaso') more.append($('div', { class: 'row' }, inp(m, 'l', 'Довжина, м'), inp(m, 'paso', 'Крок, м'), sel(m, 'extremos', [['ambos', 'Обидва кінці'], ['uno', 'Один кінець'], ['ninguno', 'Без кінців']], 'Кінці', () => {})));
-        if (m.modo === 'inicioFin') more.append($('div', { class: 'row' }, inp(m, 'ini', 'Початок', { ph: '07:30', mode: 'text' }), inp(m, 'fin', 'Кінець', { ph: '16:00', mode: 'text' }), inp(m, 'pausa', 'Перерва, хв', { ph: '60' })));
-        if (m.modo === 'dias') more.append($('div', { class: 'row' }, inp(m, 'dias', 'Днів'), inp(m, 'hd', 'Годин на день')));
-        if (m.modo === 'personas') more.append($('div', { class: 'row' }, inp(m, 'p', 'Людей'), inp(m, 'hp', 'Годин кожен')));
-        more.append(reservaYManual(U)); mc.append(more);
-      }
+      const ops = U === 'ud' ? [['numero', 'Просто число'], ['porPaso', 'За кроком (стовпи, профілі)']] : [['numero', 'Просто число'], ['inicioFin', 'Від – до (07:30–16:00)'], ['dias', 'Дні × години'], ['personas', 'Люди × години']];
+      mc.append(sel(m, 'modo', ops, 'Як рахувати'));
+      const row = $('div', { class: 'row' });
+      if (m.modo === 'numero') row.append(inp(m, 'v', U === 'ud' ? 'Скільки штук' : 'Скільки годин', { ph: U === 'ud' ? 'напр. 11' : 'напр. 8' }));
+      if (m.modo === 'porPaso') row.append(inp(m, 'l', 'Довжина, м'), inp(m, 'paso', 'Крок, м'), sel(m, 'extremos', [['ambos', 'Обидва кінці'], ['uno', 'Один кінець'], ['ninguno', 'Без кінців']], 'Кінці'));
+      if (m.modo === 'inicioFin') row.append(inp(m, 'ini', 'Початок', { ph: '07:30', mode: 'text' }), inp(m, 'fin', 'Кінець', { ph: '16:00', mode: 'text' }), inp(m, 'pausa', 'Перерва, хв', { ph: '60' }));
+      if (m.modo === 'dias') row.append(inp(m, 'dias', 'Днів'), inp(m, 'hd', 'Годин на день'));
+      if (m.modo === 'personas') row.append(inp(m, 'p', 'Людей'), inp(m, 'hp', 'Годин кожен'));
+      mc.append(row);
     } else {
       mc.append($('div', { class: 'row' }, seg(S, 'modo', [['medir', T.medir], ['saber', T.saber[U]]], 'Спосіб')));
-      if (S.modo === 'saber') mc.append($('div', { class: 'row' }, inp(S, 'saber', `${T.saber[U]}, ${UTXT[U]}`, { ph: 'напр. 40' })));
+      if (S.modo === 'saber') mc.append($('div', { class: 'row' }, inp(S, 'saber', `${T.saber[U]}, ${UTXT[U]}`, { ph: 'напр. 147' })));
       else mc.append(lista('add', T.add[U], T.addBtn[U], 'cmAdd', ''));
       mc.append(lista('sub', T.sub[U], T.subBtn[U], 'cmSub', 'minus'));
-      mc.append(masBtn('medidas'));
-      if (S.abierto.medidas) mc.append($('div', { class: 'more' }, reservaYManual(U)));
     }
-    R.qLines = $('div', { class: 'hint' }); R.qErr = $('div', { class: 'err', role: 'status' }); mc.append(R.qLines, R.qErr);
+    R.qLines = $('div', { class: 'hint' }); mc.append(R.qLines);
+    R.qToggle = $('span', { class: 'exp' });
+    mc.append($('button', { type: 'button', class: 'toggle', 'aria-expanded': String(!!S.abierto.q), on: { click: () => { S.abierto.q = !S.abierto.q; render(); } } }, $('span', {}, T.ajustesQ, R.qToggle), $('span', {}, S.abierto.q ? '▴' : '▾')));
+    if (S.abierto.q) mc.append($('div', { class: 'panel' },
+      $('p', { class: 'help' }, 'Запас — докинути зверху на відходи чи похибку. Округлити — замінити пораховане своїм числом (напр. 147 → 150).'),
+      $('div', { class: 'row' }, inp(S.reserva, 'v', S.reserva.tipo === 'pct' ? 'Запас, %' : `Запас, ${UTXT[U]}`, { ph: 'напр. 5' }), seg(S.reserva, 'tipo', [['pct', '%'], ['u', UTXT[U]]], 'Запас у')),
+      $('div', { class: 'row' }, inp(S, 'manual', `Округлити до, ${UTXT[U]}`, { ph: 'напр. 150' }))));
     main.append(mc);
   }
 
   // 4. Додаткові витрати
-  const xc = $('section', { class: 'card' }, ...cabecera(T.extras, 'x', T.hExtras)); R.xRes = [];
-  S.extras.forEach((x, i) => xc.append(extraBox(x, i)));
-  xc.append($('div', { class: 'row' },
-    $('button', { type: 'button', on: { click: () => { S.extras.push({ id: nid(), tipo: 'maq', v: '', detalle: false }); render(); } } }, '+ Техніка'),
-    $('button', { type: 'button', on: { click: () => { S.extras.push({ id: nid(), tipo: 'mat', nombre: '', n: '', p: '' }); render(); } } }, '+ Матеріал'),
-    $('button', { type: 'button', on: { click: () => { S.extras.push({ id: nid(), tipo: 'dop', nombre: '', dtipo: 'eur', v: '' }); render(); } } }, '+ Доплата')));
+  const xc = $('section', { class: 'card' }, ...cabecera(T.extras, 'x', T.hExtras)); R.xRes = []; R.xMini = [];
+  S.extras.forEach((x, i) => xc.append(x.abierto ? extraBox(x, i) : extraMini(x, i)));
+  xc.append($('div', { class: 'row' }, ['mat', 'dop', 'maq'].map(t => $('button', { type: 'button', on: { click: () => { S.extras.forEach(z => z.abierto = false); S.extras.push({ id: nid(), tipo: t, abierto: true, nombre: '', v: '', n: '', p: '', dtipo: 'eur', detalle: false }); render(); } } }, '+ ' + EXTRAS_NOMBRE[t]))));
   main.append(xc);
 
-  // 5. Похибка, знижка, податок, оплата
-  const fc = $('section', { class: 'card' }, ...cabecera(T.fin, 'f', T.hFin), masBtn('fin'));
+  // 5. Разом
+  const tc = $('section', { class: 'card', id: 'total' }, $('div', { class: 'head' }, $('h2', {}, T.total)));
+  R.total = $('div', { class: 'total', 'aria-live': 'polite' }); tc.append(R.total);
+  tc.append(toggle('fin', T.finMas));
   if (S.abierto.fin) {
-    const more = $('div', { class: 'more' },
-      $('div', { class: 'row' }, inp(S.error, 'v', S.error.tipo === 'pct' ? 'Похибка, %' : `Похибка, ${S.moneda}`, { ph: '0' }), seg(S.error, 'tipo', [['pct', '%'], ['eur', S.moneda]], 'Похибка в')),
-      $('div', { class: 'row' }, inp(S.ajuste, 'v', 'Надбавка (+) або знижка (−)', { ph: 'напр. −5' }), seg(S.ajuste, 'tipo', [['pct', '%'], ['eur', S.moneda]], 'Знижка в')),
-      $('div', { class: 'row' }, sel(S, 'iva', [['no', 'Без податку'], ['otro', 'Свій %'], ['21', 'IVA 21 % (Іспанія)'], ['10', 'IVA 10 % (Іспанія, ремонт житла)'], ['20', 'ПДВ 20 % (Україна)'], ['rc', 'Без IVA: фірма платить сама (inversión)']], 'Податок', () => {}),
+    const p = $('div', { class: 'panel' },
+      $('div', { class: 'row' }, inp(S.ajuste, 'v', 'Надбавка (+) або знижка (−)', { ph: 'напр. −5', neg: true }), seg(S.ajuste, 'tipo', [['pct', '%'], ['eur', S.moneda || 'сума']], 'Знижка в')),
+      $('div', { class: 'row' }, sel(S, 'iva', [['no', 'Без податку'], ['otro', 'Свій %'], ['21', 'IVA 21 % (Іспанія)'], ['10', 'IVA 10 % (Іспанія, ремонт житла)'], ['20', 'ПДВ 20 % (Україна)'], ['rc', 'Без IVA: фірма платить сама (inversión)']], 'Податок'),
         S.iva === 'otro' ? inp(S, 'ivaPct', 'Податок, %') : null),
-      $('details', { open: S.ret !== 'no' }, $('summary', {}, 'Утримання (тільки Іспанія, рахунок фірмі)'),
+      $('details', { open: S.ret !== 'no' }, $('summary', {}, 'Утримання (Іспанія, рахунок фірмі)'),
         $('p', { class: 'help' }, 'Коли autónomo виставляє рахунок фірмі, фірма залишає собі 15 % (або 7 % у перші роки) і сама платить їх у податкову за тебе. Тобі на руки приходить менше.'),
-        $('div', { class: 'row' }, sel(S, 'ret', [['no', 'Без утримання'], ['15', '15 %'], ['7', '7 %'], ['otro', 'Своє %']], 'Утримання', () => {}), S.ret === 'otro' ? inp(S, 'retPct', '%') : null)));
-    const et = $('div', { class: 'box' }, $('div', { class: 'head' }, $('h3', {}, 'Етапи оплати')));
+        $('div', { class: 'row' }, sel(S, 'ret', [['no', 'Без утримання'], ['15', '15 %'], ['7', '7 %'], ['otro', 'Своє %']], 'Утримання'), S.ret === 'otro' ? inp(S, 'retPct', '%') : null)));
+    const et = $('div', { class: 'box' }, $('div', { class: 'head' }, $('h3', {}, 'Етапи оплати')), $('p', { class: 'help' }, 'Поділи суму: аванс, середина, кінець. Разом має бути 100 %.'));
     S.etapas.forEach((e, i) => et.append($('div', { class: 'item' }, $('span', { class: 'no' }, (i + 1) + '.'), inp(e, 'nombre', 'Етап', { mode: 'text' }), inp(e, 'pct', '%'), $('span', { class: 'eq', 'data-et': i }),
       $('button', { type: 'button', class: 'min', on: { click: () => borrar(S.etapas, i, e.nombre || 'етап') } }, T.borrar))));
     et.append($('div', { class: 'row' }, $('button', { type: 'button', on: { click: () => { S.etapas = [{ nombre: 'Аванс', pct: 30 }, { nombre: 'Середина', pct: 50 }, { nombre: 'Кінець', pct: 20 }]; render(); } } }, '30 / 50 / 20'),
       $('button', { type: 'button', on: { click: () => { S.etapas.push({ nombre: '', pct: '' }); render(); } } }, '+ Етап')));
-    R.etErr = $('div', { class: 'err' }); et.append(R.etErr);
-    R.tabla = $('div', { class: 'wrap' }); R.rc = $('div', { class: 'hint' });
-    more.append(et, R.tabla, R.rc); fc.append(more);
+    R.etErr = $('div', { class: 'hint' }); et.append(R.etErr);
+    R.tabla = $('div', { class: 'wrap' });
+    p.append(et, $('details', {}, $('summary', {}, 'Як порахували (по кроках)'), R.tabla));
+    tc.append(p);
   }
-  main.append(fc);
+  R.confirm = $('div', { class: 'row' });
+  tc.append($('div', { class: 'row' }, $('button', { type: 'button', class: 'prim', on: { click: guardar } }, 'Зберегти'),
+    $('button', { type: 'button', on: { click: () => R.confirm.replaceChildren($('span', {}, 'Очистити все?'), $('button', { type: 'button', class: 'min', on: { click: () => { const st = S; S = nuevo(); S.moneda = st.moneda; avisar('Очищено', () => { S = st; }); render(); window.scrollTo(0, 0); } } }, 'Так, очистити'), $('button', { type: 'button', on: { click: () => R.confirm.replaceChildren() } }, 'Ні')) } }, 'Очистити')), R.confirm);
+  main.append(tc);
 
-  // Кабінет + перевірка
   main.append(cabinete(), pruebas());
   app.append(main);
 
-  // Нижня панель
-  R.barCalc = $('div', { class: 'calc' }); R.barTot = $('div', { class: 'tot' });
-  R.confirm = $('div');
-  app.append($('div', { class: 'bar' }, $('div', { class: 'in' }, $('div', {}, R.barCalc, R.barTot),
-    $('div', { class: 'row' }, $('button', { type: 'button', on: { click: guardar } }, 'Зберегти'), $('button', { type: 'button', on: { click: () => { R.confirm.replaceChildren($('span', {}, 'Очистити все? '), $('button', { type: 'button', on: { click: () => { const st = S; S = nuevo(); S.moneda = st.moneda; toast = { texto: 'Очищено', undo: () => { S = st; } }; render(); } } }, 'Так, очистити'), ' ', $('button', { type: 'button', on: { click: () => R.confirm.replaceChildren() } }, 'Ні')); } } }, 'Очистити')), R.confirm)));
-  if (toast) app.append($('div', { class: 'toast', role: 'status' }, toast.texto, $('button', { type: 'button', on: { click: () => { toast.undo(); toast = null; render(); } } }, T.devolver)));
+  // тонкий рядок-підсумок унизу (натиснути → до «Разом»)
+  R.strip = $('button', { type: 'button', 'aria-label': 'Перейти до підсумку', on: { click: () => document.getElementById('total').scrollIntoView({ behavior: 'smooth' }) } });
+  app.append($('div', { class: 'strip' }, R.strip));
+  if (toast) app.append($('div', { class: 'toast', role: 'status' }, toast.texto, toast.undo ? $('button', { type: 'button', on: { click: () => { toast.undo(); toast = null; render(); } } }, T.devolver) : null));
   recalc();
 }
 
 function lista(key, titulo, btn, cmKey, cls) {
   const U = S.unidad, dims = DIMS[U], u = S[cmKey] ? 'см' : 'м';
-  const sec = $('div', { class: 'sec ' + cls }, $('h3', {}, titulo, $('span', { class: 'seg', role: 'group', 'aria-label': 'Розміри в' }, [[false, 'м'], [true, 'см']].map(([v, t]) => $('button', { type: 'button', 'aria-pressed': String(S[cmKey] === v), on: { click: () => { S[cmKey] = v; render(); } } }, t)))));
+  const sec = $('div', { class: 'sec ' + cls }, $('h3', {}, titulo),
+    $('div', { class: 'units' }, 'Розміри пишу в:', $('span', { class: 'seg', role: 'group', 'aria-label': 'Розміри пишу в' }, [[false, 'метрах'], [true, 'сантиметрах']].map(([v, t]) =>
+      $('button', { type: 'button', 'aria-pressed': String(S[cmKey] === v), on: { click: () => { S[cmKey] = v; render(); } } }, t)))));
   const l = $('div', { class: 'list' });
   S[key].forEach((r, i) => {
     const it = $('div', { class: 'item' }, $('span', { class: 'no' }, (i + 1) + '.'));
-    dims.forEach(([d, lab], j) => { if (j) it.append($('span', { class: 'x' }, '×')); it.append($('input', { class: 'n', inputmode: 'decimal', 'aria-label': `${lab}, ${u}`, placeholder: lab.toLowerCase(), value: r[d], on: { input: e => { r[d] = e.target.value; recalc(); } } })); });
+    dims.forEach(([d, lab], j) => { if (j) it.append($('span', { class: 'x' }, '×')); it.append($('input', { class: 'n', inputmode: 'decimal', 'aria-label': `${lab}, ${u}`, placeholder: lab.toLowerCase(), value: r[d], on: { input: e => { r[d] = limpiar(e.target); recalc(); } } })); });
     it.append($('span', { class: 'x' }, u), $('span', { class: 'eq', 'data-fila': key + i }, ''), $('button', { type: 'button', class: 'min', on: { click: () => borrar(S[key], i, `рядок ${i + 1}`) } }, T.borrar));
     l.append(it);
   });
-  sec.append(l, $('div', {}, $('button', { type: 'button', class: cls ? 'min' : '', on: { click: () => { S[key].push(fila()); render(); setTimeout(() => { const ins = document.querySelectorAll(`[data-fila="${key}${S[key].length - 1}"]`)[0]?.parentElement.querySelector('input'); ins && ins.focus(); }, 0); } } }, btn)));
+  sec.append(l, $('div', {}, $('button', { type: 'button', class: cls ? 'min' : '', on: { click: () => { S[key].push(fila()); render(); const ins = document.querySelectorAll(`[data-fila="${key}${S[key].length - 1}"]`)[0]?.parentElement.querySelector('input'); ins && ins.focus(); } } }, btn)));
   return sec;
 }
-function reservaYManual(U) {
-  return $('div', { class: 'row' },
-    inp(S.reserva, 'v', S.reserva.tipo === 'pct' ? 'Із запасом, %' : `Із запасом, ${UTXT[U]}`, { ph: 'напр. 10' }), seg(S.reserva, 'tipo', [['pct', '%'], ['u', UTXT[U]]], 'Запас у'),
-    inp(S, 'manual', `Своє число, ${UTXT[U]}`, { ph: 'замість порахованого' }));
-}
+function cerrar(x) { x.abierto = false; render(); }
 function extraBox(x, i) {
-  const nombre = { maq: 'Техніка', mat: 'Матеріал', dop: 'Доплата' }[x.tipo];
+  const nombre = EXTRAS_NOMBRE[x.tipo], enter = () => cerrar(x);
   const b = $('div', { class: 'box' }, $('div', { class: 'head' }, $('h3', {}, nombre), $('button', { type: 'button', class: 'min', on: { click: () => borrar(S.extras, i, nombre) } }, T.borrar)));
   if (x.tipo === 'maq') {
-    if (!x.detalle) b.append($('div', { class: 'row' }, inp(x, 'v', `Скільки за техніку, ${S.moneda}`, { ph: 'як домовились' })));
-    b.append($('button', { type: 'button', class: 'link', on: { click: () => { x.detalle = !x.detalle; render(); } } }, x.detalle ? '▴ Просто сума' : '▾ Порахувати по годинах'));
-    if (x.detalle) b.append($('div', { class: 'row' }, inp(x, 'h', 'Годин роботи'), inp(x, 'ph', `${S.moneda} за годину`), inp(x, 'hp', 'Годин простою'), inp(x, 'pp', `${S.moneda} за год простою`), inp(x, 'min', `Мінімум за виїзд, ${S.moneda}`), inp(x, 'tr', `Доставка, ${S.moneda}`)));
+    if (!x.detalle) b.append($('div', { class: 'row' }, inp(x, 'v', 'Скільки за техніку' + sym(), { ph: 'як домовились', onEnter: enter })));
+    b.append($('button', { type: 'button', on: { click: () => { x.detalle = !x.detalle; render(); } } }, x.detalle ? '▴ Просто сума' : '▾ Порахувати по годинах'));
+    if (x.detalle) b.append($('div', { class: 'row' }, inp(x, 'h', 'Годин роботи', { onEnter: enter }), inp(x, 'ph', 'За годину' + sym(), { onEnter: enter }), inp(x, 'hp', 'Годин простою', { onEnter: enter }), inp(x, 'pp', 'За год простою' + sym(), { onEnter: enter }), inp(x, 'min', 'Мінімум за виїзд' + sym(), { onEnter: enter }), inp(x, 'tr', 'Доставка' + sym(), { onEnter: enter })));
   } else if (x.tipo === 'mat') {
-    b.append($('p', { class: 'help' }, 'Напр. 3 мішки по 8 — впиши 3 і 8.'), $('div', { class: 'row' }, inp(x, 'nombre', 'Що', { w: 1, mode: 'text', ph: 'мішки клею' })), $('div', { class: 'row' }, inp(x, 'n', 'Скільки'), $('span', { class: 'x' }, '×'), inp(x, 'p', `Ціна за 1, ${S.moneda}`)));
+    b.append($('p', { class: 'help' }, 'Напр. 3 мішки по 8 — впиши 3 і 8. (Окремий розрахунок матеріалів — буде пізніше.)'),
+      $('div', { class: 'row' }, inp(x, 'nombre', 'Що', { w: 1, mode: 'text', ph: 'мішки клею', onEnter: enter })), $('div', { class: 'row' }, inp(x, 'n', 'Скільки', { onEnter: enter }), $('span', { class: 'x' }, '×'), inp(x, 'p', 'Ціна за 1' + sym(), { onEnter: enter })));
   } else {
-    b.append($('div', { class: 'row' }, inp(x, 'nombre', 'За що', { w: 1, mode: 'text', ph: 'важкий ґрунт, корінь…' })), $('div', { class: 'row' }, inp(x, 'v', x.dtipo === 'pct' ? 'Скільки, %' : `Скільки, ${S.moneda}`), seg(x, 'dtipo', [['eur', S.moneda], ['pct', '%']], 'Доплата в')));
+    b.append($('div', { class: 'row' }, inp(x, 'nombre', 'За що', { w: 1, mode: 'text', ph: 'важкий ґрунт, корінь…', onEnter: enter })),
+      $('div', { class: 'row' }, inp(x, 'v', x.dtipo === 'pct' ? 'Скільки, %' : 'Скільки' + sym(), { onEnter: enter }), seg(x, 'dtipo', [['eur', S.moneda || 'сума'], ['pct', '%']], 'Доплата в')));
   }
-  const r = $('div', { class: 'hint' }); R.xRes[i] = r; b.append(r); return b;
+  const r = $('div', { class: 'hint' }); R.xRes[i] = r;
+  b.append(r, $('button', { type: 'button', class: 'prim', on: { click: enter } }, T.listo));
+  return b;
+}
+function extraMini(x, i) {
+  const t = $('strong', {}); R.xMini[i] = t;
+  return $('div', { class: 'mini' }, $('span', { class: 't' }, EXTRAS_NOMBRE[x.tipo], x.nombre ? $('small', {}, x.nombre) : null), t,
+    $('button', { type: 'button', on: { click: () => { S.extras.forEach(z => z.abierto = false); x.abierto = true; render(); } } }, T.cambiar),
+    $('button', { type: 'button', class: 'min', on: { click: () => borrar(S.extras, i, EXTRAS_NOMBRE[x.tipo]) } }, T.borrar));
 }
 
 // ===== Оновлення цифр (без перерисовки — фокус не губиться) =====
 function recalc() {
-  const o = calcular(), U = S.unidad;
-  document.querySelectorAll('[data-fila]').forEach(el => { const key = el.dataset.fila.slice(0, 3), i = +el.dataset.fila.slice(3); const r = S[key][i]; const k = S[key === 'add' ? 'cmAdd' : 'cmSub'] ? 0.01 : 1;
-    const v = DIMS[U].map(([d]) => num(r[d])); el.textContent = v.every(x => x > 0) ? `= ${N.num(v.reduce((a, b) => a * b * k, 1))} ${UTXT[U]}` : ''; });
-  if (R.qLines) { R.qLines.replaceChildren(...o.lineas.map(x => $('div', {}, x)), ...(o.aviso ? [$('div', {}, o.aviso)] : [])); R.qErr.textContent = ''; if (o.err) R.qLines.prepend($('div', {}, o.err)); }
-  if (R.margen) R.margen.textContent = o.margen ? `Заробіток ${money(o.margen.beneficio)} · це ${N.num(o.margen.margen, 1)} % від ціни (надбавка ${N.num(o.margen.recargo, 1)} % до собівартості)` : 'Впиши, скільки тобі коштує, — покажу заробіток.';
+  const o = calcular(), U = S.unidad, ut = UTXT[U];
+  document.querySelectorAll('[data-fila]').forEach(el => { const key = el.dataset.fila.slice(0, 3), i = +el.dataset.fila.slice(3); const r = S[key][i]; if (!r) return; const k = S[key === 'add' ? 'cmAdd' : 'cmSub'] ? 0.01 : 1;
+    const v = DIMS[U].map(([d]) => num(r[d])); el.textContent = v.every(x => x > 0) ? `= ${N.num(v.reduce((a, b) => a * b * k, 1))} ${ut}` : ''; });
+  if (R.qLines) R.qLines.replaceChildren(...o.lineas.map(x => $('div', {}, x)), ...(o.aviso ? [$('div', {}, o.aviso)] : []), ...(o.q ? [$('div', {}, $('b', {}, `Разом: ${N.num(o.q.total)} ${ut}`))] : []));
+  if (R.qToggle) R.qToggle.textContent = [lleno(S.reserva.v) && num(S.reserva.v) ? `запас +${S.reserva.v} ${S.reserva.tipo === 'pct' ? '%' : ut}` : '', lleno(S.manual) ? `округлено до ${S.manual}` : ''].filter(Boolean).join(' · ');
   (R.xRes || []).forEach((el, i) => { const r = o.extras[i]; if (el) el.textContent = r ? (r.err || (r.c ? '= ' + money(r.c) : '')) : ''; });
+  (R.xMini || []).forEach((el, i) => { const r = o.extras[i]; if (el) el.textContent = r && r.c ? money(r.c) : '—'; });
+  // Разом
+  const lines = [];
+  if (o.res) {
+    lines.push($('div', { class: 'big' }, money(o.res.total)));
+    if (U !== 'global') lines.push($('div', { class: 'ln' }, $('span', {}, 'Робота'), $('span', {}, `${N.num(o.q.total)} ${ut} × ${N.num(num(S.precio), 4)} = ${money(o.base.c)}`)));
+    S.extras.forEach((x, i) => { if (o.extras[i] && o.extras[i].c) lines.push($('div', { class: 'ln' }, $('span', {}, EXTRAS_NOMBRE[x.tipo] + (x.nombre ? ': ' + x.nombre : '')), $('span', {}, '+ ' + money(o.extras[i].c)))); });
+    const aj = o.res.pasos[2][1] - o.res.pasos[1][1]; if (aj) lines.push($('div', { class: 'ln' }, $('span', {}, aj < 0 ? 'Знижка' : 'Надбавка'), $('span', {}, (aj < 0 ? '' : '+ ') + money(aj))));
+    o.res.impuestos.forEach(([n, c]) => lines.push($('div', { class: 'ln' }, $('span', {}, n), $('span', {}, (c < 0 ? '' : '+ ') + money(c)))));
+    if (U !== 'global' && o.q.total > 0) lines.push($('div', { class: 'ln' }, $('span', {}, `Виходить за 1 ${ut} з усім`), $('span', {}, money(N.redondear(o.res.base / o.q.total)))));
+    if (o.etapas) S.etapas.forEach((e, i) => lines.push($('div', { class: 'ln' }, $('span', {}, `${e.nombre || 'Етап ' + (i + 1)} (${e.pct} %)`), $('span', {}, money(o.etapas[i])))));
+  } else lines.push($('div', { class: 'hint' }, o.falta || 'Заповни ціну і розміри — тут з\'явиться сума.'));
+  R.total.replaceChildren(...lines);
   if (R.tabla) {
-    R.tabla.replaceChildren(o.res ? $('table', {}, $('tbody', {}, o.res.pasos.map(([n, c, e]) => $('tr', {}, $('td', {}, n, $('span', { class: 'exp' }, e.replace(/ €/g, ' ' + S.moneda))), $('td', { class: 'r' }, money(c)))),
-      o.res.impuestos.map(([n, c, e]) => $('tr', {}, $('td', {}, n, $('span', { class: 'exp' }, e.replace(/ €/g, ' ' + S.moneda))), $('td', { class: 'r' }, (c < 0 ? '' : '+ ') + money(c)))))) : '');
-    R.rc.textContent = S.iva === 'rc' ? 'У рахунку написати: «Operación con inversión del sujeto pasivo» — уточнити з гестором.' : '';
+    R.tabla.replaceChildren(o.res ? $('table', {}, $('tbody', {}, [...o.res.pasos, ...o.res.impuestos].map(([n, c, e]) => $('tr', {}, $('td', {}, n, $('span', { class: 'exp' }, e.replace(/ €/g, sym()))), $('td', { class: 'r' }, money(c)))))) : '');
     document.querySelectorAll('[data-et]').forEach(el => { el.textContent = o.etapas ? money(o.etapas[+el.dataset.et]) : ''; });
     R.etErr.textContent = o.etErr;
   }
-  // нижня панель
-  const q = o.q ? `${N.num(o.q.total)} ${UTXT[U]}` : '';
-  if (o.base) {
-    R.barCalc.textContent = U === 'global' ? 'Одна сума' : `${q} × ${N.num(num(S.precio), 4)} = ${money(o.base.c)}` + (o.extrasC ? ` + додаткові ${money(o.extrasC)}` : '');
-    R.barTot.textContent = 'Разом: ' + money(o.res.total);
-  } else { R.barCalc.textContent = o.err || o.err2 || (q ? q : ''); R.barTot.textContent = q && !o.err ? q : 'Разом: —'; if (q && !o.err) R.barCalc.textContent = 'Впиши ціну, щоб побачити суму'; }
+  R.strip.replaceChildren($('span', {}, o.q ? `${N.num(o.q.total)} ${ut}` : (o.res ? T.unidades[U] : '')), $('b', {}, o.res ? 'Разом: ' + money(o.res.total) : (o.falta || '')));
   ultimo = o; guardarEstado();
 }
 let ultimo = null;
@@ -329,19 +352,19 @@ let ultimo = null;
 // ===== Кабінет (тільки в цьому браузері) =====
 const leer = () => { try { return JSON.parse(localStorage.getItem(LSC) || '[]'); } catch { return []; } };
 function guardar() {
-  if (!ultimo || !ultimo.res) { toast = { texto: 'Нема що зберігати: впиши розміри і ціну.', undo: () => {} }; render(); return; }
-  const nombre = (T.unidades[S.unidad]) + ' · ' + new Date().toLocaleDateString('uk-UA');
+  if (!ultimo || !ultimo.res) { avisar('Нема що зберігати: впиши розміри і ціну.'); render(); return; }
+  const nombre = T.unidades[S.unidad] + ' · ' + new Date().toLocaleDateString('uk-UA');
   const l = leer(); l.unshift({ fecha: Date.now(), nombre, total: ultimo.res.total, moneda: S.moneda, cant: ultimo.q ? `${N.num(ultimo.q.total)} ${UTXT[S.unidad]}` : '', estado: JSON.parse(JSON.stringify(S)) });
-  try { localStorage.setItem(LSC, JSON.stringify(l.slice(0, 50))); toast = { texto: 'Збережено в кабінет', undo: () => { const x = leer(); x.shift(); try { localStorage.setItem(LSC, JSON.stringify(x)); } catch {} } }; }
-  catch { toast = { texto: 'Не вдалося зберегти (приватний режим?)', undo: () => {} }; }
+  try { localStorage.setItem(LSC, JSON.stringify(l.slice(0, 50))); avisar('Збережено в кабінет', () => { const x = leer(); x.shift(); try { localStorage.setItem(LSC, JSON.stringify(x)); } catch {} }); }
+  catch { avisar('Не вдалося зберегти (приватний режим?)'); }
   render();
 }
 function cabinete() {
   const l = leer(); const c = $('section', { class: 'card' }, $('div', { class: 'head' }, $('h2', {}, 'Кабінет'), $('span', { class: 'hint' }, l.length ? l.length + ' збережено' : '')));
   if (!l.length) c.append($('p', { class: 'hint' }, 'Тут будуть збережені розрахунки. Поки що вони зберігаються тільки на цьому телефоні.'));
-  l.forEach((x, i) => c.append($('div', { class: 'item' }, $('span', { class: 'eq' }, x.nombre, $('span', { class: 'exp' }, x.cant)), $('strong', {}, N.dinero(x.total, x.moneda)),
-    $('button', { type: 'button', on: { click: () => { S = x.estado; render(); window.scrollTo(0, 0); } } }, 'Відкрити'),
-    $('button', { type: 'button', class: 'min', on: { click: () => { const a = leer(); const [z] = a.splice(i, 1); try { localStorage.setItem(LSC, JSON.stringify(a)); } catch {} toast = { texto: 'Видалено з кабінету', undo: () => { const b = leer(); b.splice(i, 0, z); try { localStorage.setItem(LSC, JSON.stringify(b)); } catch {} } }; render(); } } }, T.borrar))));
+  l.forEach((x, i) => c.append($('div', { class: 'mini' }, $('span', { class: 't' }, x.nombre, $('small', {}, x.cant)), $('strong', {}, N.dinero(x.total, x.moneda)),
+    $('button', { type: 'button', on: { click: () => { S = { ...nuevo(), ...x.estado }; render(); window.scrollTo(0, 0); } } }, 'Відкрити'),
+    $('button', { type: 'button', class: 'min', on: { click: () => { const a = leer(); const [z] = a.splice(i, 1); try { localStorage.setItem(LSC, JSON.stringify(a)); } catch {} avisar('Видалено з кабінету', () => { const b = leer(); b.splice(i, 0, z); try { localStorage.setItem(LSC, JSON.stringify(b)); } catch {} }); render(); } } }, T.borrar))));
   return c;
 }
 function pruebas() {

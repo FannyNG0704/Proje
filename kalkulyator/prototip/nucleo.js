@@ -10,7 +10,7 @@
   const aCentimos = eur => redondear(Number(eur) * 100);
   const aDiezmil = eur => redondear(Number(eur) * 10000);
   const importe = (cant, precioDiezmil) => redondear(cant * precioDiezmil / 100); // → центи
-  function dinero(c, sym = '€') { return eur(c).replace(' €', ' ' + sym); }
+  function dinero(c, sym = '€') { return eur(c).replace(' €', sym ? ' ' + sym : ''); }
   function eur(c) { const s = c < 0 ? '−' : ''; const a = Math.abs(c); return s + Math.floor(a / 100).toLocaleString('es-ES') + ',' + String(a % 100).padStart(2, '0') + ' €'; }
   function num(x, d = 3) { return Number(x.toFixed(d)).toLocaleString('es-ES', { maximumFractionDigits: d }); }
   function pos(v, nombre) { v = Number(v); if (!(v > 0)) err(`«${nombre}» має бути більше 0`); return v; }
