@@ -10,6 +10,7 @@
   const aCentimos = eur => redondear(Number(eur) * 100);
   const aDiezmil = eur => redondear(Number(eur) * 10000);
   const importe = (cant, precioDiezmil) => redondear(cant * precioDiezmil / 100); // → центи
+  function dinero(c, sym = '€') { return eur(c).replace(' €', ' ' + sym); }
   function eur(c) { const s = c < 0 ? '−' : ''; const a = Math.abs(c); return s + Math.floor(a / 100).toLocaleString('es-ES') + ',' + String(a % 100).padStart(2, '0') + ' €'; }
   function num(x, d = 3) { return Number(x.toFixed(d)).toLocaleString('es-ES', { maximumFractionDigits: d }); }
   function pos(v, nombre) { v = Number(v); if (!(v > 0)) err(`«${nombre}» має бути більше 0`); return v; }
@@ -137,10 +138,13 @@
     }
   }
   // impuestos: [{nombre, pct, signo:+1|-1}]
-  function resumen({ baseC, extrasC = 0, errorPct = 0, ajuste = { tipo: 'pct', v: 0 }, impuestos = [] }) {
+  // похибка: errorPct (число, %) або error {tipo:'pct'|'eur', v}
+  function resumen({ baseC, extrasC = 0, errorPct = 0, error, ajuste = { tipo: 'pct', v: 0 }, impuestos = [] }) {
     const p = []; const s13 = baseC + extrasC; p.push(['Сума позиції', s13, `${eur(baseC)} + ${eur(extrasC)}`]);
-    const e = Number(errorPct || 0); if (e < -100) err('Похибка не може бути менше −100 %');
-    const s14 = redondear(s13 * (1 + e / 100)); p.push(['З похибкою', s14, `× (1 + ${num(e, 2)} %)`]);
+    let s14;
+    if (error && error.tipo === 'eur') { const c = aCentimos(Number(error.v || 0)); s14 = s13 + c; p.push(['З похибкою', s14, `+ ${eur(c)}`]); }
+    else { const e = Number(error ? error.v || 0 : errorPct || 0); if (e < -100) err('Похибка не може бути менше −100 %');
+      s14 = redondear(s13 * (1 + e / 100)); p.push(['З похибкою', s14, `× (1 + ${num(e, 2)} %)`]); }
     let s15; if (ajuste.tipo === 'eur') { s15 = s14 + aCentimos(Number(ajuste.v || 0)); p.push(['Скориговано', s15, `${eur(s14)} ${Number(ajuste.v) < 0 ? '−' : '+'} ${eur(Math.abs(aCentimos(Number(ajuste.v || 0))))}`]); }
     else { const a = Number(ajuste.v || 0); if (a < -100) err('Знижка не може бути більше 100 %'); s15 = redondear(s14 * (1 + a / 100)); p.push(['Скориговано', s15, `× (1 ${a < 0 ? '−' : '+'} ${num(Math.abs(a), 2)} %)`]); }
     if (s15 < 0) err('Сума після корекції менша за 0');
@@ -149,6 +153,6 @@
     return { pasos: p, base: s15, impuestos: imp, total };
   }
 
-  const api = { redondear, aCentimos, aDiezmil, importe, eur, num, lineal, superficie, volumen, cantidad, cantidadFinal, simples, etapas, base, margen, maquinaria, extra, resumen };
+  const api = { dinero, redondear, aCentimos, aDiezmil, importe, eur, num, lineal, superficie, volumen, cantidad, cantidadFinal, simples, etapas, base, margen, maquinaria, extra, resumen };
   g.Nucleo = api; if (typeof module !== 'undefined') module.exports = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this);
