@@ -1,0 +1,156 @@
+<title>Yesos revisión</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preload" href="fonts/hldcasa.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+
+:root{--bg:#e4ebe0;--page-text:#2a231e;--page-muted:#5a5046;--text:#2a231e;--muted:#6b5e52;--accent:#b8541a;--green:#3e6b47;--wood:#7a5232;--line:#e5dacb;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--page-text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.note-top{background:var(--text);color:#f7f2ea;font-size:.85rem;text-align:center;padding-block:6px}
+.header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem 1.5rem;padding-block:1rem;background:#fff;border-bottom:3px solid var(--accent)}
+.logo{font-size:1.4rem;font-weight:700;color:var(--text);text-decoration:none}
+.nav{display:flex;flex-wrap:wrap;gap:1rem}
+.nav a{color:var(--muted);text-decoration:none}.nav a:hover{color:var(--accent)}
+.hero{min-height:75vh;display:flex;flex-direction:column;justify-content:flex-end;padding-block:3rem;color:#fff;
+ background:linear-gradient(180deg,rgba(20,24,31,.15) 0%,rgba(20,24,31,.85) 75%),url("img/hero-movil.webp") center/cover no-repeat}
+.hero h1{margin:0 0 1rem;font-size:2rem;line-height:1.2}
+.hero p{margin:0 0 1.5rem;max-width:40rem;color:#e8e2d9}
+.btn{display:inline-block;padding:.8rem 1.4rem;background:var(--accent);color:#fff;font-weight:600;text-decoration:none;border-radius:6px}
+.btn:hover{background:#9c4614}
+.section{max-width:1100px;margin:0 auto;padding-block:2.5rem}
+.cards{list-style:none;margin:1.5rem 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.card{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;padding:0 0 1.25rem}
+.card img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;margin-bottom:1rem}
+.card h3{margin:0 1.25rem .5rem;font-size:1.15rem}
+.card p{margin:0 1.25rem .75rem;color:var(--muted)}
+.card .price{margin:0 1.25rem;font-weight:700;color:var(--accent)}
+.note{color:var(--page-muted);font-size:.95rem}
+.card{color:var(--text)}
+body[data-bg="medio"]{--bg:#c3d5bf}
+body[data-bg="oscuro"]{--bg:#2f4a36;--page-text:#f3efe6;--page-muted:#cfd9cc;--line:#3f5c46}
+.pick{display:inline-flex;gap:6px;margin-left:10px;vertical-align:middle}
+.pick button{width:22px;height:22px;border-radius:50%;border:2px solid #f7f2ea;cursor:pointer}
+.pick button[aria-pressed="true"]{outline:2px solid var(--accent);outline-offset:2px}
+.footer{padding-block:2rem;background:var(--text);color:#d6dbe3;text-align:center;font-size:.9rem}
+@media (min-width:768px){
+ .hero{min-height:85vh;justify-content:center;padding-block:5rem;
+  background:linear-gradient(90deg,rgba(20,24,31,.88) 0%,rgba(20,24,31,.55) 45%,rgba(20,24,31,0) 75%),url("img/hero.webp") center/cover no-repeat}
+ .hero h1{font-size:2.75rem}
+ .section{padding-block:3.5rem}
+}
+@media (min-width:1024px){.hero h1{font-size:3.25rem;max-width:18ch}}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* Напрям: темно-зелений (пальма) + помаранчевий акцент */
+body{--bg:#2f4a36;--page-text:#f3efe6;--page-muted:#cfd9cc;--line:#3f5c46}
+.header{background:#2f4a36;border-bottom:3px solid var(--accent)}
+.logo{color:#f3efe6}.nav a{color:#cfd9cc}.nav a:hover{color:#f0a36b}
+.card h3{color:#2a231e}.card .price{color:#2f4a36}
+.footer{background:#22362a;color:#cfd9cc}
+.hero{background:linear-gradient(180deg,rgba(34,54,42,.15) 0%,rgba(34,54,42,.9) 75%),url("img/hero-movil.webp") center/cover no-repeat}
+@media (min-width:768px){.hero{background:linear-gradient(90deg,rgba(34,54,42,.92) 0%,rgba(34,54,42,.6) 45%,rgba(34,54,42,0) 75%),url("img/hero.webp") center/cover no-repeat}}
+
+/* Варіант A: обвідка помаранчевим (як просив) */
+/* Варіант B: порада — тінь для читабельності + помаранчева риска */
+.hero h1{text-shadow:0 2px 12px rgba(0,0,0,.55)}
+.hero h1::after,.section h2::after{content:"";display:block;width:64px;height:4px;margin-top:.5rem;background:#b8541a;border-radius:2px}
+.card h3{border-left:4px solid #b8541a;padding-left:.6rem;margin-left:1.25rem}
+.hero .btn{align-self:flex-start}
+.pick2{display:inline-flex;gap:6px;margin-left:8px}
+.pick2 button{font:inherit;font-size:.8rem;padding:2px 10px;border-radius:12px;border:1px solid #f3efe6;background:transparent;color:#f3efe6;cursor:pointer}
+.pick2 button[aria-pressed="true"]{background:#b8541a;border-color:#b8541a}
+
+/* Логотип HLD CASA: власний шрифт (fonts/hldcasa.woff2), малюється як текст */
+@font-face { font-family: "HLD Casa Logo"; src: url("fonts/hldcasa.woff2") format("woff2"); font-display: block; }
+.logo { display: inline-flex; color: var(--page-text); text-decoration: none; }
+.hld { position: relative; display: inline-flex; align-items: baseline; font-family: "HLD Casa Logo", sans-serif; font-size: 35px; font-weight: 400; font-synthesis: none; line-height: 1; white-space: nowrap; }
+@media (min-width: 768px) { .hld { font-size: 50px; } }
+.hld-eye { position: absolute; left: 21px; width: 4px; height: 4px; border-radius: 50%; background: currentColor; will-change: transform; }
+.hld-eye-1 { top: 9px; }
+.hld-eye-2 { top: 15px; }
+@media (min-width: 768px) {
+    .hld-eye { left: 30px; width: 6px; height: 6px; }
+    .hld-eye-1 { top: 13px; }
+    .hld-eye-2 { top: 22px; }
+}
+.hld-clip { padding-left: .24em; clip-path: inset(-.2em -.2em -.2em 0); }
+
+/* Анімація: D → очі → L → H → CASA виїжджає з-за D */
+.hld-d { animation: hld-from-left .9s cubic-bezier(.2,.8,.2,1) .2s backwards; }
+.hld-l { animation: hld-from-right .7s cubic-bezier(.2,.8,.2,1) 2.1s backwards; }
+.hld-h { animation: hld-from-right .7s cubic-bezier(.2,.8,.2,1) 2.8s backwards; }
+.hld-eye { animation: hld-fade .3s ease 1.15s backwards, hld-blink .45s ease-in-out 1.6s, hld-blink-loop 7s ease-in-out 3.6s infinite; }
+.hld-casa { display: inline-block; animation: hld-casa 1s cubic-bezier(.2,.8,.2,1) 3.6s backwards; }
+@keyframes hld-from-left { 0% { opacity: 0; transform: translateX(-.8em); } 20% { opacity: 1; } }
+@keyframes hld-from-right { 0% { opacity: 0; transform: translateX(.4em); } 20% { opacity: 1; } }
+@keyframes hld-fade { 0% { opacity: 0; } }
+@keyframes hld-casa { 0% { transform: translateX(-2.4em); } }
+@keyframes hld-blink { 50% { transform: scaleY(0); } }
+@keyframes hld-blink-loop { 93.6%, 100% { transform: scaleY(1); } 96.8% { transform: scaleY(0); } }
+@media (prefers-reduced-motion: reduce) {
+    .hld-d, .hld-l, .hld-h, .hld-eye, .hld-casa { animation: none; }
+}
+
+
+:root{--accent:#b8541a}
+.header{gap:.5rem 1.5rem}
+.footer p{margin:0}
+.wa-flotante{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;background:#25d366;color:#0b2e13;font-weight:700;text-decoration:none;padding:.75rem 1.1rem;border-radius:999px;box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.servicio-hero{min-height:45vh;display:flex;flex-direction:column;justify-content:flex-end;padding:2rem max(16px,env(safe-area-inset-right,0px)) 2rem max(16px,env(safe-area-inset-left,0px));color:#fff;background:linear-gradient(180deg,rgba(34,54,42,.15) 0%,rgba(34,54,42,.92) 85%),var(--foto) center/cover no-repeat}
+.servicio-hero h1{margin:0 0 .5rem;font-size:2rem;line-height:1.2;text-shadow:0 2px 12px rgba(0,0,0,.55)}
+.servicio-hero h1::after{content:"";display:block;width:64px;height:4px;margin-top:.5rem;background:var(--accent);border-radius:2px}
+.servicio-hero p{margin:0;max-width:40rem;color:#e8e2d9}
+.servicio{max-width:900px;margin:0 auto;padding:1rem max(16px,env(safe-area-inset-right,0px)) 3rem max(16px,env(safe-area-inset-left,0px));display:grid;gap:1rem}
+.volver{color:var(--page-muted)}
+.bloque{background:#fff;color:var(--text);border-radius:8px;padding:1.25rem}
+.bloque h2{margin:0 0 .75rem;color:var(--green)}
+.bloque h3{margin:1rem 0 .5rem;font-size:1.05rem}
+.intro{margin:0;font-size:1.1rem}
+.lista{margin:0;padding-left:1.2rem;display:grid;gap:.5rem}
+.lista li::marker{color:var(--accent)}
+.bloque details{border-top:1px solid #e5dacb;padding:.6rem 0}
+.bloque summary{cursor:pointer;font-weight:600}
+.bloque details p{margin:.5rem 0 0;color:var(--muted)}
+.consulta{background:#f1e7d6;border:1px solid #ddcdb2}
+.acciones{display:flex;flex-wrap:wrap;gap:.75rem;margin:1rem 0 0}
+.btn-sec{background:transparent;color:var(--green);border:2px solid var(--green)}
+@media (min-width:768px){.servicio-hero{min-height:55vh;padding-block:3rem}.servicio-hero h1{font-size:2.75rem}}
+.ua{display:block;background:#eef3ec;color:#2f4a36;border-left:3px solid #2f4a36;padding:5px 10px;border-radius:0 6px 6px 0;font-size:.88rem;margin:.35rem 0 0;font-weight:400;text-shadow:none}
+.servicio-hero .ua{max-width:40rem}
+</style>
+<header class="header wrap">
+<a class="logo" href="#" aria-label="HLD Casa, inicio"><span class="hld" aria-hidden="true"><span class="hld-h">H</span><span class="hld-l">L</span><span class="hld-eye hld-eye-1"></span><span class="hld-eye hld-eye-2"></span><span class="hld-d">D</span><span class="hld-clip"><span class="hld-casa">CASA</span></span></span></a>
+<nav class="nav"><a href="#">Servicios</a><a href="#">Proyectos</a><a href="#">Cómo trabajamos</a><a href="#">Nosotros</a><a href="#">Contacto</a></nav>
+</header>
+<main>
+<section class="servicio-hero" style="--foto: url('img/yeso.webp')"><h1>Yesos y enlucidos en Málaga</h1><p>Dejamos sus paredes y techos rectos, firmes y listos para pintar.</p><span class="ua">UA: Робимо ваші стіни й стелі рівними, міцними й готовими під фарбування.</span></section>
+<div class="servicio">
+<a class="volver" href="#">← Todos los servicios</a><span class="ua">UA: ← Усі послуги</span>
+<section class="bloque"><p class="intro">Elegimos el material según la estancia: yeso en interiores secos y mortero de cemento donde hay humedad.</p><span class="ua">UA: Підбираємо матеріал під приміщення: гіпс — у сухих кімнатах, цементну штукатурку — там, де волого.</span></section>
+<section class="bloque"><h2>Qué hacemos</h2><span class="ua">UA: Що робимо</span>
+<h3>Yeso interior</h3><span class="ua">UA: Гіпс усередині</span>
+<ul class="lista"><li>Revestimos paredes y techos en dos capas —base de yeso y acabado fino— para dejarlos firmes y lisos.<span class="ua">UA: Покриваємо стіни й стелі у два шари — основа і тонкий фініш, — щоб вони були міцні й гладкі.</span></li>
+<li>Usted elige el nivel de acabado: paredes perfectamente rectas con maestras o una opción más económica sin ellas.<span class="ua">UA: Ви обираєте рівень: ідеально рівні стіни по маяках або економніший варіант без них.</span></li>
+<li>Trabajamos con yeso aligerado con perlita: más ligero, rinde más y se agrieta menos.<span class="ua">UA: Працюємо полегшеним гіпсом з перлітом: легший, економніший і менше тріскається.</span></li>
+<li>Renovamos paredes viejas con una capa fina de acabado, sin necesidad de picarlas.<span class="ua">UA: Оновлюємо старі стіни тонким фінішним шаром — без збивання старого.</span></li>
+<li>Ponemos guardavivos en las esquinas para que queden rectas y no se rompan con los golpes.<span class="ua">UA: Ставимо кутові профілі, щоб кути були рівні й не відбивались.</span></li>
+<li>Tapamos las rozas del electricista y del fontanero para que la pared quede lista para pintar, sin marcas.<span class="ua">UA: Закриваємо штроби після електрика й сантехніка — стіна готова під фарбування, без слідів.</span></li>
+<li>Reparamos grietas y desconchones con malla para que no vuelvan a aparecer.<span class="ua">UA: Ремонтуємо тріщини й відшарування із сіткою, щоб вони не з'являлися знову.</span></li>
+<li>En baños, garajes y trasteros usamos mortero de cemento en lugar de yeso, porque resiste la humedad.<span class="ua">UA: У ванних, гаражах і коморах кладемо цементну штукатурку замість гіпсу, бо вона не боїться вологи.</span></li>
+<li>Reparamos techos de escayola y colocamos molduras y cornisas para un acabado clásico.<span class="ua">UA: Ремонтуємо стелі з escayola і ставимо карнизи й молдинги для класичного вигляду.</span></li>
+<li>Sobre hormigón y superficies lisas aplicamos un puente de adherencia para que el yeso no se despegue.<span class="ua">UA: На бетон і гладкі поверхні наносимо адгезійний ґрунт, щоб гіпс не відпадав.</span></li></ul>
+<h3>Revestimientos de mortero</h3><span class="ua">UA: Цементні та моношарові штукатурки</span>
+<ul class="lista"><li>Revestimos fachadas, patios y garajes con mortero monocapa: una sola capa que protege y decora, con acabado raspado o liso.<span class="ua">UA: Покриваємо фасади, дворики й гаражі моношаровою штукатуркою: один шар, що захищає й прикрашає, фактура «шуба» або гладка.</span></li>
+<li>Enfoscado de mortero terminado a fratás: superficie uniforme, resistente y lista para pintar.<span class="ua">UA: Цементна штукатурка, затерта теркою: рівна, міцна поверхня, готова під фарбування.</span></li></ul></section>
+<section class="bloque"><h2>Preguntas frecuentes</h2><span class="ua">UA: Часті питання</span>
+<details open><summary>¿Se puede poner yeso en el baño?</summary><p>En zonas con agua es mejor mortero de cemento o yeso hidrófugo: el yeso normal absorbe la humedad.</p><span class="ua">UA: Чи можна гіпс у ванній? — Там, де вода, краще цементна штукатурка або вологостійкий гіпс: звичайний гіпс вбирає вологу.</span></details>
+<details open><summary>¿Cuánto tarda en secar?</summary><p>Depende del grosor y la ventilación; normalmente de 1 a 2 semanas antes de pintar.</p><span class="ua">UA: Скільки сохне? — Залежить від товщини й провітрювання; зазвичай 1–2 тижні до фарбування.</span></details>
+<details open><summary>¿Pueden tapar las rozas de otro profesional?</summary><p>Sí, es uno de nuestros trabajos más habituales después de una reforma eléctrica o de fontanería.</p><span class="ua">UA: Чи закриваєте штроби після інших майстрів? — Так, це одна з найчастіших наших робіт після заміни електрики чи сантехніки.</span></details></section>
+<section class="bloque consulta"><h2>Consulta gratuita</h2><span class="ua">UA: Безкоштовна консультація</span>
+<p>Envíenos fotos y medidas por WhatsApp y le damos una primera valoración sin compromiso. Si hace falta, visitamos la obra y le preparamos un presupuesto por escrito.</p><span class="ua">UA: Надішліть фото й розміри у WhatsApp — дамо першу оцінку без зобов'язань. Якщо потрібно, приїдемо на об'єкт і підготуємо письмовий кошторис.</span>
+<p class="acciones"><a class="btn" href="#">Escríbanos por WhatsApp</a> <a class="btn btn-sec" href="#">Pedir presupuesto</a></p><span class="ua">UA: Кнопки: «Напишіть нам у WhatsApp» · «Замовити кошторис»</span></section>
+</div>
+</main>
+<footer class="footer wrap"><p>© 2026 HLD Casa · Reformas y acabados en Málaga</p></footer>
+<a class="wa-flotante" href="#" aria-label="Escríbanos por WhatsApp">WhatsApp</a>
