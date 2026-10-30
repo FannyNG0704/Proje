@@ -1,0 +1,165 @@
+<title>HLD Casa servicios</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: прототип сайту HLD Casa — головна з картками (без цін) і окрема сторінка для кожної послуги (#yeso, #alicatado…). Іспанський текст + український переклад під ним. Один вигляд — палітра сайту. */
+:root{--green:#2f4a36;--green-deep:#22362a;--line:#3f5c46;--accent:#b8541a;--accent-dark:#9c4614;--sand:#f1e7d6;--card:#ffffff;--text:#2a231e;--muted:#6b5e52;--light:#f3efe6;--light-muted:#cfd9cc;--ua-bg:#eef3ec;--ua-text:#3f5c46;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--green);color:var(--light);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:inherit}
+.wrap{max-width:1100px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.note{background:var(--green-deep);color:var(--light-muted);font-size:.85rem;padding-block:8px}
+.note .wrap{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;justify-content:space-between}
+.note label{display:inline-flex;gap:6px;align-items:center;cursor:pointer;color:var(--light)}
+header.top{border-bottom:3px solid var(--accent);padding-block:14px}
+header.top .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-weight:800;font-size:1.4rem;letter-spacing:.02em;text-decoration:none;color:var(--light)}
+.logo span{font-weight:600;font-size:1.05rem;margin-left:.35em}
+nav a{color:var(--light-muted);text-decoration:none;margin-left:14px}
+h1,h2,h3{line-height:1.2;text-wrap:balance}
+h2.sec{font-size:1.8rem;margin:2.2rem 0 1rem}
+h2.sec::after{content:"";display:block;width:56px;height:4px;margin-top:.5rem;background:var(--accent);border-radius:2px}
+.lead-home{color:var(--light-muted);max-width:60ch;margin:0 0 1.2rem}
+.cards{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.card{background:var(--card);color:var(--text);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.card img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
+.card .in{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card h3{margin:0;font-size:1.1rem;border-left:4px solid var(--accent);padding-left:.6rem}
+.card p{margin:0;color:var(--muted);font-size:.95rem;flex:1}
+.card .ua{font-size:.85rem}
+.more{align-self:flex-start;display:inline-block;margin-top:4px;color:var(--accent-dark);font-weight:700;text-decoration:none;border-bottom:2px solid currentColor;padding-bottom:1px}
+.more:hover,.more:focus-visible{color:var(--accent)}
+.ua{background:var(--ua-bg);color:var(--ua-text);border-left:3px solid var(--ua-text);padding:6px 10px;border-radius:0 6px 6px 0;font-size:.9rem;margin:.35rem 0 0}
+body.no-ua .ua{display:none}
+.hero-s{position:relative;min-height:260px;display:flex;align-items:flex-end;background:var(--green-deep) center/cover no-repeat}
+.hero-s::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(34,54,42,.1),rgba(34,54,42,.92))}
+.hero-s .wrap{position:relative;padding-block:28px;width:100%}
+.hero-s h1{margin:0;font-size:clamp(1.8rem,5vw,2.6rem);text-shadow:0 2px 12px rgba(0,0,0,.5)}
+.hero-s h1::after{content:"";display:block;width:64px;height:4px;margin-top:.5rem;background:var(--accent);border-radius:2px}
+.back{display:inline-block;margin:18px 0 0;color:var(--light-muted)}
+.page{display:grid;gap:16px;padding-block:20px 48px}
+.box{background:var(--card);color:var(--text);border-radius:10px;padding:18px 20px}
+.box h2{margin:0 0 .6rem;font-size:1.3rem;color:var(--green)}
+.box p{margin:0}
+.lead{font-size:1.1rem}
+ol.items{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+ol.items li{display:grid;grid-template-columns:auto 1fr;gap:4px 10px}
+ol.items .n{font-weight:800;color:var(--accent-dark);min-width:1.6em;font-variant-numeric:tabular-nums}
+ol.items .ua{grid-column:2}
+.faq{display:grid;gap:12px}
+.faq .q{font-weight:700}
+.consulta{background:var(--sand);color:var(--text);border-radius:10px;padding:18px 20px;border:1px solid #ddcdb2}
+.consulta h2{margin:0 0 .5rem;font-size:1.25rem;color:var(--green)}
+.price{font-weight:700;color:var(--green);margin-top:.6rem}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.btn{display:inline-block;background:var(--accent);color:#fff;font-weight:700;text-decoration:none;padding:.75rem 1.2rem;border-radius:6px;border:2px solid var(--accent)}
+.btn.alt{background:transparent;color:var(--light);border-color:var(--light-muted)}
+.tag{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
+footer{background:var(--green-deep);color:var(--light-muted);text-align:center;font-size:.9rem;padding-block:20px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+</style>
+
+<div class="note"><div class="wrap"><span>Прототип для правок. Пиши так: «Alicatado 4 — прибрати», «Pintura P2 — змінити відповідь».</span>
+<label><input type="checkbox" id="ua" checked> Показати переклад UA</label></div></div>
+<header class="top"><div class="wrap"><a class="logo" href="#">HLD<span>Casa</span></a><nav><a href="#">Servicios</a><a href="#">Contacto</a></nav></div></header>
+<main id="app"></main>
+<footer><div class="wrap">© 2026 HLD Casa · Reformas y acabados en Málaga</div></footer>
+
+<script>
+const CONSULTA = {
+  es: 'Le visitamos, vemos la obra y le explicamos cómo lo haríamos, qué materiales recomendamos y cuánto costaría aproximadamente. También le informamos si su reforma puede llevar IVA reducido del 10 %.',
+  uk: 'Приїжджаємо, дивимось об\'єкт і пояснюємо, як би ми це зробили, які матеріали радимо і скільки приблизно коштуватиме. Також підкажемо, чи може ваш ремонт іти з пільговим IVA 10 %.',
+  precio: ['Presupuesto gratuito y por escrito tras la visita.', 'Кошторис безкоштовно і письмово після виїзду.']
+};
+const S = [
+ { id:'yeso', img:'yeso', t:['Yesos y enlucidos','Гіпс і фінішна штукатурка'],
+   lead:['Revestimos paredes y techos con yeso a mano o proyectado: superficies rectas, firmes y listas para pintar.','Покриваємо стіни й стелі гіпсом вручну або машинно: рівні, міцні поверхні, готові під фарбування.'],
+   items:[['Yeso a buena vista y maestreado (con maestras y regla)','Гіпс «на око» і по маяках (з маяками й правилом)'],['Enlucido fino de acabado sobre yeso o cemento','Тонкий фінішний шар (enlucido) по гіпсу чи цементу'],['Guardavivos en esquinas para aristas rectas y resistentes','Кутові профілі (guardavivos) для рівних і міцних кутів'],['Reparación de paredes dañadas, grietas y desconchones','Ремонт пошкоджених стін, тріщин і відшарувань'],['Acabados decorativos a mano (texturas, estuco)','Декоративні ручні фактури (текстури, стукко)'],['Preparación del soporte: limpieza, imprimación y malla en uniones','Підготовка основи: очищення, ґрунт і сітка на стиках']],
+   faq:[['¿Cuánto tarda en secar?','Depende del grosor y la ventilación; normalmente de 1 a 2 semanas antes de pintar.','Скільки сохне?','Залежить від товщини й провітрювання; зазвичай 1–2 тижні до фарбування.'],['¿Se puede aplicar sobre azulejo?','Sí, con una imprimación de adherencia o tras retirar el azulejo, según su estado.','Чи можна по плитці?','Так, з адгезійним ґрунтом або після зняття плитки — залежно від стану.']] },
+ { id:'pladur', img:'pladur', t:['Pladur y fibra de vidrio','Гіпсокартон і склополотно'],
+   lead:['Tabiques, trasdosados y techos de pladur con juntas tratadas y acabado listo para pintar.','Перегородки, обшивка стін і стелі з гіпсокартону з обробленими швами, готові під фарбу.'],
+   items:[['Tabiques con aislamiento acústico (lana mineral)','Перегородки зі звукоізоляцією (мінвата)'],['Trasdosados para nivelar paredes o pasar instalaciones','Обшивка стін для вирівнювання або прокладання комунікацій'],['Placa hidrófuga para baños y cocinas','Вологостійкі листи для ванних і кухонь'],['Tratamiento de juntas con cinta y pasta (nivel Q2–Q4)','Обробка швів стрічкою й шпаклівкою (рівень Q2–Q4)'],['Revestimiento con fibra de vidrio antes de pintar','Покриття склополотном перед фарбуванням'],['Refuerzos para colgar muebles, TV y sanitarios','Закладні під меблі, телевізор і сантехніку']],
+   faq:[['¿El pladur aísla del ruido?','Con lana mineral en el interior y doble placa, la mejora es notable.','Чи ізолює гіпсокартон від шуму?','З мінватою всередині й подвійним листом — помітно.'],['¿Se puede colgar peso?','Sí, si se prevén refuerzos o se usan tacos específicos para pladur.','Чи можна вішати важке?','Так, якщо заздалегідь передбачити закладні або взяти спеціальні дюбелі.']] },
+ { id:'techos', img:'techos', t:['Techos e iluminación','Стелі й освітлення'],
+   lead:['Falsos techos con foseados, cortineros e iluminación LED integrada.','Підвісні стелі з нішами, карнизами для штор і вбудованим LED-освітленням.'],
+   items:[['Falso techo continuo de pladur','Суцільна підвісна стеля з гіпсокартону'],['Foseados perimetrales con tira LED','Ніші по периметру з LED-стрічкою'],['Cortineros ocultos','Приховані карнизи для штор'],['Huecos para focos empotrados y rejillas de aire','Отвори під вбудовані світильники й вентиляційні решітки'],['Registros para acceder a las instalaciones','Ревізійні люки для доступу до комунікацій'],['Techos desmontables de placas en oficinas y locales','Касетні стелі в офісах і комерційних приміщеннях']],
+   faq:[['¿Cuánta altura se pierde?','Normalmente de 5 a 15 cm, según las instalaciones y el diseño.','Скільки висоти втрачаємо?','Зазвичай 5–15 см, залежно від комунікацій і дизайну.'],['¿Hacen también la electricidad?','Dejamos los huecos y el cableado previsto; la conexión final la hace un electricista autorizado.','Чи робите електрику?','Робимо отвори й прокладку; фінальне підключення — сертифікований електрик.']] },
+ { id:'masilla', img:'masilla', t:['Masillas y alisados','Шпаклівка й вирівнювання'],
+   lead:['Paredes lisas de verdad: quitamos el gotelé y alisamos con masilla hasta un acabado de alto nivel.','Справді рівні стіни: знімаємо gotelé і вирівнюємо шпаклівкою до високого рівня.'],
+   items:[['Quitar gotelé (raspado o tapado con masilla)','Зняття gotelé (зішкрібаємо або перекриваємо шпаклівкою)'],['Alisado en 2–3 manos con lijado entre capas','Вирівнювання в 2–3 шари з шліфуванням між ними'],['Malla de fibra en grietas y uniones','Сітка зі скловолокна на тріщинах і стиках'],['Acabado Q3–Q4 para luz rasante','Фініш Q3–Q4 під бокове світло'],['Protección de suelos y muebles, limpieza al terminar','Захист підлоги й меблів, прибирання після робіт'],['Imprimación lista para pintar','Ґрунтування під фарбування']],
+   faq:[['¿Hace mucho polvo?','Lijamos con aspiración y protegemos la vivienda.','Чи багато пилу?','Шліфуємо з пилососом і захищаємо житло.'],['¿Se puede vivir en casa durante la obra?','Sí, organizamos el trabajo por estancias.','Чи можна жити вдома під час робіт?','Так, працюємо по кімнатах.']] },
+ { id:'pintura', img:'pintura', t:['Pintura','Фарбування'],
+   lead:['Pintura interior y exterior con preparación cuidadosa: el acabado depende de lo que hay debajo.','Фарбування всередині й зовні з ретельною підготовкою: результат залежить від того, що під фарбою.'],
+   items:[['Paredes y techos interiores (plástica, antimoho, lavable)','Стіни й стелі всередині (акрилова, протигрибкова, мийна)'],['Fachadas y exteriores (pliolite o siloxano)','Фасади й зовнішні поверхні (пліолітова чи силоксанова)'],['Puertas, carpintería y rejas (esmalte)','Двері, столярка й решітки (емаль)'],['Reparación de pequeñas grietas antes de pintar','Ремонт дрібних тріщин перед фарбуванням'],['Imprimación y dos manos de acabado','Ґрунт і два фінішні шари'],['Protección y limpieza completa','Захист і повне прибирання']],
+   faq:[['¿Cuántas manos de pintura?','Normalmente imprimación y dos manos; con cambios de color fuertes, a veces tres.','Скільки шарів фарби?','Зазвичай ґрунт і два шари; при різкій зміні кольору — інколи три.'],['¿Ustedes eligen la pintura?','Le recomendamos marcas profesionales; también podemos usar la que usted prefiera.','Ви вибираєте фарбу?','Радимо професійні марки; можемо працювати й з вашою.']] },
+ { id:'alicatado', img:'alicatado', t:['Alicatado y solado','Плитка на стіни й підлогу'],
+   lead:['Colocación de azulejo y porcelánico en paredes y suelos, también gran formato y exteriores.','Укладання плитки й керамограніту на стіни й підлоги, зокрема великий формат і зовнішні роботи.'],
+   items:[['Alicatado de baños y cocinas','Облицювання ванних і кухонь'],['Solado de interiores y terrazas','Підлоги в приміщеннях і на терасах'],['Porcelánico de gran formato con niveladores','Великоформатний керамограніт із системою вирівнювання'],['Ingletes a 45° en esquinas (sin perfil)','Запил під 45° на кутах (без профілю)'],['Cortes y huecos para enchufes, grifos y desagües','Різи й отвори під розетки, змішувачі й зливи'],['Platos de ducha de obra con pendiente','Душові піддони «на місці» з ухилом'],['Mosaico y piezas especiales','Мозаїка й фігурні елементи'],['Rejuntado con junta epoxi o cementosa','Затирка швів епоксидною чи цементною фугою']],
+   faq:[['¿Quitan el azulejo antiguo?','Sí, o colocamos encima si el soporte lo permite (ahorra tiempo y escombro).','Знімаєте стару плитку?','Так, або кладемо поверх, якщо основа дозволяє (економія часу й сміття).'],['¿Quién compra el material?','Como usted prefiera: le asesoramos o lo suministramos nosotros.','Хто купує матеріал?','Як вам зручно: порадимо або привеземо самі.']] },
+ { id:'fachada', img:'fachada', t:['Fachadas','Фасади'],
+   lead:['Revestimiento, reparación y pintura de fachadas para proteger la casa del sol, la sal y la humedad.','Облицювання, ремонт і фарбування фасадів, щоб захистити будинок від сонця, солі й вологи.'],
+   items:[['Monocapa y mortero raspado','Моношарова штукатурка й «шуба»'],['Enfoscado y revoco decorativo','Цементна штукатурка й декоративний тинк'],['Reparación de grietas y fisuras con malla','Ремонт тріщин із сіткою'],['Tratamiento de cantos de balcón y armaduras oxidadas','Обробка країв балконів і іржавої арматури'],['Pintura de fachada transpirable','Паропроникна фасадна фарба'],['Trabajo con andamio o plataforma, según la altura','Робота з риштувань або підйомника, залежно від висоти']],
+   faq:[['¿Necesito permiso del ayuntamiento?','Para muchas obras de fachada, sí (comunicación previa o licencia). Le orientamos.','Чи потрібен дозвіл міськради?','Для багатьох фасадних робіт так (повідомлення або ліцензія). Підкажемо.'],['¿En qué época se hace mejor?','Primavera y otoño: evitamos la lluvia y el calor extremo.','Коли краще робити?','Весна й осінь: без дощу й спеки.']] },
+ { id:'impermeabilizacion', img:'impermeabilizacion', t:['Impermeabilización','Гідроізоляція'],
+   lead:['Terrazas y cubiertas sin filtraciones: tela asfáltica o membrana líquida según el caso.','Тераси й дахи без протікань: бітумна мембрана або рідка гідроізоляція залежно від випадку.'],
+   items:[['Tela asfáltica soldada con soplete','Наплавна бітумна мембрана (пальником)'],['Membrana líquida (poliuretano o acrílica)','Рідка мембрана (поліуретанова чи акрилова)'],['Revisión y sellado de sumideros y juntas','Перевірка й герметизація зливів і швів'],['Medias cañas y remates en encuentros con muros','Галтелі й примикання до стін'],['Prueba de estanqueidad antes de cerrar','Перевірка на протікання перед закриттям'],['Solado de protección encima, si hace falta','Захисне покриття (плитка) зверху за потреби']],
+   faq:[['¿Hay que levantar el suelo de la terraza?','Depende: a veces sí; otras se aplica la membrana sobre la baldosa existente.','Чи треба знімати підлогу тераси?','Залежить: інколи так, інколи мембрану кладемо поверх плитки.'],['¿Cuánto dura?','Una buena impermeabilización, de 10 a 20 años con mantenimiento.','Скільки служить?','Якісна гідроізоляція — 10–20 років з доглядом.']] },
+ { id:'balaustrada', img:'balaustrada', t:['Balaustradas y terrazas','Балюстради й тераси'],
+   lead:['Balaustradas, barandillas de obra y acabados de terrazas con estilo mediterráneo.','Балюстради, муровані поручні й оздоблення терас у середземноморському стилі.'],
+   items:[['Montaje de balaustres prefabricados','Монтаж готових балясин'],['Pasamanos y bases de piedra artificial','Поручні й основи зі штучного каменю'],['Reparación y sustitución de piezas dañadas','Ремонт і заміна пошкоджених елементів'],['Solado exterior antideslizante','Протиковзка підлога надворі'],['Remates, vierteaguas y albardillas','Відливи, підвіконня й капіноси'],['Pintura y protección final','Фарбування й фінальний захист']],
+   faq:[['¿Qué altura debe tener una barandilla?','En viviendas, normalmente de 90 a 110 cm según la altura de caída (CTE). La comprobamos en cada obra.','Яка має бути висота поручня?','У житлі зазвичай 90–110 см залежно від висоти перепаду (норми CTE). Перевіряємо на кожному об\'єкті.'],['¿Trabajan con piedra natural?','Sí, bajo pedido.','Чи працюєте з натуральним каменем?','Так, під замовлення.']] },
+ { id:'laminado', img:'laminado', t:['Suelos laminados','Ламінат'],
+   lead:['Suelo laminado y tarima flotante: rápido, limpio y con rodapié a juego.','Ламінат і плаваюча підлога: швидко, чисто, з плінтусом в тон.'],
+   items:[['Nivelación del suelo si es necesario','Вирівнювання основи за потреби'],['Lámina aislante y barrera de humedad','Ізоляційна підкладка й вологобар\'єр'],['Colocación flotante sobre la baldosa existente','Плаваюче укладання поверх старої плитки'],['Corte de puertas y remates','Підрізка дверей і завершення'],['Rodapié a juego y perfiles de transición','Плінтус у тон і перехідні профілі'],['Laminado resistente al agua para cocinas','Вологостійкий ламінат для кухонь']],
+   faq:[['¿Se puede poner sobre el suelo actual?','Normalmente sí, si es firme y está nivelado.','Чи можна на стару підлогу?','Зазвичай так, якщо вона тверда й рівна.'],['¿Cuánto tarda?','Un salón de 25 m², normalmente un día.','Скільки часу займає?','Вітальня 25 m² — зазвичай один день.']] },
+ { id:'microcemento', img:'microcemento', t:['Microcemento','Мікроцемент'],
+   lead:['Superficies continuas sin juntas en suelos, paredes y baños.','Суцільні поверхні без швів на підлогах, стінах і у ванних.'],
+   items:[['Microcemento sobre azulejo existente, sin obra','Мікроцемент поверх старої плитки, без демонтажу'],['Suelos, paredes, encimeras y platos de ducha','Підлоги, стіни, стільниці й душові піддони'],['Malla y capas base para evitar fisuras','Сітка й базові шари проти тріщин'],['Colores y acabados (liso, rústico)','Кольори й фактури (гладка, рустикальна)'],['Sellado con barniz de poliuretano','Захисний лак (поліуретан)'],['Le explicamos cómo cuidarlo','Пояснюємо, як доглядати']],
+   faq:[['¿Se puede en baños y duchas?','Sí, con un sistema impermeable y el sellado adecuado.','Чи можна у ванних і душових?','Так, із системою гідроізоляції й правильним лаком.'],['¿Se agrieta?','Bien aplicado sobre un soporte estable, es muy resistente.','Чи тріскається?','При правильному нанесенні на стабільну основу — дуже міцний.']] },
+ { id:'montajes', img:'montajes', t:['Montajes y reparaciones','Монтаж і дрібний ремонт'],
+   lead:['Pequeños trabajos que nadie quiere hacer: montajes, reparaciones y demoliciones puntuales.','Дрібні роботи, які ніхто не хоче брати: монтаж, ремонти, точковий демонтаж.'],
+   items:[['Montaje de lámparas, estanterías y espejos','Монтаж світильників, полиць і дзеркал'],['Montaje y ajuste de puertas','Монтаж і регулювання дверей'],['Picado de paredes y apertura de huecos','Збивання стін і прорізання отворів'],['Desescombro y retirada a punto limpio','Винесення сміття й вивезення на пункт прийому'],['Pequeñas reparaciones de albañilería','Дрібні мулярні ремонти'],['Visita para valorar trabajos sueltos','Виїзд для оцінки дрібних робіт']],
+   faq:[['¿Hacen trabajos pequeños?','Sí; si hay varios, los agrupamos en una sola visita.','Беретеся за дрібні роботи?','Так; якщо їх кілька — об\'єднуємо в один виїзд.'],['¿Abrir un hueco en un muro es seguro?','Solo si no es un muro de carga, o con estudio técnico; lo comprobamos antes.','Чи безпечно прорізати отвір у стіні?','Лише якщо стіна не несуча або з технічним розрахунком; перевіряємо заздалегідь.']] },
+];
+const $ = (t, a = {}, ...k) => { const e = document.createElement(t); for (const [x, v] of Object.entries(a)) { if (x === 'class') e.className = v; else e.setAttribute(x, v); } for (const c of k.flat()) if (c != null && c !== false) e.append(c.nodeType ? c : String(c)); return e; };
+const ua = txt => $('p', { class: 'ua' }, 'UA: ', txt);
+
+function home() {
+  const w = $('div', { class: 'wrap' },
+    $('h2', { class: 'sec' }, 'Servicios'),
+    $('p', { class: 'lead-home' }, 'Cada servicio tiene su página con todo lo que incluye. Pulse «Ver qué incluye».'),
+    ua('Кожна послуга має свою сторінку з усім, що входить. Натисніть «Ver qué incluye».'),
+    $('ul', { class: 'cards' }, S.map((s, i) => $('li', { class: 'card' },
+      $('img', { src: `img/${s.img}.webp`, alt: s.t[0], width: '1200', height: '900', loading: 'lazy' }),
+      $('div', { class: 'in' }, $('span', { class: 'tag' }, `${i + 1}`), $('h3', {}, s.t[0]), $('p', {}, s.lead[0]), ua(s.t[1]),
+        $('a', { class: 'more', href: '#' + s.id }, 'Ver qué incluye →'))))));
+  return w;
+}
+function servicio(s) {
+  const frag = document.createDocumentFragment();
+  const hero = $('section', { class: 'hero-s' }, $('div', { class: 'wrap' }, $('h1', {}, s.t[0] + ' en Málaga'), ua(s.t[1] + ' у Малазі')));
+  hero.style.backgroundImage = `url("img/${s.img}.webp")`;
+  frag.append(hero);
+  frag.append($('div', { class: 'wrap' }, $('a', { class: 'back', href: '#' }, '← Todos los servicios'),
+    $('div', { class: 'page' },
+      $('section', { class: 'box' }, $('p', { class: 'lead' }, s.lead[0]), ua(s.lead[1])),
+      $('section', { class: 'box' }, $('h2', {}, 'Qué hacemos'), ua('Що робимо'),
+        $('ol', { class: 'items' }, s.items.map((it, i) => $('li', {}, $('span', { class: 'n' }, (i + 1) + '.'), $('span', {}, it[0]), ua(it[1]))))),
+      $('section', { class: 'box' }, $('h2', {}, 'Preguntas frecuentes'), ua('Часті питання'),
+        $('div', { class: 'faq' }, s.faq.map((f, i) => $('div', {}, $('div', { class: 'q' }, `P${i + 1}. ${f[0]}`), $('div', {}, f[1]), ua(`${f[2]} — ${f[3]}`))))),
+      $('section', { class: 'consulta' }, $('h2', {}, 'Consulta gratuita'), $('p', {}, CONSULTA.es), ua(CONSULTA.uk),
+        $('p', { class: 'price' }, CONSULTA.precio[0]), ua(CONSULTA.precio[1])),
+      $('div', { class: 'cta' }, $('a', { class: 'btn', href: '#' }, 'Pedir presupuesto'), $('a', { class: 'btn alt', href: '#' }, 'Consulta gratuita')))));
+  return frag;
+}
+function route() {
+  const app = document.getElementById('app'); app.textContent = '';
+  const s = S.find(x => x.id === location.hash.slice(1));
+  app.append(s ? servicio(s) : home());
+  window.scrollTo(0, 0);
+  document.title = s ? `${s.t[0]} · HLD Casa` : 'HLD Casa servicios';
+}
+window.addEventListener('hashchange', route);
+const chk = document.getElementById('ua');
+chk.addEventListener('change', () => document.body.classList.toggle('no-ua', !chk.checked));
+route();
+</script>
