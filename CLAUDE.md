@@ -61,3 +61,8 @@
 - Прогрес і що вже пройдено: `it/progres.md` — оновлюй після кожного заняття
   (тема, що зрозумів, що слабко, питання на повторення).
 - Конспекти занять: `it/konspekty/` (P0 — `00-maysternya.html`; P1 — `01-sait-vizytka.html`, https://claude.ai/artifact/BRKRpeLVqBwwZSrPfLfeHB).
+
+## Окремі проєкти (не курс)
+
+- **Будівельний калькулятор** — `kalkulyator/` (почати з `kalkulyator/README.md`). Не пов'язаний з курсом і сайтом.
+  Прототип: https://claude.ai/artifact/Gqn6UFceTepiTgkc9h5MhP. Якщо я питаю про калькулятор — спершу прочитай README, там стан, рішення і що далі.
