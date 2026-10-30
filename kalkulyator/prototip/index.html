@@ -1,0 +1,306 @@
+<title>Калькулятор будівельника</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: одна колонка карток зверху вниз у порядку логіки: Одиниця → Кількість → Ціна → Додатково → Підсумок. Прототип для ручної перевірки математики. */
+:root{--bg:#f4f5f2;--card:#ffffff;--fg:#1f2421;--muted:#5d665f;--line:#d9ddd6;--accent:#2f4a36;--accent-fg:#ffffff;--minus:#a33a2a;--ok:#2e7d4f;--bad:#b3261e;--field:#fbfcfa}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#151a17;--card:#1e2420;--fg:#e8ece6;--muted:#a3ada5;--line:#333b35;--accent:#8fc39d;--accent-fg:#10150f;--minus:#ef8f7f;--ok:#7fd3a0;--bad:#ff8a80;--field:#232a25;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#151a17;--card:#1e2420;--fg:#e8ece6;--muted:#a3ada5;--line:#333b35;--accent:#8fc39d;--accent-fg:#10150f;--minus:#ef8f7f;--ok:#7fd3a0;--bad:#ff8a80;--field:#232a25;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+.app{max-width:760px;margin:0 auto;display:grid;gap:14px}
+h1{margin:0;font-size:1.25rem}
+.sub{margin:0;color:var(--muted);font-size:.88rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;gap:10px;min-width:0}
+.card>h2{margin:0;font-size:1rem;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.card>h2 .sum{font-variant-numeric:tabular-nums;font-weight:600}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+button{font:inherit;color:var(--fg);background:var(--field);border:1px solid var(--line);border-radius:8px;padding:6px 11px;cursor:pointer}
+button:hover{border-color:var(--muted)}
+button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+button.small{padding:3px 9px;font-size:.85rem}
+button.minus{color:var(--minus)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end}
+label.f{display:grid;gap:2px;font-size:.78rem;color:var(--muted);min-width:0}
+input,select{font:inherit;color:var(--fg);background:var(--field);border:1px solid var(--line);border-radius:7px;padding:6px 8px;min-width:0}
+input.n{width:92px;font-variant-numeric:tabular-nums}
+input.t{width:150px}
+.part{border:1px solid var(--line);border-radius:8px;padding:10px;display:grid;gap:8px}
+.part.neg{border-left:4px solid var(--minus)}
+.part.pos{border-left:4px solid var(--accent)}
+.res{font-variant-numeric:tabular-nums;font-size:.86rem;color:var(--muted);overflow-wrap:anywhere}
+.res b{color:var(--fg)}
+.err{color:var(--bad);font-size:.86rem}
+.big{font-size:1.5rem;font-weight:700;font-variant-numeric:tabular-nums}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:.9rem}
+td{padding:5px 4px;border-bottom:1px solid var(--line);vertical-align:top}
+td.r{text-align:right;white-space:nowrap}
+td .res{display:block}
+.chk{display:flex;gap:6px;align-items:center;font-size:.85rem;color:var(--muted)}
+.wrap{overflow-x:auto}
+.ok{color:var(--ok)}.bad{color:var(--bad)}
+details summary{cursor:pointer;color:var(--muted);font-size:.9rem}
+</style>
+
+<div class="app" id="app"></div>
+
+<script src="nucleo.js"></script>
+<script src="pruebas.js"></script>
+<script>
+(() => {
+const N = window.Nucleo;
+const $ = (t, a = {}, ...k) => { const e = document.createElement(t); for (const [x, v] of Object.entries(a)) { if (x === 'on') for (const [ev, fn] of Object.entries(v)) e.addEventListener(ev, fn); else if (x === 'class') e.className = v; else if (v !== undefined && v !== null && v !== false) e.setAttribute(x, v === true ? '' : v); } for (const c of k.flat()) if (c !== null && c !== undefined && c !== false) e.append(c.nodeType ? c : String(c)); return e; };
+const num = s => { if (s === '' || s === undefined || s === null) return ''; const v = Number(String(s).replace(/\s/g, '').replace(',', '.')); return Number.isFinite(v) ? v : NaN; };
+
+// ---- Довідник фігур (поля для кожної) ----
+const FIG = {
+  ml: { segmento: ['Відрізок', [['d', 'Довжина, м']]], perimetro: ['Периметр', [['d', 'Довжина, м'], ['w', 'Ширина, м']]],
+        inclinado: ['Похилий', [['d', 'В плані, м'], ['h', 'Перепад, м'], ['pend', 'або ухил, %']]], circulo: ['Коло', [['diam', 'Діаметр, м']]], arco: ['Дуга', [['r', 'Радіус, м'], ['ang', 'Кут, °']]] },
+  m2: { rect: ['Прямокутник', [['d', 'Довжина, м'], ['w', 'Ширина, м']]], paredes: ['Стіни кімнати', [['d', 'Довжина, м'], ['w', 'Ширина, м'], ['h', 'Висота, м']]],
+        triangulo: ['Трикутник', [['b', 'Основа, м'], ['h', 'Висота, м']]], trapecio: ['Трапеція', [['a', 'a, м'], ['b', 'b, м'], ['h', 'Висота, м']]],
+        circulo: ['Коло', [['diam', 'Діаметр, м']]], semicirculo: ['Півколо', [['diam', 'Діаметр, м']]],
+        mocheta: ['Відкіс', [['w', 'Ширина отвору, м'], ['h', 'Висота отвору, м'], ['prof', 'Глибина, м'], ['bajo', 'з низом', 'chk']]],
+        inclinada: ['Похила поверхня', [['s', 'В плані, m²'], ['pend', 'Ухил, %'], ['ang', 'або кут, °']]] },
+  m3: { bloque: ['Брусок Д×Ш×Г', [['d', 'Довжина, м'], ['w', 'Ширина, м'], ['h', 'Глибина, м']]], capa: ['Площа × товщина', [['s', 'Площа, m²'], ['esp', 'Товщина, см']]],
+        zanja_talud: ['Траншея з укосами', [['d', 'Довжина, м'], ['b', 'Ширина дна, м'], ['h', 'Глибина, м'], ['m', 'Укіс m']]],
+        prof_variable: ['Змінна глибина', [['d', 'Довжина, м'], ['w', 'Ширина, м'], ['h1', 'Глибина поч., м'], ['h2', 'Глибина кін., м']]],
+        excavacion: ['Котлован + запас', [['d', 'Довжина, м'], ['w', 'Ширина, м'], ['h', 'Глибина, м'], ['margen', 'Запас, м']]],
+        hoyo: ['Яма (циліндр)', [['diam', 'Діаметр, см'], ['h', 'Глибина, м']]] },
+};
+const UNI = [['m2', 'm²'], ['ml', 'ml'], ['m3', 'm³'], ['ud', 'шт'], ['h', 'год'], ['global', 'одна сума']];
+const UNI_TXT = { m2: 'm²', ml: 'ml', m3: 'm³', ud: 'шт', h: 'год', global: '' };
+
+// ---- Стан ----
+let uid = 0; const nid = () => ++uid;
+const parte = (signo, figura, unidad) => ({ id: nid(), signo, figura: figura || (unidad === 'm3' ? 'bloque' : unidad === 'ml' ? 'segmento' : 'rect'), datos: {}, n: 1, nombre: signo < 0 ? (unidad === 'm2' ? 'вікно' : '') : '' });
+const nuevo = () => ({ nombre: '', unidad: 'm2', partes: [parte(1, 'rect', 'm2')], regla: { tipo: 'todos', x: 2.5 }, manual: '', reserva: { tipo: 'u', v: '' }, k: '',
+  simple: { modo: 'numero', datos: {} }, precio: '', coste: '', extras: [], error: '', ajuste: { tipo: 'pct', v: '' }, iva: 'no', ivaPct: '', ret: 'no', retPct: '', etapas: [] });
+let S = nuevo();
+
+// ---- Розрахунок (тільки через ядро) ----
+function calcular() {
+  const o = { q: null, qErr: null, base: null, extras: [], extrasC: 0, res: null, resErr: null, margen: null, etapas: null, etErr: null };
+  try {
+    if (S.unidad === 'global') o.q = null;
+    else if (['ml', 'm2', 'm3'].includes(S.unidad)) {
+      const partes = S.partes.map(p => ({ signo: p.signo, figura: p.figura, n: num(p.n) === '' ? 1 : num(p.n), nombre: p.nombre, datos: Object.fromEntries(Object.entries(p.datos).map(([k, v]) => [k, typeof v === 'boolean' ? v : num(v)])) }));
+      const c = N.cantidad(S.unidad, partes, { regla: S.regla.tipo === 'mayor' ? { tipo: 'mayor', x: num(S.regla.x) } : S.regla });
+      const f = N.cantidadFinal(c.neta, { manual: num(S.manual), reserva: { tipo: S.reserva.tipo, v: num(S.reserva.v) } });
+      o.q = { ...c, ...f };
+    } else {
+      const d = Object.fromEntries(Object.entries(S.simple.datos).map(([k, v]) => [k, ['ini', 'fin', 'extremos'].includes(k) ? v : num(v)]));
+      const m = S.simple.modo; let g;
+      if (m === 'numero') g = { v: (() => { const v = num(d.v); if (!(v > 0)) throw Object.assign(new Error('Кількість має бути більше 0'), { humano: true }); return v; })(), exp: '' };
+      else g = N.simples[m](d);
+      const f = N.cantidadFinal(g.v, { manual: num(S.manual), reserva: { tipo: S.reserva.tipo, v: num(S.reserva.v) } });
+      o.q = { lineas: g.exp ? [g.exp + ' = ' + N.num(g.v)] : [], neta: g.v, ...f };
+    }
+  } catch (e) { o.qErr = e.humano ? e.message : 'Помилка: ' + e.message; }
+  try {
+    const precio = num(S.precio);
+    if (precio === '' || Number.isNaN(precio)) throw Object.assign(new Error(S.unidad === 'global' ? 'Впиши суму' : 'Впиши ціну'), { humano: true });
+    if (S.unidad !== 'global' && !o.q) throw Object.assign(new Error('Спершу кількість'), { humano: true });
+    o.base = N.base({ modo: S.unidad === 'global' ? 'global' : 'u', cant: o.q ? o.q.total : 0, precio });
+    const coste = num(S.coste);
+    if (coste !== '' && coste > 0) { const cc = S.unidad === 'global' ? N.aCentimos(coste) : N.importe(o.q.total, N.aDiezmil(coste)); o.margen = { ...N.margen(o.base.c, cc), costeC: cc }; }
+    o.extras = S.extras.map(x => { try { const datos = Object.fromEntries(Object.entries(x).map(([k, v]) => [k, ['tipo', 'nombre', 'motivo', 'id', 'proceso'].includes(k) ? v : num(v)])); return N.extra(datos, o.base.c); } catch (e) { return { c: 0, exp: '', err: e.message }; } });
+    o.extrasC = o.extras.reduce((a, b) => a + b.c, 0);
+    const imp = [];
+    if (S.iva !== 'no') imp.push({ nombre: S.iva === 'rc' ? 'IVA (inversión del sujeto pasivo)' : 'IVA', pct: S.iva === 'rc' ? 0 : S.iva === 'otro' ? num(S.ivaPct) || 0 : Number(S.iva), signo: 1 });
+    if (S.ret !== 'no') imp.push({ nombre: 'Retención IRPF', pct: S.ret === 'otro' ? num(S.retPct) || 0 : Number(S.ret), signo: -1 });
+    o.res = N.resumen({ baseC: o.base.c, extrasC: o.extrasC, errorPct: num(S.error) || 0, ajuste: { tipo: S.ajuste.tipo, v: num(S.ajuste.v) || 0 }, impuestos: imp });
+    if (S.etapas.length) { try { o.etapas = N.etapas(o.res.total, S.etapas.map(e => num(e.pct) || 0)); } catch (e) { o.etErr = e.message; } }
+  } catch (e) { o.resErr = e.humano ? e.message : 'Помилка: ' + e.message; }
+  return o;
+}
+
+// ---- Поля вводу ----
+function campo(obj, key, label, opts = {}) {
+  const inp = $('input', { class: opts.cls || 'n', inputmode: opts.text ? 'text' : 'decimal', value: obj[key] ?? '', placeholder: opts.ph || '', 'aria-label': label, on: { input: e => { obj[key] = e.target.value; actualizar(); } } });
+  return $('label', { class: 'f' }, label, inp);
+}
+function selector(obj, key, opciones, label, onChange) {
+  const s = $('select', { 'aria-label': label, on: { change: e => { obj[key] = e.target.value; onChange ? onChange() : actualizar(); } } }, opciones.map(([v, t]) => $('option', { value: v, selected: String(obj[key]) === String(v) }, t)));
+  return $('label', { class: 'f' }, label, s);
+}
+
+// ---- Рендер ----
+let refs = {};
+function render() {
+  const app = document.getElementById('app'); app.textContent = ''; refs = {};
+  app.append($('div', {}, $('h1', {}, 'Калькулятор будівельника'), $('p', { class: 'sub' }, 'Прототип бази: Одиниця → Кількість → Ціна → Додатково → Підсумок. Уся математика — в nucleo.js.')));
+
+  // 1. Одиниця
+  app.append($('section', { class: 'card' }, $('h2', {}, '1. Одиниця'),
+    $('div', { class: 'row' }, campo(S, 'nombre', 'Назва роботи', { cls: 't', text: true, ph: 'напр. Траншея' })),
+    $('div', { class: 'tabs', role: 'group', 'aria-label': 'Одиниця' }, UNI.map(([v, t]) => $('button', { type: 'button', 'aria-pressed': String(S.unidad === v), on: { click: () => cambiarUnidad(v) } }, t)))));
+
+  // 2. Кількість
+  if (S.unidad !== 'global') {
+    const c = $('section', { class: 'card' }); refs.qSum = $('span', { class: 'sum' });
+    c.append($('h2', {}, '2. Кількість', refs.qSum));
+    if (['ml', 'm2', 'm3'].includes(S.unidad)) {
+      S.partes.forEach(p => c.append(renderParte(p)));
+      c.append($('div', { class: 'row' },
+        $('button', { type: 'button', class: 'small', on: { click: () => { S.partes.push(parte(1, null, S.unidad)); render(); } } }, '+ додати частину'),
+        $('button', { type: 'button', class: 'small minus', on: { click: () => { S.partes.push(parte(-1, null, S.unidad)); render(); } } }, '− відняти (вікно, двері…)')));
+      if (S.unidad === 'm2') c.append($('div', { class: 'row' }, selector(S.regla, 'tipo', [['todos', 'Відняти всі отвори'], ['mayor', 'Відняти тільки більші за X m²'], ['ninguno', 'Не віднімати отвори']], 'Правило отворів', render),
+        S.regla.tipo === 'mayor' ? campo(S.regla, 'x', 'X, m²') : null));
+    } else c.append(renderSimple());
+    c.append($('div', { class: 'row' }, campo(S, 'manual', 'Ручна правка (необов.)', { ph: 'залишити пустим' }),
+      selector(S.reserva, 'tipo', [['u', '+ ' + UNI_TXT[S.unidad]], ['pct', '+ %']], 'Запас'), campo(S.reserva, 'v', 'Скільки')));
+    if (S.unidad === 'm3') c.append($('div', { class: 'row' }, campo(S, 'k', 'Розпушення k (для вивозу)', { ph: '1,25' })));
+    refs.qRes = $('div', { class: 'res' }); refs.qErr = $('div', { class: 'err', role: 'alert' });
+    c.append(refs.qRes, refs.qErr); app.append(c);
+  }
+
+  // 3. Ціна
+  const p = $('section', { class: 'card' }); refs.bSum = $('span', { class: 'sum' });
+  p.append($('h2', {}, '3. Ціна', refs.bSum),
+    $('div', { class: 'row' }, campo(S, 'precio', S.unidad === 'global' ? 'Сума за все, €' : `Ціна, € за ${UNI_TXT[S.unidad]}`),
+      campo(S, 'coste', S.unidad === 'global' ? 'Мені коштує, € (необов.)' : `Мені коштує, € за ${UNI_TXT[S.unidad]} (необов.)`)));
+  refs.bRes = $('div', { class: 'res' }); p.append(refs.bRes); app.append(p);
+
+  // 4. Додатково
+  const x = $('section', { class: 'card' }); refs.xSum = $('span', { class: 'sum' });
+  x.append($('h2', {}, '4. Додатково', refs.xSum));
+  refs.xRows = [];
+  S.extras.forEach((e, i) => x.append(renderExtra(e, i)));
+  x.append($('div', { class: 'row' }, [['suma', '+ сума €'], ['uds', '+ штуки × ціна'], ['pct', '+ % від ціни'], ['maq', '+ техніка']].map(([t, l]) =>
+    $('button', { type: 'button', class: 'small', on: { click: () => { S.extras.push({ id: nid(), tipo: t, nombre: '', proceso: false, motivo: '' }); render(); } } }, l))));
+  app.append(x);
+
+  // 5. Підсумок
+  const r = $('section', { class: 'card' });
+  r.append($('h2', {}, '5. Підсумок'),
+    $('div', { class: 'row' }, campo(S, 'error', 'Похибка, %', { ph: '0' }),
+      selector(S.ajuste, 'tipo', [['pct', '± %'], ['eur', '± €']], 'Корекція (надбавка/знижка)'), campo(S.ajuste, 'v', 'Скільки (− = знижка)')),
+    $('div', { class: 'row' },
+      selector(S, 'iva', [['no', 'Без IVA'], ['21', 'IVA 21 %'], ['10', 'IVA 10 %'], ['0', 'IVA 0 %'], ['rc', 'Reverse charge (0 % + напис)'], ['otro', 'Свій %']], 'Податок', render),
+      S.iva === 'otro' ? campo(S, 'ivaPct', '%') : null,
+      selector(S, 'ret', [['no', 'Без утримання'], ['15', 'Retención 15 %'], ['7', 'Retención 7 %'], ['otro', 'Своє %']], 'Утримання', render),
+      S.ret === 'otro' ? campo(S, 'retPct', '%') : null));
+  refs.rTab = $('div', { class: 'wrap' }); refs.rErr = $('div', { class: 'err', role: 'alert' }); refs.total = $('div', { class: 'big' }); refs.rcNote = $('div', { class: 'res' });
+  r.append(refs.rTab, refs.total, refs.rcNote, refs.rErr);
+  const et = $('details', { open: S.etapas.length > 0 }, $('summary', {}, 'Етапи оплати (аванс / проміжні / фінал)'));
+  S.etapas.forEach((e, i) => et.append($('div', { class: 'row' }, campo(e, 'nombre', 'Етап', { cls: 't', text: true }), campo(e, 'pct', '%'), $('span', { class: 'res', 'data-et': i }),
+    $('button', { type: 'button', class: 'small minus', 'aria-label': 'Видалити етап', on: { click: () => { S.etapas.splice(i, 1); render(); } } }, '×'))));
+  et.append($('div', { class: 'row' }, $('button', { type: 'button', class: 'small', on: { click: () => { S.etapas.push({ nombre: ['Аванс', 'Проміжний', 'Фінал'][S.etapas.length] || 'Етап', pct: '' }); render(); } } }, '+ етап'),
+    $('button', { type: 'button', class: 'small', on: { click: () => { S.etapas = [{ nombre: 'Аванс', pct: 30 }, { nombre: 'Проміжний', pct: 50 }, { nombre: 'Фінал', pct: 20 }]; render(); } } }, '30 / 50 / 20')));
+  refs.etErr = $('div', { class: 'err' }); et.append(refs.etErr); r.append(et);
+  r.append($('div', { class: 'row' }, $('button', { type: 'button', on: { click: guardar } }, 'Зберегти в кабінет'), $('button', { type: 'button', on: { click: () => { S = nuevo(); render(); } } }, 'Нова позиція')));
+  app.append(r);
+
+  // Кабінет і тести
+  app.append(renderCabinete(), renderPruebas());
+  actualizar();
+}
+
+function renderParte(p) {
+  const figs = FIG[S.unidad];
+  const box = $('div', { class: 'part ' + (p.signo < 0 ? 'neg' : 'pos') });
+  const opciones = [['numero', 'Число'], ...Object.entries(figs).map(([k, [t]]) => [k, t])];
+  box.append($('div', { class: 'row' },
+    $('strong', {}, p.signo < 0 ? '−' : '+'),
+    campo(p, 'nombre', 'Назва', { cls: 't', text: true, ph: p.signo < 0 ? 'вікно, двері…' : 'стіна А…' }),
+    selector(p, 'figura', opciones, 'Як рахувати', () => { p.datos = {}; render(); }),
+    campo(p, 'n', '× N'),
+    S.partes.length > 1 ? $('button', { type: 'button', class: 'small minus', 'aria-label': 'Видалити частину', on: { click: () => { S.partes = S.partes.filter(z => z !== p); render(); } } }, '×') : null));
+  const campos = p.figura === 'numero' ? [['v', 'Кількість, ' + UNI_TXT[S.unidad]]] : figs[p.figura][1];
+  box.append($('div', { class: 'row' }, campos.map(([k, l, t]) => t === 'chk'
+    ? $('label', { class: 'chk' }, $('input', { type: 'checkbox', checked: !!p.datos[k], on: { change: e => { p.datos[k] = e.target.checked; actualizar(); } } }), l)
+    : campo(p.datos, k, l))));
+  return box;
+}
+function renderSimple() {
+  const m = S.unidad === 'ud' ? [['numero', 'Число'], ['porPaso', 'За кроком'], ['porArea', 'За площею']] : [['numero', 'Число'], ['horasInicioFin', 'Початок–кінець'], ['horasDias', 'Дні × години'], ['horasPersonas', 'Люди × години']];
+  const d = S.simple.datos; const box = $('div', { class: 'part pos' });
+  box.append($('div', { class: 'row' }, selector(S.simple, 'modo', m, 'Як рахувати', () => { S.simple.datos = {}; render(); })));
+  const f = { numero: [['v', 'Кількість']], porPaso: [['l', 'Довжина, м'], ['paso', 'Крок, м']], porArea: [['s', 'Площа, m²'], ['k', 'Шт на m²']],
+    horasInicioFin: [['ini', 'Початок (ГГ:ХХ)', 1], ['fin', 'Кінець (ГГ:ХХ)', 1], ['pausa', 'Перерва, хв']], horasDias: [['dias', 'Днів'], ['h', 'Годин на день']], horasPersonas: [['p', 'Людей'], ['h', 'Годин']] }[S.simple.modo];
+  const row = $('div', { class: 'row' }, f.map(([k, l, t]) => campo(d, k, l, t ? { text: true, cls: 'n', ph: '07:30' } : {})));
+  if (S.simple.modo === 'porPaso') { if (!d.extremos) d.extremos = 'ambos'; row.append(selector(d, 'extremos', [['ambos', 'Обидва кінці (+1)'], ['uno', 'Один кінець'], ['ninguno', 'Без кінців (−1)']], 'Кінці')); }
+  box.append(row); return box;
+}
+function renderExtra(e, i) {
+  const t = { suma: [['v', 'Сума, €']], uds: [['n', 'Кількість'], ['p', 'Ціна, €']], pct: [['v', '% від базової ціни']],
+    maq: [['h', 'Години'], ['ph', '€/год'], ['hp', 'Простій, год'], ['pp', '€/год простою'], ['min', 'Мінімум, €'], ['tr', 'Доставка, €']] }[e.tipo];
+  const box = $('div', { class: 'part pos' });
+  box.append($('div', { class: 'row' }, campo(e, 'nombre', { suma: 'Що (сума)', uds: 'Що (штуки)', pct: 'Що (%)', maq: 'Техніка' }[e.tipo], { cls: 't', text: true, ph: { suma: 'дерево, інструмент…', uds: 'пробивка, мішки…', pct: 'важкий ґрунт…', maq: 'міні-екскаватор…' }[e.tipo] }),
+    $('button', { type: 'button', class: 'small minus', 'aria-label': 'Видалити рядок', on: { click: () => { S.extras.splice(i, 1); render(); } } }, '×')));
+  box.append($('div', { class: 'row' }, t.map(([k, l]) => campo(e, k, l))));
+  box.append($('div', { class: 'row' }, $('label', { class: 'chk' }, $('input', { type: 'checkbox', checked: !!e.proceso, on: { change: ev => { e.proceso = ev.target.checked; render(); } } }), 'Виникло в процесі'),
+    e.proceso ? campo(e, 'motivo', 'Причина / дата', { cls: 't', text: true }) : null));
+  const res = $('div', { class: 'res' }); refs.xRows[i] = res; box.append(res); return box;
+}
+
+// ---- Оновлення чисел без перерисовки (фокус не губиться) ----
+function actualizar() {
+  const o = calcular(), U = UNI_TXT[S.unidad];
+  if (refs.qRes) {
+    refs.qErr.textContent = o.qErr || '';
+    if (o.q) {
+      const l = [...o.q.lineas]; if (o.q.menos) l.push(`= ${N.num(o.q.mas)} − ${N.num(o.q.menos)}`); o.q.exp.forEach(x => l.push(x));
+      if (S.unidad === 'm3' && num(S.k) > 0) l.push(`до вивозу: ${N.num(o.q.total)} × ${N.num(num(S.k))} = ${N.num(o.q.total * num(S.k))} m³ (на ціну не впливає)`);
+      refs.qRes.replaceChildren(...l.map(x => $('div', {}, x)), $('div', {}, $('b', {}, `Кількість: ${N.num(o.q.total)} ${U}`)));
+      refs.qSum.textContent = `${N.num(o.q.total)} ${U}`;
+    } else { refs.qRes.textContent = ''; refs.qSum.textContent = '—'; }
+  }
+  refs.bSum.textContent = o.base ? N.eur(o.base.c) : '—';
+  refs.bRes.replaceChildren(...(o.base ? [$('div', {}, o.base.exp)] : []),
+    ...(o.margen ? [$('div', {}, `Собівартість ${N.eur(o.margen.costeC)} → заробіток ${N.eur(o.margen.beneficio)} · маржа ${N.num(o.margen.margen, 1)} % · надбавка ${N.num(o.margen.recargo, 1)} %`)] : []));
+  refs.xSum.textContent = S.extras.length ? N.eur(o.extrasC) : '0,00 €';
+  (refs.xRows || []).forEach((el, i) => { const r = o.extras[i]; if (!el) return; el.replaceChildren(r ? (r.err ? $('span', { class: 'err' }, r.err) : $('span', {}, r.exp)) : ''); });
+  refs.rErr.textContent = o.resErr || '';
+  if (o.res) {
+    const rows = o.res.pasos.map(([n, c, e]) => $('tr', {}, $('td', {}, n, $('span', { class: 'res' }, e)), $('td', { class: 'r' }, N.eur(c))));
+    o.res.impuestos.forEach(([n, c, e]) => rows.push($('tr', {}, $('td', {}, n, $('span', { class: 'res' }, e)), $('td', { class: 'r' }, (c < 0 ? '' : '+ ') + N.eur(c)))));
+    refs.rTab.replaceChildren($('table', {}, $('tbody', {}, rows)));
+    refs.total.textContent = 'До сплати: ' + N.eur(o.res.total);
+    refs.rcNote.textContent = S.iva === 'rc' ? 'У рахунку написати: «Operación con inversión del sujeto pasivo (art. 84.Uno.2º.f LIVA)» — перевірити з гестором.' : '';
+  } else { refs.rTab.textContent = ''; refs.total.textContent = ''; refs.rcNote.textContent = ''; }
+  document.querySelectorAll('[data-et]').forEach(el => { const i = +el.dataset.et; el.textContent = o.etapas ? N.eur(o.etapas[i]) : ''; });
+  if (refs.etErr) refs.etErr.textContent = o.etErr || '';
+  ultimo = o;
+}
+let ultimo = null;
+
+function cambiarUnidad(u) {
+  S.unidad = u; S.partes = [parte(1, null, u)]; S.simple = { modo: 'numero', datos: {} }; S.manual = ''; S.reserva = { tipo: 'u', v: '' }; render();
+}
+
+// ---- Кабінет (тільки в цьому браузері) ----
+const KEY = 'calc-obra-v1';
+const leer = () => { try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch { return []; } };
+function guardar() {
+  if (!ultimo || !ultimo.res) { alertar('Нема що зберігати: спершу заповни кількість і ціну.'); return; }
+  const lista = leer(); lista.unshift({ fecha: new Date().toISOString(), nombre: S.nombre || 'Без назви', total: ultimo.res.total, unidad: S.unidad, cant: ultimo.q ? ultimo.q.total : null, estado: JSON.parse(JSON.stringify(S)) });
+  try { localStorage.setItem(KEY, JSON.stringify(lista.slice(0, 50))); alertar('Збережено.'); } catch { alertar('Браузер не дав зберегти (приватний режим?).'); }
+  render();
+}
+let aviso = '';
+function alertar(t) { aviso = t; const el = document.getElementById('aviso'); if (el) el.textContent = t; }
+function renderCabinete() {
+  const lista = leer(); const c = $('section', { class: 'card' }, $('h2', {}, 'Кабінет', $('span', { class: 'sum' }, lista.length ? lista.length + ' збережено' : '')), $('div', { class: 'res', id: 'aviso', role: 'status' }, aviso));
+  if (!lista.length) c.append($('div', { class: 'res' }, 'Тут з\'являться збережені позиції. Зберігаються тільки в цьому браузері.'));
+  else c.append($('div', { class: 'wrap' }, $('table', {}, $('tbody', {}, lista.map((x, i) => $('tr', {},
+    $('td', {}, x.nombre, $('span', { class: 'res' }, new Date(x.fecha).toLocaleString('uk-UA') + (x.cant !== null ? ` · ${N.num(x.cant)} ${UNI_TXT[x.unidad]}` : ''))),
+    $('td', { class: 'r' }, N.eur(x.total), ' ', $('button', { type: 'button', class: 'small', on: { click: () => { S = x.estado; uid = 1e6; render(); } } }, 'Відкрити'), ' ',
+      $('button', { type: 'button', class: 'small minus', 'aria-label': 'Видалити', on: { click: () => { const l = leer(); l.splice(i, 1); try { localStorage.setItem(KEY, JSON.stringify(l)); } catch {} render(); } } }, '×'))))))));
+  return c;
+}
+function renderPruebas() {
+  const d = $('details', {}, $('summary', {}, 'Перевірка математики: золоті приклади'));
+  const out = $('div', { class: 'wrap' });
+  d.append($('div', { class: 'row' }, $('button', { type: 'button', on: { click: () => {
+    const r = window.Pruebas.ejecutar(N); const ok = r.filter(x => x.ok).length;
+    out.replaceChildren($('p', { class: ok === r.length ? 'ok' : 'bad' }, `${ok} з ${r.length} збігаються`),
+      $('table', {}, $('tbody', {}, r.map(x => $('tr', {}, $('td', {}, x.id), $('td', {}, x.desc), $('td', { class: 'r ' + (x.ok ? 'ok' : 'bad') }, x.ok ? '✓' : `✗ ${JSON.stringify(x.real)} ≠ ${JSON.stringify(x.esperado)}`))))));
+  } } }, 'Запустити перевірку')), out);
+  return d;
+}
+
+render();
+})();
+</script>
