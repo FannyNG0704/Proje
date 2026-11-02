@@ -103,7 +103,7 @@ body{--bg:#2f4a36;--page-text:#f3efe6;--page-muted:#cfd9cc;--line:#3f5c46}
 .servicio-hero p{margin:0;max-width:40rem;color:#e8e2d9}
 .servicio{max-width:900px;margin:0 auto;padding:1rem max(16px,env(safe-area-inset-right,0px)) 3rem max(16px,env(safe-area-inset-left,0px));display:grid;gap:1rem}
 .volver{color:var(--page-muted)}
-.bloque{background:#fff;color:var(--text);border-radius:8px;padding:1.25rem}
+.bloque{background:#f1e7d6;border:1px solid #ddcdb2;color:var(--text);border-radius:8px;padding:1.25rem}
 .bloque h2{margin:0 0 .75rem;color:var(--green)}
 .bloque h3{margin:1rem 0 .5rem;font-size:1.05rem}
 .intro{margin:0;font-size:1.1rem}
@@ -119,36 +119,34 @@ body{--bg:#2f4a36;--page-text:#f3efe6;--page-muted:#cfd9cc;--line:#3f5c46}
 .ua{display:block;background:#eef3ec;color:#2f4a36;border-left:3px solid #2f4a36;padding:5px 10px;border-radius:0 6px 6px 0;font-size:.88rem;margin:.35rem 0 0;font-weight:400;text-shadow:none}
 .servicio-hero .ua{max-width:40rem}
 
-/* Герой: своє фото для сторінки послуги */
-.servicio-hero{background:linear-gradient(180deg,rgba(34,54,42,.05) 0%,rgba(34,54,42,.88) 88%),var(--foto) 60% center/cover no-repeat}
-@media (min-width:768px){.servicio-hero{background:linear-gradient(90deg,rgba(34,54,42,.9) 0%,rgba(34,54,42,.55) 45%,rgba(34,54,42,0) 75%),var(--foto-pc) center/cover no-repeat}}
+/* Герой: фото повністю на телефоні (4:3), на комп'ютері — на всю ширину */
+.servicio-hero{aspect-ratio:4/3;min-height:0;justify-content:flex-end;background:linear-gradient(180deg,rgba(34,54,42,0) 35%,rgba(34,54,42,.92) 100%),var(--foto) center/cover no-repeat}
+@media (min-width:768px){.servicio-hero{aspect-ratio:auto;min-height:75vh;background:linear-gradient(90deg,rgba(34,54,42,.85) 0%,rgba(34,54,42,.35) 50%,rgba(34,54,42,0) 75%),var(--foto) center 40%/cover no-repeat}}
 /* Гіпс чи цемент — два маленькі блоки */
 .material{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:.9rem}
-.material div{display:flex;gap:12px;align-items:center;background:#f1e7d6;border-radius:12px;padding:12px 14px}
+.material div{display:flex;gap:12px;align-items:center;background:#fff8ec;border:1px solid #ddcdb2;border-radius:8px;padding:12px 14px}
 .material b{display:block}
 .material span{color:var(--muted);font-size:.95rem}
 .material .ico{flex:none}
 /* Картки «Qué hacemos» */
 .grupo{margin:1.4rem 0 .7rem;font-size:1.05rem;color:var(--page-text)}
 .grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
-.it{background:#fff;color:var(--text);border-radius:14px;padding:20px;transition:transform .25s,box-shadow .25s}
+.it{background:#f1e7d6;border:1px solid #ddcdb2;color:var(--text);border-radius:8px;padding:20px;transition:transform .25s,box-shadow .25s}
 .it:hover{transform:translateY(-4px);box-shadow:0 12px 26px rgba(0,0,0,.22)}
-.ico{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:12px;background:#f1e7d6;color:#9c4614;margin-bottom:10px}
+.ico{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:10px;background:#e7d9c1;color:#9c4614;margin-bottom:10px}
 .ico svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.it h3{margin:0 0 .3rem;font-size:1.08rem}
+.it h3{margin:0 0 .3rem;font-size:1.08rem;color:#2f4a36}
 .it p{margin:0;color:var(--muted);font-size:.95rem}
 .titulo{margin:.5rem 0 0;font-size:1.6rem;color:var(--page-text)}
 .titulo::after{content:"";display:block;width:56px;height:4px;margin-top:.5rem;background:var(--accent);border-radius:2px}
 .chip{display:inline-block;vertical-align:middle;font-size:.7rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:#2f4a36;color:#f3efe6;padding:2px 8px;border-radius:999px;margin-left:4px}
-/* FAQ: кожне питання — окрема кнопка, відповідь розкривається */
+/* FAQ: питання — піщані кнопки; відповідь — на зеленому фоні сторінки */
 .faq{display:grid;gap:10px;margin-top:1rem}
-.faq details{background:#fff;color:var(--text);border-radius:14px;padding:0;overflow:hidden}
-.faq summary{list-style:none;cursor:pointer;padding:16px 18px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:14px}
+.faq summary{list-style:none;cursor:pointer;background:#f1e7d6;border:1px solid #ddcdb2;color:#2f4a36;border-radius:8px;padding:14px 18px;font-weight:700}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"+";flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#f1e7d6;color:#9c4614;font-size:1.3rem;line-height:1;transition:transform .25s}
-.faq details[open] summary::after{transform:rotate(45deg)}
-.faq details p{margin:0;padding:0 18px 18px;color:var(--muted)}
-.faq details:hover{box-shadow:0 8px 20px rgba(0,0,0,.18)}
+.faq summary:hover{background:#ebdfca}
+.faq details[open] summary{background:#e7d9c1}
+.faq details p{margin:0;padding:.7rem 4px .4rem;color:var(--page-text)}
 /* Поява при прокрутці (тільки з JS; без анімації для prefers-reduced-motion) */
 .js .reveal{opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease}
 .js .reveal.on{opacity:1;transform:none}
@@ -159,7 +157,7 @@ body{--bg:#2f4a36;--page-text:#f3efe6;--page-muted:#cfd9cc;--line:#3f5c46}
 <nav class="nav"><a href="#">Servicios</a><a href="#">Proyectos</a><a href="#">Cómo trabajamos</a><a href="#">Nosotros</a><a href="#">Contacto</a></nav>
 </header>
 <main>
-<section class="servicio-hero" style="--foto: url('img/hero-yeso-movil.webp'); --foto-pc: url('img/hero-yeso.webp')">
+<section class="servicio-hero" style="--foto: url('img/hero-yeso.webp')">
 <h1>Yesos y enlucidos en Málaga</h1>
 <p>Dejamos sus paredes y techos rectos, firmes y listos para pintar.</p>
 </section>
