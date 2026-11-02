@@ -1,0 +1,219 @@
+<title>HLD Casa</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preload" href="fonts/hldcasa.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+
+:root{--bg:#e4ebe0;--page-text:#2a231e;--page-muted:#5a5046;--text:#2a231e;--muted:#6b5e52;--accent:#b8541a;--green:#3e6b47;--wood:#7a5232;--line:#e5dacb;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--page-text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.note-top{background:var(--text);color:#f7f2ea;font-size:.85rem;text-align:center;padding-block:6px}
+.header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem 1.5rem;padding-block:1rem;background:#fff;border-bottom:3px solid var(--accent)}
+.logo{font-size:1.4rem;font-weight:700;color:var(--text);text-decoration:none}
+.nav{display:flex;flex-wrap:wrap;gap:1rem}
+.nav a{color:var(--muted);text-decoration:none}.nav a:hover{color:var(--accent)}
+.hero{min-height:75vh;display:flex;flex-direction:column;justify-content:flex-end;padding-block:3rem;color:#fff;
+ background:linear-gradient(180deg,rgba(20,24,31,.15) 0%,rgba(20,24,31,.85) 75%),url("img/hero-movil.webp") center/cover no-repeat}
+.hero h1{margin:0 0 1rem;font-size:2rem;line-height:1.2}
+.hero p{margin:0 0 1.5rem;max-width:40rem;color:#e8e2d9}
+.btn{display:inline-block;padding:.8rem 1.4rem;background:var(--accent);color:#fff;font-weight:600;text-decoration:none;border-radius:6px}
+.btn:hover{background:#9c4614}
+.section{max-width:1100px;margin:0 auto;padding-block:2.5rem}
+.cards{list-style:none;margin:1.5rem 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.card{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;padding:0 0 1.25rem}
+.card img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;margin-bottom:1rem}
+.card h3{margin:0 1.25rem .5rem;font-size:1.15rem}
+.card p{margin:0 1.25rem .75rem;color:var(--muted)}
+.card .price{margin:0 1.25rem;font-weight:700;color:var(--accent)}
+.note{color:var(--page-muted);font-size:.95rem}
+.card{color:var(--text)}
+body[data-x="1"]{--bg:#c3d5bf}
+body[data-bg="oscuro"]{--bg:#2f4a36;--page-text:#f3efe6;--page-muted:#cfd9cc;--line:#3f5c46}
+.pick{display:inline-flex;gap:6px;margin-left:10px;vertical-align:middle}
+.pick button{width:22px;height:22px;border-radius:50%;border:2px solid #f7f2ea;cursor:pointer}
+.pick button[aria-pressed="true"]{outline:2px solid var(--accent);outline-offset:2px}
+.footer{padding-block:2rem;background:var(--text);color:#d6dbe3;text-align:center;font-size:.9rem}
+@media (min-width:768px){
+ .hero{min-height:85vh;justify-content:center;padding-block:5rem;
+  background:linear-gradient(90deg,rgba(20,24,31,.88) 0%,rgba(20,24,31,.55) 45%,rgba(20,24,31,0) 75%),url("img/hero.webp") center/cover no-repeat}
+ .hero h1{font-size:2.75rem}
+ .section{padding-block:3.5rem}
+}
+@media (min-width:1024px){.hero h1{font-size:3.25rem;max-width:18ch}}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* Напрям: темно-зелений (пальма) + помаранчевий акцент */
+body{--bg:#2f4a36;--page-text:#f3efe6;--page-muted:#cfd9cc;--line:#3f5c46}
+.header{background:#2f4a36;border-bottom:3px solid var(--accent)}
+.logo{color:#f3efe6}.nav a{color:#cfd9cc}.nav a:hover{color:#f0a36b}
+.card h3{color:#2a231e}.card .price{color:#2f4a36}
+.footer{background:#22362a;color:#cfd9cc}
+.hero{background:linear-gradient(180deg,rgba(34,54,42,.15) 0%,rgba(34,54,42,.9) 75%),url("img/hero-movil.webp") center/cover no-repeat}
+@media (min-width:768px){.hero{background:linear-gradient(90deg,rgba(34,54,42,.92) 0%,rgba(34,54,42,.6) 45%,rgba(34,54,42,0) 75%),url("img/hero.webp") center/cover no-repeat}}
+
+/* Варіант A: обвідка помаранчевим (як просив) */
+/* Варіант B: порада — тінь для читабельності + помаранчева риска */
+.hero h1{text-shadow:0 2px 12px rgba(0,0,0,.55)}
+.hero h1::after,.section h2::after{content:"";display:block;width:64px;height:4px;margin-top:.5rem;background:#b8541a;border-radius:2px}
+.card h3{border-left:4px solid #b8541a;padding-left:.6rem;margin-left:1.25rem}
+.hero .btn{align-self:flex-start}
+.pick2{display:inline-flex;gap:6px;margin-left:8px}
+.pick2 button{font:inherit;font-size:.8rem;padding:2px 10px;border-radius:12px;border:1px solid #f3efe6;background:transparent;color:#f3efe6;cursor:pointer}
+.pick2 button[aria-pressed="true"]{background:#b8541a;border-color:#b8541a}
+
+/* Логотип HLD CASA: власний шрифт (fonts/hldcasa.woff2), малюється як текст */
+@font-face { font-family: "HLD Casa Logo"; src: url("fonts/hldcasa.woff2") format("woff2"); font-display: block; }
+.logo { display: inline-flex; color: var(--page-text); text-decoration: none; }
+.hld { position: relative; display: inline-flex; align-items: baseline; font-family: "HLD Casa Logo", sans-serif; font-size: 35px; font-weight: 400; font-synthesis: none; line-height: 1; white-space: nowrap; }
+@media (min-width: 768px) { .hld { font-size: 50px; } }
+.hld-eye { position: absolute; left: 21px; width: 4px; height: 4px; border-radius: 50%; background: currentColor; will-change: transform; }
+.hld-eye-1 { top: 9px; }
+.hld-eye-2 { top: 15px; }
+@media (min-width: 768px) {
+    .hld-eye { left: 30px; width: 6px; height: 6px; }
+    .hld-eye-1 { top: 13px; }
+    .hld-eye-2 { top: 22px; }
+}
+.hld-clip { padding-left: .24em; clip-path: inset(-.2em -.2em -.2em 0); }
+
+/* Анімація: D → очі → L → H → CASA виїжджає з-за D */
+.hld-d { animation: hld-from-left .9s cubic-bezier(.2,.8,.2,1) .2s backwards; }
+.hld-l { animation: hld-from-right .7s cubic-bezier(.2,.8,.2,1) 2.1s backwards; }
+.hld-h { animation: hld-from-right .7s cubic-bezier(.2,.8,.2,1) 2.8s backwards; }
+.hld-eye { animation: hld-fade .3s ease 1.15s backwards, hld-blink .45s ease-in-out 1.6s, hld-blink-loop 7s ease-in-out 3.6s infinite; }
+.hld-casa { display: inline-block; animation: hld-casa 1s cubic-bezier(.2,.8,.2,1) 3.6s backwards; }
+@keyframes hld-from-left { 0% { opacity: 0; transform: translateX(-.8em); } 20% { opacity: 1; } }
+@keyframes hld-from-right { 0% { opacity: 0; transform: translateX(.4em); } 20% { opacity: 1; } }
+@keyframes hld-fade { 0% { opacity: 0; } }
+@keyframes hld-casa { 0% { transform: translateX(-2.4em); } }
+@keyframes hld-blink { 50% { transform: scaleY(0); } }
+@keyframes hld-blink-loop { 93.6%, 100% { transform: scaleY(1); } 96.8% { transform: scaleY(0); } }
+@media (prefers-reduced-motion: reduce) {
+    .hld-d, .hld-l, .hld-h, .hld-eye, .hld-casa { animation: none; }
+}
+
+
+:root{--accent:#b8541a}
+.header{gap:.5rem 1.5rem}
+.footer p{margin:0}
+.wa-flotante{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;background:#25d366;color:#0b2e13;font-weight:700;text-decoration:none;padding:.75rem 1.1rem;border-radius:999px;box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.servicio-hero{min-height:45vh;display:flex;flex-direction:column;justify-content:flex-end;padding:2rem max(16px,env(safe-area-inset-right,0px)) 2rem max(16px,env(safe-area-inset-left,0px));color:#fff;background:linear-gradient(180deg,rgba(34,54,42,.15) 0%,rgba(34,54,42,.92) 85%),var(--foto) center/cover no-repeat}
+.servicio-hero h1{margin:0 0 .5rem;font-size:2rem;line-height:1.2;text-shadow:0 2px 12px rgba(0,0,0,.55)}
+.servicio-hero h1::after{content:"";display:block;width:64px;height:4px;margin-top:.5rem;background:var(--accent);border-radius:2px}
+.servicio-hero p{margin:0;max-width:40rem;color:#e8e2d9}
+.servicio{max-width:900px;margin:0 auto;padding:1rem max(16px,env(safe-area-inset-right,0px)) 3rem max(16px,env(safe-area-inset-left,0px));display:grid;gap:1rem}
+.volver{color:var(--page-muted)}
+.bloque{background:#fff;color:var(--text);border-radius:8px;padding:1.25rem}
+.bloque h2{margin:0 0 .75rem;color:var(--green)}
+.bloque h3{margin:1rem 0 .5rem;font-size:1.05rem}
+.intro{margin:0;font-size:1.1rem}
+.lista{margin:0;padding-left:1.2rem;display:grid;gap:.5rem}
+.lista li::marker{color:var(--accent)}
+.bloque details{border-top:1px solid #e5dacb;padding:.6rem 0}
+.bloque summary{cursor:pointer;font-weight:600}
+.bloque details p{margin:.5rem 0 0;color:var(--muted)}
+.consulta{background:#f1e7d6;border:1px solid #ddcdb2}
+.acciones{display:flex;flex-wrap:wrap;gap:.75rem;margin:1rem 0 0}
+.btn-sec{background:transparent;color:var(--green);border:2px solid var(--green)}
+@media (min-width:768px){.servicio-hero{min-height:55vh;padding-block:3rem}.servicio-hero h1{font-size:2.75rem}}
+
+
+
+.note-top{display:none}
+.pros{margin:1rem 0 0;padding:0;list-style:none;display:grid;gap:.4rem}
+.pros li{padding-left:1.4rem;position:relative}
+.pros li::before{content:"✓";position:absolute;left:0;color:#9fd0a8;font-weight:700}
+.steps{padding-left:1.2rem}.steps li::marker{color:#9fd0a8;font-weight:700}
+.card-link{display:inline-block;margin:.5rem 1.25rem 0;color:#9c4614;font-weight:700}
+.wa-nota{margin:.5rem 0 0;color:var(--page-muted)}
+.tel-nota{font-size:.9rem;color:var(--page-muted)}.tel-nota a{color:var(--page-text)}
+.form{display:grid;gap:.5rem;max-width:34rem;margin-top:1.5rem;padding:1.25rem;background:#f1e7d6;border:1px solid #ddcdb2;box-shadow:0 6px 24px rgba(0,0,0,.18);color:var(--text);border-radius:8px}
+.form h3{margin:0 0 .5rem;color:#2f4a36}
+.form label{font-weight:600;font-size:.95rem}.form label span{font-weight:400;color:var(--muted)}
+.form input,.form select,.form textarea{font:inherit;width:100%;padding:.7rem .8rem;border:1px solid #d4c3a6;border-radius:6px;background:#fff;color:var(--text)}
+.form textarea{resize:vertical}
+.form .check{display:flex;gap:.6rem;align-items:flex-start;font-weight:400;margin-top:.5rem}.form .check input{width:auto;margin-top:.3rem}.form .check a{color:#9c4614}
+.form .btn{justify-self:start;margin-top:.5rem;border:none;cursor:pointer;font:inherit;font-weight:600}
+.form .tel{display:grid;grid-template-columns:minmax(0,11rem) 1fr;gap:.5rem}
+@media (max-width:400px){.form .tel{grid-template-columns:1fr}}
+.form .error{margin:-.2rem 0 .2rem;color:#b3261e;font-size:.9rem;font-weight:600}.form .error:empty{display:none}
+.form [aria-invalid="true"]{border-color:#b3261e}
+.form-estado{margin:0;font-weight:600;color:#2f4a36}
+[hidden]{display:none!important}
+</style>
+<header class="header wrap">
+<a class="logo" href="#inicio" aria-label="HLD Casa, inicio"><span class="hld" aria-hidden="true"><span class="hld-h">H</span><span class="hld-l">L</span><span class="hld-eye hld-eye-1"></span><span class="hld-eye hld-eye-2"></span><span class="hld-d">D</span><span class="hld-clip"><span class="hld-casa">CASA</span></span></span></a>
+<nav class="nav"><a href="#servicios">Servicios</a><a href="#proyectos">Proyectos</a><a href="#como-trabajamos">Cómo trabajamos</a><a href="#nosotros">Nosotros</a><a href="#contacto">Contacto</a></nav>
+</header>
+<main id="pag-inicio">
+<section class="hero wrap"><h1>Reformas y acabados en Málaga</h1><p>Yeso, pladur, alisados, alicatado, fachadas e impermeabilización. Trabajo limpio, bien hecho y a tiempo, con presupuesto por escrito.</p><div><a class="btn" href="#contacto">Pedir presupuesto gratis</a></div></section>
+<div class="wrap">
+<section id="servicios" class="section"><h2>Servicios</h2><ul class="cards"><li class="card"><img src="img/yeso.webp" alt="Pared con enlucido decorativo aplicado a mano" width="1200" height="900" loading="lazy"><h3>Yesos y enlucidos</h3><p>Yeso a buena vista y maestreado, enlucidos lisos y acabados decorativos a mano.</p><p class="price">desde 7 €/m²</p><a class="card-link" href="#yesos-y-enlucidos">Ver qué incluye →</a></li>
+<li class="card"><img src="img/pladur.webp" alt="Colocación de fibra de vidrio sobre placas de pladur" width="1200" height="900" loading="lazy"><h3>Pladur y fibra de vidrio</h3><p>Tabiques, trasdosados y techos, juntas tratadas y revestimiento con fibra de vidrio listo para pintar.</p><p class="price">desde 8 €/m²</p></li>
+<li class="card"><img src="img/techos.webp" alt="Falso techo con foseado e iluminación LED" width="1200" height="900" loading="lazy"><h3>Techos e iluminación</h3><p>Falsos techos, foseados, cortineros y techos con tira LED.</p><p class="price">desde 8 €/m²</p></li>
+<li class="card"><img src="img/masilla.webp" alt="Alisado de pared con llana ancha" width="1200" height="900" loading="lazy"><h3>Masillas y alisados</h3><p>Quitar gotelé, alisado de paredes y acabado de alto nivel Q3–Q4.</p><p class="price">desde 5 €/m²</p></li>
+<li class="card"><img src="img/pintura.webp" alt="Pintando una pared blanca con rodillo" width="1200" height="900" loading="lazy"><h3>Pintura</h3><p>Interior y exterior: paredes, techos, puertas y carpintería.</p><p class="price">desde 3 €/m²</p></li>
+<li class="card"><img src="img/alicatado.webp" alt="Baño con porcelánico efecto mármol" width="1200" height="900" loading="lazy"><h3>Alicatado y solado</h3><p>Azulejo, porcelánico, gran formato, ingletes a 45° y mosaico.</p><p class="price">desde 14 €/m²</p></li>
+<li class="card"><img src="img/fachada.webp" alt="Revestimiento de fachada desde andamio" width="1200" height="900" loading="lazy"><h3>Fachadas</h3><p>Monocapa, enfoscado, revoco decorativo, pintura y reparación de fisuras.</p><p class="price">desde 7 €/m²</p></li>
+<li class="card"><img src="img/impermeabilizacion.webp" alt="Impermeabilización de cubierta con tela asfáltica" width="1200" height="900" loading="lazy"><h3>Impermeabilización</h3><p>Terrazas y cubiertas con tela asfáltica o lámina líquida.</p><p class="price">desde 5 €/m²</p></li>
+<li class="card"><img src="img/balaustrada.webp" alt="Balaustrada blanca frente al mar" width="1200" height="900" loading="lazy"><h3>Balaustradas y terrazas</h3><p>Balaustradas, solado exterior y remates.</p><p class="price">desde 35 €/ml</p></li>
+<li class="card"><img src="img/laminado.webp" alt="Habitación luminosa con suelo laminado" width="1200" height="900" loading="lazy"><h3>Suelos laminados</h3><p>Suelo laminado y tarima flotante con rodapié a juego.</p><p class="price">desde 8 €/m²</p></li>
+<li class="card"><img src="img/microcemento.webp" alt="Superficie de microcemento continuo" width="1200" height="900" loading="lazy"><h3>Microcemento</h3><p>Suelos, paredes y baños sin juntas, acabado continuo.</p><p class="price">desde 20 €/m²</p></li>
+<li class="card"><img src="img/montajes.webp" alt="Montaje de una lámpara de techo" width="1200" height="900" loading="lazy"><h3>Montajes y reparaciones</h3><p>Lámparas, estanterías, puertas, picado y desescombro.</p><p class="price">a consultar</p></li></ul><p class="note">Precios orientativos de mano de obra. El precio final, tras la visita.</p></section>
+<section id="proyectos" class="section"><h2>Proyectos</h2><p class="note">Muy pronto: fotos de nuestras obras.</p></section>
+<section id="como-trabajamos" class="section"><h2>Cómo trabajamos</h2><ol class="steps"><li><strong>Visita gratuita.</strong> Vemos la obra sin coste y le aconsejamos la mejor solución.</li><li><strong>Presupuesto por escrito.</strong> Detallado partida por partida.</li><li><strong>Ejecución.</strong> Plazos acordados y fotos de cada fase.</li><li><strong>Entrega limpia.</strong> Revisamos todo con usted.</li></ol></section>
+<section id="nosotros" class="section"><h2>Nosotros</h2><p>Somos una empresa de reformas y acabados en Málaga: trabajos de interior en viviendas y locales, y también de fachadas y terrazas.</p><ul class="pros"><li>Un solo equipo para todo el interior.</li><li>Acabado de alto nivel: paredes perfectas, listas para pintar.</li><li>Presupuesto claro, sin sorpresas.</li></ul></section>
+<section id="contacto" class="section"><h2>Contacto</h2><p>Trabajamos en Málaga capital, toda la Costa del Sol y el interior de la provincia.</p>
+<p><a class="btn" href="https://wa.me/34600000000" target="_blank" rel="noopener">Escríbanos por WhatsApp</a></p>
+<p class="wa-nota">Envíenos fotos y medidas por WhatsApp: le damos una primera valoración gratis.</p>
+<p class="tel-nota">¿Prefiere llamar? <a href="tel:+34600000000">600 000 000</a> · L–V, 9:00–18:00</p>
+<form class="form" novalidate><h3>Pida su presupuesto</h3>
+<label for="f-nombre">Nombre</label><input id="f-nombre" name="nombre" type="text" autocomplete="name" required>
+<label for="f-telefono">Teléfono</label><div class="tel"><select name="prefijo" aria-label="Prefijo del país"><option value="+34" selected>España (+34)</option><option value="+44">Reino Unido (+44)</option><option value="+49">Alemania (+49)</option><option value="+33">Francia (+33)</option><option value="+31">Países Bajos (+31)</option><option value="+32">Bélgica (+32)</option><option value="+39">Italia (+39)</option><option value="+380">Ucrania (+380)</option><option value="+40">Rumanía (+40)</option><option value="+212">Marruecos (+212)</option><option value="+57">Colombia (+57)</option><option value="+54">Argentina (+54)</option><option value="+58">Venezuela (+58)</option><option value="+1">EE. UU. / Canadá (+1)</option></select><input id="f-telefono" name="telefono" type="tel" inputmode="tel" required pattern="[0-9 +]{6,18}" placeholder="600 000 000"></div>
+<label for="f-email">Email <span>(opcional)</span></label><input id="f-email" name="email" type="email" autocomplete="email">
+<label for="f-servicio">¿Qué necesita?</label><select id="f-servicio" name="servicio" required><option value="" selected disabled>— Elija una opción —</option><option>Yesos y enlucidos</option><option>Pladur y fibra de vidrio</option><option>Techos e iluminación</option><option>Masillas y alisados</option><option>Pintura</option><option>Alicatado y solado</option><option>Fachadas</option><option>Impermeabilización</option><option>Balaustradas y terrazas</option><option>Suelos laminados</option><option>Microcemento</option><option>Montajes y reparaciones</option><option>Varios / otro</option></select>
+<label for="f-mensaje">Cuéntenos su proyecto</label><textarea id="f-mensaje" name="mensaje" rows="4" placeholder="Metros aproximados, zona, plazos…"></textarea>
+<label class="check"><input type="checkbox" name="privacidad" required><span>He leído y acepto la <a href="#contacto">política de privacidad</a>.</span></label>
+<button class="btn" type="submit">Enviar solicitud</button><p class="form-estado" role="status"></p></form>
+</section></div></main>
+<main id="pag-yesos" hidden>
+<section class="servicio-hero" style="--foto: url('img/yeso.webp')"><h1>Yesos y enlucidos en Málaga</h1><p>Dejamos sus paredes y techos rectos, firmes y listos para pintar.</p></section>
+<div class="servicio">
+<a class="volver" href="#servicios">← Todos los servicios</a>
+<section class="bloque"><p class="intro">Elegimos el material según la estancia: yeso en interiores secos y mortero de cemento donde hay humedad.</p></section>
+<section class="bloque"><h2>Qué hacemos</h2>
+<h3>Yeso interior</h3>
+<ul class="lista"><li>Revestimos paredes y techos en dos capas —base de yeso y acabado fino— para dejarlos firmes y lisos.</li>
+<li>Usted elige el nivel de acabado: paredes perfectamente rectas con maestras o una opción más económica sin ellas.</li>
+<li>Trabajamos con yeso aligerado con perlita: más ligero, rinde más y se agrieta menos.</li>
+<li>Renovamos paredes viejas con una capa fina de acabado, sin necesidad de picarlas.</li>
+<li>Ponemos guardavivos en las esquinas para que queden rectas y no se rompan con los golpes.</li>
+<li>Tapamos las rozas del electricista y del fontanero para que la pared quede lista para pintar, sin marcas.</li>
+<li>Reparamos grietas y desconchones con malla para que no vuelvan a aparecer.</li>
+<li>En baños, garajes y trasteros usamos mortero de cemento en lugar de yeso, porque resiste la humedad.</li>
+<li>Reparamos techos de escayola y colocamos molduras y cornisas para un acabado clásico.</li>
+<li>Sobre hormigón y superficies lisas aplicamos un puente de adherencia para que el yeso no se despegue.</li></ul>
+<h3>Revestimientos de mortero</h3>
+<ul class="lista"><li>Revestimos fachadas, patios y garajes con mortero monocapa: una sola capa que protege y decora, con acabado raspado o liso.</li>
+<li>Enfoscado de mortero terminado a fratás: superficie uniforme, resistente y lista para pintar.</li></ul></section>
+<section class="bloque"><h2>Preguntas frecuentes</h2>
+<details><summary>¿Se puede poner yeso en el baño?</summary><p>En zonas con agua es mejor mortero de cemento o yeso hidrófugo: el yeso normal absorbe la humedad.</p></details>
+<details><summary>¿Cuánto tarda en secar?</summary><p>Depende del grosor y la ventilación; normalmente de 1 a 2 semanas antes de pintar.</p></details>
+<details><summary>¿Pueden tapar las rozas de otro profesional?</summary><p>Sí, es uno de nuestros trabajos más habituales después de una reforma eléctrica o de fontanería.</p></details></section>
+<section class="bloque consulta"><h2>Consulta gratuita</h2>
+<p>Envíenos fotos y medidas por WhatsApp y le damos una primera valoración sin compromiso. Si hace falta, visitamos la obra y le preparamos un presupuesto por escrito.</p>
+<p class="acciones"><a class="btn" href="https://wa.me/34600000000" target="_blank" rel="noopener">Escríbanos por WhatsApp</a> <a class="btn btn-sec" href="#contacto">Pedir presupuesto</a></p></section>
+</div>
+</main>
+<footer class="footer wrap"><p>© 2026 HLD Casa · Reformas y acabados en Málaga</p></footer>
+<a class="wa-flotante" href="https://wa.me/34600000000" target="_blank" rel="noopener" aria-label="Escríbanos por WhatsApp">WhatsApp</a>
+<script>
+const MSG={nombre:'Escriba su nombre',telefono:'Escriba su teléfono: solo números, mínimo 6 cifras',email:'Este email no parece correcto',servicio:'Elija qué necesita',privacidad:'Tiene que aceptar la política de privacidad'};
+function revisar(c){const caja=c.closest('.check')||c.closest('.tel')||c;let e=caja.nextElementSibling;if(!e||!e.classList.contains('error')){e=document.createElement('p');e.className='error';caja.after(e);}const ok=c.validity.valid;e.textContent=ok?'':(MSG[c.name]||'Revise este campo');c.setAttribute('aria-invalid',String(!ok));return ok;}
+const form=document.querySelector('.form');const campos=[...form.querySelectorAll('input,select,textarea')].filter(c=>c.name&&c.name!=='prefijo');
+campos.forEach(c=>c.addEventListener((c.type==='checkbox'||c.tagName==='SELECT')?'change':'input',()=>{if(c.hasAttribute('aria-invalid'))revisar(c);}));
+form.addEventListener('submit',e=>{e.preventDefault();const malos=campos.filter(c=>!revisar(c));const est=form.querySelector('.form-estado');if(malos.length){est.textContent='';malos[0].focus();return;}form.reset();est.textContent='¡Gracias! (Vista previa: en la web real la solicitud llega por email.)';});
+function ruta(){const h=location.hash.slice(1);const serv=h==='yesos-y-enlucidos';document.getElementById('pag-yesos').hidden=!serv;document.getElementById('pag-inicio').hidden=serv;
+ if(serv){window.scrollTo(0,0);return;} const el=h&&h!=='inicio'?document.getElementById(h):null; if(el)el.scrollIntoView(); else window.scrollTo(0,0);}
+window.addEventListener('hashchange',ruta);ruta();
+</script>
