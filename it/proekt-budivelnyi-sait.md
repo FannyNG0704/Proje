@@ -129,3 +129,4 @@
   Далі: результат AI → поставити замість розмитого; потім код Yesos v3 у HLDcasa і шаблон для решти 11; Pladur 2/12.
 - Фото героя Yesos: згенероване в Gemini за моїм промптом (1376×768), `it/proekt-img/cards/hero-yeso.webp`. Ч/Б фото — відкинуто.
 - **Yesos затверджено (02.11.2026).** Еталонні файли для HLDcasa: `it/proekt-img/entrega/` (servicios/yesos-y-enlucidos.html, servicios/servicios.css, servicios/servicios.js, img/servicios/hero-yeso.webp). Шаблон для решти 11: той самий HTML, міняються title/description, --foto/--foco-x, тексти карток, FAQ.
+- Відкладено (02.11): у HLDcasa/img немає favicon.svg і og.jpg (у <head> є посилання) — скинути файли Назару.
