@@ -127,4 +127,4 @@
 - **ПРИ ПОВЕРНЕННІ (02.11.2026): надіслати Назару повторно повідомлення про Yesos v3.2** — посилання https://claude.ai/artifact/RYhuzYRjZsd2hVaCnPD3z9; що змінилось (піщані картки, FAQ-кнопки з відповіддю на зеленому, Ч/Б фото з розмитими обличчями, на телефоні 4:3); питання «звідки фото?» (своє / Pexels — ок; чужий сайт — ні; не підписувати «наша робота», якщо не ваше); право на зображення; промпт для заміни облич:
   `Edit this photo. Replace the faces of both men with realistic faces of different, non-existent people, so they cannot be identified. Keep everything else exactly the same: black-and-white style, lighting, grain, poses, head angles, hair, cap, clothes, tools, ladder, walls, ceiling and composition. Do not add or remove anything, no text, same resolution and aspect ratio (4:3).`
   Далі: результат AI → поставити замість розмитого; потім код Yesos v3 у HLDcasa і шаблон для решти 11; Pladur 2/12.
-- Фото героя Yesos: згенероване в Gemini за моїм промптом (1376×768), . Ч/Б фото — відкинуто.
+- Фото героя Yesos: згенероване в Gemini за моїм промптом (1376×768), `it/proekt-img/cards/hero-yeso.webp`. Ч/Б фото — відкинуто.
