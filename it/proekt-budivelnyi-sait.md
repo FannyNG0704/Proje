@@ -122,3 +122,4 @@
 - Перенесення на новий ПК: IT уже в OneDrive; **HLDcasa.zip** покласти в IT (код сайту поза IT!); на новому ПК — VS Code, Git, Node, git config, Settings Sync; працювати поза OneDrive.
 - Задача 7 (деплой) — чекає autónomo/домену; задача 8 — Tab-прохід, прибирання CSS, Lighthouse.
 - Yesos v2 (маркетинговий дизайн): https://claude.ai/artifact/KaFtpJudHKGraisSn5NqVh (`it/proekt-img/yesos-v2.html`) — чекає фідбеку.
+- Yesos v3 (простий стиль + картки з іконками, FAQ-кнопки, «yeso/mortero»): https://claude.ai/artifact/RYhuzYRjZsd2hVaCnPD3z9. v2 (маркетинговий) — відхилено як «занадто сильний». Фото героя — Назар обирає сам на Pexels (тимчасово 5493658, віддзеркалене).
