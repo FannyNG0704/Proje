@@ -121,3 +121,4 @@
 - Потім: Pladur 2/12 (чернетка 11 пунктів чекає ✅/❌), далі по одній послузі; після 12 — «Consulta gratuita» (WhatsApp) і шаблони відповідей WhatsApp Business.
 - Перенесення на новий ПК: IT уже в OneDrive; **HLDcasa.zip** покласти в IT (код сайту поза IT!); на новому ПК — VS Code, Git, Node, git config, Settings Sync; працювати поза OneDrive.
 - Задача 7 (деплой) — чекає autónomo/домену; задача 8 — Tab-прохід, прибирання CSS, Lighthouse.
+- Yesos v2 (маркетинговий дизайн): https://claude.ai/artifact/KaFtpJudHKGraisSn5NqVh (`it/proekt-img/yesos-v2.html`) — чекає фідбеку.
