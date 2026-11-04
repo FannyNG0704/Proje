@@ -56,7 +56,7 @@ h1, h2, h3 { text-wrap: balance; }
 .cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 1rem; }
 @media (min-width: 720px) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .card { background: var(--card); color: var(--text); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; padding-bottom: 1.25rem; display: flex; flex-direction: column; min-width: 0; }
-.card img { display: block; width: 100%; max-width: 100%; aspect-ratio: 4 / 3; object-fit: cover; margin-bottom: 1rem; }
+.card img { display: block; width: 100%; max-width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; margin-bottom: 1rem; }
 .card h3 { margin: 0 1.25rem .5rem; font-size: 1.15rem; border-left: 4px solid var(--accent); padding-left: .6rem; color: var(--text); }
 .card p { margin: 0 1.25rem .5rem; color: var(--muted); }
 .card .card-link { margin: auto 1.25rem 0; padding-top: .4rem; color: var(--terra); font-weight: 700; }
