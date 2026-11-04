@@ -1,0 +1,183 @@
+<title>HLD Casa · Yesos 6 puntos</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Макет: стилі сайту HLD Casa (style.css + servicios.css) — темно-зелена сторінка, світлі картки, теракотові акценти */
+:root {
+    --bg: #2f4a36;
+    --bg-deep: #22362a;
+    --text: #2a231e;
+    --muted: #6b5e52;
+    --accent: #b8541a;
+    --terra: #9c4614;
+    --green: #2f4a36;
+    --line: #3f5c46;
+    --page-text: #f3efe6;
+    --page-muted: #cfd9cc;
+    --sand: #f1e7d6;
+    --sand-line: #ddcdb2;
+    --sand-light: #fff8ec;
+    --sand-dark: #e7d9c1;
+    --card: #ffffff;
+    --ua: #e9efe6;
+    color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--page-text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+}
+.wrap { max-width: 1100px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { text-wrap: balance; }
+
+/* Шапка */
+.header { background: var(--green); border-bottom: 3px solid var(--accent); }
+.header .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .5rem 1.5rem; padding-block: 1rem; }
+.logo { color: var(--page-text); text-decoration: none; font-weight: 800; font-size: 1.6rem; letter-spacing: .04em; }
+.logo span { font-weight: 500; }
+.nav { display: flex; flex-wrap: wrap; gap: 1rem; }
+.nav a { color: var(--page-muted); text-decoration: none; }
+.nav a:hover { color: #f3c9a3; }
+
+/* Перемикач макетів */
+.vistas { background: var(--bg-deep); }
+.vistas .wrap { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; padding-block: .6rem; font-size: .9rem; color: var(--page-muted); }
+.vistas a { color: var(--page-text); text-decoration: none; padding: .3rem .8rem; border-radius: 999px; border: 1px solid var(--line); }
+.vistas a[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.vistas a:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px solid #f3c9a3; outline-offset: 2px; }
+
+/* Головна: секція послуг */
+.section { padding-block: 2.5rem 3rem; }
+.section h2 { margin: 0 0 1.5rem; font-size: 1.9rem; }
+.section h2::after, .titulo::after { content: ""; display: block; width: 64px; height: 4px; margin-top: .5rem; background: var(--accent); border-radius: 2px; }
+.cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 720px) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.card { background: var(--card); color: var(--text); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; padding-bottom: 1.25rem; display: flex; flex-direction: column; min-width: 0; }
+.card img { display: block; width: 100%; max-width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; margin-bottom: 1rem; }
+.card h3 { margin: 0 1.25rem .5rem; font-size: 1.15rem; border-left: 4px solid var(--accent); padding-left: .6rem; color: var(--text); }
+.card p { margin: 0 1.25rem .5rem; color: var(--muted); }
+.card .card-link { margin: auto 1.25rem 0; padding-top: .4rem; color: var(--terra); font-weight: 700; }
+.card .pronto { margin: auto 1.25rem 0; padding-top: .4rem; color: #a59a8e; font-size: .9rem; }
+.card.general { background: var(--sand); }
+
+/* Сторінка послуги */
+.servicio-hero {
+    aspect-ratio: 4 / 3; max-width: 100%;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 2rem max(16px, env(safe-area-inset-right, 0px)) 2rem max(16px, env(safe-area-inset-left, 0px));
+    color: #fff;
+    background: linear-gradient(180deg, rgba(34, 54, 42, 0) 35%, rgba(34, 54, 42, .92) 100%), url("img/hero-yeso.webp") 50% center / cover no-repeat;
+}
+.servicio-hero h1 { margin: 0 0 .5rem; font-size: 2rem; line-height: 1.2; text-shadow: 0 2px 12px rgba(0, 0, 0, .55); }
+.servicio-hero h1::after { content: ""; display: block; width: 64px; height: 4px; margin-top: .5rem; background: var(--accent); border-radius: 2px; }
+.servicio-hero p { margin: 0; max-width: 40rem; color: #e8e2d9; }
+@media (min-width: 768px) {
+    .servicio-hero {
+        aspect-ratio: auto; min-height: 60vh; padding: 3rem max(3rem, env(safe-area-inset-right, 0px)) 3rem max(3rem, env(safe-area-inset-left, 0px));
+        background: linear-gradient(90deg, rgba(34, 54, 42, .85) 0%, rgba(34, 54, 42, .35) 50%, rgba(34, 54, 42, 0) 75%), url("img/hero-yeso.webp") center / cover no-repeat;
+    }
+    .servicio-hero h1 { font-size: 2.75rem; }
+}
+.servicio { max-width: 900px; margin: 0 auto; padding: 1rem max(16px, env(safe-area-inset-right, 0px)) 3rem max(16px, env(safe-area-inset-left, 0px)); display: grid; gap: 1rem; }
+.volver { color: var(--page-muted); }
+.titulo { margin: .5rem 0 1rem; font-size: 1.6rem; color: var(--page-text); }
+.bloque { background: var(--sand); border: 1px solid var(--sand-line); color: var(--text); border-radius: 8px; padding: 1.25rem; }
+.bloque h2 { margin: 0 0 .75rem; color: var(--green); }
+.intro { margin: 0; font-size: 1.1rem; }
+.acciones { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1rem 0 0; }
+.btn { display: inline-block; padding: .8rem 1.4rem; background: var(--accent); color: #fff; font-weight: 600; text-decoration: none; border-radius: 6px; }
+.btn-sec { background: transparent; color: var(--green); border: 2px solid var(--green); }
+.material { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: .9rem; }
+.material div { display: flex; gap: 12px; align-items: center; background: var(--sand-light); border: 1px solid var(--sand-line); border-radius: 8px; padding: 12px 14px; min-width: 0; }
+.material p { margin: 0; min-width: 0; }
+.material b { display: block; }
+.material span:not(.ico) { color: var(--muted); font-size: .95rem; }
+.ico { flex: none; display: inline-grid; place-items: center; width: 46px; height: 46px; border-radius: 10px; background: var(--sand-dark); color: var(--terra); }
+.ico svg { width: 25px; height: 25px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+.it { background: var(--sand); border: 1px solid var(--sand-line); color: var(--text); border-radius: 8px; padding: 20px; transition: transform .25s, box-shadow .25s; min-width: 0; }
+.it:hover { transform: translateY(-4px); box-shadow: 0 12px 26px rgba(0, 0, 0, .22); }
+.it .ico { margin-bottom: 10px; }
+.it h3 { margin: 0 0 .3rem; font-size: 1.08rem; color: var(--green); }
+.it p { margin: 0; color: var(--muted); font-size: .95rem; }
+.it a { color: var(--terra); font-weight: 700; }
+.faq { display: grid; gap: 10px; }
+.faq summary { list-style: none; cursor: pointer; background: var(--sand); border: 1px solid var(--sand-line); color: var(--green); border-radius: 8px; padding: 14px 18px; font-weight: 700; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary:hover { background: #ebdfca; }
+.faq details[open] summary { background: var(--sand-dark); }
+.faq details p { margin: 0; padding: .7rem 4px .4rem; color: var(--page-text); }
+
+.footer { background: var(--bg-deep); color: var(--page-muted); text-align: center; font-size: .9rem; }
+.footer .wrap { padding-block: 1.5rem; }
+.footer p { margin: 0; }
+
+/* Переклад українською */
+.ua { background: var(--bg-deep); border-top: 1px solid var(--line); }
+.ua .wrap { padding-block: 2rem 3rem; max-width: 900px; }
+.ua h2 { margin: 0 0 .25rem; font-size: 1.4rem; }
+.ua .sub { margin: 0 0 1.25rem; color: var(--page-muted); }
+.ua h3 { margin: 1.5rem 0 .5rem; font-size: 1.05rem; color: #f3c9a3; }
+.ua dl { margin: 0; display: grid; gap: .6rem; }
+.ua dl div { display: grid; gap: .1rem; padding: .6rem .8rem; background: rgba(255, 255, 255, .04); border: 1px solid var(--line); border-radius: 6px; min-width: 0; }
+.ua dt { font-weight: 700; color: var(--page-text); }
+.ua dd { margin: 0; color: var(--ua); }
+.ua dd i { color: var(--page-muted); }
+.ua ul { margin: 0; padding-left: 1.2rem; color: var(--ua); }
+.ua li { margin-bottom: .35rem; }
+.ua .es { color: var(--page-muted); font-size: .9rem; }
+
+@media (prefers-reduced-motion: reduce) { .it { transition: none; } .it:hover { transform: none; } }
+
+.ua{display:block;background:#eef3ec;color:#2f4a36;border-left:3px solid #2f4a36;padding:5px 10px;border-radius:0 6px 6px 0;font-size:.88rem;margin:.35rem 0 0;font-weight:400;text-shadow:none;max-width:40rem;line-height:1.45}
+.servicio-hero .ua{margin-top:.5rem}
+.nota{background:var(--bg-deep);color:var(--page-muted);font-size:.9rem}
+.nota .wrap{padding-block:.6rem}
+.de{display:inline-block;margin:.5rem 0 0;padding:2px 8px;border-radius:999px;background:#b8541a;color:#fff;font-size:.75rem;font-weight:700}
+.tabla{background:#22362a;border:1px solid #3f5c46;border-radius:8px;padding:1rem 1.25rem;color:#e9efe6}
+.tabla h2{margin:0 0 .75rem;color:#f3efe6;font-size:1.2rem}
+.tabla table{width:100%;border-collapse:collapse;font-size:.92rem}
+.tabla th,.tabla td{text-align:left;padding:.45rem .5rem;border-bottom:1px solid #3f5c46;vertical-align:top}
+.tabla th{color:#f3c9a3}
+.tabla .scroll{overflow-x:auto}
+</style>
+<header class="header"><div class="wrap"><a class="logo" href="#">HLD <span>CASA</span></a>
+<nav class="nav" aria-label="Menú"><a href="#">Servicios</a><a href="#">Proyectos</a><a href="#">Cómo trabajamos</a><a href="#">Nosotros</a><a href="#">Contacto</a></nav></div></header>
+<div class="nota"><div class="wrap">Пропозиція: Yesos 12 → 6 карток. Під кожним текстом — переклад; помаранчева мітка показує, з яких старих пунктів зібрана картка. Внизу — таблиця «що куди пішло».</div></div>
+<main>
+<section class="servicio-hero" style="background-position:78% center">
+<h1>Yesos y enlucidos en Málaga</h1>
+<p>Dejamos sus paredes y techos rectos, firmes y listos para pintar.</p>
+<span class="ua"><b>Штукатурка в Малазі.</b> Робимо ваші стіни й стелі рівними, міцними й готовими під фарбу.</span>
+</section>
+<div class="servicio">
+<a class="volver" href="#">← Todos los servicios</a><span class="ua">← Усі послуги</span>
+<section class="bloque">
+<p class="intro">Elegimos el material según la estancia:</p><span class="ua">Підбираємо матеріал під приміщення:</span>
+<div class="material">
+<div><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></span><p><b>Yeso</b><span>interiores secos: salones, dormitorios, techos</span><span class="ua"><b>Гіпс</b> — сухі приміщення: вітальні, спальні, стелі</span></p></div>
+<div><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c4 5 6 8 6 11a6 6 0 0 1-12 0c0-3 2-6 6-11z"/></svg></span><p><b>Mortero de cemento</b><span>donde hay humedad: baños, garajes, fachadas</span><span class="ua"><b>Цементна штукатурка</b> — де волого: ванні, гаражі, фасади</span></p></div>
+</div></section>
+<section><h2 class="titulo">Qué hacemos</h2><span class="ua">Що робимо</span>
+<ul class="grid" style="margin-top:1rem">
+<li class="it"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8l9-5 9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/><path d="M3 18l9 5 9-5"/></svg></span><h3>Acabado a su medida</h3><span class="ua">Оздоблення під вас</span><p style="margin-top:.5rem">Base de yeso y enlucido fino. Con maestras para paredes perfectas, o sin ellas si busca ahorrar.</p><span class="ua">Гіпсова основа й тонкий фініш. По маяках — для ідеальних стін, або без них, якщо хочете зекономити.</span><span class="de">з: 1 Два шари + 2 Ви обираєте рівень + 3 Перліт</span></li>
+<li class="it"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 5v6h-6"/></svg></span><h3>Renovar sin picar</h3><span class="ua">Оновлення без збивання</span><p style="margin-top:.5rem">Una capa fina sobre la pared vieja y queda como nueva, sin escombro.</p><span class="ua">Тонкий шар поверх старої стіни — і вона як нова, без сміття.</span><span class="de">з: 4 (без змін)</span></li>
+<li class="it"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7V3M15 7V3"/><rect x="6" y="7" width="12" height="7" rx="2"/><path d="M12 14v4a3 3 0 0 0 3 3h2"/></svg></span><h3>Rozas y grietas</h3><span class="ua">Штроби й тріщини</span><p style="margin-top:.5rem">Tapamos las rozas del electricista o el fontanero y reparamos grietas con malla para que no vuelvan.</p><span class="ua">Закриваємо штроби після електрика чи сантехніка і ремонтуємо тріщини із сіткою, щоб не повертались.</span><span class="de">з: 6 Штроби + 7 Тріщини</span></li>
+<li class="it"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3v18h16"/><path d="M9 3v14h12"/></svg></span><h3>Esquinas, escayola y molduras</h3><span class="ua">Кути, escayola і молдинги</span><p style="margin-top:.5rem">Guardavivos para esquinas rectas, reparación de techos de escayola, molduras y cornisas.</p><span class="ua">Кутові профілі для рівних кутів, ремонт стель з escayola, молдинги й карнизи.</span><span class="de">з: 5 Кути + 9 Escayola</span></li>
+<li class="it"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c4 5 6 8 6 11a6 6 0 0 1-12 0c0-3 2-6 6-11z"/></svg></span><h3>Mortero donde hay humedad <small class="chip">mortero</small></h3><span class="ua">Цементна штукатурка, де волого</span><p style="margin-top:.5rem">Baños, garajes y trasteros con mortero de cemento; fachadas y patios con monocapa o enfoscado fratasado.</p><span class="ua">Ванні, гаражі й комори — цементна штукатурка; фасади й дворики — моношарова або затерта теркою.</span><span class="de">з: 8 Вологі зони + 11 Моношарова + 12 Під терку</span></li>
+<li class="it"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 15l6-6"/><path d="M10 6l1-1a4 4 0 0 1 6 6l-1 1"/><path d="M14 18l-1 1a4 4 0 0 1-6-6l1-1"/></svg></span><h3>Buena adherencia</h3><span class="ua">Добре зчеплення</span><p style="margin-top:.5rem">Sobre hormigón y superficies lisas aplicamos puente de adherencia para que nada se despegue.</p><span class="ua">На бетон і гладкі поверхні наносимо адгезійний ґрунт, щоб нічого не відпадало.</span><span class="de">з: 10 (без змін) — можна прибрати ❓</span></li>
+</ul></section>
+<section><h2 class="titulo">Preguntas frecuentes</h2><span class="ua">Часті питання (без змін)</span><div class="faq" style="margin-top:1rem">
+<details open><summary>¿Sirve el yeso para baños y cocinas?</summary><span class="ua">Чи підходить гіпс для ванної й кухні?</span><p>En zonas con agua es mejor mortero de cemento o yeso hidrófugo: el yeso normal absorbe la humedad.</p><span class="ua">Там, де вода, краще цементна штукатурка або вологостійкий гіпс: звичайний гіпс вбирає вологу.</span></details>
+<details open><summary>¿Cuánto hay que esperar para pintar?</summary><span class="ua">Скільки чекати до фарбування?</span><p>Depende del grosor y la ventilación; normalmente de 1 a 2 semanas.</p><span class="ua">Залежить від товщини й провітрювання; зазвичай 1–2 тижні.</span></details>
+<details open><summary>¿Tapan rozas hechas por otros profesionales?</summary><span class="ua">Чи закриваєте штроби після інших майстрів?</span><p>Sí, es uno de nuestros trabajos más habituales después de una reforma eléctrica o de fontanería.</p><span class="ua">Так, це одна з найчастіших наших робіт після заміни електрики чи сантехніки.</span></details>
+</div></section>
+<section class="tabla"><h2>Що куди пішло (12 → 6)</h2><div class="scroll"><table><tr><th>№</th><th>Стара картка</th><th>Куди</th></tr><tr><td>1</td><td>Dos capas, acabado fino</td><td>→ картка «Acabado a su medida»</td></tr><tr><td>2</td><td>Usted elige el acabado</td><td>→ «Acabado a su medida»</td></tr><tr><td>3</td><td>Yeso con perlita</td><td>→ «Acabado a su medida» (як деталь; можна прибрати зовсім: клієнту це мало що каже)</td></tr><tr><td>4</td><td>Renovar sin picar</td><td>лишається</td></tr><tr><td>5</td><td>Esquinas rectas</td><td>→ «Esquinas, escayola y molduras»</td></tr><tr><td>6</td><td>Tapado de rozas</td><td>→ «Rozas y grietas»</td></tr><tr><td>7</td><td>Grietas que no vuelven</td><td>→ «Rozas y grietas»</td></tr><tr><td>8</td><td>Zonas húmedas</td><td>→ «Mortero donde hay humedad» (+ потім посилання на Impermeabilización)</td></tr><tr><td>9</td><td>Escayola y molduras</td><td>→ «Esquinas, escayola y molduras»</td></tr><tr><td>10</td><td>Buena adherencia</td><td>лишається ❓ можна прибрати й поставити іншу</td></tr><tr><td>11</td><td>Mortero monocapa</td><td>→ «Mortero donde hay humedad»</td></tr><tr><td>12</td><td>Enfoscado fratasado</td><td>→ «Mortero donde hay humedad»</td></tr></table></div></section>
+<section class="bloque"><h2>Consulta gratuita</h2><span class="ua">Безкоштовна консультація (без змін)</span>
+<p>Envíenos fotos y medidas por WhatsApp y le damos una primera valoración sin compromiso. Si hace falta, visitamos la obra y le preparamos un presupuesto por escrito.</p>
+<p class="acciones"><a class="btn" href="#">Escríbanos por WhatsApp</a><a class="btn btn-sec" href="#">Pedir presupuesto</a></p>
+</section></div></main>
+<footer class="footer"><div class="wrap"><p>© 2026 HLD Casa · Reformas y acabados en Málaga</p></div></footer>
