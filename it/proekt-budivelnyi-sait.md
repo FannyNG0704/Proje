@@ -143,3 +143,4 @@
 - Pladur: перевірка ES+UA https://claude.ai/artifact/1L8CxLMVNiuFznNVLQV194 (`it/proekt-img/pladur-revision.html`), герой hero-pladur.webp (Gemini). 6 карток + блок плит + 3 FAQ. Чекає ✅.
 - **04.11.2026: Pladur y techos ✅ у HLDcasa** (servicios/pladur-y-techos.html, hero-pladur.webp, посилання з картки, fuentes). Перше перехресне посилання: FAQ ванна → alicatado-y-solado.html. **Наступна: Masillas y alisados.**
 - Відкладено (04.11): фото картки Pladur y techos (techos.webp) — шукати фото «стеля + стіна з гіпсокартону» без обличчя (Gemini не редагує обличчя; промпт з нуля дано). Фото Pexels зі шліфуванням зеленого пладуру — кандидат для Masillas.
+- Макет сайту українською для брата (одне посилання, головна + Yesos/плитка/Pladur): https://claude.ai/artifact/A5YZA4xTHtFbBeykZYm5sQ (`it/proekt-img/hldcasa-ua.html`). Оновлювати після нових сторінок послуг.
