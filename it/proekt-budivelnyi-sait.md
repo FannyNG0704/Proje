@@ -146,3 +146,4 @@
 - Макет сайту українською для брата (одне посилання, головна + Yesos/плитка/Pladur): https://claude.ai/artifact/A5YZA4xTHtFbBeykZYm5sQ (`it/proekt-img/hldcasa-ua.html`). Оновлювати після нових сторінок послуг.
 - Yesos 12→6 пропозиція: https://claude.ai/artifact/6jebNfv9nXtYAMP9LpfJWk (`it/proekt-img/yesos-6-revision.html`). Чекає рішень Назара (об'єднати / змінити / прибрати).
 - **04.11.2026: Yesos скорочено до 6 карток у HLDcasa ✅** (escayola, молдинги, перліт, бетоконтакт прибрано; нова картка Estuco decorativo). Далі: Masillas y alisados.
+- Masillas: перевірка ES+UA https://claude.ai/artifact/VQ7ABTLPHunKQzeHAuhhpy (`it/proekt-img/masillas-revision.html`); фото героя тимчасове (картка). Чекає правок.
