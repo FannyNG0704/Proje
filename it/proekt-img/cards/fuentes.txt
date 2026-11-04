@@ -6,7 +6,7 @@
 3  techos.webp             <- pexels-artbovich-7227643                  https://www.pexels.com/photo/7227643/  (обрізано власноруч)
 4  masilla.webp            <- pexels-shkrabaanthony-5493667             https://www.pexels.com/photo/5493667/  (обличчя поза кадром + розмиття)
 5  pintura.webp            <- pexels-kseniachernaya-5691694             https://www.pexels.com/photo/5691694/
-6  alicatado.webp          <- pexels 7614405                            https://www.pexels.com/photo/7614405/  (замінено 04.11.2026)
+6  alicatado.webp          <- pexels-curtis-adams-1694007-8583758       https://www.pexels.com/photo/8583758/
 7  fachada.webp            <- pexels-akoonie-37352217                   https://www.pexels.com/photo/37352217/ (тіні висвітлено)
 8  impermeabilizacion.webp <- pexels-bulat843-1243575272-38781391       https://www.pexels.com/photo/38781391/ (написи прибрано)
 9  balaustrada.webp        <- pexels-dmitry93-12279223                  https://www.pexels.com/photo/12279223/
@@ -14,5 +14,5 @@
 11 microcemento.webp       <- pexels-834934396-20818874                 https://www.pexels.com/photo/20818874/
 12 montajes.webp           <- pexels-anete-lusina-4792526               https://www.pexels.com/photo/4792526/
 hero.webp / hero-movil.webp <- згенеровано AI (банер), «imagen ilustrativa»
-servicios/hero-alicatado.webp <- pexels-curtis-adams-1694007-8583758 https://www.pexels.com/photo/8583758/ (обрізка 16:9, 1920x1080)
+servicios/hero-alicatado.webp <- pexels 7614405 https://www.pexels.com/photo/7614405/ (обрізка 16:9, 1920x1080)
 servicios/hero-yeso.webp      <- згенеровано AI (Gemini), «imagen ilustrativa»
