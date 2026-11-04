@@ -1,0 +1,403 @@
+<title>HLD Casa · 9 servicios y Alicatado</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Макет: стилі сайту HLD Casa (style.css + servicios.css) — темно-зелена сторінка, світлі картки, теракотові акценти */
+:root {
+    --bg: #2f4a36;
+    --bg-deep: #22362a;
+    --text: #2a231e;
+    --muted: #6b5e52;
+    --accent: #b8541a;
+    --terra: #9c4614;
+    --green: #2f4a36;
+    --line: #3f5c46;
+    --page-text: #f3efe6;
+    --page-muted: #cfd9cc;
+    --sand: #f1e7d6;
+    --sand-line: #ddcdb2;
+    --sand-light: #fff8ec;
+    --sand-dark: #e7d9c1;
+    --card: #ffffff;
+    --ua: #e9efe6;
+    color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--page-text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+}
+.wrap { max-width: 1100px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { text-wrap: balance; }
+
+/* Шапка */
+.header { background: var(--green); border-bottom: 3px solid var(--accent); }
+.header .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .5rem 1.5rem; padding-block: 1rem; }
+.logo { color: var(--page-text); text-decoration: none; font-weight: 800; font-size: 1.6rem; letter-spacing: .04em; }
+.logo span { font-weight: 500; }
+.nav { display: flex; flex-wrap: wrap; gap: 1rem; }
+.nav a { color: var(--page-muted); text-decoration: none; }
+.nav a:hover { color: #f3c9a3; }
+
+/* Перемикач макетів */
+.vistas { background: var(--bg-deep); }
+.vistas .wrap { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; padding-block: .6rem; font-size: .9rem; color: var(--page-muted); }
+.vistas a { color: var(--page-text); text-decoration: none; padding: .3rem .8rem; border-radius: 999px; border: 1px solid var(--line); }
+.vistas a[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.vistas a:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px solid #f3c9a3; outline-offset: 2px; }
+
+/* Головна: секція послуг */
+.section { padding-block: 2.5rem 3rem; }
+.section h2 { margin: 0 0 1.5rem; font-size: 1.9rem; }
+.section h2::after, .titulo::after { content: ""; display: block; width: 64px; height: 4px; margin-top: .5rem; background: var(--accent); border-radius: 2px; }
+.cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 720px) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.card { background: var(--card); color: var(--text); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; padding-bottom: 1.25rem; display: flex; flex-direction: column; min-width: 0; }
+.card img { display: block; width: 100%; max-width: 100%; aspect-ratio: 4 / 3; object-fit: cover; margin-bottom: 1rem; }
+.card h3 { margin: 0 1.25rem .5rem; font-size: 1.15rem; border-left: 4px solid var(--accent); padding-left: .6rem; color: var(--text); }
+.card p { margin: 0 1.25rem .5rem; color: var(--muted); }
+.card .card-link { margin: auto 1.25rem 0; padding-top: .4rem; color: var(--terra); font-weight: 700; }
+.card .pronto { margin: auto 1.25rem 0; padding-top: .4rem; color: #a59a8e; font-size: .9rem; }
+.card.general { background: var(--sand); }
+
+/* Сторінка послуги */
+.servicio-hero {
+    aspect-ratio: 4 / 3; max-width: 100%;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 2rem max(16px, env(safe-area-inset-right, 0px)) 2rem max(16px, env(safe-area-inset-left, 0px));
+    color: #fff;
+    background: linear-gradient(180deg, rgba(34, 54, 42, 0) 35%, rgba(34, 54, 42, .92) 100%), url("img/alicatado.webp") 50% center / cover no-repeat;
+}
+.servicio-hero h1 { margin: 0 0 .5rem; font-size: 2rem; line-height: 1.2; text-shadow: 0 2px 12px rgba(0, 0, 0, .55); }
+.servicio-hero h1::after { content: ""; display: block; width: 64px; height: 4px; margin-top: .5rem; background: var(--accent); border-radius: 2px; }
+.servicio-hero p { margin: 0; max-width: 40rem; color: #e8e2d9; }
+@media (min-width: 768px) {
+    .servicio-hero {
+        aspect-ratio: auto; min-height: 60vh; padding: 3rem max(3rem, env(safe-area-inset-right, 0px)) 3rem max(3rem, env(safe-area-inset-left, 0px));
+        background: linear-gradient(90deg, rgba(34, 54, 42, .85) 0%, rgba(34, 54, 42, .35) 50%, rgba(34, 54, 42, 0) 75%), url("img/alicatado.webp") center / cover no-repeat;
+    }
+    .servicio-hero h1 { font-size: 2.75rem; }
+}
+.servicio { max-width: 900px; margin: 0 auto; padding: 1rem max(16px, env(safe-area-inset-right, 0px)) 3rem max(16px, env(safe-area-inset-left, 0px)); display: grid; gap: 1rem; }
+.volver { color: var(--page-muted); }
+.titulo { margin: .5rem 0 1rem; font-size: 1.6rem; color: var(--page-text); }
+.bloque { background: var(--sand); border: 1px solid var(--sand-line); color: var(--text); border-radius: 8px; padding: 1.25rem; }
+.bloque h2 { margin: 0 0 .75rem; color: var(--green); }
+.intro { margin: 0; font-size: 1.1rem; }
+.acciones { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1rem 0 0; }
+.btn { display: inline-block; padding: .8rem 1.4rem; background: var(--accent); color: #fff; font-weight: 600; text-decoration: none; border-radius: 6px; }
+.btn-sec { background: transparent; color: var(--green); border: 2px solid var(--green); }
+.material { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: .9rem; }
+.material div { display: flex; gap: 12px; align-items: center; background: var(--sand-light); border: 1px solid var(--sand-line); border-radius: 8px; padding: 12px 14px; min-width: 0; }
+.material p { margin: 0; min-width: 0; }
+.material b { display: block; }
+.material span:not(.ico) { color: var(--muted); font-size: .95rem; }
+.ico { flex: none; display: inline-grid; place-items: center; width: 46px; height: 46px; border-radius: 10px; background: var(--sand-dark); color: var(--terra); }
+.ico svg { width: 25px; height: 25px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+.it { background: var(--sand); border: 1px solid var(--sand-line); color: var(--text); border-radius: 8px; padding: 20px; transition: transform .25s, box-shadow .25s; min-width: 0; }
+.it:hover { transform: translateY(-4px); box-shadow: 0 12px 26px rgba(0, 0, 0, .22); }
+.it .ico { margin-bottom: 10px; }
+.it h3 { margin: 0 0 .3rem; font-size: 1.08rem; color: var(--green); }
+.it p { margin: 0; color: var(--muted); font-size: .95rem; }
+.it a { color: var(--terra); font-weight: 700; }
+.faq { display: grid; gap: 10px; }
+.faq summary { list-style: none; cursor: pointer; background: var(--sand); border: 1px solid var(--sand-line); color: var(--green); border-radius: 8px; padding: 14px 18px; font-weight: 700; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary:hover { background: #ebdfca; }
+.faq details[open] summary { background: var(--sand-dark); }
+.faq details p { margin: 0; padding: .7rem 4px .4rem; color: var(--page-text); }
+
+.footer { background: var(--bg-deep); color: var(--page-muted); text-align: center; font-size: .9rem; }
+.footer .wrap { padding-block: 1.5rem; }
+.footer p { margin: 0; }
+
+/* Переклад українською */
+.ua { background: var(--bg-deep); border-top: 1px solid var(--line); }
+.ua .wrap { padding-block: 2rem 3rem; max-width: 900px; }
+.ua h2 { margin: 0 0 .25rem; font-size: 1.4rem; }
+.ua .sub { margin: 0 0 1.25rem; color: var(--page-muted); }
+.ua h3 { margin: 1.5rem 0 .5rem; font-size: 1.05rem; color: #f3c9a3; }
+.ua dl { margin: 0; display: grid; gap: .6rem; }
+.ua dl div { display: grid; gap: .1rem; padding: .6rem .8rem; background: rgba(255, 255, 255, .04); border: 1px solid var(--line); border-radius: 6px; min-width: 0; }
+.ua dt { font-weight: 700; color: var(--page-text); }
+.ua dd { margin: 0; color: var(--ua); }
+.ua dd i { color: var(--page-muted); }
+.ua ul { margin: 0; padding-left: 1.2rem; color: var(--ua); }
+.ua li { margin-bottom: .35rem; }
+.ua .es { color: var(--page-muted); font-size: .9rem; }
+
+@media (prefers-reduced-motion: reduce) { .it { transition: none; } .it:hover { transform: none; } }
+</style>
+
+<header class="header">
+    <div class="wrap">
+        <a class="logo" href="#inicio">HLD <span>CASA</span></a>
+        <nav class="nav" aria-label="Menú">
+            <a href="#inicio">Servicios</a>
+            <a href="#inicio">Proyectos</a>
+            <a href="#inicio">Cómo trabajamos</a>
+            <a href="#inicio">Nosotros</a>
+            <a href="#inicio">Contacto</a>
+        </nav>
+    </div>
+</header>
+
+<div class="vistas">
+    <div class="wrap">
+        Макет:
+        <a href="#inicio" id="tab-inicio">Головна · 9 послуг</a>
+        <a href="#alicatado" id="tab-alicatado">Сторінка «Плитка»</a>
+    </div>
+</div>
+
+<!-- ============ ГОЛОВНА: 9 КАРТОК ============ -->
+<div id="vista-inicio">
+    <main>
+        <section class="section wrap" aria-labelledby="t-servicios">
+            <h2 id="t-servicios">Servicios</h2>
+            <ul class="cards">
+                <li class="card">
+                    <img src="img/yeso.webp" alt="Pared con enlucido de yeso aplicado a mano" width="1200" height="900">
+                    <h3>Yesos y enlucidos</h3>
+                    <p>Paredes y techos rectos y firmes, listos para pintar.</p>
+                    <a class="card-link" href="https://claude.ai/artifact/RYhuzYRjZsd2hVaCnPD3z9" target="_blank" rel="noopener">Ver qué incluye →</a>
+                </li>
+                <li class="card">
+                    <img src="img/techos.webp" alt="Techo de pladur con iluminación LED" width="1200" height="900">
+                    <h3>Pladur y techos</h3>
+                    <p>Tabiques, trasdosados y techos con iluminación LED.</p>
+                    <span class="pronto">Página en preparación</span>
+                </li>
+                <li class="card">
+                    <img src="img/masilla.webp" alt="Alisado de pared con llana ancha" width="1200" height="900">
+                    <h3>Masillas y alisados</h3>
+                    <p>Paredes lisas, sin marcas, preparadas para la pintura.</p>
+                    <span class="pronto">Página en preparación</span>
+                </li>
+                <li class="card">
+                    <img src="img/pintura.webp" alt="Pintando una pared con rodillo" width="1200" height="900">
+                    <h3>Pintura</h3>
+                    <p>Interiores, fachadas y vallas, con un acabado limpio.</p>
+                    <span class="pronto">Página en preparación</span>
+                </li>
+                <li class="card">
+                    <img src="img/alicatado.webp" alt="Baño alicatado con porcelánico efecto mármol" width="1200" height="900">
+                    <h3>Alicatado y solado</h3>
+                    <p>Baños, cocinas y suelos con cortes limpios y juntas rectas.</p>
+                    <a class="card-link" href="#alicatado">Ver qué incluye →</a>
+                </li>
+                <li class="card">
+                    <img src="img/impermeabilizacion.webp" alt="Impermeabilización de terraza con tela asfáltica" width="1200" height="900">
+                    <h3>Impermeabilización</h3>
+                    <p>Terrazas, azoteas y baños sin goteras ni humedades.</p>
+                    <span class="pronto">Página en preparación</span>
+                </li>
+                <li class="card">
+                    <img src="img/laminado.webp" alt="Habitación con suelo laminado oscuro" width="1200" height="900">
+                    <h3>Suelos laminados</h3>
+                    <p>Suelo nuevo en pocos días, sin obra.</p>
+                    <span class="pronto">Página en preparación</span>
+                </li>
+                <li class="card">
+                    <img src="img/montajes.webp" alt="Montaje de una lámpara de techo" width="1200" height="900">
+                    <h3>Montajes y reparaciones</h3>
+                    <p>Muebles, cocinas, puertas, lámparas y pequeños arreglos.</p>
+                    <span class="pronto">Página en preparación</span>
+                </li>
+                <li class="card general">
+                    <img src="img/balaustrada.webp" alt="Terraza con balaustrada blanca frente al mar" width="1200" height="900">
+                    <h3>Albañilería y pequeñas obras</h3>
+                    <p>Tabiques, peldaños, balaustradas y repasos de pisos de alquiler.</p>
+                    <span class="pronto">Página en preparación</span>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <section class="ua" aria-labelledby="ua-inicio">
+        <div class="wrap">
+            <h2 id="ua-inicio">Українською: головна</h2>
+            <p class="sub">Тут тільки для тебе. На сайті цього блоку не буде.</p>
+
+            <h3>Що змінилось</h3>
+            <ul>
+                <li>12 → 9 карток. Сітка: на телефоні 1 колонка, з 720px одразу 3 (3 × 3, без «сироти»).</li>
+                <li>Злито: Pladur + Techos. Прибрано: Microcemento, Fachadas (фарбування фасаду → Pintura, monocapa → Yesos).</li>
+                <li>Нове: «Albañilería y pequeñas obras» — загальна картка, трохи інший (пісочний) фон, щоб читалась як «все інше».</li>
+                <li>Цін на картках немає: прибираємо через IVA (на сайті для клієнтів ціна має бути з IVA).</li>
+                <li>«Ver qué incluye →» працює для Yesos (відкриє готовий макет) і Плитки. У решти поки «Página en preparación».</li>
+            </ul>
+
+            <h3>Картки</h3>
+            <dl>
+                <div><dt>Yesos y enlucidos</dt><dd>Рівні й міцні стіни та стелі, готові під фарбу.</dd></div>
+                <div><dt>Pladur y techos</dt><dd>Перегородки, обшивка стін і стелі з LED-підсвіткою.</dd></div>
+                <div><dt>Masillas y alisados</dt><dd>Гладкі стіни без слідів, підготовлені під фарбування.</dd></div>
+                <div><dt>Pintura</dt><dd>Приміщення, фасади й паркани, з чистим результатом.</dd></div>
+                <div><dt>Alicatado y solado</dt><dd>Ванні, кухні й підлоги з чистими різами й рівними швами.</dd></div>
+                <div><dt>Impermeabilización</dt><dd>Тераси, плоскі дахи й ванні без протікань і вологи.</dd></div>
+                <div><dt>Suelos laminados</dt><dd>Нова підлога за кілька днів, без будівельного бруду.</dd></div>
+                <div><dt>Montajes y reparaciones</dt><dd>Меблі, кухні, двері, світильники й дрібний ремонт.</dd></div>
+                <div><dt>Albañilería y pequeñas obras</dt><dd>Перегородки, сходинки, балюстради, ремонт квартир між орендарями.</dd></div>
+            </dl>
+        </div>
+    </section>
+</div>
+
+<!-- ============ СТОРІНКА «ПЛИТКА» ============ -->
+<div id="vista-alicatado" hidden>
+    <main>
+        <section class="servicio-hero">
+            <h1>Alicatado y solado en Málaga</h1>
+            <p>Baños, cocinas y suelos con cortes limpios y juntas rectas.</p>
+        </section>
+
+        <div class="servicio">
+            <a class="volver" href="#inicio">← Todos los servicios</a>
+
+            <section class="bloque">
+                <p class="intro">Colocamos según la pieza y la zona:</p>
+                <div class="material">
+                    <div>
+                        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M3 15h18M9 3v6M15 9v6M9 15v6"/></svg></span>
+                        <p><b>Paredes interiores</b><span>cemento cola con llana dentada</span></p>
+                    </div>
+                    <div>
+                        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8l9-5 9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></span>
+                        <p><b>Suelos, terrazas y piezas grandes</b><span>doble encolado: cola en la base y en la pieza</span></p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="titulo">Qué hacemos</h2>
+                <ul class="grid">
+                    <li class="it">
+                        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="9" width="20" height="6" rx="1"/><circle cx="12" cy="12" r="1.5"/><path d="M8 9v6M16 9v6"/></svg></span>
+                        <h3>Base nivelada</h3>
+                        <p>Nivelamos el suelo y hacemos el recrecido: la baldosa no cojea ni suena hueca.</p>
+                    </li>
+                    <li class="it">
+                        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V8a4 4 0 0 1 8 0"/><path d="M9 12h8"/><path d="M11 15v1M14 15v1M17 15v1M12.5 18.5v1M15.5 18.5v1"/></svg></span>
+                        <h3>Baños y cocinas</h3>
+                        <p>Paredes y suelos, con cortes exactos para enchufes, tubos y desagües.</p>
+                    </li>
+                    <li class="it">
+                        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 20l4-12h12l4 12z"/><path d="M12 8v12M4 14h16"/></svg></span>
+                        <h3>Suelos de toda la casa</h3>
+                        <p>Salón, dormitorios y pasillos con juntas rectas de una habitación a otra.</p>
+                    </li>
+                    <li class="it">
+                        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V4h16"/><path d="M4 4l6 6"/><path d="M10 20V10h10"/></svg></span>
+                        <h3>Ingletes a 45° y remates</h3>
+                        <p>Esquinas limpias sin perfiles metálicos y rodapiés a juego.</p>
+                    </li>
+                    <li class="it">
+                        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg></span>
+                        <h3>Terrazas y exteriores</h3>
+                        <p>Suelo antideslizante, con pendiente y juntas para el calor del verano. ¿Le entra agua? <a href="#alicatado">Impermeabilización →</a></p>
+                    </li>
+                    <li class="it">
+                        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/></svg></span>
+                        <h3>Retirada de lo viejo</h3>
+                        <p>Quitamos el alicatado antiguo y nos llevamos el escombro.</p>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="titulo">Preguntas frecuentes</h2>
+                <div class="faq">
+                    <details>
+                        <summary>¿Se puede poner azulejo sobre el antiguo?</summary>
+                        <p>A veces sí, si está firme y plano. Lo comprobamos en la visita y le decimos si conviene.</p>
+                    </details>
+                    <details>
+                        <summary>¿Cuánta baldosa tengo que comprar?</summary>
+                        <p>Los m² más un 10 % de reserva (un 15 % si va en diagonal), toda del mismo lote para que no cambie el tono.</p>
+                    </details>
+                    <details>
+                        <summary>¿Me ayudan a elegir la baldosa?</summary>
+                        <p>Sí: le decimos qué formato y acabado van bien en cada zona, por ejemplo antideslizante en terrazas.</p>
+                    </details>
+                </div>
+            </section>
+
+            <section class="bloque">
+                <h2>Consulta gratuita</h2>
+                <p>Envíenos fotos y medidas por WhatsApp y le damos una primera valoración sin compromiso. Si hace falta, visitamos la obra y le preparamos un presupuesto por escrito.</p>
+                <p class="acciones">
+                    <a class="btn" href="#alicatado">Escríbanos por WhatsApp</a>
+                    <a class="btn btn-sec" href="#alicatado">Pedir presupuesto</a>
+                </p>
+            </section>
+        </div>
+    </main>
+
+    <section class="ua" aria-labelledby="ua-alicatado">
+        <div class="wrap">
+            <h2 id="ua-alicatado">Українською: сторінка «Плитка»</h2>
+            <p class="sub">Фото героя тимчасове (з картки). Сюди піде твоє фото, коли скинеш.</p>
+
+            <h3>Герой</h3>
+            <dl>
+                <div><dt>Alicatado y solado en Málaga</dt><dd>Плитка на стінах і підлозі в Малазі. <i>Ванні, кухні й підлоги з чистими різами й рівними швами.</i></dd></div>
+            </dl>
+
+            <h3>Блок «Colocamos según la pieza y la zona» — кладемо під плитку й зону</h3>
+            <dl>
+                <div><dt>Paredes interiores</dt><dd>Стіни в приміщенні: клей гребінкою.</dd></div>
+                <div><dt>Suelos, terrazas y piezas grandes</dt><dd>Підлоги, тераси й велика плитка: клей з двох боків (на основу й на плитку).</dd></div>
+            </dl>
+
+            <h3>Qué hacemos — що робимо</h3>
+            <dl>
+                <div><dt>Base nivelada</dt><dd>Вирівнюємо підлогу й робимо стяжку: плитка не хитається і не звучить пусто.</dd></div>
+                <div><dt>Baños y cocinas</dt><dd>Стіни й підлога, точні вирізи під розетки, труби й злив (вирізи в плитці, не сантехніка).</dd></div>
+                <div><dt>Suelos de toda la casa</dt><dd>Вітальня, спальні, коридори: шви йдуть рівно з кімнати в кімнату.</dd></div>
+                <div><dt>Ingletes a 45° y remates</dt><dd>Чисті кути без металевих профілів і плінтус в тон.</dd></div>
+                <div><dt>Terrazas y exteriores</dt><dd>Протиковзка плитка, з ухилом і швами від літньої спеки. «Протікає? → Гідроізоляція» — посилання на окрему сторінку.</dd></div>
+                <div><dt>Retirada de lo viejo</dt><dd>Знімаємо стару плитку й вивозимо сміття.</dd></div>
+            </dl>
+
+            <h3>Preguntas frecuentes — питання</h3>
+            <dl>
+                <div><dt>¿Se puede poner azulejo sobre el antiguo?</dt><dd>Чи можна класти поверх старої? — Іноді так, якщо вона міцна й рівна. Перевіряємо на місці й кажемо, чи варто.</dd></div>
+                <div><dt>¿Cuánta baldosa tengo que comprar?</dt><dd>Скільки плитки купувати? — Площа +10 % запасу (+15 % по діагоналі), все з однієї партії, щоб не відрізнявся відтінок.</dd></div>
+                <div><dt>¿Me ayudan a elegir la baldosa?</dt><dd>Допоможете вибрати? — Так: підкажемо формат і покриття для кожної зони, наприклад протиковзке на терасу.</dd></div>
+            </dl>
+
+            <h3>Consulta gratuita</h3>
+            <dl>
+                <div><dt>Безкоштовна консультація</dt><dd>Надішліть фото й розміри у WhatsApp — дамо першу оцінку без зобов'язань. Якщо треба, приїдемо на об'єкт і підготуємо письмовий кошторис.</dd></div>
+            </dl>
+        </div>
+    </section>
+</div>
+
+<footer class="footer">
+    <div class="wrap"><p>© 2026 HLD Casa · Reformas y acabados en Málaga</p></div>
+</footer>
+
+<script>
+(function () {
+    const vistas = { inicio: document.getElementById('vista-inicio'), alicatado: document.getElementById('vista-alicatado') };
+    const tabs = { inicio: document.getElementById('tab-inicio'), alicatado: document.getElementById('tab-alicatado') };
+    let actual = null;
+    function mostrar() {
+        const nombre = location.hash === '#alicatado' ? 'alicatado' : 'inicio';
+        Object.keys(vistas).forEach(function (k) {
+            vistas[k].hidden = k !== nombre;
+            if (k === nombre) tabs[k].setAttribute('aria-current', 'page'); else tabs[k].removeAttribute('aria-current');
+        });
+        if (actual !== null && actual !== nombre) window.scrollTo(0, 0);
+        actual = nombre;
+    }
+    window.addEventListener('hashchange', mostrar);
+    mostrar();
+})();
+</script>
