@@ -152,3 +152,4 @@
 - Pintura: перевірка ES+UA https://claude.ai/artifact/SPwDtSP444VWWVFmcYu2Q6 (`it/proekt-img/pintura-revision.html`), герой hero-pintura.webp (перший варіант Gemini, розріз стіни). Чекає ✅.
 - Impermeabilización: 3 картки ✅ (Terrazas y azoteas з «басейном» і водою до стяжки; Baños y duchas — pladur hidrófugo + membrana; Juntas y grietas — masilla elástica). Без посилання на силікон. Далі: вибір промпта фото героя.
 - Impermeabilización: перевірка ES+UA https://claude.ai/artifact/49d9uKgABJi2rN22djpeEj (`it/proekt-img/impermeabilizacion-revision.html`), герой hero-impermeabilizacion.webp. Чекає ✅.
+- Impermeabilización: версія сайту (ES) https://claude.ai/artifact/Ju6TpiYkkP35yBPEQXV8jm; посилання в картці 2 — окремими рядками внизу (.it .enlaces). Банери: правило 2:1 + max-height 85vh у servicios.css ✅ (Назар вносить).
