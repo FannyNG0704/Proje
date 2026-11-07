@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <rect width="64" height="64" rx="12" fill="#2f4a36"/>
   <rect x="12" y="50" width="40" height="4" rx="2" fill="#b8541a"/>
-  <text x="32" y="43" text-anchor="middle" font-family="system-ui, Segoe UI, Arial, sans-serif" font-size="38" font-weight="700" fill="#f3efe6">G</text>
+  <text x="32" y="42" text-anchor="middle" font-family="system-ui, Segoe UI, Arial, sans-serif" font-size="26" font-weight="700" fill="#f3efe6" letter-spacing="-1">HLD</text>
 </svg>
