@@ -148,3 +148,4 @@
 - **04.11.2026: Yesos скорочено до 6 карток у HLDcasa ✅** (escayola, молдинги, перліт, бетоконтакт прибрано; нова картка Estuco decorativo). Далі: Masillas y alisados.
 - Masillas: перевірка ES+UA https://claude.ai/artifact/VQ7ABTLPHunKQzeHAuhhpy (`it/proekt-img/masillas-revision.html`); фото героя тимчасове (картка). Чекає правок.
 - **Masillas (04.11, кінець):** тексти ✅ (6 карток + блок рівнів + 3 FAQ), фото героя з Gemini збережено: `it/proekt-img/entrega/img/servicios/hero-masilla.webp` (+ `hero-masilla-espejo.webp` — віддзеркалене, якщо заголовок ляже на майстра). **ПРИ ПОВЕРНЕННІ:** вибрати звичайне/дзеркальне → код сторінки masillas-y-alisados.html + посилання з картки + fuentes. Макет: https://claude.ai/artifact/VQ7ABTLPHunKQzeHAuhhpy
+- **07.11.2026: Masillas y alisados ✅ у HLDcasa** (hero-masilla.webp дзеркальне, --foco-x 75%, посилання Masillas↔Pladur). Далі: Pintura.
