@@ -1,0 +1,105 @@
+<title>HLD Casa · Banners 2:1</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+:root{--accent:#b8541a;--page-text:#f3efe6;--page-muted:#cfd9cc;--green:#2f4a36;--text:#2a231e;--muted:#6b5e52;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:#2f4a36;color:#f3efe6;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6}
+.nota{background:#22362a;color:#cfd9cc;padding:.8rem max(16px,env(safe-area-inset-right,0px)) .8rem max(16px,env(safe-area-inset-left,0px));text-align:center}
+.nota b{color:#f3c9a3}
+.etiqueta{background:#22362a;color:#f3c9a3;font-weight:700;padding:.5rem max(16px,env(safe-area-inset-right,0px)) .5rem max(16px,env(safe-area-inset-left,0px));border-top:3px solid #2f4a36}
+/* =========================================================
+   Páginas de servicio (servicios/*.html)
+   Стилі, спільні для всіх 12 сторінок послуг.
+   Фото героя задає кожна сторінка: --foto (і --foco-x, якщо треба зсунути кадр).
+   ========================================================= */
+
+/* --- Герой: на телефоні фото 4:3, на комп'ютері — на всю ширину --- */
+.servicio-hero {
+    aspect-ratio: 4 / 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem 1.25rem;
+    color: #fff;
+    background: linear-gradient(180deg, rgba(34, 54, 42, 0) 35%, rgba(34, 54, 42, .92) 100%), var(--foto) var(--foco-x, 50%) var(--foco-y, 50%) / cover no-repeat;
+}
+.servicio-hero h1 { margin: 0 0 .5rem; font-size: 2rem; line-height: 1.2; text-shadow: 0 2px 12px rgba(0, 0, 0, .55); }
+.servicio-hero h1::after { content: ""; display: block; width: 64px; height: 4px; margin-top: .5rem; background: var(--accent); border-radius: 2px; }
+.servicio-hero p { margin: 0; max-width: 40rem; color: #e8e2d9; }
+
+@media (min-width: 768px) {
+    .servicio-hero {
+        aspect-ratio: 2 / 1;
+        min-height: 0;
+        max-height: 85vh;
+        padding: 3rem;
+        background: linear-gradient(90deg, rgba(34, 54, 42, .85) 0%, rgba(34, 54, 42, .35) 50%, rgba(34, 54, 42, 0) 75%), var(--foto) 50% var(--foco-y, 50%) / cover no-repeat;
+    }
+    .servicio-hero h1 { font-size: 2.75rem; }
+}
+
+/* --- Контейнер сторінки --- */
+.servicio { max-width: 900px; margin: 0 auto; padding: 1rem 1.25rem 3rem; display: grid; gap: 1rem; }
+.volver { color: var(--page-muted); }
+
+/* --- Заголовки секцій на зеленому --- */
+.titulo { margin: .5rem 0 1rem; font-size: 1.6rem; color: var(--page-text); }
+.titulo::after { content: ""; display: block; width: 56px; height: 4px; margin-top: .5rem; background: var(--accent); border-radius: 2px; }
+
+/* --- Піщані блоки (матеріал, консультація) --- */
+.bloque { background: #f1e7d6; border: 1px solid #ddcdb2; color: var(--text); border-radius: 8px; padding: 1.25rem; }
+.bloque h2 { margin: 0 0 .75rem; color: var(--green); }
+.intro { margin: 0; font-size: 1.1rem; }
+.acciones { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1rem 0 0; }
+.btn-sec { background: transparent; color: var(--green); border: 2px solid var(--green); }
+
+/* --- «Yeso o mortero» --- */
+.material { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: .9rem; }
+.material div { display: flex; gap: 12px; align-items: center; background: #fff8ec; border: 1px solid #ddcdb2; border-radius: 8px; padding: 12px 14px; }
+.material p { margin: 0; }
+.material b { display: block; }
+.material span { color: var(--muted); font-size: .95rem; }
+
+/* --- Іконки --- */
+.ico { flex: none; display: inline-grid; place-items: center; width: 46px; height: 46px; border-radius: 10px; background: #e7d9c1; color: #9c4614; }
+.ico svg { width: 25px; height: 25px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* --- Картки «Qué hacemos» --- */
+.grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+.it { background: #f1e7d6; border: 1px solid #ddcdb2; color: var(--text); border-radius: 8px; padding: 20px; transition: transform .25s, box-shadow .25s; }
+.it:hover { transform: translateY(-4px); box-shadow: 0 12px 26px rgba(0, 0, 0, .22); }
+.it .ico { margin-bottom: 10px; }
+.it h3 { margin: 0 0 .3rem; font-size: 1.08rem; color: var(--green); }
+.it p { margin: 0; color: var(--muted); font-size: .95rem; }
+.chip { display: inline-block; vertical-align: middle; margin-left: 4px; padding: 2px 8px; border-radius: 999px; background: var(--green); color: #f3efe6; font-size: .7rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+
+/* --- Питання: піщані кнопки, відповідь на зеленому --- */
+.faq { display: grid; gap: 10px; }
+.faq summary { list-style: none; cursor: pointer; background: #f1e7d6; border: 1px solid #ddcdb2; color: var(--green); border-radius: 8px; padding: 14px 18px; font-weight: 700; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary:hover { background: #ebdfca; }
+.faq details[open] summary { background: #e7d9c1; }
+.faq details p { margin: 0; padding: .7rem 4px .4rem; color: var(--page-text); }
+
+/* --- Поява при прокрутці (клас .js додає servicios.js) --- */
+.js .reveal { opacity: 0; transform: translateY(20px); transition: opacity .55s ease, transform .55s ease; }
+.js .reveal.on { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+    .js .reveal { opacity: 1; transform: none; transition: none; }
+    .it { transition: none; }
+}
+
+</style>
+<div class="nota"><b>Усі 6 банерів з новим правилом:</b> на комп'ютері банер має пропорцію 2:1 (максимум 85% висоти екрана) замість «75% висоти екрана». На телефоні без змін (4:3).</div>
+<div class="etiqueta">Yesos — штукатурка</div>
+<section class="servicio-hero" style="--foto: url('img/hero-yeso.webp'); --foco-x: 78%"><h1>Yesos y enlucidos en Málaga</h1><p>Dejamos sus paredes y techos rectos, firmes y listos para pintar.</p></section>
+<div class="etiqueta">Alicatado — плитка</div>
+<section class="servicio-hero" style="--foto: url('img/hero-alicatado.webp'); --foco-y: 100%"><h1>Alicatado y solado en Málaga</h1><p>Baños, cocinas y suelos con cortes limpios y juntas rectas.</p></section>
+<div class="etiqueta">Pladur — гіпсокартон</div>
+<section class="servicio-hero" style="--foto: url('img/hero-pladur.webp');"><h1>Pladur y techos en Málaga</h1><p>Techos, paredes y tabiques de pladur, rectos y listos para pintar.</p></section>
+<div class="etiqueta">Masillas — шпаклівка</div>
+<section class="servicio-hero" style="--foto: url('img/hero-masilla-espejo.webp'); --foco-x: 75%"><h1>Masillas y alisados en Málaga</h1><p>Paredes y techos lisos, sin gotelé ni marcas, listos para pintar.</p></section>
+<div class="etiqueta">Pintura — фарбування</div>
+<section class="servicio-hero" style="--foto: url('img/hero-pintura.webp');"><h1>Pintura en Málaga</h1><p>Interiores, fachadas, rejas y metal: color limpio y duradero.</p></section>
+<div class="etiqueta">Impermeabilización — гідроізоляція</div>
+<section class="servicio-hero" style="--foto: url('img/hero-impermeabilizacion.webp');"><h1>Impermeabilización en Málaga</h1><p>Terrazas, azoteas y baños sin goteras ni humedades.</p></section>
