@@ -1,0 +1,174 @@
+<title>HLD Casa · Impermeabilización revisión</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Макет: стилі сайту HLD Casa (style.css + servicios.css) — темно-зелена сторінка, світлі картки, теракотові акценти */
+:root {
+    --bg: #2f4a36;
+    --bg-deep: #22362a;
+    --text: #2a231e;
+    --muted: #6b5e52;
+    --accent: #b8541a;
+    --terra: #9c4614;
+    --green: #2f4a36;
+    --line: #3f5c46;
+    --page-text: #f3efe6;
+    --page-muted: #cfd9cc;
+    --sand: #f1e7d6;
+    --sand-line: #ddcdb2;
+    --sand-light: #fff8ec;
+    --sand-dark: #e7d9c1;
+    --card: #ffffff;
+    --ua: #e9efe6;
+    color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--page-text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+}
+.wrap { max-width: 1100px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { text-wrap: balance; }
+
+/* Шапка */
+.header { background: var(--green); border-bottom: 3px solid var(--accent); }
+.header .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .5rem 1.5rem; padding-block: 1rem; }
+.logo { color: var(--page-text); text-decoration: none; font-weight: 800; font-size: 1.6rem; letter-spacing: .04em; }
+.logo span { font-weight: 500; }
+.nav { display: flex; flex-wrap: wrap; gap: 1rem; }
+.nav a { color: var(--page-muted); text-decoration: none; }
+.nav a:hover { color: #f3c9a3; }
+
+/* Перемикач макетів */
+.vistas { background: var(--bg-deep); }
+.vistas .wrap { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; padding-block: .6rem; font-size: .9rem; color: var(--page-muted); }
+.vistas a { color: var(--page-text); text-decoration: none; padding: .3rem .8rem; border-radius: 999px; border: 1px solid var(--line); }
+.vistas a[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.vistas a:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px solid #f3c9a3; outline-offset: 2px; }
+
+/* Головна: секція послуг */
+.section { padding-block: 2.5rem 3rem; }
+.section h2 { margin: 0 0 1.5rem; font-size: 1.9rem; }
+.section h2::after, .titulo::after { content: ""; display: block; width: 64px; height: 4px; margin-top: .5rem; background: var(--accent); border-radius: 2px; }
+.cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 720px) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.card { background: var(--card); color: var(--text); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; padding-bottom: 1.25rem; display: flex; flex-direction: column; min-width: 0; }
+.card img { display: block; width: 100%; max-width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; margin-bottom: 1rem; }
+.card h3 { margin: 0 1.25rem .5rem; font-size: 1.15rem; border-left: 4px solid var(--accent); padding-left: .6rem; color: var(--text); }
+.card p { margin: 0 1.25rem .5rem; color: var(--muted); }
+.card .card-link { margin: auto 1.25rem 0; padding-top: .4rem; color: var(--terra); font-weight: 700; }
+.card .pronto { margin: auto 1.25rem 0; padding-top: .4rem; color: #a59a8e; font-size: .9rem; }
+.card.general { background: var(--sand); }
+
+/* Сторінка послуги */
+.servicio-hero {
+    aspect-ratio: 4 / 3; max-width: 100%;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 2rem max(16px, env(safe-area-inset-right, 0px)) 2rem max(16px, env(safe-area-inset-left, 0px));
+    color: #fff;
+    background: linear-gradient(180deg, rgba(34, 54, 42, 0) 35%, rgba(34, 54, 42, .92) 100%), url("img/hero-impermeabilizacion.webp") 50% center / cover no-repeat;
+}
+.servicio-hero h1 { margin: 0 0 .5rem; font-size: 2rem; line-height: 1.2; text-shadow: 0 2px 12px rgba(0, 0, 0, .55); }
+.servicio-hero h1::after { content: ""; display: block; width: 64px; height: 4px; margin-top: .5rem; background: var(--accent); border-radius: 2px; }
+.servicio-hero p { margin: 0; max-width: 40rem; color: #e8e2d9; }
+@media (min-width: 768px) {
+    .servicio-hero {
+        aspect-ratio: auto; min-height: 60vh; padding: 3rem max(3rem, env(safe-area-inset-right, 0px)) 3rem max(3rem, env(safe-area-inset-left, 0px));
+        background: linear-gradient(90deg, rgba(34, 54, 42, .85) 0%, rgba(34, 54, 42, .35) 50%, rgba(34, 54, 42, 0) 75%), url("img/hero-impermeabilizacion.webp") center / cover no-repeat;
+    }
+    .servicio-hero h1 { font-size: 2.75rem; }
+}
+.servicio { max-width: 900px; margin: 0 auto; padding: 1rem max(16px, env(safe-area-inset-right, 0px)) 3rem max(16px, env(safe-area-inset-left, 0px)); display: grid; gap: 1rem; }
+.volver { color: var(--page-muted); }
+.titulo { margin: .5rem 0 1rem; font-size: 1.6rem; color: var(--page-text); }
+.bloque { background: var(--sand); border: 1px solid var(--sand-line); color: var(--text); border-radius: 8px; padding: 1.25rem; }
+.bloque h2 { margin: 0 0 .75rem; color: var(--green); }
+.intro { margin: 0; font-size: 1.1rem; }
+.acciones { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1rem 0 0; }
+.btn { display: inline-block; padding: .8rem 1.4rem; background: var(--accent); color: #fff; font-weight: 600; text-decoration: none; border-radius: 6px; }
+.btn-sec { background: transparent; color: var(--green); border: 2px solid var(--green); }
+.material { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: .9rem; }
+.material div { display: flex; gap: 12px; align-items: center; background: var(--sand-light); border: 1px solid var(--sand-line); border-radius: 8px; padding: 12px 14px; min-width: 0; }
+.material p { margin: 0; min-width: 0; }
+.material b { display: block; }
+.material span:not(.ico) { color: var(--muted); font-size: .95rem; }
+.ico { flex: none; display: inline-grid; place-items: center; width: 46px; height: 46px; border-radius: 10px; background: var(--sand-dark); color: var(--terra); }
+.ico svg { width: 25px; height: 25px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+.it { background: var(--sand); border: 1px solid var(--sand-line); color: var(--text); border-radius: 8px; padding: 20px; transition: transform .25s, box-shadow .25s; min-width: 0; }
+.it:hover { transform: translateY(-4px); box-shadow: 0 12px 26px rgba(0, 0, 0, .22); }
+.it .ico { margin-bottom: 10px; }
+.it h3 { margin: 0 0 .3rem; font-size: 1.08rem; color: var(--green); }
+.it p { margin: 0; color: var(--muted); font-size: .95rem; }
+.it a { color: var(--terra); font-weight: 700; }
+.faq { display: grid; gap: 10px; }
+.faq summary { list-style: none; cursor: pointer; background: var(--sand); border: 1px solid var(--sand-line); color: var(--green); border-radius: 8px; padding: 14px 18px; font-weight: 700; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary:hover { background: #ebdfca; }
+.faq details[open] summary { background: var(--sand-dark); }
+.faq details p { margin: 0; padding: .7rem 4px .4rem; color: var(--page-text); }
+
+.footer { background: var(--bg-deep); color: var(--page-muted); text-align: center; font-size: .9rem; }
+.footer .wrap { padding-block: 1.5rem; }
+.footer p { margin: 0; }
+
+/* Переклад українською */
+.ua { background: var(--bg-deep); border-top: 1px solid var(--line); }
+.ua .wrap { padding-block: 2rem 3rem; max-width: 900px; }
+.ua h2 { margin: 0 0 .25rem; font-size: 1.4rem; }
+.ua .sub { margin: 0 0 1.25rem; color: var(--page-muted); }
+.ua h3 { margin: 1.5rem 0 .5rem; font-size: 1.05rem; color: #f3c9a3; }
+.ua dl { margin: 0; display: grid; gap: .6rem; }
+.ua dl div { display: grid; gap: .1rem; padding: .6rem .8rem; background: rgba(255, 255, 255, .04); border: 1px solid var(--line); border-radius: 6px; min-width: 0; }
+.ua dt { font-weight: 700; color: var(--page-text); }
+.ua dd { margin: 0; color: var(--ua); }
+.ua dd i { color: var(--page-muted); }
+.ua ul { margin: 0; padding-left: 1.2rem; color: var(--ua); }
+.ua li { margin-bottom: .35rem; }
+.ua .es { color: var(--page-muted); font-size: .9rem; }
+
+@media (prefers-reduced-motion: reduce) { .it { transition: none; } .it:hover { transform: none; } }
+
+.ua{display:block;background:#eef3ec;color:#2f4a36;border-left:3px solid #2f4a36;padding:5px 10px;border-radius:0 6px 6px 0;font-size:.88rem;margin:.35rem 0 0;font-weight:400;text-shadow:none;max-width:40rem;line-height:1.45}
+.servicio-hero .ua{margin-top:.5rem}
+.nota{background:var(--bg-deep);color:var(--page-muted);font-size:.9rem}
+.nota .wrap{padding-block:.6rem}
+</style>
+<header class="header"><div class="wrap"><a class="logo" href="#">HLD <span>CASA</span></a>
+<nav class="nav" aria-label="Menú"><a href="#">Servicios</a><a href="#">Proyectos</a><a href="#">Cómo trabajamos</a><a href="#">Nosotros</a><a href="#">Contacto</a></nav></div></header>
+<div class="nota"><div class="wrap">Перевірка: під кожним іспанським текстом — переклад українською (зелена смужка). На цій сторінці 3 картки.</div></div>
+<main>
+<section class="servicio-hero">
+<h1>Impermeabilización en Málaga</h1>
+<p>Terrazas, azoteas y baños sin goteras ni humedades.</p>
+<span class="ua"><b>Гідроізоляція в Малазі.</b> Тераси, плоскі дахи й ванні без протікань і вологи.</span>
+</section>
+<div class="servicio">
+<a class="volver" href="#">← Todos los servicios</a><span class="ua">← Усі послуги</span>
+<section class="bloque">
+<p class="intro">Elegimos el sistema según la zona:</p><span class="ua">Підбираємо систему під зону:</span>
+<div class="material">
+<div><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg></span><p><b>Terrazas y azoteas</b><span>tela asfáltica o caucho líquido</span><span class="ua"><b>Тераси й плоскі дахи</b> — бітумна мембрана або рідкий каучук</span></p></div>
+<div><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c4 5 6 8 6 11a6 6 0 0 1-12 0c0-3 2-6 6-11z"/></svg></span><p><b>Baños y duchas</b><span>membrana bajo el azulejo</span><span class="ua"><b>Ванні й душі</b> — мембрана під плиткою</span></p></div>
+</div></section>
+<section><h2 class="titulo">Qué hacemos</h2><span class="ua">Що робимо</span>
+<ul class="grid" style="margin-top:1rem">
+<li class="it"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6"/><path d="M4 14h16v6H4z"/><path d="M7 17c1.5-1 3 1 4.5 0s3 1 4.5 0"/></svg></span><h3>Terrazas y azoteas</h3><span class="ua">Тераси й плоскі дахи</span><p style="margin-top:.5rem">Tela asfáltica soldada que sube por las paredes como una bañera. Antes de hacer la solera, la llenamos de agua y usted comprueba que no pasa nada hacia abajo.</p><span class="ua">Наплавлена бітумна мембрана, заведена на стіни як ванна. Перед стяжкою заливаємо її водою, і ви самі бачите, що вниз нічого не проходить.</span></li>
+<li class="it"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V8a4 4 0 0 1 8 0"/><path d="M9 12h8"/><path d="M11 15v1M14 15v1M17 15v1M12.5 18.5v1M15.5 18.5v1"/></svg></span><h3>Baños y duchas</h3><span class="ua">Ванні й душі</span><p style="margin-top:.5rem">Pladur hidrófugo en las paredes húmedas y membrana impermeable bajo el azulejo en la zona de la ducha.</p><span class="ua">Вологостійкий гіпсокартон на вологих стінах і гідроізоляційна мембрана під плиткою в зоні душу. (тут будуть посилання на Pladur і на плитку)</span></li>
+<li class="it"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20L20 4"/><path d="M8 20l12-12"/><path d="M3 16l3 3"/><path d="M14 4l6 6"/></svg></span><h3>Juntas y grietas</h3><span class="ua">Шви й тріщини</span><p style="margin-top:.5rem">Sellamos con masilla elástica juntas, grietas y encuentros con paredes, tubos y desagües, por donde suele entrar el agua.</p><span class="ua">Герметизуємо еластичним герметиком шви, тріщини й примикання до стін, труб і зливів, через які найчастіше заходить вода.</span></li>
+</ul></section>
+<section><h2 class="titulo">Preguntas frecuentes</h2><span class="ua">Часті питання (на перевірці всі відкриті; на сайті відкриваються кліком)</span><div class="faq" style="margin-top:1rem">
+<details open><summary>¿Se puede impermeabilizar sin levantar el suelo de la terraza?</summary><span class="ua">Чи можна зробити гідроізоляцію, не знімаючи плитку на терасі?</span><p>A veces sí, con productos aplicados sobre la baldosa; depende del estado del suelo. Lo vemos en la visita.</p><span class="ua">Іноді так, матеріалами поверх плитки; залежить від стану підлоги. Дивимось на місці.</span></details>
+<details open><summary>¿Cuánto dura una impermeabilización?</summary><span class="ua">Скільки служить гідроізоляція?</span><p>Bien hecha y protegida del sol, muchos años; la duración exacta depende del sistema y del uso.</p><span class="ua">Якщо зроблена правильно й захищена від сонця — багато років; точний термін залежить від системи й використання.</span></details>
+<details open><summary>La azotea es de la comunidad: ¿quién decide?</summary><span class="ua">Дах спільний для будинку: хто вирішує?</span><p>En azoteas comunitarias decide la comunidad de propietarios; le ayudamos con el presupuesto para la junta.</p><span class="ua">Якщо дах спільний, вирішують збори власників; ми допомагаємо з кошторисом для зборів.</span></details>
+</div></section>
+<section class="bloque"><h2>Consulta gratuita</h2><span class="ua">Безкоштовна консультація</span>
+<p>Envíenos fotos y medidas por WhatsApp y le damos una primera valoración sin compromiso. Si hace falta, visitamos la obra y le preparamos un presupuesto por escrito.</p>
+<span class="ua">Надішліть фото й розміри у WhatsApp — дамо першу оцінку без зобов'язань. Якщо треба, приїдемо на об'єкт і підготуємо письмовий кошторис.</span>
+<p class="acciones"><a class="btn" href="#">Escríbanos por WhatsApp</a><a class="btn btn-sec" href="#">Pedir presupuesto</a></p>
+<span class="ua">Кнопки: «Напишіть нам у WhatsApp» · «Замовити кошторис»</span>
+</section></div></main>
+<footer class="footer"><div class="wrap"><p>© 2026 HLD Casa · Reformas y acabados en Málaga</p></div></footer>

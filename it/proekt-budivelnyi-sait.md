@@ -151,3 +151,4 @@
 - **07.11.2026: Masillas y alisados ✅ у HLDcasa** (hero-masilla.webp дзеркальне, --foco-x 75%, посилання Masillas↔Pladur). Далі: Pintura.
 - Pintura: перевірка ES+UA https://claude.ai/artifact/SPwDtSP444VWWVFmcYu2Q6 (`it/proekt-img/pintura-revision.html`), герой hero-pintura.webp (перший варіант Gemini, розріз стіни). Чекає ✅.
 - Impermeabilización: 3 картки ✅ (Terrazas y azoteas з «басейном» і водою до стяжки; Baños y duchas — pladur hidrófugo + membrana; Juntas y grietas — masilla elástica). Без посилання на силікон. Далі: вибір промпта фото героя.
+- Impermeabilización: перевірка ES+UA https://claude.ai/artifact/49d9uKgABJi2rN22djpeEj (`it/proekt-img/impermeabilizacion-revision.html`), герой hero-impermeabilizacion.webp. Чекає ✅.
