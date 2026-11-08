@@ -1,98 +1,114 @@
 <title>HLD Casa · Proyectos carrusel</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
-/* Макет розділу Proyectos у стилі HLD Casa: темно-зелений фон, пісочні акценти, теракотові посилання */
-:root{--bg:#2f4a36;--bg-deep:#22362a;--text:#2a231e;--muted:#6b5e52;--accent:#b8541a;--terra:#9c4614;--page-text:#f3efe6;--page-muted:#cfd9cc;--sand:#f1e7d6;--sand-line:#ddcdb2;--line:#3f5c46;color-scheme:dark}
+/* Макет розділу Proyectos: усе на темно-зеленому, фото без підписів, однакові відступи між блоками */
+:root{--bg:#2f4a36;--bg-deep:#22362a;--accent:#b8541a;--page-text:#f3efe6;--page-muted:#cfd9cc;--sand:#f1e7d6;--terra:#9c4614;--line:#3f5c46;--gap:1.75rem;color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--page-text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6}
 .wrap{max-width:1100px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .nota{background:var(--bg-deep);color:var(--page-muted);font-size:.9rem}
 .nota .wrap{padding-block:.7rem}
-.section{padding-block:2.5rem 3rem}
-h2{margin:0 0 .4rem;font-size:1.9rem;text-wrap:balance}
+.section{padding-block:2.5rem 3rem;display:flex;flex-direction:column;gap:var(--gap)}
+h2{margin:0;font-size:1.9rem}
 h2::after{content:"";display:block;width:64px;height:4px;margin-top:.5rem;background:var(--accent);border-radius:2px}
-.sub{margin:.9rem 0 1.5rem;color:var(--page-muted);max-width:40rem}
 
-/* Карусель: стрічка з прокруткою по слайдах (scroll-snap) — пальцем на телефоні, стрілками на ПК */
+/* Карусель */
 .carrusel{position:relative}
-.pista{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding-bottom:6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.pista{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
 .pista::-webkit-scrollbar{display:none}
-.slide{flex:0 0 86%;scroll-snap-align:center;margin:0;min-width:0}
+.slide{flex:0 0 86%;scroll-snap-align:center;margin:0;min-width:0;cursor:zoom-in}
 @media (min-width:768px){.slide{flex-basis:72%}}
-.foto{aspect-ratio:16/10;max-width:100%;border-radius:10px;display:grid;place-items:center;font-size:clamp(1.4rem,4vw,2.4rem);font-weight:800;color:rgba(255,255,255,.85);letter-spacing:.02em;border:1px solid var(--line);position:relative;overflow:hidden}
-.foto::after{content:"Obra en Ucrania";position:absolute;left:12px;top:12px;font-size:.75rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:rgba(0,0,0,.45);padding:3px 9px;border-radius:999px}
-.slide figcaption{display:flex;justify-content:space-between;gap:1rem;margin-top:.6rem;color:var(--page-muted);font-size:.95rem}
-.slide figcaption b{color:var(--page-text)}
-.flecha{position:absolute;top:calc(50% - 40px);width:48px;height:48px;border-radius:50%;border:0;background:var(--sand);color:var(--terra);font-size:1.5rem;font-weight:700;cursor:pointer;display:none;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+.slide img{display:block;width:100%;max-width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;border-radius:10px}
+.flecha{position:absolute;top:calc(50% - 24px);width:48px;height:48px;border-radius:50%;border:0;background:var(--sand);color:var(--terra);font-size:1.6rem;font-weight:700;cursor:pointer;display:none;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.3)}
 .flecha:hover{background:#ebdfca}
-.flecha:focus-visible{outline:2px solid #f3c9a3;outline-offset:2px}
-.flecha[disabled]{opacity:.35;cursor:default}
+.flecha:focus-visible,.btn:focus-visible{outline:2px solid #f3c9a3;outline-offset:2px}
 .prev{left:-8px}.next{right:-8px}
 @media (min-width:768px){.flecha{display:grid}}
-.contador{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:1rem}
-.punto{width:9px;height:9px;border-radius:50%;background:var(--line);border:0;padding:0;cursor:pointer}
-.punto[aria-current="true"]{background:var(--accent);width:22px;border-radius:5px}
 
-/* Текст під каруселлю і кнопка */
-.nosotros{margin-top:2rem;background:var(--sand);color:var(--text);border:1px solid var(--sand-line);border-radius:8px;padding:1.25rem;display:grid;gap:.75rem}
-.nosotros h3{margin:0;color:var(--bg);font-size:1.2rem}
-.nosotros p{margin:0}
-.btn{justify-self:start;display:inline-block;padding:.8rem 1.4rem;background:var(--accent);color:#fff;font-weight:600;text-decoration:none;border-radius:6px}
+/* Кнопка під каруселлю — на місці крапок */
+.btn{align-self:center;display:inline-block;padding:.8rem 1.6rem;background:var(--accent);color:#fff;font-weight:600;text-decoration:none;border-radius:6px}
 .btn:hover{background:#9c4614}
-.ua{display:block;background:#eef3ec;color:#2f4a36;border-left:3px solid #2f4a36;padding:5px 10px;border-radius:0 6px 6px 0;font-size:.88rem;margin:.35rem 0 0;max-width:46rem}
-@media (prefers-reduced-motion:reduce){.pista{scroll-behavior:auto}}
+
+/* Текст про бригаду — білим на зеленому */
+.texto h3{margin:0 0 .5rem;font-size:1.3rem}
+.texto p{margin:0;max-width:44rem;color:var(--page-muted)}
+.ua{display:block;background:#eef3ec;color:#2f4a36;border-left:3px solid #2f4a36;padding:5px 10px;border-radius:0 6px 6px 0;font-size:.85rem;margin:.4rem 0 0;max-width:44rem}
+
+/* Перегляд на весь екран зі збільшенням */
+.visor{position:fixed;inset:0;background:rgba(10,20,14,.96);display:grid;place-items:center;z-index:20;touch-action:none;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+.visor img{max-width:96vw;max-height:88vh;border-radius:8px;transform-origin:center;transition:transform .15s;user-select:none;-webkit-user-drag:none}
+.cerrar{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));width:44px;height:44px;border-radius:50%;border:0;background:var(--sand);color:var(--terra);font-size:1.4rem;font-weight:700;cursor:pointer}
+@media (prefers-reduced-motion:reduce){.visor img{transition:none}}
 </style>
 
-<div class="nota"><div class="wrap">Макет розділу «Proyectos»: замість фото — кольорові заглушки «Proyecto 1…10». Під текстами зелені смужки з перекладом. На ПК — стрілки, на телефоні — гортати пальцем.</div></div>
+<div class="nota"><div class="wrap">Макет «Proyectos»: фото-заглушки, без підписів; по колу (після 10-ї знову 1-ша); клік / дотик на фото — на весь екран, там можна збільшити двома пальцями або колесом миші. Зелені смужки — переклад, на сайті їх не буде.</div></div>
 
 <section class="section wrap" aria-labelledby="t-proy">
   <h2 id="t-proy">Proyectos</h2>
-  <p class="sub">Algunos de nuestros trabajos terminados.</p>
-  <span class="ua">Деякі з наших завершених робіт.</span>
 
   <div class="carrusel">
-    <div class="pista" id="pista" tabindex="0" aria-label="Proyectos, deslice para ver más"></div>
-    <button class="flecha prev" id="prev" aria-label="Proyecto anterior">‹</button>
-    <button class="flecha next" id="next" aria-label="Proyecto siguiente">›</button>
+    <div class="pista" id="pista" tabindex="0" aria-label="Proyectos"></div>
+    <button class="flecha prev" id="prev" aria-label="Anterior">‹</button>
+    <button class="flecha next" id="next" aria-label="Siguiente">›</button>
   </div>
-  <div class="contador" id="puntos" aria-label="Elegir proyecto"></div>
 
-  <div class="nosotros">
+  <a class="btn" href="#t-proy">Ver todos los proyectos</a>
+
+  <div class="texto">
     <h3>Maestros con oficio desde jóvenes</h3>
-    <span class="ua">Майстри з ремеслом змалку</span>
     <p>Somos un equipo de Ucrania con años de experiencia en reformas y acabados. Ahora trabajamos en España con el mismo cuidado por el detalle.</p>
-    <span class="ua">Ми бригада з України з багаторічним досвідом у ремонті й оздобленні. Тепер працюємо в Іспанії з тією ж увагою до деталей.</span>
-    <a class="btn" href="#t-proy">Ver todos los proyectos</a>
-    <span class="ua">Кнопка «Дивитися всі проєкти» → окрема сторінка proyectos.html</span>
+    <span class="ua">Майстри з ремеслом змалку. Ми бригада з України з багаторічним досвідом у ремонті й оздобленні. Тепер працюємо в Іспанії з тією ж увагою до деталей. (Текст замінимо на твій.)</span>
   </div>
 </section>
 
 <script>
 (function(){
-  const datos=[
-    ['Baño completo','Alicatado y pladur'],['Salón con techo LED','Pladur y techos'],['Cocina','Alicatado'],['Piso entero','Masillas y pintura'],['Fachada','Pintura'],
-    ['Terraza','Impermeabilización'],['Dormitorio','Suelo laminado'],['Pasillo','Pladur y masillas'],['Baño pequeño','Alicatado'],['Local comercial','Reforma completa']];
   const colores=['#5b6f5f','#7a5232','#4f6b7a','#8a6d4a','#6b5e52','#3f5c46','#7d6a5a','#556b55','#6a5a72','#5a6a6a'];
-  const pista=document.getElementById('pista'),puntos=document.getElementById('puntos');
-  datos.forEach((d,i)=>{
-    const f=document.createElement('figure');f.className='slide';f.setAttribute('aria-label',`Proyecto ${i+1} de ${datos.length}`);
-    f.innerHTML=`<div class="foto" style="background:linear-gradient(135deg,${colores[i]},#22362a)">Proyecto ${i+1}</div><figcaption><span><b>${d[0]}</b> · ${d[1]}</span><span>${i+1} / ${datos.length}</span></figcaption>`;
+  const N=colores.length, CL=2; // кількість копій з кожного боку для безкінечного кола
+  const foto=i=>'data:image/svg+xml,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${colores[i]}"/><stop offset="1" stop-color="#22362a"/></linearGradient></defs><rect width="1600" height="1000" fill="url(#g)"/><text x="800" y="540" font-family="system-ui,sans-serif" font-size="120" font-weight="800" fill="rgba(255,255,255,.85)" text-anchor="middle">Proyecto ${i+1}</text></svg>`);
+  const pista=document.getElementById('pista');
+  const orden=[...Array(CL).keys()].map(k=>N-CL+k).concat([...Array(N).keys()],[...Array(CL).keys()]);
+  orden.forEach(i=>{
+    const f=document.createElement('figure');f.className='slide';f.dataset.i=i;
+    f.innerHTML=`<img src="${foto(i)}" alt="Proyecto ${i+1}" width="1600" height="1000" draggable="false">`;
+    f.addEventListener('click',()=>abrir(i));
     pista.appendChild(f);
-    const b=document.createElement('button');b.className='punto';b.setAttribute('aria-label',`Proyecto ${i+1}`);b.addEventListener('click',()=>ir(i));puntos.appendChild(b);
   });
-  const slides=[...pista.children],dots=[...puntos.children];
-  function ir(i){i=Math.max(0,Math.min(slides.length-1,i));slides[i].scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',inline:'center',block:'nearest'});}
-  let actual=0;
-  function marcar(){
-    const c=pista.scrollLeft+pista.clientWidth/2;let best=0,dist=1e9;
-    slides.forEach((s,i)=>{const m=s.offsetLeft+s.offsetWidth/2;const dd=Math.abs(m-c);if(dd<dist){dist=dd;best=i}});
-    actual=best;dots.forEach((d,i)=>d.setAttribute('aria-current',i===best?'true':'false'));
-    document.getElementById('prev').disabled=best===0;document.getElementById('next').disabled=best===slides.length-1;
+  const slides=[...pista.children];
+  const centro=s=>s.offsetLeft+s.offsetWidth/2-pista.clientWidth/2;
+  const suave=()=>matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
+  let pos=CL;
+  function saltar(p){pista.style.scrollSnapType='none';pista.scrollLeft=centro(slides[p]);pos=p;requestAnimationFrame(()=>pista.style.scrollSnapType='');}
+  function ir(p){pos=p;pista.scrollTo({left:centro(slides[p]),behavior:suave()});}
+  function cercano(){const c=pista.scrollLeft+pista.clientWidth/2;let b=0,d=1e9;slides.forEach((s,i)=>{const m=Math.abs(s.offsetLeft+s.offsetWidth/2-c);if(m<d){d=m;b=i}});return b;}
+  function corregir(){const p=cercano();if(p<CL)saltar(p+N);else if(p>=CL+N)saltar(p-N);else pos=p;}
+  let t;pista.addEventListener('scroll',()=>{clearTimeout(t);t=setTimeout(corregir,120)},{passive:true});
+  document.getElementById('prev').addEventListener('click',()=>ir(cercano()-1));
+  document.getElementById('next').addEventListener('click',()=>ir(cercano()+1));
+  pista.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();ir(cercano()+1)}if(e.key==='ArrowLeft'){e.preventDefault();ir(cercano()-1)}});
+  addEventListener('resize',()=>saltar(pos));
+  requestAnimationFrame(()=>saltar(CL));
+
+  // Перегляд на весь екран: збільшення двома пальцями / колесом, перетягування, подвійний дотик
+  let visor=null,img,esc=1,tx=0,ty=0,ptrs=new Map(),d0=0,e0=1,last=null,tap=0;
+  const aplicar=()=>img.style.transform=`translate(${tx}px,${ty}px) scale(${esc})`;
+  function abrir(i){
+    visor=document.createElement('div');visor.className='visor';visor.setAttribute('role','dialog');visor.setAttribute('aria-label',`Proyecto ${i+1}`);
+    visor.innerHTML=`<img src="${foto(i)}" alt="Proyecto ${i+1}" draggable="false"><button class="cerrar" aria-label="Cerrar">✕</button>`;
+    document.body.appendChild(visor);img=visor.querySelector('img');esc=1;tx=ty=0;aplicar();
+    visor.querySelector('.cerrar').addEventListener('click',cerrar);
+    visor.addEventListener('click',e=>{if(e.target===visor)cerrar()});
+    visor.addEventListener('wheel',e=>{e.preventDefault();esc=Math.min(4,Math.max(1,esc*(e.deltaY<0?1.15:0.87)));if(esc===1){tx=ty=0}aplicar()},{passive:false});
+    img.addEventListener('pointerdown',e=>{img.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,e);if(ptrs.size===2){const[a,b]=[...ptrs.values()];d0=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);e0=esc}last={x:e.clientX,y:e.clientY};
+      const now=Date.now();if(now-tap<300){esc=esc>1?1:2;tx=ty=0;aplicar()}tap=now;});
+    img.addEventListener('pointermove',e=>{if(!ptrs.has(e.pointerId))return;ptrs.set(e.pointerId,e);
+      if(ptrs.size===2){const[a,b]=[...ptrs.values()];esc=Math.min(4,Math.max(1,e0*Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY)/d0));if(esc===1){tx=ty=0}aplicar()}
+      else if(esc>1&&last){tx+=e.clientX-last.x;ty+=e.clientY-last.y;last={x:e.clientX,y:e.clientY};aplicar()}});
+    const fin=e=>{ptrs.delete(e.pointerId);last=null};
+    img.addEventListener('pointerup',fin);img.addEventListener('pointercancel',fin);
+    visor.querySelector('.cerrar').focus();
   }
-  document.getElementById('prev').addEventListener('click',()=>ir(actual-1));
-  document.getElementById('next').addEventListener('click',()=>ir(actual+1));
-  pista.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();ir(actual+1)}if(e.key==='ArrowLeft'){e.preventDefault();ir(actual-1)}});
-  let t;pista.addEventListener('scroll',()=>{clearTimeout(t);t=setTimeout(marcar,60)},{passive:true});
-  marcar();
+  function cerrar(){if(visor){visor.remove();visor=null;ptrs.clear();pista.focus()}}
+  addEventListener('keydown',e=>{if(e.key==='Escape')cerrar()});
 })();
 </script>
