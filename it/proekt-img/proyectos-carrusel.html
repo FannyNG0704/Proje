@@ -27,8 +27,14 @@ h2::after{content:"";display:block;width:64px;height:4px;margin-top:.5rem;backgr
 @media (min-width:768px){.flecha{display:grid}}
 
 /* Кнопка під каруселлю — на місці крапок */
-.btn{align-self:center;display:inline-block;padding:1rem 2.4rem;font-size:1.1rem;background:var(--accent);color:#fff;font-weight:700;text-decoration:none;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.25)}
-.texto{margin-top:1rem}
+.btn{align-self:center;margin-block:2.5rem;display:inline-flex;align-items:center;gap:.7rem;padding:1.2rem 3rem;font-size:1.2rem;background:var(--accent);color:#fff;font-weight:700;text-decoration:none;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.3);position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.btn .fl{display:inline-block;transition:transform .25s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.35)}
+.btn:hover .fl{transform:translateX(6px)}
+.btn::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);animation:brillo 3.5s ease-in-out infinite}
+@keyframes brillo{0%,70%{left:-60%}100%{left:130%}}
+@media (prefers-reduced-motion:reduce){.btn,.btn .fl{transition:none}.btn::after{animation:none;display:none}}
+.texto{margin-top:0}
 .btn:hover{background:#9c4614}
 
 /* Текст про бригаду — білим на зеленому */
@@ -43,13 +49,12 @@ h2::after{content:"";display:block;width:64px;height:4px;margin-top:.5rem;backgr
 @media (prefers-reduced-motion:reduce){.visor img{transition:none}}
 </style>
 
-<div class="nota"><div class="wrap">Макет «Proyectos»: фото-заглушки, без підписів; по колу (після 10-ї знову 1-ша); клік / дотик на фото — на весь екран, там можна збільшити двома пальцями або колесом миші. Зелені смужки — переклад, на сайті їх не буде.</div></div>
+<div class="nota"><div class="wrap">Макет «Proyectos»: фото-заглушки, без підписів; по колу (після 10-ї знову 1-ша); клік / дотик на фото — на весь екран, там можна збільшити двома пальцями або колесом миші. Опис і текст — заглушки, заміниш своїми.</div></div>
 
 <section class="section wrap" aria-labelledby="t-proy">
   <div class="cabecera">
     <h2 id="t-proy">Proyectos</h2>
     <p>Aquí va la descripción de los proyectos.</p>
-    <span class="ua">Тут буде опис (напишеш свій текст).</span>
   </div>
 
   <div class="carrusel">
@@ -58,12 +63,11 @@ h2::after{content:"";display:block;width:64px;height:4px;margin-top:.5rem;backgr
     <button class="flecha next" id="next" aria-label="Siguiente">›</button>
   </div>
 
-  <a class="btn" href="#t-proy">Ver todos los proyectos</a>
+  <a class="btn" href="#t-proy">Ver todos los proyectos <span class="fl" aria-hidden="true">→</span></a>
 
   <div class="texto">
     <h3>Maestros con oficio desde jóvenes</h3>
     <p>Somos un equipo de Ucrania con años de experiencia en reformas y acabados. Ahora trabajamos en España con el mismo cuidado por el detalle.</p>
-    <span class="ua">Майстри з ремеслом змалку. Ми бригада з України з багаторічним досвідом у ремонті й оздобленні. Тепер працюємо в Іспанії з тією ж увагою до деталей. (Текст замінимо на твій.)</span>
   </div>
 </section>
 
