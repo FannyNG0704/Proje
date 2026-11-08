@@ -159,3 +159,4 @@
 - **07.11.2026 (ніч): favicon.svg (тимчасовий «HLD») і og.jpg (HLD Casa) у HLDcasa/img ✅. Завтра: Suelos laminados.**
 - Laminado: перевірка ES+UA https://claude.ai/artifact/AHTgcyQodGVHtjcPJKYbjH (`it/proekt-img/laminado-revision.html`), герой hero-laminado.webp (фото 2). 3 картки: Base preparada, Colocación+rodapiés+puertas (ламінат/вініл), Retirada del suelo viejo. FAQ про ванну → посилання на плитку.
 - **08.11.2026: Suelos laminados ✅ у HLDcasa; банер `width: 100%` (виправлено зелену смугу справа). Далі: Montajes.**
+- Demoliciones (замість Montajes, картка 8): перевірка ES+UA https://claude.ai/artifact/KEyASmQjEZXekSgyZcXTfU (`it/proekt-img/demoliciones-revision.html`), герой hero-demoliciones.webp (фото 2 з 5: розріз стіни, відбійник зовні, контейнер). 6 карток з .enlaces. Монтаж → сторінка 9. ❓ Регіон: Назар живе біля Torrevieja, сайт про Málaga — уточнити.
