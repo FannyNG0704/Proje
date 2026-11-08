@@ -1,0 +1,428 @@
+<title>HLD Casa · Cabecera fija</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+
+:root{--bg:#e4ebe0;--page-text:#2a231e;--page-muted:#5a5046;--text:#2a231e;--muted:#6b5e52;--accent:#b8541a;--green:#3e6b47;--wood:#7a5232;--line:#e5dacb;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--page-text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.note-top{background:var(--text);color:#f7f2ea;font-size:.85rem;text-align:center;padding-block:6px}
+.header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem 1.5rem;padding-block:1rem;background:#fff;border-bottom:3px solid var(--accent)}
+.logo{font-size:1.4rem;font-weight:700;color:var(--text);text-decoration:none}
+.nav{display:flex;flex-wrap:wrap;gap:1rem}
+.nav a{color:var(--muted);text-decoration:none}.nav a:hover{color:var(--accent)}
+.hero{min-height:75vh;display:flex;flex-direction:column;justify-content:flex-end;padding-block:3rem;color:#fff;
+ background:linear-gradient(180deg,rgba(20,24,31,.15) 0%,rgba(20,24,31,.85) 75%),url("img/hero-movil.webp") center/cover no-repeat}
+.hero h1{margin:0 0 1rem;font-size:2rem;line-height:1.2}
+.hero p{margin:0 0 1.5rem;max-width:40rem;color:#e8e2d9}
+.btn{display:inline-block;padding:.8rem 1.4rem;background:var(--accent);color:#fff;font-weight:600;text-decoration:none;border-radius:6px}
+.btn:hover{background:#9c4614}
+.section{max-width:1100px;margin:0 auto;padding-block:2.5rem}
+.cards{list-style:none;margin:1.5rem 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.card{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;padding:0 0 1.25rem}
+.card img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;margin-bottom:1rem}
+.card h3{margin:0 1.25rem .5rem;font-size:1.15rem}
+.card p{margin:0 1.25rem .75rem;color:var(--muted)}
+.card .price{margin:0 1.25rem;font-weight:700;color:var(--accent)}
+.note{color:var(--page-muted);font-size:.95rem}
+.card{color:var(--text)}
+body[data-x="1"]{--bg:#c3d5bf}
+body[data-bg="oscuro"]{--bg:#2f4a36;--page-text:#f3efe6;--page-muted:#cfd9cc;--line:#3f5c46}
+.pick{display:inline-flex;gap:6px;margin-left:10px;vertical-align:middle}
+.pick button{width:22px;height:22px;border-radius:50%;border:2px solid #f7f2ea;cursor:pointer}
+.pick button[aria-pressed="true"]{outline:2px solid var(--accent);outline-offset:2px}
+.footer{padding-block:2rem;background:var(--text);color:#d6dbe3;text-align:center;font-size:.9rem}
+@media (min-width:768px){
+ .hero{min-height:85vh;justify-content:center;padding-block:5rem;
+  background:linear-gradient(90deg,rgba(20,24,31,.88) 0%,rgba(20,24,31,.55) 45%,rgba(20,24,31,0) 75%),url("img/hero.webp") center/cover no-repeat}
+ .hero h1{font-size:2.75rem}
+ .section{padding-block:3.5rem}
+}
+@media (min-width:1024px){.hero h1{font-size:3.25rem;max-width:18ch}}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* Напрям: темно-зелений (пальма) + помаранчевий акцент */
+body{--bg:#2f4a36;--page-text:#f3efe6;--page-muted:#cfd9cc;--line:#3f5c46}
+.header{background:#2f4a36;border-bottom:3px solid var(--accent)}
+.logo{color:#f3efe6}.nav a{color:#cfd9cc}.nav a:hover{color:#f0a36b}
+.card h3{color:#2a231e}.card .price{color:#2f4a36}
+.footer{background:#22362a;color:#cfd9cc}
+.hero{background:linear-gradient(180deg,rgba(34,54,42,.15) 0%,rgba(34,54,42,.9) 75%),url("img/hero-movil.webp") center/cover no-repeat}
+@media (min-width:768px){.hero{background:linear-gradient(90deg,rgba(34,54,42,.92) 0%,rgba(34,54,42,.6) 45%,rgba(34,54,42,0) 75%),url("img/hero.webp") center/cover no-repeat}}
+
+/* Варіант A: обвідка помаранчевим (як просив) */
+/* Варіант B: порада — тінь для читабельності + помаранчева риска */
+.hero h1{text-shadow:0 2px 12px rgba(0,0,0,.55)}
+.hero h1::after,.section h2::after{content:"";display:block;width:64px;height:4px;margin-top:.5rem;background:#b8541a;border-radius:2px}
+.card h3{border-left:4px solid #b8541a;padding-left:.6rem;margin-left:1.25rem}
+.hero .btn{align-self:flex-start}
+.pick2{display:inline-flex;gap:6px;margin-left:8px}
+.pick2 button{font:inherit;font-size:.8rem;padding:2px 10px;border-radius:12px;border:1px solid #f3efe6;background:transparent;color:#f3efe6;cursor:pointer}
+.pick2 button[aria-pressed="true"]{background:#b8541a;border-color:#b8541a}
+
+/* Логотип HLD CASA: власний шрифт (fonts/hldcasa.woff2), малюється як текст */
+@font-face { font-family: "HLD Casa Logo"; src: url("fonts/hldcasa.woff2") format("woff2"); font-display: block; }
+.logo { display: inline-flex; color: var(--page-text); text-decoration: none; }
+.hld { position: relative; display: inline-flex; align-items: baseline; font-family: "HLD Casa Logo", sans-serif; font-size: 35px; font-weight: 400; font-synthesis: none; line-height: 1; white-space: nowrap; }
+@media (min-width: 768px) { .hld { font-size: 50px; } }
+.hld-eye { position: absolute; left: 21px; width: 4px; height: 4px; border-radius: 50%; background: currentColor; will-change: transform; }
+.hld-eye-1 { top: 9px; }
+.hld-eye-2 { top: 15px; }
+@media (min-width: 768px) {
+    .hld-eye { left: 30px; width: 6px; height: 6px; }
+    .hld-eye-1 { top: 13px; }
+    .hld-eye-2 { top: 22px; }
+}
+.hld-clip { padding-left: .24em; clip-path: inset(-.2em -.2em -.2em 0); }
+
+/* Анімація: D → очі → L → H → CASA виїжджає з-за D */
+.hld-d { animation: hld-from-left .9s cubic-bezier(.2,.8,.2,1) .2s backwards; }
+.hld-l { animation: hld-from-right .7s cubic-bezier(.2,.8,.2,1) 2.1s backwards; }
+.hld-h { animation: hld-from-right .7s cubic-bezier(.2,.8,.2,1) 2.8s backwards; }
+.hld-eye { animation: hld-fade .3s ease 1.15s backwards, hld-blink .45s ease-in-out 1.6s, hld-blink-loop 7s ease-in-out 3.6s infinite; }
+.hld-casa { display: inline-block; animation: hld-casa 1s cubic-bezier(.2,.8,.2,1) 3.6s backwards; }
+@keyframes hld-from-left { 0% { opacity: 0; transform: translateX(-.8em); } 20% { opacity: 1; } }
+@keyframes hld-from-right { 0% { opacity: 0; transform: translateX(.4em); } 20% { opacity: 1; } }
+@keyframes hld-fade { 0% { opacity: 0; } }
+@keyframes hld-casa { 0% { transform: translateX(-2.4em); } }
+@keyframes hld-blink { 50% { transform: scaleY(0); } }
+@keyframes hld-blink-loop { 93.6%, 100% { transform: scaleY(1); } 96.8% { transform: scaleY(0); } }
+@media (prefers-reduced-motion: reduce) {
+    .hld-d, .hld-l, .hld-h, .hld-eye, .hld-casa { animation: none; }
+}
+
+
+:root{--accent:#b8541a}
+.header{gap:.5rem 1.5rem}
+.footer p{margin:0}
+.wa-flotante{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:50;background:#25d366;color:#0b2e13;font-weight:700;text-decoration:none;padding:.75rem 1.1rem;border-radius:999px;box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.servicio-hero{min-height:45vh;display:flex;flex-direction:column;justify-content:flex-end;padding:2rem max(16px,env(safe-area-inset-right,0px)) 2rem max(16px,env(safe-area-inset-left,0px));color:#fff;background:linear-gradient(180deg,rgba(34,54,42,.15) 0%,rgba(34,54,42,.92) 85%),var(--foto) center/cover no-repeat}
+.servicio-hero h1{margin:0 0 .5rem;font-size:2rem;line-height:1.2;text-shadow:0 2px 12px rgba(0,0,0,.55)}
+.servicio-hero h1::after{content:"";display:block;width:64px;height:4px;margin-top:.5rem;background:var(--accent);border-radius:2px}
+.servicio-hero p{margin:0;max-width:40rem;color:#e8e2d9}
+.servicio{max-width:900px;margin:0 auto;padding:1rem max(16px,env(safe-area-inset-right,0px)) 3rem max(16px,env(safe-area-inset-left,0px));display:grid;gap:1rem}
+.volver{color:var(--page-muted)}
+.bloque{background:#fff;color:var(--text);border-radius:8px;padding:1.25rem}
+.bloque h2{margin:0 0 .75rem;color:var(--green)}
+.bloque h3{margin:1rem 0 .5rem;font-size:1.05rem}
+.intro{margin:0;font-size:1.1rem}
+.lista{margin:0;padding-left:1.2rem;display:grid;gap:.5rem}
+.lista li::marker{color:var(--accent)}
+.bloque details{border-top:1px solid #e5dacb;padding:.6rem 0}
+.bloque summary{cursor:pointer;font-weight:600}
+.bloque details p{margin:.5rem 0 0;color:var(--muted)}
+.consulta{background:#f1e7d6;border:1px solid #ddcdb2}
+.acciones{display:flex;flex-wrap:wrap;gap:.75rem;margin:1rem 0 0}
+.btn-sec{background:transparent;color:var(--green);border:2px solid var(--green)}
+@media (min-width:768px){.servicio-hero{min-height:55vh;padding-block:3rem}.servicio-hero h1{font-size:2.75rem}}
+
+
+
+.note-top{display:none}
+.pros{margin:1rem 0 0;padding:0;list-style:none;display:grid;gap:.4rem}
+.pros li{padding-left:1.4rem;position:relative}
+.pros li::before{content:"✓";position:absolute;left:0;color:#9fd0a8;font-weight:700}
+.steps{padding-left:1.2rem}.steps li::marker{color:#9fd0a8;font-weight:700}
+.card-link{display:inline-block;margin:.5rem 1.25rem 0;color:#9c4614;font-weight:700}
+.wa-nota{margin:.5rem 0 0;color:var(--page-muted)}
+.tel-nota{font-size:.9rem;color:var(--page-muted)}.tel-nota a{color:var(--page-text)}
+.form{display:grid;gap:.5rem;max-width:34rem;margin-top:1.5rem;padding:1.25rem;background:#f1e7d6;border:1px solid #ddcdb2;box-shadow:0 6px 24px rgba(0,0,0,.18);color:var(--text);border-radius:8px}
+.form h3{margin:0 0 .5rem;color:#2f4a36}
+.form label{font-weight:600;font-size:.95rem}.form label span{font-weight:400;color:var(--muted)}
+.form input,.form select,.form textarea{font:inherit;width:100%;padding:.7rem .8rem;border:1px solid #d4c3a6;border-radius:6px;background:#fff;color:var(--text)}
+.form textarea{resize:vertical}
+.form .check{display:flex;gap:.6rem;align-items:flex-start;font-weight:400;margin-top:.5rem}.form .check input{width:auto;margin-top:.3rem}.form .check a{color:#9c4614}
+.form .btn{justify-self:start;margin-top:.5rem;border:none;cursor:pointer;font:inherit;font-weight:600}
+.form .tel{display:grid;grid-template-columns:minmax(0,11rem) 1fr;gap:.5rem}
+@media (max-width:400px){.form .tel{grid-template-columns:1fr}}
+.form .error{margin:-.2rem 0 .2rem;color:#b3261e;font-size:.9rem;font-weight:600}.form .error:empty{display:none}
+.form [aria-invalid="true"]{border-color:#b3261e}
+.form-estado{margin:0;font-weight:600;color:#2f4a36}
+[hidden]{display:none!important}
+
+/* =========================================================
+   Páginas de servicio (servicios/*.html)
+   Стилі, спільні для всіх 12 сторінок послуг.
+   Фото героя задає кожна сторінка: --foto (і --foco-x, якщо треба зсунути кадр).
+   ========================================================= */
+
+/* --- Герой: на телефоні фото 4:3, на комп'ютері — на всю ширину --- */
+.servicio-hero {
+    aspect-ratio: 4 / 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem 1.25rem;
+    color: #fff;
+    background: linear-gradient(180deg, rgba(34, 54, 42, 0) 35%, rgba(34, 54, 42, .92) 100%), var(--foto) var(--foco-x, 50%) var(--foco-y, 50%) / cover no-repeat;
+}
+.servicio-hero h1 { margin: 0 0 .5rem; font-size: 2rem; line-height: 1.2; text-shadow: 0 2px 12px rgba(0, 0, 0, .55); }
+.servicio-hero h1::after { content: ""; display: block; width: 64px; height: 4px; margin-top: .5rem; background: var(--accent); border-radius: 2px; }
+.servicio-hero p { margin: 0; max-width: 40rem; color: #e8e2d9; }
+
+@media (min-width: 768px) {
+    .servicio-hero {
+        aspect-ratio: auto;
+        min-height: 75vh;
+        padding: 3rem;
+        background: linear-gradient(90deg, rgba(34, 54, 42, .85) 0%, rgba(34, 54, 42, .35) 50%, rgba(34, 54, 42, 0) 75%), var(--foto) 50% var(--foco-y, 50%) / cover no-repeat;
+    }
+    .servicio-hero h1 { font-size: 2.75rem; }
+}
+
+/* --- Контейнер сторінки --- */
+.servicio { max-width: 900px; margin: 0 auto; padding: 1rem 1.25rem 3rem; display: grid; gap: 1rem; }
+.volver { color: var(--page-muted); }
+
+/* --- Заголовки секцій на зеленому --- */
+.titulo { margin: .5rem 0 1rem; font-size: 1.6rem; color: var(--page-text); }
+.titulo::after { content: ""; display: block; width: 56px; height: 4px; margin-top: .5rem; background: var(--accent); border-radius: 2px; }
+
+/* --- Піщані блоки (матеріал, консультація) --- */
+.bloque { background: #f1e7d6; border: 1px solid #ddcdb2; color: var(--text); border-radius: 8px; padding: 1.25rem; }
+.bloque h2 { margin: 0 0 .75rem; color: var(--green); }
+.intro { margin: 0; font-size: 1.1rem; }
+.acciones { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1rem 0 0; }
+.btn-sec { background: transparent; color: var(--green); border: 2px solid var(--green); }
+
+/* --- «Yeso o mortero» --- */
+.material { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: .9rem; }
+.material div { display: flex; gap: 12px; align-items: center; background: #fff8ec; border: 1px solid #ddcdb2; border-radius: 8px; padding: 12px 14px; }
+.material p { margin: 0; }
+.material b { display: block; }
+.material span { color: var(--muted); font-size: .95rem; }
+
+/* --- Іконки --- */
+.ico { flex: none; display: inline-grid; place-items: center; width: 46px; height: 46px; border-radius: 10px; background: #e7d9c1; color: #9c4614; }
+.ico svg { width: 25px; height: 25px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* --- Картки «Qué hacemos» --- */
+.grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+.it { background: #f1e7d6; border: 1px solid #ddcdb2; color: var(--text); border-radius: 8px; padding: 20px; transition: transform .25s, box-shadow .25s; }
+.it:hover { transform: translateY(-4px); box-shadow: 0 12px 26px rgba(0, 0, 0, .22); }
+.it .ico { margin-bottom: 10px; }
+.it h3 { margin: 0 0 .3rem; font-size: 1.08rem; color: var(--green); }
+.it p { margin: 0; color: var(--muted); font-size: .95rem; }
+.chip { display: inline-block; vertical-align: middle; margin-left: 4px; padding: 2px 8px; border-radius: 999px; background: var(--green); color: #f3efe6; font-size: .7rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+
+/* --- Питання: піщані кнопки, відповідь на зеленому --- */
+.faq { display: grid; gap: 10px; }
+.faq summary { list-style: none; cursor: pointer; background: #f1e7d6; border: 1px solid #ddcdb2; color: var(--green); border-radius: 8px; padding: 14px 18px; font-weight: 700; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary:hover { background: #ebdfca; }
+.faq details[open] summary { background: #e7d9c1; }
+.faq details p { margin: 0; padding: .7rem 4px .4rem; color: var(--page-text); }
+
+/* --- Поява при прокрутці (клас .js додає servicios.js) --- */
+.js .reveal { opacity: 0; transform: translateY(20px); transition: opacity .55s ease, transform .55s ease; }
+.js .reveal.on { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+    .js .reveal { opacity: 1; transform: none; transition: none; }
+    .it { transition: none; }
+}
+
+
+.cards{grid-template-columns:1fr}
+@media (min-width:720px){.cards{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.card img{height:auto}
+.section .card .card-link{display:inline-block;margin:.5rem 1.25rem 0;color:#9c4614;font-weight:700}
+.maket{background:#22362a;color:#cfd9cc;font-size:.9rem;text-align:center;padding:.5rem max(16px,env(safe-area-inset-right,0px)) .5rem max(16px,env(safe-area-inset-left,0px))}
+.maket b{color:#f3c9a3}
+.js .reveal{opacity:1;transform:none}
+.it a{color:#9c4614;font-weight:700}
+.faq details p a{color:#f3c9a3}
+
+.cabecera{margin-bottom:2.5rem}
+.cabecera p{margin:.9rem 0 0;max-width:44rem;color:var(--page-muted)}
+.carrusel{position:relative}
+.pista{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.pista::-webkit-scrollbar{display:none}
+.slide{flex:0 0 86%;scroll-snap-align:center;margin:0;min-width:0;cursor:zoom-in}
+@media (min-width:768px){.slide{flex-basis:72%}}
+.slide img{display:block;width:100%;max-width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;border-radius:10px}
+.flecha{position:absolute;top:calc(50% - 24px);width:48px;height:48px;border-radius:50%;border:0;background:var(--sand);color:var(--terra);font-size:1.6rem;font-weight:700;cursor:pointer;display:none;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+.flecha:hover{background:#ebdfca}
+.flecha:focus-visible,.btn:focus-visible{outline:2px solid #f3c9a3;outline-offset:2px}
+.prev{left:-8px}.next{right:-8px}
+@media (min-width:768px){.flecha{display:grid}}
+@keyframes brillo{0%,70%{left:-60%}100%{left:130%}}
+.texto{margin-top:0}
+.texto h3{margin:0 0 .5rem;font-size:1.3rem}
+.texto p{margin:0;max-width:44rem;color:var(--page-muted)}
+.visor{position:fixed;inset:0;background:rgba(10,20,14,.96);display:grid;place-items:center;z-index:20;touch-action:none;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+.visor img{max-width:96vw;max-height:88vh;border-radius:8px;transform-origin:center;transition:transform .15s;user-select:none;-webkit-user-drag:none}
+.cerrar{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));width:44px;height:44px;border-radius:50%;border:0;background:var(--sand);color:var(--terra);font-size:1.4rem;font-weight:700;cursor:pointer}
+@media (prefers-reduced-motion:reduce){.visor img{transition:none}}
+.btn-proy{align-self:center;margin-block:2.5rem;display:inline-flex;align-items:center;gap:.7rem;padding:1.2rem 3rem;font-size:1.2rem;background:var(--accent);color:#fff;font-weight:700;text-decoration:none;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.3);position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.btn-proy .fl{display:inline-block;transition:transform .25s}
+.btn-proy:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.35)}
+.btn-proy:hover .fl{transform:translateX(6px)}
+.btn-proy::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);animation:brillo 3.5s ease-in-out infinite}
+@keyframes brillo{0%,70%{left:-60%}100%{left:130%}}
+@media (prefers-reduced-motion:reduce){.btn-proy,.btn-proy .fl{transition:none}.btn-proy::after{animation:none;display:none}}
+
+
+#proyectos{display:flex;flex-direction:column;gap:2.5rem;padding-block:5rem}
+#proyectos h2{margin:0}
+#proyectos .cabecera{margin-bottom:2.5rem}
+#proyectos .cabecera p{margin:.9rem 0 0;max-width:44rem;color:var(--page-muted)}
+#proyectos .texto h3{margin:0 0 .5rem;font-size:1.3rem}
+#proyectos .texto p{margin:0;max-width:44rem;color:var(--page-muted)}
+.maket{background:#22362a;color:#cfd9cc;font-size:.9rem;text-align:center;padding:.5rem max(16px,env(safe-area-inset-right,0px)) .5rem max(16px,env(safe-area-inset-left,0px))}
+
+/* ===== Закріплена шапка ===== */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:41;background:#2f4a36}
+.cab{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:#2f4a36;border-bottom:3px solid var(--accent);transition:box-shadow .25s}
+.cab.min{box-shadow:0 6px 20px rgba(0,0,0,.35)}
+.cab-in{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:1.25rem;padding:1rem max(16px,env(safe-area-inset-right,0px)) 1rem max(16px,env(safe-area-inset-left,0px));transition:padding .25s}
+.cab.min .cab-in{padding-block:.45rem}
+.cab .logo{margin-right:auto}
+.menu{display:none;align-items:center;gap:1.1rem;margin:0;padding:0;list-style:none}
+.menu>li{position:relative}
+.menu a,.menu .desp{color:#cfd9cc;text-decoration:none;font:inherit;background:none;border:0;cursor:pointer;padding:.35rem 0;border-bottom:2px solid transparent}
+.menu a:hover,.menu .desp:hover{color:#f3c9a3}
+.menu a.activo{color:#fff;border-bottom-color:var(--accent)}
+.panel{position:absolute;top:calc(100% + 14px);left:-1rem;min-width:460px;background:#f1e7d6;border:1px solid #ddcdb2;border-radius:10px;box-shadow:0 14px 34px rgba(0,0,0,.35);padding:.5rem;display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.panel[hidden]{display:none}
+.panel a{color:#2a231e;padding:.5rem .7rem;border-radius:6px;border:0;font-size:.95rem}
+.panel a:hover{background:#e7d9c1;color:#9c4614}
+.cta{display:none;background:var(--accent);color:#fff;font-weight:700;text-decoration:none;padding:.6rem 1.1rem;border-radius:999px;white-space:nowrap}
+.cta:hover{background:#9c4614}
+.wa-mini{display:inline-grid;place-items:center;width:42px;height:42px;border-radius:50%;background:#25d366;color:#0b2e13;font-weight:800;text-decoration:none;font-size:.8rem}
+.burger{display:inline-flex;align-items:center;gap:.4rem;background:#f1e7d6;color:#2f4a36;border:0;border-radius:999px;padding:.55rem .9rem;font:inherit;font-weight:700;cursor:pointer}
+.movil{background:#2f4a36;border-bottom:3px solid var(--accent);padding:0 max(16px,env(safe-area-inset-right,0px)) 1rem max(16px,env(safe-area-inset-left,0px))}
+.movil[hidden]{display:none}
+.movil a{display:block;color:#f3efe6;text-decoration:none;padding:.65rem 0;border-bottom:1px solid #3f5c46}
+.movil .sub a{padding-left:1rem;color:#cfd9cc;font-size:.95rem}
+.movil .cta{display:block;text-align:center;margin-top:1rem;border:0}
+@media (min-width:900px){.menu{display:flex}.cta{display:inline-block}.burger,.movil{display:none!important}}
+.cab a:focus-visible,.cab button:focus-visible{outline:2px solid #f3c9a3;outline-offset:3px}
+section[id]{scroll-margin-top:90px}
+.wa-flotante{display:none}
+@media (prefers-reduced-motion:reduce){.cab,.cab-in{transition:none}}
+</style>
+<div class="maket">Макет: шапка закріплена зверху. Прокрути вниз — шапка стає тоншою, підсвічується розділ, де ти зараз. «Servicios ▾» відкриває список послуг. На телефоні — кнопка «Menú».</div>
+<header class="cab" id="cab">
+<div class="cab-in">
+<a class="logo" href="#inicio" aria-label="HLD Casa, inicio"><span class="hld" aria-hidden="true"><span class="hld-h">H</span><span class="hld-l">L</span><span class="hld-eye hld-eye-1"></span><span class="hld-eye hld-eye-2"></span><span class="hld-d">D</span><span class="hld-clip"><span class="hld-casa">CASA</span></span></span></a>
+<ul class="menu">
+<li><button class="desp" id="desp" aria-expanded="false" aria-controls="panel">Servicios ▾</button><div class="panel" id="panel" hidden><a href="#servicios">Yesos y enlucidos</a><a href="#servicios">Pladur y techos</a><a href="#servicios">Masillas y alisados</a><a href="#servicios">Pintura</a><a href="#servicios">Alicatado y solado</a><a href="#servicios">Impermeabilización</a><a href="#servicios">Suelos laminados</a><a href="#servicios">Demoliciones y desescombro</a><a href="#servicios">Reparaciones y pequeñas obras</a></div></li>
+<li><a href="#proyectos">Proyectos</a></li>
+<li><a href="#como-trabajamos">Cómo trabajamos</a></li>
+<li><a href="#nosotros">Nosotros</a></li>
+<li><a href="#contacto">Contacto</a></li>
+</ul>
+<a class="cta" href="#contacto">Presupuesto gratis</a>
+<a class="wa-mini" href="#contacto" aria-label="WhatsApp">WA</a>
+<button class="burger" id="burger" aria-expanded="false" aria-controls="movil">☰ Menú</button>
+</div>
+<nav class="movil" id="movil" hidden aria-label="Menú">
+<a href="#servicios">Servicios</a><div class="sub"><a href="#servicios">Yesos y enlucidos</a><a href="#servicios">Pladur y techos</a><a href="#servicios">Masillas y alisados</a><a href="#servicios">Pintura</a><a href="#servicios">Alicatado y solado</a><a href="#servicios">Impermeabilización</a><a href="#servicios">Suelos laminados</a><a href="#servicios">Demoliciones y desescombro</a><a href="#servicios">Reparaciones y pequeñas obras</a></div>
+<a href="#proyectos">Proyectos</a><a href="#como-trabajamos">Cómo trabajamos</a><a href="#nosotros">Nosotros</a><a href="#contacto">Contacto</a>
+<a class="cta" href="#contacto">Presupuesto gratis</a>
+</nav>
+</header>
+<main id="pag-inicio">
+<section class="hero wrap"><h1>Reformas y acabados en Málaga</h1><p>Yeso, pladur, alisados, pintura, alicatado e impermeabilización. Trabajo limpio, bien hecho y a tiempo, con presupuesto por escrito.</p><div><a class="btn" href="#contacto">Pedir presupuesto gratis</a></div></section>
+<div class="wrap">
+<section id="servicios" class="section"><h2>Servicios</h2><ul class="cards"><li class="card"><img src="img/yeso.webp" alt="Yesos y enlucidos" width="1200" height="900" loading="lazy"><h3>Yesos y enlucidos</h3><p>Paredes y techos rectos y firmes, listos para pintar.</p><a class="card-link" href="#servicios">Ver qué incluye →</a></li><li class="card"><img src="img/techos.webp" alt="Pladur y techos" width="1200" height="900" loading="lazy"><h3>Pladur y techos</h3><p>Tabiques, trasdosados y techos con iluminación LED.</p><a class="card-link" href="#servicios">Ver qué incluye →</a></li><li class="card"><img src="img/masilla.webp" alt="Masillas y alisados" width="1200" height="900" loading="lazy"><h3>Masillas y alisados</h3><p>Paredes lisas, sin marcas, preparadas para la pintura.</p><a class="card-link" href="#servicios">Ver qué incluye →</a></li><li class="card"><img src="img/pintura.webp" alt="Pintura" width="1200" height="900" loading="lazy"><h3>Pintura</h3><p>Interiores, fachadas y vallas, con un acabado limpio.</p><a class="card-link" href="#servicios">Ver qué incluye →</a></li><li class="card"><img src="img/alicatado.webp" alt="Alicatado y solado" width="1200" height="900" loading="lazy"><h3>Alicatado y solado</h3><p>Baños, cocinas y suelos con cortes limpios y juntas rectas.</p><a class="card-link" href="#servicios">Ver qué incluye →</a></li><li class="card"><img src="img/impermeabilizacion.webp" alt="Impermeabilización" width="1200" height="900" loading="lazy"><h3>Impermeabilización</h3><p>Terrazas, azoteas y baños sin goteras ni humedades.</p><a class="card-link" href="#servicios">Ver qué incluye →</a></li><li class="card"><img src="img/laminado.webp" alt="Suelos laminados" width="1200" height="900" loading="lazy"><h3>Suelos laminados</h3><p>Suelo nuevo en pocos días, sin obra.</p><a class="card-link" href="#servicios">Ver qué incluye →</a></li><li class="card"><img src="img/demoliciones.webp" alt="Demoliciones y desescombro" width="1200" height="900" loading="lazy"><h3>Demoliciones y desescombro</h3><p>Picado de alicatados, baños, cocinas, tabiques y suelos, con retirada de escombros.</p><a class="card-link" href="#servicios">Ver qué incluye →</a></li><li class="card"><img src="img/reparaciones.webp" alt="Reparaciones y pequeñas obras" width="1200" height="900" loading="lazy"><h3>Reparaciones y pequeñas obras</h3><p>Montaje, baño, juntas y silicona, enchufes, retoques, rejas y mucho más.</p><a class="card-link" href="#servicios">Ver qué incluye →</a></li></ul>
+<p class="note">¿Su proyecto incluye otros trabajos? Coordinamos la obra completa y tendrá un único interlocutor de principio a fin.</p></section>
+
+<section id="proyectos" class="section" aria-labelledby="t-proy">
+  <div class="cabecera">
+    <h2 id="t-proy">Proyectos</h2>
+    <p>Aquí va la descripción de los proyectos.</p>
+  </div>
+  <div class="carrusel">
+    <div class="pista" id="pista" tabindex="0" aria-label="Proyectos"></div>
+    <button class="flecha prev" id="prev" aria-label="Anterior">‹</button>
+    <button class="flecha next" id="next" aria-label="Siguiente">›</button>
+  </div>
+  <a class="btn-proy" href="#proyectos">Ver todos los proyectos <span class="fl" aria-hidden="true">→</span></a>
+  <div class="texto">
+    <h3>Maestros con oficio desde jóvenes</h3>
+    <p>Somos un equipo de Ucrania con años de experiencia en reformas y acabados. Ahora trabajamos en España con el mismo cuidado por el detalle.</p>
+  </div>
+</section>
+
+<section id="como-trabajamos" class="section"><h2>Cómo trabajamos</h2><ol class="steps"><li><strong>Visita gratuita.</strong> Vemos la obra sin coste y le aconsejamos la mejor solución.</li><li><strong>Presupuesto por escrito.</strong> Detallado partida por partida.</li><li><strong>Ejecución.</strong> Plazos acordados y fotos de cada fase.</li><li><strong>Entrega limpia.</strong> Revisamos todo con usted.</li></ol></section>
+<section id="nosotros" class="section"><h2>Nosotros</h2><p>Somos una empresa de reformas y acabados en Málaga: trabajos de interior en viviendas y locales, y también de fachadas y terrazas.</p><ul class="pros"><li>Un solo equipo para todo el interior.</li><li>Acabado de alto nivel: paredes perfectas, listas para pintar.</li><li>Presupuesto claro, sin sorpresas.</li></ul></section>
+<section id="contacto" class="section"><h2>Contacto</h2><p>Trabajamos en Málaga capital, toda la Costa del Sol y el interior de la provincia.</p>
+<p><a class="btn" href="#contacto">Escríbanos por WhatsApp</a></p>
+<p class="wa-nota">Envíenos fotos y medidas por WhatsApp: le damos una primera valoración gratis.</p>
+<form class="form" novalidate onsubmit="event.preventDefault()"><h3>Pida su presupuesto</h3>
+<label for="f-nombre">Nombre</label><input id="f-nombre" name="nombre" type="text">
+<label for="f-servicio">¿Qué necesita?</label><select id="f-servicio" name="servicio"><option value="" selected disabled>— Elija una opción —</option><option>Yesos y enlucidos</option><option>Pladur y techos</option><option>Masillas y alisados</option><option>Pintura</option><option>Alicatado y solado</option><option>Impermeabilización</option><option>Suelos laminados</option><option>Demoliciones y desescombro</option><option>Reparaciones y pequeñas obras</option><option>Varios / otro</option></select>
+<label for="f-mensaje">Cuéntenos su proyecto</label><textarea id="f-mensaje" name="mensaje" rows="3"></textarea>
+<button class="btn" type="submit">Enviar solicitud</button></form>
+</section></div></main>
+<footer class="footer wrap"><p>© 2026 HLD Casa · Reformas y acabados en Málaga</p></footer>
+<script>
+(function(){
+  const colores=['#5b6f5f','#7a5232','#4f6b7a','#8a6d4a','#6b5e52','#3f5c46','#7d6a5a','#556b55','#6a5a72','#5a6a6a'];
+  const N=colores.length, CL=2; // кількість копій з кожного боку для безкінечного кола
+  const foto=i=>'data:image/svg+xml,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${colores[i]}"/><stop offset="1" stop-color="#22362a"/></linearGradient></defs><rect width="1600" height="1000" fill="url(#g)"/><text x="800" y="540" font-family="system-ui,sans-serif" font-size="120" font-weight="800" fill="rgba(255,255,255,.85)" text-anchor="middle">Proyecto ${i+1}</text></svg>`);
+  const pista=document.getElementById('pista');
+  const orden=[...Array(CL).keys()].map(k=>N-CL+k).concat([...Array(N).keys()],[...Array(CL).keys()]);
+  orden.forEach(i=>{
+    const f=document.createElement('figure');f.className='slide';f.dataset.i=i;
+    f.innerHTML=`<img src="${foto(i)}" alt="Proyecto ${i+1}" width="1600" height="1000" draggable="false">`;
+    f.addEventListener('click',()=>abrir(i));
+    pista.appendChild(f);
+  });
+  const slides=[...pista.children];
+  const centro=s=>s.offsetLeft+s.offsetWidth/2-pista.clientWidth/2;
+  const suave=()=>matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
+  let pos=CL;
+  function saltar(p){pista.style.scrollSnapType='none';pista.scrollLeft=centro(slides[p]);pos=p;requestAnimationFrame(()=>pista.style.scrollSnapType='');}
+  function ir(p){pos=p;pista.scrollTo({left:centro(slides[p]),behavior:suave()});}
+  function cercano(){const c=pista.scrollLeft+pista.clientWidth/2;let b=0,d=1e9;slides.forEach((s,i)=>{const m=Math.abs(s.offsetLeft+s.offsetWidth/2-c);if(m<d){d=m;b=i}});return b;}
+  function corregir(){const p=cercano();if(p<CL)saltar(p+N);else if(p>=CL+N)saltar(p-N);else pos=p;}
+  let t;pista.addEventListener('scroll',()=>{clearTimeout(t);t=setTimeout(corregir,120)},{passive:true});
+  document.getElementById('prev').addEventListener('click',()=>ir(cercano()-1));
+  document.getElementById('next').addEventListener('click',()=>ir(cercano()+1));
+  pista.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();ir(cercano()+1)}if(e.key==='ArrowLeft'){e.preventDefault();ir(cercano()-1)}});
+  addEventListener('resize',()=>saltar(pos));
+  requestAnimationFrame(()=>saltar(CL));
+
+  // Перегляд на весь екран: збільшення двома пальцями / колесом, перетягування, подвійний дотик
+  let visor=null,img,esc=1,tx=0,ty=0,ptrs=new Map(),d0=0,e0=1,last=null,tap=0;
+  const aplicar=()=>img.style.transform=`translate(${tx}px,${ty}px) scale(${esc})`;
+  function abrir(i){
+    visor=document.createElement('div');visor.className='visor';visor.setAttribute('role','dialog');visor.setAttribute('aria-label',`Proyecto ${i+1}`);
+    visor.innerHTML=`<img src="${foto(i)}" alt="Proyecto ${i+1}" draggable="false"><button class="cerrar" aria-label="Cerrar">✕</button>`;
+    document.body.appendChild(visor);img=visor.querySelector('img');esc=1;tx=ty=0;aplicar();
+    visor.querySelector('.cerrar').addEventListener('click',cerrar);
+    visor.addEventListener('click',e=>{if(e.target===visor)cerrar()});
+    visor.addEventListener('wheel',e=>{e.preventDefault();esc=Math.min(4,Math.max(1,esc*(e.deltaY<0?1.15:0.87)));if(esc===1){tx=ty=0}aplicar()},{passive:false});
+    img.addEventListener('pointerdown',e=>{img.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,e);if(ptrs.size===2){const[a,b]=[...ptrs.values()];d0=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);e0=esc}last={x:e.clientX,y:e.clientY};
+      const now=Date.now();if(now-tap<300){esc=esc>1?1:2;tx=ty=0;aplicar()}tap=now;});
+    img.addEventListener('pointermove',e=>{if(!ptrs.has(e.pointerId))return;ptrs.set(e.pointerId,e);
+      if(ptrs.size===2){const[a,b]=[...ptrs.values()];esc=Math.min(4,Math.max(1,e0*Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY)/d0));if(esc===1){tx=ty=0}aplicar()}
+      else if(esc>1&&last){tx+=e.clientX-last.x;ty+=e.clientY-last.y;last={x:e.clientX,y:e.clientY};aplicar()}});
+    const fin=e=>{ptrs.delete(e.pointerId);last=null};
+    img.addEventListener('pointerup',fin);img.addEventListener('pointercancel',fin);
+    visor.querySelector('.cerrar').focus();
+  }
+  function cerrar(){if(visor){visor.remove();visor=null;ptrs.clear();pista.focus()}}
+  addEventListener('keydown',e=>{if(e.key==='Escape')cerrar()});
+})();
+</script>
+<script>
+(function(){
+  const cab=document.getElementById('cab');
+  const onScroll=()=>cab.classList.toggle('min',scrollY>40);
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const desp=document.getElementById('desp'),panel=document.getElementById('panel');
+  desp.addEventListener('click',e=>{e.stopPropagation();const o=panel.hidden;panel.hidden=!o;desp.setAttribute('aria-expanded',String(o));});
+  document.addEventListener('click',e=>{if(!panel.hidden&&!panel.contains(e.target)){panel.hidden=true;desp.setAttribute('aria-expanded','false')}});
+  panel.addEventListener('click',e=>{if(e.target.tagName==='A'){panel.hidden=true;desp.setAttribute('aria-expanded','false')}});
+  const burger=document.getElementById('burger'),movil=document.getElementById('movil');
+  burger.addEventListener('click',()=>{const o=movil.hidden;movil.hidden=!o;burger.setAttribute('aria-expanded',String(o));burger.textContent=o?'✕ Cerrar':'☰ Menú';});
+  movil.addEventListener('click',e=>{if(e.target.tagName==='A'){movil.hidden=true;burger.setAttribute('aria-expanded','false');burger.textContent='☰ Menú';}});
+  addEventListener('keydown',e=>{if(e.key==='Escape'){panel.hidden=true;desp.setAttribute('aria-expanded','false');}});
+  const links=[...document.querySelectorAll('.menu a[href^="#"]')];
+  const io=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){links.forEach(l=>l.classList.toggle('activo',l.getAttribute('href')==='#'+en.target.id));}})},{rootMargin:'-45% 0px -50% 0px'});
+  ['proyectos','como-trabajamos','nosotros','contacto'].forEach(id=>{const el=document.getElementById(id);if(el)io.observe(el)});
+})();
+</script>
