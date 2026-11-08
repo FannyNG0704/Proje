@@ -101,6 +101,7 @@
 | Lighthouse ≥ 90 + прохід клавіатурою (Tab) | після 6–7 | 8 |
 | Live Server не запускається після оновлення VS Code (зараз `npx --yes serve -l 5500`) | — | інструменти |
 | GitHub (резервна копія курсу) — не підключено, свідомо відкладено | рішення Назара | — |
+| **Шапка завжди зверху (sticky header)** — `position: sticky; top: 0`, z-index; на телефоні компактна (менший логотип / бургер-меню); `scroll-margin-top` для якорів #servicios тощо, щоб заголовки не ховались під шапкою | після всіх сторінок, з простими фронтенд-задачами | фронтенд |
 | **НАГАДАТИ: розробити фірмовий знак HLD (H·L·D з очима) як окремий знак** — для favicon, іконки на телефоні (apple-touch-icon), og.jpg і майбутніх проєктів (міняється тільки слово «CASA»). Будувати з гліфів `logo/font/hldcasa.ttf`, не системним шрифтом. Зараз стоїть тимчасовий favicon (текст «HLD») | свіжа голова, окреме заняття | бренд |
 
 ## Сторінки послуг (ідея 30.10.2026, у роботі)
@@ -157,3 +158,4 @@
 - **07.11.2026 (вечір): Impermeabilización ✅ + посилання між послугами в одному стилі (.enlaces, без підкреслення, card-link без підкреслення), банери 2:1.** Готово 6/9 сторінок. Далі: Suelos laminados → Montajes → Reparaciones (+силікон), потім Proyectos з портфоліо брата.
 - **07.11.2026 (ніч): favicon.svg (тимчасовий «HLD») і og.jpg (HLD Casa) у HLDcasa/img ✅. Завтра: Suelos laminados.**
 - Laminado: перевірка ES+UA https://claude.ai/artifact/AHTgcyQodGVHtjcPJKYbjH (`it/proekt-img/laminado-revision.html`), герой hero-laminado.webp (фото 2). 3 картки: Base preparada, Colocación+rodapiés+puertas (ламінат/вініл), Retirada del suelo viejo. FAQ про ванну → посилання на плитку.
+- **08.11.2026: Suelos laminados ✅ у HLDcasa; банер `width: 100%` (виправлено зелену смугу справа). Далі: Montajes.**
