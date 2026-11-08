@@ -274,37 +274,45 @@ body{--bg:#2f4a36;--page-text:#f3efe6;--page-muted:#cfd9cc;--line:#3f5c46}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:41;background:#2f4a36}
 .cab{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:#2f4a36;border-bottom:3px solid var(--accent);transition:box-shadow .25s}
 .cab.min{box-shadow:0 6px 20px rgba(0,0,0,.35)}
-.cab-in{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:1.25rem;padding:1rem max(16px,env(safe-area-inset-right,0px)) 1rem max(16px,env(safe-area-inset-left,0px));transition:padding .25s}
+.cab-in{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1.5rem;padding:1rem max(16px,env(safe-area-inset-right,0px)) 1rem max(16px,env(safe-area-inset-left,0px));transition:padding .25s}
 .cab.min .cab-in{padding-block:.45rem}
-.cab .logo{margin-right:auto}
+.izq{display:flex;align-items:center;gap:1rem}
+.der{display:flex;align-items:center;gap:.75rem;justify-self:end}
+.menu{justify-self:center}
 .menu{display:none;align-items:center;gap:1.1rem;margin:0;padding:0;list-style:none}
 .menu>li{position:relative}
-.menu a,.menu .desp{color:#cfd9cc;text-decoration:none;font:inherit;background:none;border:0;cursor:pointer;padding:.35rem 0;border-bottom:2px solid transparent}
+.menu a,.menu .desp{display:inline-block;line-height:1.6;color:#cfd9cc;text-decoration:none;font:inherit;background:none;border:0;cursor:pointer;padding:.35rem 0;border-bottom:2px solid transparent}
 .menu a:hover,.menu .desp:hover{color:#f3c9a3}
 .menu a.activo{color:#fff;border-bottom-color:var(--accent)}
 .panel{position:absolute;top:calc(100% + 14px);left:-1rem;min-width:460px;background:#f1e7d6;border:1px solid #ddcdb2;border-radius:10px;box-shadow:0 14px 34px rgba(0,0,0,.35);padding:.5rem;display:grid;grid-template-columns:1fr 1fr;gap:2px}
 .panel[hidden]{display:none}
 .panel a{color:#2a231e;padding:.5rem .7rem;border-radius:6px;border:0;font-size:.95rem}
 .panel a:hover{background:#e7d9c1;color:#9c4614}
-.cta{display:none;background:var(--accent);color:#fff;font-weight:700;text-decoration:none;padding:.6rem 1.1rem;border-radius:999px;white-space:nowrap}
+.cta{display:none;background:var(--accent);color:#fff;font-weight:700;text-decoration:none;height:40px;line-height:40px;padding:0 1.2rem;border-radius:999px;white-space:nowrap;font-size:.95rem}
+.idioma{display:inline-flex;height:32px;border:1px solid #5d7a63;border-radius:999px;overflow:hidden}
+.idioma button{background:none;border:0;color:#cfd9cc;font:inherit;font-size:.8rem;font-weight:700;padding:0 .6rem;cursor:pointer;letter-spacing:.04em}
+.idioma button[aria-pressed="true"]{background:#f1e7d6;color:#2f4a36}
+.idioma button+button{border-left:1px solid #5d7a63}
 .cta:hover{background:#9c4614}
-.wa-mini{display:inline-grid;place-items:center;width:42px;height:42px;border-radius:50%;background:#25d366;color:#0b2e13;font-weight:800;text-decoration:none;font-size:.8rem}
-.burger{display:inline-flex;align-items:center;gap:.4rem;background:#f1e7d6;color:#2f4a36;border:0;border-radius:999px;padding:.55rem .9rem;font:inherit;font-weight:700;cursor:pointer}
+.burger{display:inline-flex;align-items:center;gap:.4rem;white-space:nowrap;background:#f1e7d6;color:#2f4a36;border:0;border-radius:999px;padding:.55rem .9rem;font:inherit;font-weight:700;cursor:pointer}
 .movil{background:#2f4a36;border-bottom:3px solid var(--accent);padding:0 max(16px,env(safe-area-inset-right,0px)) 1rem max(16px,env(safe-area-inset-left,0px))}
 .movil[hidden]{display:none}
 .movil a{display:block;color:#f3efe6;text-decoration:none;padding:.65rem 0;border-bottom:1px solid #3f5c46}
 .movil .sub a{padding-left:1rem;color:#cfd9cc;font-size:.95rem}
 .movil .cta{display:block;text-align:center;margin-top:1rem;border:0}
 @media (min-width:900px){.menu{display:flex}.cta{display:inline-block}.burger,.movil{display:none!important}}
+@media (max-width:899px){.cab-in{grid-template-columns:1fr auto}}
 .cab a:focus-visible,.cab button:focus-visible{outline:2px solid #f3c9a3;outline-offset:3px}
 section[id]{scroll-margin-top:90px}
-.wa-flotante{display:none}
+.wa-flotante{width:56px;height:56px;padding:0!important;display:grid!important;place-items:center;border-radius:50%!important}
+.wa-flotante svg{width:30px;height:30px;fill:#fff}
+.wa-flotante{background:#25d366!important}
 @media (prefers-reduced-motion:reduce){.cab,.cab-in{transition:none}}
 </style>
-<div class="maket">Макет: шапка закріплена зверху. Прокрути вниз — шапка стає тоншою, підсвічується розділ, де ти зараз. «Servicios ▾» відкриває список послуг. На телефоні — кнопка «Menú».</div>
+<div class="maket">Макет: шапка закріплена зверху. Прокрути вниз — шапка стає тоншою, підсвічується розділ, де ти зараз. «Servicios ▾» відкриває список послуг. На телефоні — кнопка «Menú». Мови ES / UA / EN — поки тільки перемикаються візуально.</div>
 <header class="cab" id="cab">
 <div class="cab-in">
-<a class="logo" href="#inicio" aria-label="HLD Casa, inicio"><span class="hld" aria-hidden="true"><span class="hld-h">H</span><span class="hld-l">L</span><span class="hld-eye hld-eye-1"></span><span class="hld-eye hld-eye-2"></span><span class="hld-d">D</span><span class="hld-clip"><span class="hld-casa">CASA</span></span></span></a>
+<div class="izq"><div class="idioma" role="group" aria-label="Idioma"><button aria-pressed="true">ES</button><button aria-pressed="false">UA</button><button aria-pressed="false">EN</button></div><a class="logo" href="#inicio" aria-label="HLD Casa, inicio"><span class="hld" aria-hidden="true"><span class="hld-h">H</span><span class="hld-l">L</span><span class="hld-eye hld-eye-1"></span><span class="hld-eye hld-eye-2"></span><span class="hld-d">D</span><span class="hld-clip"><span class="hld-casa">CASA</span></span></span></a></div>
 <ul class="menu">
 <li><button class="desp" id="desp" aria-expanded="false" aria-controls="panel">Servicios ▾</button><div class="panel" id="panel" hidden><a href="#servicios">Yesos y enlucidos</a><a href="#servicios">Pladur y techos</a><a href="#servicios">Masillas y alisados</a><a href="#servicios">Pintura</a><a href="#servicios">Alicatado y solado</a><a href="#servicios">Impermeabilización</a><a href="#servicios">Suelos laminados</a><a href="#servicios">Demoliciones y desescombro</a><a href="#servicios">Reparaciones y pequeñas obras</a></div></li>
 <li><a href="#proyectos">Proyectos</a></li>
@@ -312,9 +320,8 @@ section[id]{scroll-margin-top:90px}
 <li><a href="#nosotros">Nosotros</a></li>
 <li><a href="#contacto">Contacto</a></li>
 </ul>
-<a class="cta" href="#contacto">Presupuesto gratis</a>
-<a class="wa-mini" href="#contacto" aria-label="WhatsApp">WA</a>
-<button class="burger" id="burger" aria-expanded="false" aria-controls="movil">☰ Menú</button>
+<div class="der"><a class="cta" href="#contacto">Presupuesto gratis</a>
+<button class="burger" id="burger" aria-expanded="false" aria-controls="movil">☰ Menú</button></div>
 </div>
 <nav class="movil" id="movil" hidden aria-label="Menú">
 <a href="#servicios">Servicios</a><div class="sub"><a href="#servicios">Yesos y enlucidos</a><a href="#servicios">Pladur y techos</a><a href="#servicios">Masillas y alisados</a><a href="#servicios">Pintura</a><a href="#servicios">Alicatado y solado</a><a href="#servicios">Impermeabilización</a><a href="#servicios">Suelos laminados</a><a href="#servicios">Demoliciones y desescombro</a><a href="#servicios">Reparaciones y pequeñas obras</a></div>
@@ -356,6 +363,7 @@ section[id]{scroll-margin-top:90px}
 <label for="f-mensaje">Cuéntenos su proyecto</label><textarea id="f-mensaje" name="mensaje" rows="3"></textarea>
 <button class="btn" type="submit">Enviar solicitud</button></form>
 </section></div></main>
+<a class="wa-flotante" href="#contacto" aria-label="Escríbanos por WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg></a>
 <footer class="footer wrap"><p>© 2026 HLD Casa · Reformas y acabados en Málaga</p></footer>
 <script>
 (function(){
@@ -410,6 +418,7 @@ section[id]{scroll-margin-top:90px}
 </script>
 <script>
 (function(){
+  document.querySelectorAll('.idioma button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.idioma button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)))}));
   const cab=document.getElementById('cab');
   const onScroll=()=>cab.classList.toggle('min',scrollY>40);
   addEventListener('scroll',onScroll,{passive:true});onScroll();
