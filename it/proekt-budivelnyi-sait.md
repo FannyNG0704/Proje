@@ -156,3 +156,4 @@
 - Impermeabilización: версія сайту (ES) https://claude.ai/artifact/Ju6TpiYkkP35yBPEQXV8jm; посилання в картці 2 — окремими рядками внизу (.it .enlaces). Банери: правило 2:1 + max-height 85vh у servicios.css ✅ (Назар вносить).
 - **07.11.2026 (вечір): Impermeabilización ✅ + посилання між послугами в одному стилі (.enlaces, без підкреслення, card-link без підкреслення), банери 2:1.** Готово 6/9 сторінок. Далі: Suelos laminados → Montajes → Reparaciones (+силікон), потім Proyectos з портфоліо брата.
 - **07.11.2026 (ніч): favicon.svg (тимчасовий «HLD») і og.jpg (HLD Casa) у HLDcasa/img ✅. Завтра: Suelos laminados.**
+- Laminado: перевірка ES+UA https://claude.ai/artifact/AHTgcyQodGVHtjcPJKYbjH (`it/proekt-img/laminado-revision.html`), герой hero-laminado.webp (фото 2). 3 картки: Base preparada, Colocación+rodapiés+puertas (ламінат/вініл), Retirada del suelo viejo. FAQ про ванну → посилання на плитку.
