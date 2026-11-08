@@ -165,3 +165,4 @@
 - **Позиція Назара про ліцензії (08.11):** працюватимуть як фірма; електрику/ліцензії вирішують за потреби — оформлення або залучення уповноваженого електрика, якщо клієнт платить. На сайті не перестраховуватись надміру.
 - **08.11.2026: Reparaciones y pequeñas obras ✅ — усі 9/9 сторінок послуг готові.** Далі: Proyectos (портфоліо брата є).
 - Proyectos: ідея Назара — карусель 10 найкращих робіт (стрілки на ПК, свайп на телефоні), опис «майстри з України», кнопка «Ver todos los proyectos» → proyectos.html. Макет: https://claude.ai/artifact/K8UuPN4GP5KTuXxkX1GED9 (`it/proekt-img/proyectos-carrusel.html`, scroll-snap + стрілки + крапки). Чекає фото портфоліо.
+- Головна з Proyectos (макет ES): https://claude.ai/artifact/5yVsSTohEXL9MuNY1Nd7h3 (`it/proekt-img/inicio-proyectos.html`). Відступи #proyectos: padding 5rem зверху/знизу, між блоками 5rem. Кнопка .btn-proy (щоб не конфліктувати з .btn сайту).
