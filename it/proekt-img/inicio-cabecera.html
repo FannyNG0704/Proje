@@ -271,48 +271,51 @@ body{--bg:#2f4a36;--page-text:#f3efe6;--page-muted:#cfd9cc;--line:#3f5c46}
 .maket{background:#22362a;color:#cfd9cc;font-size:.9rem;text-align:center;padding:.5rem max(16px,env(safe-area-inset-right,0px)) .5rem max(16px,env(safe-area-inset-left,0px))}
 
 /* ===== Закріплена шапка ===== */
+:root{--borde:24px}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:41;background:#2f4a36}
 .cab{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:#2f4a36;border-bottom:3px solid var(--accent);transition:box-shadow .25s}
 .cab.min{box-shadow:0 6px 20px rgba(0,0,0,.35)}
-.cab-in{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1.5rem;padding:1rem max(16px,env(safe-area-inset-right,0px)) 1rem max(16px,env(safe-area-inset-left,0px));transition:padding .25s}
+.cab-in{display:flex;align-items:center;gap:1.75rem;padding:1rem max(var(--borde),env(safe-area-inset-right,0px)) 1rem max(var(--borde),env(safe-area-inset-left,0px));transition:padding .25s}
 .cab.min .cab-in{padding-block:.45rem}
-.izq{display:flex;align-items:center;gap:1rem}
-.der{display:flex;align-items:center;gap:.75rem;justify-self:end}
-.menu{justify-self:center}
-.menu{display:none;align-items:center;gap:1.1rem;margin:0;padding:0;list-style:none}
+.cab .logo{margin-right:auto}
+.menu{display:none;align-items:center;gap:1.75rem;margin:0;padding:0;list-style:none}
 .menu>li{position:relative}
 .menu a,.menu .desp{display:inline-block;line-height:1.6;color:#cfd9cc;text-decoration:none;font:inherit;background:none;border:0;cursor:pointer;padding:.35rem 0;border-bottom:2px solid transparent}
 .menu a:hover,.menu .desp:hover{color:#f3c9a3}
 .menu a.activo{color:#fff;border-bottom-color:var(--accent)}
 .panel{position:absolute;top:calc(100% + 14px);left:-1rem;min-width:460px;background:#f1e7d6;border:1px solid #ddcdb2;border-radius:10px;box-shadow:0 14px 34px rgba(0,0,0,.35);padding:.5rem;display:grid;grid-template-columns:1fr 1fr;gap:2px}
-.panel[hidden]{display:none}
+.panel[hidden],.idiomas[hidden]{display:none}
 .panel a{color:#2a231e;padding:.5rem .7rem;border-radius:6px;border:0;font-size:.95rem}
 .panel a:hover{background:#e7d9c1;color:#9c4614}
-.cta{display:none;background:var(--accent);color:#fff;font-weight:700;text-decoration:none;height:40px;line-height:40px;padding:0 1.2rem;border-radius:999px;white-space:nowrap;font-size:.95rem}
-.idioma{display:inline-flex;height:32px;border:1px solid #5d7a63;border-radius:999px;overflow:hidden}
-.idioma button{background:none;border:0;color:#cfd9cc;font:inherit;font-size:.8rem;font-weight:700;padding:0 .6rem;cursor:pointer;letter-spacing:.04em}
-.idioma button[aria-pressed="true"]{background:#f1e7d6;color:#2f4a36}
-.idioma button+button{border-left:1px solid #5d7a63}
+.lang{position:relative}
+.globo{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;border:1px solid #5d7a63;background:none;color:#f3efe6;cursor:pointer}
+.globo svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6}
+.globo:hover{border-color:#f3c9a3;color:#f3c9a3}
+.idiomas{position:absolute;top:calc(100% + 12px);right:0;background:#f1e7d6;border:1px solid #ddcdb2;border-radius:10px;box-shadow:0 14px 34px rgba(0,0,0,.35);padding:.35rem;display:grid;min-width:150px}
+.idiomas button{background:none;border:0;text-align:left;font:inherit;color:#2a231e;padding:.5rem .7rem;border-radius:6px;cursor:pointer;display:flex;justify-content:space-between;gap:1rem}
+.idiomas button:hover{background:#e7d9c1;color:#9c4614}
+.idiomas button[aria-pressed="true"]{font-weight:700;color:#9c4614}
+.idiomas small{color:#6b5e52;font-weight:400}
+.cta{display:none;background:var(--accent);color:#fff;font-weight:700;text-decoration:none;height:40px;line-height:40px;padding:0 1.3rem;border-radius:999px;white-space:nowrap;font-size:.95rem}
 .cta:hover{background:#9c4614}
-.burger{display:inline-flex;align-items:center;gap:.4rem;white-space:nowrap;background:#f1e7d6;color:#2f4a36;border:0;border-radius:999px;padding:.55rem .9rem;font:inherit;font-weight:700;cursor:pointer}
-.movil{background:#2f4a36;border-bottom:3px solid var(--accent);padding:0 max(16px,env(safe-area-inset-right,0px)) 1rem max(16px,env(safe-area-inset-left,0px))}
+.burger{display:inline-flex;align-items:center;gap:.4rem;white-space:nowrap;height:40px;background:#f1e7d6;color:#2f4a36;border:0;border-radius:999px;padding:0 1rem;font:inherit;font-weight:700;cursor:pointer}
+.movil{background:#2f4a36;border-bottom:3px solid var(--accent);padding:0 max(var(--borde),env(safe-area-inset-right,0px)) 1rem max(var(--borde),env(safe-area-inset-left,0px))}
 .movil[hidden]{display:none}
 .movil a{display:block;color:#f3efe6;text-decoration:none;padding:.65rem 0;border-bottom:1px solid #3f5c46}
 .movil .sub a{padding-left:1rem;color:#cfd9cc;font-size:.95rem}
 .movil .cta{display:block;text-align:center;margin-top:1rem;border:0}
-@media (min-width:900px){.menu{display:flex}.cta{display:inline-block}.burger,.movil{display:none!important}}
-@media (max-width:899px){.cab-in{grid-template-columns:1fr auto}}
+@media (min-width:1000px){.menu{display:flex}.cta{display:inline-block}.burger,.movil{display:none!important}}
+@media (max-width:999px){.cab-in{gap:.75rem}:root{--borde:16px}}
 .cab a:focus-visible,.cab button:focus-visible{outline:2px solid #f3c9a3;outline-offset:3px}
 section[id]{scroll-margin-top:90px}
-.wa-flotante{width:56px;height:56px;padding:0!important;display:grid!important;place-items:center;border-radius:50%!important}
+.wa-flotante{right:max(var(--borde),env(safe-area-inset-right,0px))!important;bottom:calc(var(--borde) + env(safe-area-inset-bottom,0px))!important;width:56px;height:56px;padding:0!important;display:grid!important;place-items:center;border-radius:50%!important;background:#25d366!important}
 .wa-flotante svg{width:30px;height:30px;fill:#fff}
-.wa-flotante{background:#25d366!important}
 @media (prefers-reduced-motion:reduce){.cab,.cab-in{transition:none}}
 </style>
-<div class="maket">Макет: шапка закріплена зверху. Прокрути вниз — шапка стає тоншою, підсвічується розділ, де ти зараз. «Servicios ▾» відкриває список послуг. На телефоні — кнопка «Menú». Мови ES / UA / EN — поки тільки перемикаються візуально.</div>
+<div class="maket">Макет: шапка закріплена зверху. Прокрути вниз — шапка стає тоншою, підсвічується розділ, де ти зараз. «Servicios ▾» відкриває список послуг. На телефоні — кнопка «Menú». Глобус — вибір мови (поки тільки візуально).</div>
 <header class="cab" id="cab">
 <div class="cab-in">
-<div class="izq"><div class="idioma" role="group" aria-label="Idioma"><button aria-pressed="true">ES</button><button aria-pressed="false">UA</button><button aria-pressed="false">EN</button></div><a class="logo" href="#inicio" aria-label="HLD Casa, inicio"><span class="hld" aria-hidden="true"><span class="hld-h">H</span><span class="hld-l">L</span><span class="hld-eye hld-eye-1"></span><span class="hld-eye hld-eye-2"></span><span class="hld-d">D</span><span class="hld-clip"><span class="hld-casa">CASA</span></span></span></a></div>
+<a class="logo" href="#inicio" aria-label="HLD Casa, inicio"><span class="hld" aria-hidden="true"><span class="hld-h">H</span><span class="hld-l">L</span><span class="hld-eye hld-eye-1"></span><span class="hld-eye hld-eye-2"></span><span class="hld-d">D</span><span class="hld-clip"><span class="hld-casa">CASA</span></span></span></a>
 <ul class="menu">
 <li><button class="desp" id="desp" aria-expanded="false" aria-controls="panel">Servicios ▾</button><div class="panel" id="panel" hidden><a href="#servicios">Yesos y enlucidos</a><a href="#servicios">Pladur y techos</a><a href="#servicios">Masillas y alisados</a><a href="#servicios">Pintura</a><a href="#servicios">Alicatado y solado</a><a href="#servicios">Impermeabilización</a><a href="#servicios">Suelos laminados</a><a href="#servicios">Demoliciones y desescombro</a><a href="#servicios">Reparaciones y pequeñas obras</a></div></li>
 <li><a href="#proyectos">Proyectos</a></li>
@@ -320,8 +323,9 @@ section[id]{scroll-margin-top:90px}
 <li><a href="#nosotros">Nosotros</a></li>
 <li><a href="#contacto">Contacto</a></li>
 </ul>
-<div class="der"><a class="cta" href="#contacto">Presupuesto gratis</a>
-<button class="burger" id="burger" aria-expanded="false" aria-controls="movil">☰ Menú</button></div>
+<div class="lang"><button class="globo" id="globo" aria-expanded="false" aria-controls="idiomas" aria-label="Idioma"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></button><div class="idiomas" id="idiomas" hidden><button aria-pressed="true">Español <small>ES</small></button><button aria-pressed="false">Українська <small>UA</small></button><button aria-pressed="false">English <small>EN</small></button></div></div>
+<a class="cta" href="#contacto">Presupuesto gratis</a>
+<button class="burger" id="burger" aria-expanded="false" aria-controls="movil">☰ Menú</button>
 </div>
 <nav class="movil" id="movil" hidden aria-label="Menú">
 <a href="#servicios">Servicios</a><div class="sub"><a href="#servicios">Yesos y enlucidos</a><a href="#servicios">Pladur y techos</a><a href="#servicios">Masillas y alisados</a><a href="#servicios">Pintura</a><a href="#servicios">Alicatado y solado</a><a href="#servicios">Impermeabilización</a><a href="#servicios">Suelos laminados</a><a href="#servicios">Demoliciones y desescombro</a><a href="#servicios">Reparaciones y pequeñas obras</a></div>
@@ -363,7 +367,7 @@ section[id]{scroll-margin-top:90px}
 <label for="f-mensaje">Cuéntenos su proyecto</label><textarea id="f-mensaje" name="mensaje" rows="3"></textarea>
 <button class="btn" type="submit">Enviar solicitud</button></form>
 </section></div></main>
-<a class="wa-flotante" href="#contacto" aria-label="Escríbanos por WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg></a>
+<a class="wa-flotante" href="#contacto" aria-label="Escríbanos por WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></a>
 <footer class="footer wrap"><p>© 2026 HLD Casa · Reformas y acabados en Málaga</p></footer>
 <script>
 (function(){
@@ -418,7 +422,10 @@ section[id]{scroll-margin-top:90px}
 </script>
 <script>
 (function(){
-  document.querySelectorAll('.idioma button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.idioma button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)))}));
+  const globo=document.getElementById('globo'),idiomas=document.getElementById('idiomas');
+  globo.addEventListener('click',e=>{e.stopPropagation();const o=idiomas.hidden;idiomas.hidden=!o;globo.setAttribute('aria-expanded',String(o));});
+  idiomas.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{idiomas.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));idiomas.hidden=true;globo.setAttribute('aria-expanded','false');}));
+  document.addEventListener('click',e=>{if(!idiomas.hidden&&!idiomas.contains(e.target)){idiomas.hidden=true;globo.setAttribute('aria-expanded','false')}});
   const cab=document.getElementById('cab');
   const onScroll=()=>cab.classList.toggle('min',scrollY>40);
   addEventListener('scroll',onScroll,{passive:true});onScroll();
@@ -429,7 +436,7 @@ section[id]{scroll-margin-top:90px}
   const burger=document.getElementById('burger'),movil=document.getElementById('movil');
   burger.addEventListener('click',()=>{const o=movil.hidden;movil.hidden=!o;burger.setAttribute('aria-expanded',String(o));burger.textContent=o?'✕ Cerrar':'☰ Menú';});
   movil.addEventListener('click',e=>{if(e.target.tagName==='A'){movil.hidden=true;burger.setAttribute('aria-expanded','false');burger.textContent='☰ Menú';}});
-  addEventListener('keydown',e=>{if(e.key==='Escape'){panel.hidden=true;desp.setAttribute('aria-expanded','false');}});
+  addEventListener('keydown',e=>{if(e.key==='Escape'){panel.hidden=true;desp.setAttribute('aria-expanded','false');idiomas.hidden=true;globo.setAttribute('aria-expanded','false');}});
   const links=[...document.querySelectorAll('.menu a[href^="#"]')];
   const io=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){links.forEach(l=>l.classList.toggle('activo',l.getAttribute('href')==='#'+en.target.id));}})},{rootMargin:'-45% 0px -50% 0px'});
   ['proyectos','como-trabajamos','nosotros','contacto'].forEach(id=>{const el=document.getElementById(id);if(el)io.observe(el)});
