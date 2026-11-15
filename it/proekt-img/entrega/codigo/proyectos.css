@@ -1,0 +1,48 @@
+/* ===== Proyectos: carusel + galería ===== */
+#proyectos{display:flex;flex-direction:column;gap:2.5rem;padding-block:5rem}
+#proyectos h2{margin:0}
+#proyectos .cabecera{margin-bottom:2.5rem}
+#proyectos .cabecera p{margin:.9rem 0 0;max-width:44rem;color:var(--page-muted)}
+#proyectos .texto h3{margin:0 0 .5rem;font-size:1.3rem}
+#proyectos .texto p{margin:0;max-width:44rem;color:var(--page-muted)}
+
+/* Botón «Ver todos los proyectos» */
+#proyectos .btn-proy{align-self:center;margin-block:2.5rem;display:inline-flex;align-items:center;gap:.7rem;padding:1.2rem 3rem;font-size:1.2rem;background:var(--accent);color:#fff;font-weight:700;text-decoration:none;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.3);position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
+#proyectos .btn-proy .fl{display:inline-block;transition:transform .25s}
+#proyectos .btn-proy:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.35)}
+#proyectos .btn-proy:hover .fl{transform:translateX(6px)}
+#proyectos .btn-proy::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);animation:brillo 3.5s ease-in-out infinite}
+@keyframes brillo{0%,70%{left:-60%}100%{left:130%}}
+@media (prefers-reduced-motion:reduce){#proyectos .btn-proy,#proyectos .btn-proy .fl{transition:none}#proyectos .btn-proy::after{animation:none;display:none}}
+
+/* ---- Карусель ---- */
+.carrusel{position:relative}
+.pista{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.pista::-webkit-scrollbar{display:none}
+.slide{flex:0 0 78%;scroll-snap-align:center;margin:0;min-width:0;border-radius:10px;overflow:hidden;background:#f1e7d6;aspect-ratio:3/4;cursor:pointer;-webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
+@media (min-width:768px){.slide{flex-basis:calc((100% - 24px)/3)}}
+.slide img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none;opacity:0;transition:opacity .25s}
+.slide img.ok{opacity:1}
+.flecha{position:absolute;top:50%;translate:0 -50%;width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(20,30,24,.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font-size:1.5rem;line-height:1;display:grid;place-items:center;cursor:pointer;z-index:2}
+.flecha:hover{background:rgba(20,30,24,.55)}
+.flecha,.g-btn,.slide{-webkit-tap-highlight-color:transparent}
+.flecha:focus,.g-btn:focus{outline:none}
+.flecha:focus-visible,.g-btn:focus-visible{outline:2px solid #f3c9a3;outline-offset:2px}
+.prev{left:8px}.next{right:8px}
+
+/* ---- Галерея на весь екран ---- */
+.galeria{position:fixed;inset:0;z-index:50;background:rgba(10,18,13,.97);display:grid;place-items:center;overflow:hidden;touch-action:none;opacity:0;transition:opacity .2s}
+.galeria.abierta{opacity:1}
+.galeria[hidden]{display:none}
+.lienzo{position:relative;width:100%;height:100%;display:grid;place-items:center}
+.lienzo img{max-width:94vw;max-height:86vh;border-radius:6px;user-select:none;-webkit-user-drag:none;will-change:transform;transition:transform .2s ease}
+.lienzo img.sin-trans{transition:none}
+.g-btn{position:absolute;width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font-size:1.5rem;display:grid;place-items:center;cursor:pointer;z-index:3}
+.g-btn:hover{background:rgba(255,255,255,.25)}
+.g-prev{left:max(12px,env(safe-area-inset-left,0px));top:50%;translate:0 -50%}
+.g-next{right:max(12px,env(safe-area-inset-right,0px));top:50%;translate:0 -50%}
+.g-cerrar{left:max(12px,env(safe-area-inset-left,0px));top:calc(12px + env(safe-area-inset-top,0px));width:42px;height:42px}
+.g-cerrar svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.g-cont{position:absolute;bottom:calc(14px + env(safe-area-inset-bottom,0px));left:50%;translate:-50% 0;color:#cfd9cc;font-size:.85rem;background:rgba(0,0,0,.35);padding:2px 10px;border-radius:999px}
+.g-ayuda{position:absolute;bottom:calc(48px + env(safe-area-inset-bottom,0px));left:50%;translate:-50% 0;color:#cfd9cc;font-size:.8rem;opacity:.85;white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.slide img,.lienzo img,.galeria{transition:none}}
