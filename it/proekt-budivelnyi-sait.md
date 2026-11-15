@@ -179,3 +179,4 @@
   4. Швидша анімація карток (servicios.css .3s/10px, прибрати transitionDelay) — інструкції дано, не підтверджено.
   5. Задача 4: прибрати старий CSS .header/.nav. Потім сторінка «усі проєкти».
   10 фото каруселі ✅ погоджено: 46,79,55,58,17,104,115,88,35,82.
+- Макети 15.11: галерея https://claude.ai/artifact/B6y7PYisx2g8EtALNXmRHG (`proyectos-galeria.html`, фото `portfolio-sel/m/` 720×960 ~40КБ); телефон A/B/C https://claude.ai/artifact/2x4XVhozwp6BZCgooBBBTw (`servicio-movil-variantes.html`). Чекає фідбек.

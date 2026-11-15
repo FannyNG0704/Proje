@@ -1,0 +1,169 @@
+<title>HLD Casa · Galería de proyectos</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Макет: карусель проєктів + галерея на весь екран, у стилі HLD Casa (темно-зелений, пісочний, теракота) */
+:root{--bg:#2f4a36;--bg-deep:#22362a;--accent:#b8541a;--page-text:#f3efe6;--page-muted:#cfd9cc;--sand:#e7d9c1;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--page-text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6}
+.wrap{max-width:1100px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.nota{background:var(--bg-deep);color:var(--page-muted);font-size:.88rem}
+.nota .wrap{padding-block:.6rem}
+.section{padding-block:3rem 4rem;display:flex;flex-direction:column;gap:2.5rem}
+h2{margin:0;font-size:1.9rem}
+h2::after{content:"";display:block;width:64px;height:4px;margin-top:.5rem;background:var(--accent);border-radius:2px}
+.cab p{margin:.9rem 0 0;max-width:44rem;color:var(--page-muted)}
+
+/* ---- Карусель ---- */
+.carrusel{position:relative}
+.pista{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.pista::-webkit-scrollbar{display:none}
+.slide{flex:0 0 78%;scroll-snap-align:center;margin:0;min-width:0;border-radius:10px;overflow:hidden;background:var(--sand);aspect-ratio:3/4;cursor:pointer;-webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
+@media (min-width:768px){.slide{flex-basis:calc((100% - 24px)/3)}}
+.slide img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none;opacity:0;transition:opacity .25s}
+.slide img.ok{opacity:1}
+.flecha{position:absolute;top:50%;translate:0 -50%;width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(20,30,24,.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font-size:1.5rem;line-height:1;display:grid;place-items:center;cursor:pointer;z-index:2}
+.flecha:hover{background:rgba(20,30,24,.55)}
+.flecha:focus-visible,.g-btn:focus-visible{outline:2px solid #f3c9a3;outline-offset:2px}
+.prev{left:8px}.next{right:8px}
+
+/* ---- Галерея на весь екран ---- */
+.galeria{position:fixed;inset:0;z-index:50;background:rgba(10,18,13,.97);display:grid;place-items:center;overflow:hidden;touch-action:none;opacity:0;transition:opacity .2s}
+.galeria.abierta{opacity:1}
+.galeria[hidden]{display:none}
+.lienzo{position:relative;width:100%;height:100%;display:grid;place-items:center}
+.lienzo img{max-width:94vw;max-height:86vh;border-radius:6px;user-select:none;-webkit-user-drag:none;will-change:transform;transition:transform .2s ease}
+.lienzo img.sin-trans{transition:none}
+.g-btn{position:absolute;width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font-size:1.5rem;display:grid;place-items:center;cursor:pointer;z-index:3}
+.g-btn:hover{background:rgba(255,255,255,.25)}
+.g-prev{left:max(12px,env(safe-area-inset-left,0px));top:50%;translate:0 -50%}
+.g-next{right:max(12px,env(safe-area-inset-right,0px));top:50%;translate:0 -50%}
+.g-cerrar{right:max(12px,env(safe-area-inset-right,0px));top:calc(12px + env(safe-area-inset-top,0px));font-size:1.2rem}
+.g-cont{position:absolute;bottom:calc(14px + env(safe-area-inset-bottom,0px));left:50%;translate:-50% 0;color:#cfd9cc;font-size:.85rem;background:rgba(0,0,0,.35);padding:2px 10px;border-radius:999px}
+.g-ayuda{position:absolute;top:calc(18px + env(safe-area-inset-top,0px));left:50%;translate:-50% 0;color:#cfd9cc;font-size:.8rem;opacity:.85;white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.slide img,.lienzo img,.galeria{transition:none}}
+</style>
+
+<div class="nota"><div class="wrap">Тест: <b>телефон</b> — гортай пальцем; фото відкривається тільки коротким дотиком. У галереї: свайп вліво/вправо, два пальці або подвійний дотик — зум, свайп вниз — закрити. <b>ПК</b> — клік відкриває; колесо — зум, збільшене фото йде за мишкою; ‹ › або стрілки клавіатури; ✕ / Esc / клік поза фото — закрити.</div></div>
+
+<section class="section wrap" aria-labelledby="t">
+  <div class="cab">
+    <h2 id="t">Proyectos</h2>
+    <p>Algunas de nuestras obras terminadas en Ucrania: viviendas completas, cocinas, baños y salones.</p>
+  </div>
+  <div class="carrusel">
+    <div class="pista" id="pista" tabindex="0" aria-label="Proyectos"></div>
+    <button class="flecha prev" id="prev" aria-label="Anterior">‹</button>
+    <button class="flecha next" id="next" aria-label="Siguiente">›</button>
+  </div>
+</section>
+
+<div class="galeria" id="galeria" hidden role="dialog" aria-label="Galería">
+  <div class="lienzo" id="lienzo"><img id="g-img" alt=""></div>
+  <span class="g-ayuda" id="g-ayuda"></span>
+  <button class="g-btn g-prev" id="g-prev" aria-label="Anterior">‹</button>
+  <button class="g-btn g-next" id="g-next" aria-label="Siguiente">›</button>
+  <button class="g-btn g-cerrar" id="g-cerrar" aria-label="Cerrar">✕</button>
+  <span class="g-cont" id="g-cont"></span>
+</div>
+
+<script>
+(function(){
+  const N=10, CL=3;
+  const src=i=>'img/obras/obra-'+String(i+1).padStart(2,'0')+'.webp';
+  // 1. Передзавантажуємо всі фото одразу — далі вони беруться з пам'яті
+  const cache=[...Array(N)].map((_,i)=>{const im=new Image();im.decoding='async';im.src=src(i);return im;});
+
+  // 2. Карусель по колу
+  const pista=document.getElementById('pista');
+  const orden=[...Array(CL).keys()].map(k=>N-CL+k).concat([...Array(N).keys()],[...Array(CL).keys()]);
+  orden.forEach(i=>{
+    const f=document.createElement('figure');f.className='slide';f.dataset.i=i;
+    const img=document.createElement('img');img.alt='Proyecto '+(i+1);img.width=720;img.height=960;img.draggable=false;
+    img.onload=()=>img.classList.add('ok');img.src=src(i);if(img.complete)img.classList.add('ok');
+    f.appendChild(img);pista.appendChild(f);
+  });
+  const slides=[...pista.children];
+  const centro=s=>s.offsetLeft+s.offsetWidth/2-pista.clientWidth/2;
+  const reduce=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function saltar(p){pista.style.scrollSnapType='none';pista.scrollLeft=centro(slides[p]);requestAnimationFrame(()=>pista.style.scrollSnapType='');}
+  function cercano(){const c=pista.scrollLeft+pista.clientWidth/2;let b=0,d=1e9;slides.forEach((s,i)=>{const m=Math.abs(s.offsetLeft+s.offsetWidth/2-c);if(m<d){d=m;b=i}});return b;}
+  function ir(p){pista.scrollTo({left:centro(slides[p]),behavior:reduce()?'auto':'smooth'});}
+  let t;pista.addEventListener('scroll',()=>{clearTimeout(t);t=setTimeout(()=>{const p=cercano();if(p<CL)saltar(p+N);else if(p>=CL+N)saltar(p-N);},120)},{passive:true});
+  document.getElementById('prev').onclick=()=>ir(cercano()-1);
+  document.getElementById('next').onclick=()=>ir(cercano()+1);
+  pista.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();ir(cercano()+1)}if(e.key==='ArrowLeft'){e.preventDefault();ir(cercano()-1)}if(e.key==='Enter'){abrir(+slides[cercano()].dataset.i)}});
+  addEventListener('resize',()=>saltar(cercano()));
+  requestAnimationFrame(()=>saltar(CL));
+
+  // 3. Відкрити тільки КОРОТКИМ дотиком/кліком без руху (прокрутка й затискання не відкривають)
+  let down=null;
+  pista.addEventListener('pointerdown',e=>{down={x:e.clientX,y:e.clientY,t:Date.now(),s:e.target.closest('.slide')};});
+  pista.addEventListener('pointerup',e=>{
+    if(!down||!down.s)return;
+    const mov=Math.hypot(e.clientX-down.x,e.clientY-down.y), dur=Date.now()-down.t;
+    if(mov<8&&dur<350)abrir(+down.s.dataset.i);
+    down=null;
+  });
+  pista.addEventListener('pointercancel',()=>down=null);
+  pista.addEventListener('contextmenu',e=>e.preventDefault());
+
+  // 4. Галерея
+  const gal=document.getElementById('galeria'),img=document.getElementById('g-img'),lienzo=document.getElementById('lienzo');
+  const cont=document.getElementById('g-cont'),ayuda=document.getElementById('g-ayuda');
+  const tactil=matchMedia('(pointer: coarse)').matches;
+  let idx=0,esc=1,tx=0,ty=0;
+  const aplicar=(anim=true)=>{img.classList.toggle('sin-trans',!anim);img.style.transform=`translate(${tx}px,${ty}px) scale(${esc})`;};
+  function mostrar(i,dir=0){
+    idx=(i+N)%N;esc=1;tx=ty=0;
+    img.classList.add('sin-trans');img.style.transform=`translateX(${dir*40}px)`;img.style.opacity='0';
+    img.src=cache[idx].src;img.alt='Proyecto '+(idx+1);
+    requestAnimationFrame(()=>{img.classList.remove('sin-trans');img.style.opacity='1';img.style.transform='none';});
+    cont.textContent=(idx+1)+' / '+N;
+  }
+  function abrir(i){gal.hidden=false;ayuda.textContent=tactil?'Desliza ← → · dos dedos para ampliar · desliza ↓ para cerrar':'Rueda para ampliar · ← → para cambiar · Esc para cerrar';mostrar(i);requestAnimationFrame(()=>gal.classList.add('abierta'));document.body.style.overflow='hidden';document.getElementById('g-cerrar').focus();}
+  function cerrar(){gal.classList.remove('abierta');document.body.style.overflow='';setTimeout(()=>gal.hidden=true,200);pista.focus({preventScroll:true});}
+  document.getElementById('g-prev').onclick=e=>{e.stopPropagation();mostrar(idx-1,-1)};
+  document.getElementById('g-next').onclick=e=>{e.stopPropagation();mostrar(idx+1,1)};
+  document.getElementById('g-cerrar').onclick=e=>{e.stopPropagation();cerrar()};
+  lienzo.addEventListener('click',e=>{if(esc!==1||Date.now()-ultimoGesto<400)return;const r=img.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)cerrar();});
+  addEventListener('keydown',e=>{if(gal.hidden)return;if(e.key==='Escape')cerrar();if(e.key==='ArrowRight')mostrar(idx+1,1);if(e.key==='ArrowLeft')mostrar(idx-1,-1);});
+
+  // ПК: колесо = зум у точці курсора; рух мишки = перегляд збільшеної частини
+  lienzo.addEventListener('wheel',e=>{
+    e.preventDefault();
+    esc=Math.min(4,Math.max(1,esc*(e.deltaY<0?1.2:1/1.2)));
+    if(esc===1){tx=ty=0}else{seguir(e)}
+    aplicar();
+  },{passive:false});
+  function seguir(e){
+    const r=img.getBoundingClientRect(), w=r.width/esc, h=r.height/esc;
+    const cx=(e.clientX-innerWidth/2)/(w/2), cy=(e.clientY-innerHeight/2)/(h/2);
+    const maxX=w*(esc-1)/2, maxY=h*(esc-1)/2;
+    tx=-Math.max(-1,Math.min(1,cx))*maxX; ty=-Math.max(-1,Math.min(1,cy))*maxY;
+  }
+  lienzo.addEventListener('mousemove',e=>{if(esc>1&&!tactil){seguir(e);aplicar(false)}});
+
+  // Телефон: свайп ←/→ — наступне, ↓ — закрити; два пальці — зум; подвійний дотик — зум
+  const p=new Map();let ini=null,d0=0,e0=1,tap=0,ultimoGesto=0;
+  lienzo.addEventListener('pointerdown',e=>{if(e.pointerType==='touch')lienzo.setPointerCapture(e.pointerId);p.set(e.pointerId,e);
+    if(p.size===2){const[a,b]=[...p.values()];d0=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);e0=esc;ini=null;}
+    else{ini={x:e.clientX,y:e.clientY,tx,ty};
+      const now=Date.now();if(tactil&&now-tap<280){esc=esc>1?1:2.2;tx=ty=0;aplicar();ini=null}tap=now;}
+  });
+  lienzo.addEventListener('pointermove',e=>{if(!p.has(e.pointerId))return;p.set(e.pointerId,e);
+    if(p.size===2){const[a,b]=[...p.values()];esc=Math.min(4,Math.max(1,e0*Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY)/d0));if(esc===1){tx=ty=0}aplicar(false);return;}
+    if(!ini||!tactil)return;
+    const dx=e.clientX-ini.x,dy=e.clientY-ini.y;
+    if(esc>1){tx=ini.tx+dx;ty=ini.ty+dy;aplicar(false);}
+    else{img.classList.add('sin-trans');img.style.transform=`translate(${dx}px,${Math.max(0,dy)}px)`;gal.style.background=`rgba(10,18,13,${.97-Math.min(.6,Math.max(0,dy)/400)})`;}
+  });
+  const fin=e=>{
+    if(!p.has(e.pointerId))return;p.delete(e.pointerId);
+    if(!ini||esc>1||!tactil){ini=null;return;}
+    const dx=e.clientX-ini.x,dy=e.clientY-ini.y;ini=null;gal.style.background='';if(Math.abs(dx)>8||Math.abs(dy)>8)ultimoGesto=Date.now();
+    if(dy>110&&Math.abs(dx)<90){cerrar();return;}
+    if(dx<-60)mostrar(idx+1,1);else if(dx>60)mostrar(idx-1,-1);else{img.classList.remove('sin-trans');img.style.transform='none';}
+  };
+  lienzo.addEventListener('pointerup',fin);lienzo.addEventListener('pointercancel',fin);
+})();
+</script>
