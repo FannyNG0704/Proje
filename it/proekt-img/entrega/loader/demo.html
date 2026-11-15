@@ -1,0 +1,12 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HLD Casa · Loader</title>
+<script>/* PRIMERO en <head>: ¿ya se vio en esta sesión? */try{var d=document.documentElement;if(sessionStorage.getItem('hld-loader'))d.classList.add('ld-visto');else d.classList.add('ld-activo')}catch(e){document.documentElement.classList.add('ld-activo')}</script>
+<style>
+@font-face{font-family:"HLD Casa Logo";src:url("fonts/hldcasa.woff2") format("woff2");font-display:block}
+body{margin:0;background:#2f4a36;color:#f3efe6;font-family:system-ui,sans-serif;padding:2rem 16px}
+.btn{display:inline-block;margin-top:1rem;padding:.8rem 1.4rem;border-radius:999px;background:#b8541a;color:#fff;border:0;font:inherit;font-weight:700;cursor:pointer}
+</style><link rel="stylesheet" href="loader.css"><noscript><style>.ld{display:none}</style></noscript>
+<script>window.LOADER_PRELOAD=['img/obras/obra-01.webp','img/obras/obra-02.webp','img/obras/obra-03.webp'];</script>
+<script src="loader.js" defer></script></head><body>
+<div id="loader" class="ld" role="status" aria-label="Cargando"><div class="ld-logo" aria-hidden="true"><span class="ld-h">H</span><span class="ld-l">L</span><span class="ld-face"><span class="ld-eye ld-eye-1"></span><span class="ld-eye ld-eye-2"></span><span class="ld-d">D</span></span><span class="ld-clip"><span class="ld-casa">CASA</span></span></div></div>
+<main><h1>Página de demostración</h1><p>Aquí está el sitio. El loader se muestra solo la primera vez en cada sesión (pestaña).</p>
+<button class="btn" onclick="try{sessionStorage.removeItem('hld-loader')}catch(e){};location.reload()">Ver el loader otra vez</button></main></body></html>
