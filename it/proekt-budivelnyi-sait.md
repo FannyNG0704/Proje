@@ -194,3 +194,4 @@
   6. Прибрати старий CSS `.header`/`.nav` зі style.css.
   7. Пізніше: сторінка «Ver todos los proyectos» (proyectos.html) з групуванням по об'єктах.
 - Відкладене: регіон (Málaga vs Torrevieja), телефон/email/privacidad/aviso legal/домен (autónomo), знак HLD для favicon, шаблони WhatsApp, Lighthouse/клавіатура, перемикач мов, push на GitHub (403).
+- **15.11.2026: задача 5 (справжні фото на картках) — рішення Назара:** Pladur = фото 46 (кроп 4:3 з верху, щоб була стеля; низ обрізати) ✅; Alicatado = фото 58 ЦІЛЕ (без обрізки) — чекає вибір A (ціле по центру картки + розмитий фон) чи B (вертикальні картки 3:4); Laminado = лишається стокове ✅; Pintura = фото з голими стінами: кандидати 20 / 43, інакше лишаємо валик; Masillas = кандидат 16 або стокове. Макет: https://claude.ai/artifact/1rw92vKjqmZEhbyyjAmcbS (`it/proekt-img/foto-reales.html`).
