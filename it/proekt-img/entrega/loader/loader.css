@@ -1,7 +1,7 @@
 /* ===== Loader con logo HLD Casa (módulo reutilizable) =====
    Requiere: @font-face "HLD Casa Logo" (ya está en style.css).
    Para otro proyecto: cambia colores (--ld-bg, --ld-fg) y el texto del logo en el HTML. */
-:root{--ld-bg:#2f4a36;--ld-fg:#f3efe6;--ld-size:clamp(56px,17vw,110px)}
+:root{--ld-bg:#2f4a36;--ld-fg:#f3efe6;--ld-size:clamp(56px,17vw,110px);--ld-t:1}
 
 .ld{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:var(--ld-bg);color:var(--ld-fg);opacity:1;transition:opacity .5s ease;
     animation:ld-failsafe 0s linear 9s forwards}   /* seguro: si algo falla, se oculta solo a los 9 s */
@@ -10,24 +10,28 @@
 .ld-visto .ld{display:none}                        /* ya visto en esta sesión */
 .ld-activo{overflow:hidden}                        /* sin scroll mientras carga */
 
+/* --ld-t = ritmo: 1 = normal, 0.8 = más rápido, 1.2 = más lento (cambia también minMs en loader.js) */
 .ld-logo{display:inline-flex;align-items:baseline;font-family:"HLD Casa Logo",sans-serif;font-size:var(--ld-size);line-height:1;white-space:nowrap;
-         transform:translateX(.76em);animation:ld-shift 1.3s cubic-bezier(.45,0,.2,1) 1.7s forwards}
+         transform:translateX(.76em);animation:ld-shift calc(1.4s*var(--ld-t)) cubic-bezier(.65,0,.35,1) calc(2.2s*var(--ld-t)) forwards}
 /* cara = D + ojos; empieza tumbada (como una sonrisa) */
 .ld-face{position:relative;display:inline-block;transform:rotate(90deg);opacity:0;
-         animation:ld-face-in .45s ease .1s forwards,ld-face-up .6s cubic-bezier(.34,1.56,.64,1) 1.5s forwards}
+         animation:ld-face-in calc(.6s*var(--ld-t)) ease calc(.1s*var(--ld-t)) forwards,ld-face-up calc(1.1s*var(--ld-t)) cubic-bezier(.65,0,.35,1) calc(2.1s*var(--ld-t)) forwards}
 .ld-eye{position:absolute;left:-.2em;width:.12em;height:.12em;border-radius:50%;background:currentColor;opacity:0;
-        animation:ld-eye-in .25s ease .55s forwards,ld-blink .3s ease-in-out .85s,ld-blink .3s ease-in-out 1.2s}
+        animation:ld-eye-in calc(.35s*var(--ld-t)) ease calc(.7s*var(--ld-t)) forwards,
+                  ld-blink calc(.45s*var(--ld-t)) ease-in-out calc(1.15s*var(--ld-t)),
+                  ld-blink calc(.45s*var(--ld-t)) ease-in-out calc(1.7s*var(--ld-t))}
 .ld-eye-1{top:.26em}.ld-eye-2{top:.44em}
 .ld-h,.ld-l{display:inline-block;opacity:0}
-.ld-l{animation:ld-from-right .5s cubic-bezier(.2,.8,.2,1) 1.9s forwards}
-.ld-h{animation:ld-from-right .5s cubic-bezier(.2,.8,.2,1) 2.3s forwards}
+.ld-l{animation:ld-from-right calc(.8s*var(--ld-t)) cubic-bezier(.2,.8,.2,1) calc(2.6s*var(--ld-t)) forwards}
+.ld-h{animation:ld-from-right calc(.8s*var(--ld-t)) cubic-bezier(.2,.8,.2,1) calc(3s*var(--ld-t)) forwards}
 .ld-clip{padding-left:.24em;clip-path:inset(-.2em -.2em -.2em 0)}
-.ld-casa{display:inline-block;animation:ld-casa .9s cubic-bezier(.2,.8,.2,1) 2.4s backwards}
+.ld-casa{display:inline-block;animation:ld-casa calc(1.2s*var(--ld-t)) cubic-bezier(.3,.7,.2,1) calc(3.1s*var(--ld-t)) backwards}
 
 @keyframes ld-face-in{to{opacity:1}}
 @keyframes ld-face-up{to{transform:rotate(0)}}
-@keyframes ld-eye-in{to{opacity:1}}
-@keyframes ld-blink{50%{transform:scaleY(0)}}
+@keyframes ld-eye-in{from{transform:scale(.4)}to{opacity:1;transform:none}}
+/* la cara está girada 90°: scaleX local = cierre VERTICAL en pantalla */
+@keyframes ld-blink{50%{transform:scaleX(0)}}
 @keyframes ld-from-right{from{opacity:0;transform:translateX(.4em)}to{opacity:1;transform:none}}
 @keyframes ld-casa{from{transform:translateX(-2.4em)}}
 @keyframes ld-shift{to{transform:translateX(0)}}

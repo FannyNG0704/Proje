@@ -4,7 +4,7 @@
    Se cierra cuando: la página cargó + las fotos de PRELOAD están listas + pasó el tiempo mínimo. */
 (function(){
   const CFG={
-    minMs:3400,          // mínimo: lo que dura la animación completa
+    minMs:4400,          // mínimo: lo que dura la animación completa (4.3 s a ritmo --ld-t:1)
     reducedMs:500,       // si el usuario desactivó animaciones
     maxMs:8000,          // máximo de espera (si algo va lento, se cierra igualmente)
     key:'hld-loader',    // nombre de la marca en sessionStorage
