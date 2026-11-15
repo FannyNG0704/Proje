@@ -180,3 +180,4 @@
   5. Задача 4: прибрати старий CSS .header/.nav. Потім сторінка «усі проєкти».
   10 фото каруселі ✅ погоджено: 46,79,55,58,17,104,115,88,35,82.
 - Макети 15.11: галерея https://claude.ai/artifact/B6y7PYisx2g8EtALNXmRHG (`proyectos-galeria.html`, фото `portfolio-sel/m/` 720×960 ~40КБ); телефон A/B/C https://claude.ai/artifact/2x4XVhozwp6BZCgooBBBTw (`servicio-movil-variantes.html`). Чекає фідбек.
+- 15.11: ПК-карусель з 10 фото ✅ (можна писати код). Сторінка послуги на телефоні: варіант A, але картки ОДНАКОВОЇ висоти. Головна на телефоні — картки послуг занадто великі: макет 2 варіантів (2 колонки / список з мініатюрою) + Proyectos на телефоні: https://claude.ai/artifact/Scat2Q74h8VcxCyTA4JyP5 (`movil-compacto.html`). Горизонтальну карусель для послуг Назар НЕ хоче.

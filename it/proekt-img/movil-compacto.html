@@ -1,0 +1,72 @@
+<title>HLD Casa · Móvil compacto</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+:root{--bg:#2f4a36;--deep:#22362a;--sand:#f1e7d6;--line:#ddcdb2;--tile:#e7d9c1;--terra:#9c4614;--accent:#b8541a;--text:#2a231e;--muted:#6b5e52;--pt:#f3efe6;--pm:#cfd9cc;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--deep);color:var(--pt);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.5;padding:1rem max(16px,env(safe-area-inset-right,0px)) 2rem max(16px,env(safe-area-inset-left,0px))}
+.top{max-width:1240px;margin:0 auto 1rem;color:var(--pm);font-size:.9rem}
+.fila{max-width:1240px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;justify-content:center}
+.tel{width:360px;max-width:100%;background:var(--bg);border-radius:28px;border:6px solid #111;overflow:hidden}
+.tel h1{margin:0;padding:.7rem 1rem;background:var(--deep);font-size:1rem;color:#f3c9a3}
+.tel .in{padding:1rem;height:640px;overflow-y:auto}
+.titulo{margin:0 0 .8rem;font-size:1.3rem}
+.titulo::after{content:"";display:block;width:48px;height:4px;margin-top:.4rem;background:var(--accent);border-radius:2px}
+.ico{flex:none;display:inline-grid;place-items:center;width:38px;height:38px;border-radius:9px;background:var(--tile);color:var(--terra)}
+.ico svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+ul{list-style:none;margin:0;padding:0}
+/* A */
+.a-lista{display:grid;gap:8px}
+.a-it{display:flex;gap:12px;align-items:flex-start;background:var(--sand);border:1px solid var(--line);border-radius:8px;padding:12px;color:var(--text)}
+.a-it h3{margin:0 0 .15rem;font-size:1rem;color:var(--bg)}
+.a-it p{margin:0;font-size:.88rem;color:var(--muted)}
+/* B */
+.b-lista{display:grid;gap:6px}
+.b-it{background:var(--sand);border:1px solid var(--line);border-radius:8px;color:var(--text)}
+.b-it summary{list-style:none;display:flex;align-items:center;gap:12px;padding:10px 12px;cursor:pointer;font-weight:700;color:var(--bg)}
+.b-it summary::-webkit-details-marker{display:none}
+.b-it summary span{flex:1}
+.b-it summary i{font-style:normal;color:var(--terra);transition:transform .2s}
+.b-it[open] summary i{transform:rotate(45deg)}
+.b-it p{margin:0;padding:0 12px 12px 62px;font-size:.88rem;color:var(--muted)}
+/* C */
+.c-lista{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:start}
+.c-it{background:var(--sand);border:1px solid var(--line);border-radius:8px;color:var(--text)}
+.c-it[open]{grid-column:1/-1}
+.c-it summary{list-style:none;display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:12px;cursor:pointer;font-weight:700;font-size:.92rem;line-height:1.25;color:var(--bg)}
+.c-it summary::-webkit-details-marker{display:none}
+.c-it p{margin:0;padding:0 12px 12px;font-size:.88rem;color:var(--muted)}
+summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.tel h2{margin:0 0 .8rem;font-size:1.3rem}.tel h2::after{content:"";display:block;width:48px;height:4px;margin-top:.4rem;background:var(--accent);border-radius:2px}
+.g1{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.v1{display:block;background:#fff;border-radius:8px;overflow:hidden;text-decoration:none;color:var(--text)}
+.v1 img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
+.v1 b{display:block;padding:.45rem .55rem .55rem;font-size:.85rem;line-height:1.2;border-left:3px solid var(--accent);margin:.4rem .4rem .5rem}
+.g2{display:grid;gap:6px}
+.v2{display:flex;align-items:center;gap:10px;background:#fff;border-radius:8px;padding:6px;text-decoration:none;color:var(--text)}
+.v2 img{width:64px;height:64px;object-fit:cover;border-radius:6px;flex:none}
+.v2 span{flex:1;min-width:0;display:grid}
+.v2 b{font-size:.92rem;line-height:1.2}.v2 small{color:var(--muted);font-size:.8rem}
+.v2 i{font-style:normal;color:var(--terra);font-size:1.4rem;padding-right:4px}
+.a-lista{grid-auto-rows:1fr}
+.car{position:relative}
+.pis{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.pis::-webkit-scrollbar{display:none}
+.sl{flex:0 0 80%;scroll-snap-align:center;margin:0;aspect-ratio:3/4;border-radius:10px;overflow:hidden;background:var(--tile)}
+.sl img{width:100%;height:100%;object-fit:cover;display:block}
+.fl{position:absolute;top:50%;translate:0 -50%;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(20,30,24,.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font-size:1.3rem;display:grid;place-items:center;cursor:pointer}
+.fl.p{left:6px}.fl.n{right:6px}
+.btnp{display:block;margin:1.5rem auto 0;width:max-content;background:var(--accent);color:#fff;font-weight:700;padding:.8rem 1.6rem;border-radius:999px;text-decoration:none}
+</style>
+<p class="top">Телефон. 1–2: головна, як зробити картки послуг компактнішими. 3: «Proyectos» на телефоні (гортай пальцем або стрілками). 4: сторінка послуги, варіант A з однаковими картками. Справжню галерею перевір окремим посиланням на телефоні.</p>
+<div class="fila">
+<section class="tel"><h1>1 · Головна: дві колонки</h1><div class="in"><h2>Servicios</h2><div class="g1"><a class="v1" href="#"><img src="img/yeso.webp" alt=""><b>Yesos y enlucidos</b></a><a class="v1" href="#"><img src="img/techos.webp" alt=""><b>Pladur y techos</b></a><a class="v1" href="#"><img src="img/masilla.webp" alt=""><b>Masillas y alisados</b></a><a class="v1" href="#"><img src="img/pintura.webp" alt=""><b>Pintura</b></a><a class="v1" href="#"><img src="img/alicatado.webp" alt=""><b>Alicatado y solado</b></a><a class="v1" href="#"><img src="img/impermeabilizacion.webp" alt=""><b>Impermeabilización</b></a><a class="v1" href="#"><img src="img/laminado.webp" alt=""><b>Suelos laminados</b></a><a class="v1" href="#"><img src="img/demoliciones.webp" alt=""><b>Demoliciones y desescombro</b></a><a class="v1" href="#"><img src="img/reparaciones.webp" alt=""><b>Reparaciones y pequeñas obras</b></a></div></div></section>
+<section class="tel"><h1>2 · Головна: список з мініатюрою</h1><div class="in"><h2>Servicios</h2><div class="g2"><a class="v2" href="#"><img src="img/yeso.webp" alt=""><span><b>Yesos y enlucidos</b><small>Paredes y techos rectos y firmes.</small></span><i>›</i></a><a class="v2" href="#"><img src="img/techos.webp" alt=""><span><b>Pladur y techos</b><small>Tabiques y techos con LED.</small></span><i>›</i></a><a class="v2" href="#"><img src="img/masilla.webp" alt=""><span><b>Masillas y alisados</b><small>Paredes lisas, listas para pintar.</small></span><i>›</i></a><a class="v2" href="#"><img src="img/pintura.webp" alt=""><span><b>Pintura</b><small>Interiores, fachadas y vallas.</small></span><i>›</i></a><a class="v2" href="#"><img src="img/alicatado.webp" alt=""><span><b>Alicatado y solado</b><small>Baños, cocinas y suelos.</small></span><i>›</i></a><a class="v2" href="#"><img src="img/impermeabilizacion.webp" alt=""><span><b>Impermeabilización</b><small>Terrazas y baños sin goteras.</small></span><i>›</i></a><a class="v2" href="#"><img src="img/laminado.webp" alt=""><span><b>Suelos laminados</b><small>Suelo nuevo sin obra.</small></span><i>›</i></a><a class="v2" href="#"><img src="img/demoliciones.webp" alt=""><span><b>Demoliciones y desescombro</b><small>Picado y retirada de escombros.</small></span><i>›</i></a><a class="v2" href="#"><img src="img/reparaciones.webp" alt=""><span><b>Reparaciones y pequeñas obras</b><small>Montaje, juntas, rejas y más.</small></span><i>›</i></a></div></div></section>
+<section class="tel"><h1>3 · Proyectos на телефоні</h1><div class="in"><h2>Proyectos</h2><p style="color:var(--pm);margin:0 0 1rem;font-size:.9rem">Algunas de nuestras obras terminadas.</p><div class="car"><div class="pis" id="pis"><figure class="sl"><img src="img/obras/obra-01.webp" alt=""></figure><figure class="sl"><img src="img/obras/obra-02.webp" alt=""></figure><figure class="sl"><img src="img/obras/obra-03.webp" alt=""></figure><figure class="sl"><img src="img/obras/obra-04.webp" alt=""></figure><figure class="sl"><img src="img/obras/obra-05.webp" alt=""></figure><figure class="sl"><img src="img/obras/obra-06.webp" alt=""></figure><figure class="sl"><img src="img/obras/obra-07.webp" alt=""></figure><figure class="sl"><img src="img/obras/obra-08.webp" alt=""></figure><figure class="sl"><img src="img/obras/obra-09.webp" alt=""></figure><figure class="sl"><img src="img/obras/obra-10.webp" alt=""></figure></div><button class="fl p" id="fp" aria-label="Anterior">‹</button><button class="fl n" id="fn" aria-label="Siguiente">›</button></div><a class="btnp" href="#">Ver todos los proyectos →</a></div></section>
+<section class="tel"><h1>4 · Послуга: A, однакові картки</h1><div class="in"><h2 class="titulo">Qué hacemos</h2><ul class="a-lista"><li class="a-it"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8l9-5 9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/><path d="M3 18l9 5 9-5"/></svg></span><div><h3>Acabado a su medida</h3><p>Base de yeso y enlucido fino, también en paredes nuevas de ladrillo. Con maestras para paredes perfectas, o sin ellas si busca ahorrar.</p></div></li><li class="a-it"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 5v6h-6"/></svg></span><div><h3>Renovar sin picar</h3><p>Una capa fina sobre la pared vieja y queda como nueva, sin escombro.</p></div></li><li class="a-it"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7V3M15 7V3"/><rect x="6" y="7" width="12" height="7" rx="2"/><path d="M12 14v4a3 3 0 0 0 3 3h2"/></svg></span><div><h3>Rozas y grietas</h3><p>Tapamos las rozas del electricista o el fontanero y reparamos grietas con malla para que no vuelvan.</p></div></li><li class="a-it"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3v18h16"/><path d="M9 3v14h12"/></svg></span><div><h3>Esquinas y techos</h3><p>Guardavivos para esquinas rectas y techos enlucidos, lisos y listos para pintar.</p></div></li><li class="a-it"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c4 5 6 8 6 11a6 6 0 0 1-12 0c0-3 2-6 6-11z"/></svg></span><div><h3>Mortero donde hay humedad</h3><p>Baños, garajes y trasteros con mortero de cemento; fachadas y patios con monocapa o enfoscado fratasado.</p></div></li><li class="a-it"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8c3-3 6 3 9 0s6 3 9 0"/><path d="M3 14c3-3 6 3 9 0s6 3 9 0"/><path d="M3 20h18"/></svg></span><div><h3>Estuco decorativo</h3><p>Acabado de cal o estuco alisado a llana: paredes con textura suave y natural, sin necesidad de pintar.</p></div></li></ul></div></section>
+</div>
+<script>
+const pis=document.getElementById('pis');const w=()=>pis.firstElementChild.offsetWidth+10;
+document.getElementById('fp').onclick=()=>pis.scrollBy({left:-w(),behavior:'smooth'});
+document.getElementById('fn').onclick=()=>pis.scrollBy({left:w(),behavior:'smooth'});
+</script>
