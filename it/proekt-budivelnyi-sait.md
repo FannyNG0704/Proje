@@ -183,3 +183,14 @@
 - **Макет «як на сайті» з телефоном 15.11: https://claude.ai/artifact/TwPAaMnrRF7VmCaPFwpFUR** (`sitio-movil.html`): головна — справжні 10 фото в каруселі + галерея; на телефоні послуги списком з мініатюрою, сторінки послуг — компактні картки A. Чекає фідбек → потім код по задачах.
 - 15.11: ПК-карусель з 10 фото ✅ (можна писати код). Сторінка послуги на телефоні: варіант A, але картки ОДНАКОВОЇ висоти. Головна на телефоні — картки послуг занадто великі: макет 2 варіантів (2 колонки / список з мініатюрою) + Proyectos на телефоні: https://claude.ai/artifact/Scat2Q74h8VcxCyTA4JyP5 (`movil-compacto.html`). Горизонтальну карусель для послуг Назар НЕ хоче.
 - 15.11: телефон — головна = варіант 2 (список з мініатюрою) ✅; Proyectos на телефоні ✅; сторінка послуги — нові компактні варіанти 4/5 у тому ж макеті, чекає вибір.
+- **15.11.2026: Задача «Proyectos» у коді HLDcasa ✅ (майже):** `proyectos.css`, `proyectos.js` (галерею JS сам додає в кінець body), `img/obras/obra-01..10.webp` (720×960), розділ `#proyectos` у index.html між Servicios і Cómo trabajamos, підключення під `cabecera.js`. Правки Назара: без синьої рамки на стрілках (tap-highlight + outline тільки :focus-visible), замість ✕ — напівпрозора «←» зліва зверху, підказку «Desliza… / Rueda…» прибрали зовсім. Еталонні файли: `it/proekt-img/entrega/codigo/proyectos.*`.
+  - **ЗАЛИШИЛОСЬ у Proyectos (перевірити, коли Назар повернеться):** (а) видалено старий розділ-заглушку «Muy pronto» (рядки ~225–228 з дублем id="proyectos")? (б) прибрати підказку в його HLDcasa: proyectos.js — рядок `g-ayuda" id` (Ctrl+Shift+K), `,ayuda=document.getElementById('g-ayuda')` → порожньо, `ayuda.textContent=…;` → порожньо; proyectos.css — рядок `.g-ayuda{` (Ctrl+Shift+K). (в) коміт.
+- **ПЛАН КОДУ ДАЛІ (по черзі):**
+  1. ✅ Proyectos: карусель + галерея (див. вище хвости).
+  2. Телефон — головна: картки послуг списком з мініатюрою (`@media (max-width:719px)` у style.css; код у `sitio-movil.html`, блок «Телефон: картки послуг списком з мініатюрою»).
+  3. Телефон — сторінки послуг: компактні картки A однакової висоти (servicios.css; блок «Телефон: сторінки послуг — компактні картки (варіант A)»).
+  4. Швидша анімація появи (servicios.css: `translateY(10px)`, `transition: opacity .3s ease, transform .3s ease`; servicios.js — прибрати рядок з `transitionDelay`) — Назар не підтвердив, що зробив; перевірити.
+  5. Справжні фото замість стокових на картках: Pladur 46/88, Alicatado 58/35, Laminado 17/104, Pintura/Masillas 33 — спершу макет з варіантами; аркуш кандидатів на героїв (`<picture>`: вертикальне на телефоні, горизонтальне на ПК).
+  6. Прибрати старий CSS `.header`/`.nav` зі style.css.
+  7. Пізніше: сторінка «Ver todos los proyectos» (proyectos.html) з групуванням по об'єктах.
+- Відкладене: регіон (Málaga vs Torrevieja), телефон/email/privacidad/aviso legal/домен (autónomo), знак HLD для favicon, шаблони WhatsApp, Lighthouse/клавіатура, перемикач мов, push на GitHub (403).

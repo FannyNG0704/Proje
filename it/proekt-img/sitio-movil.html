@@ -419,7 +419,6 @@ section[id]{scroll-margin-top:90px}
 .g-cerrar{left:max(12px,env(safe-area-inset-left,0px));top:calc(12px + env(safe-area-inset-top,0px));width:42px;height:42px}
 .g-cerrar svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .g-cont{position:absolute;bottom:calc(14px + env(safe-area-inset-bottom,0px));left:50%;translate:-50% 0;color:#cfd9cc;font-size:.85rem;background:rgba(0,0,0,.35);padding:2px 10px;border-radius:999px}
-.g-ayuda{position:absolute;bottom:calc(48px + env(safe-area-inset-bottom,0px));left:50%;translate:-50% 0;color:#cfd9cc;font-size:.8rem;opacity:.85;white-space:nowrap}
 @media (prefers-reduced-motion:reduce){.slide img,.lienzo img,.galeria{transition:none}}
 
 /* ===== Телефон: картки послуг списком з мініатюрою ===== */
@@ -802,7 +801,6 @@ section[id]{scroll-margin-top:90px}
 <section class="bloque"><h2>Consulta gratuita</h2><p>Envíenos fotos y medidas por WhatsApp y le damos una primera valoración sin compromiso. Si hace falta, visitamos la obra y le preparamos un presupuesto por escrito.</p><p class="acciones"><a class="btn" href="#contacto">Escríbanos por WhatsApp</a><a class="btn btn-sec" href="#contacto">Pedir presupuesto</a></p></section></div></main>
 <div class="galeria" id="galeria" hidden role="dialog" aria-label="Galería">
   <div class="lienzo" id="lienzo"><img id="g-img" alt=""></div>
-  <span class="g-ayuda" id="g-ayuda"></span>
   <button class="g-btn g-prev" id="g-prev" aria-label="Anterior">‹</button>
   <button class="g-btn g-next" id="g-next" aria-label="Siguiente">›</button>
   <button class="g-btn g-cerrar" id="g-cerrar" aria-label="Volver"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
@@ -853,7 +851,7 @@ section[id]{scroll-margin-top:90px}
 
   // 4. Галерея
   const gal=document.getElementById('galeria'),img=document.getElementById('g-img'),lienzo=document.getElementById('lienzo');
-  const cont=document.getElementById('g-cont'),ayuda=document.getElementById('g-ayuda');
+  const cont=document.getElementById('g-cont');
   const tactil=matchMedia('(pointer: coarse)').matches;
   let idx=0,esc=1,tx=0,ty=0;
   const aplicar=(anim=true)=>{img.classList.toggle('sin-trans',!anim);img.style.transform=`translate(${tx}px,${ty}px) scale(${esc})`;};
@@ -864,7 +862,7 @@ section[id]{scroll-margin-top:90px}
     requestAnimationFrame(()=>{img.classList.remove('sin-trans');img.style.opacity='1';img.style.transform='none';});
     cont.textContent=(idx+1)+' / '+N;
   }
-  function abrir(i){gal.hidden=false;ayuda.textContent=tactil?'Desliza ← → · dos dedos para ampliar · desliza ↓ para cerrar':'Rueda para ampliar · ← → para cambiar · Esc para cerrar';mostrar(i);requestAnimationFrame(()=>gal.classList.add('abierta'));document.body.style.overflow='hidden';if(!tactil)document.getElementById('g-cerrar').focus({preventScroll:true});}
+  function abrir(i){gal.hidden=false;mostrar(i);requestAnimationFrame(()=>gal.classList.add('abierta'));document.body.style.overflow='hidden';if(!tactil)document.getElementById('g-cerrar').focus({preventScroll:true});}
   function cerrar(){gal.classList.remove('abierta');document.body.style.overflow='';setTimeout(()=>gal.hidden=true,200);pista.focus({preventScroll:true});}
   document.getElementById('g-prev').onclick=e=>{e.stopPropagation();mostrar(idx-1,-1)};
   document.getElementById('g-next').onclick=e=>{e.stopPropagation();mostrar(idx+1,1)};

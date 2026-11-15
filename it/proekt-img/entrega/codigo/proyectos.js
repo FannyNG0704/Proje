@@ -3,7 +3,6 @@
   // 0. Галерея: розмітку додаємо в кінець <body>, щоб не дописувати її в index.html
   document.body.insertAdjacentHTML('beforeend',`<div class="galeria" id="galeria" hidden role="dialog" aria-label="Galería">
   <div class="lienzo" id="lienzo"><img id="g-img" alt=""></div>
-  <span class="g-ayuda" id="g-ayuda"></span>
   <button class="g-btn g-prev" id="g-prev" aria-label="Anterior">‹</button>
   <button class="g-btn g-next" id="g-next" aria-label="Siguiente">›</button>
   <button class="g-btn g-cerrar" id="g-cerrar" aria-label="Volver"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
@@ -51,7 +50,7 @@
 
   // 4. Галерея
   const gal=document.getElementById('galeria'),img=document.getElementById('g-img'),lienzo=document.getElementById('lienzo');
-  const cont=document.getElementById('g-cont'),ayuda=document.getElementById('g-ayuda');
+  const cont=document.getElementById('g-cont');
   const tactil=matchMedia('(pointer: coarse)').matches;
   let idx=0,esc=1,tx=0,ty=0;
   const aplicar=(anim=true)=>{img.classList.toggle('sin-trans',!anim);img.style.transform=`translate(${tx}px,${ty}px) scale(${esc})`;};
@@ -62,7 +61,7 @@
     requestAnimationFrame(()=>{img.classList.remove('sin-trans');img.style.opacity='1';img.style.transform='none';});
     cont.textContent=(idx+1)+' / '+N;
   }
-  function abrir(i){gal.hidden=false;ayuda.textContent=tactil?'Desliza ← → · dos dedos para ampliar · desliza ↓ para cerrar':'Rueda para ampliar · ← → para cambiar · Esc para cerrar';mostrar(i);requestAnimationFrame(()=>gal.classList.add('abierta'));document.body.style.overflow='hidden';if(!tactil)document.getElementById('g-cerrar').focus({preventScroll:true});}
+  function abrir(i){gal.hidden=false;mostrar(i);requestAnimationFrame(()=>gal.classList.add('abierta'));document.body.style.overflow='hidden';if(!tactil)document.getElementById('g-cerrar').focus({preventScroll:true});}
   function cerrar(){gal.classList.remove('abierta');document.body.style.overflow='';setTimeout(()=>gal.hidden=true,200);pista.focus({preventScroll:true});}
   document.getElementById('g-prev').onclick=e=>{e.stopPropagation();mostrar(idx-1,-1)};
   document.getElementById('g-next').onclick=e=>{e.stopPropagation();mostrar(idx+1,1)};
