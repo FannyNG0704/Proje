@@ -443,15 +443,28 @@ section[id]{scroll-margin-top:90px}
  .it .enlaces{margin-top:.3rem}
  .it:hover{transform:none}
 }
+
+/* ===== Nosotros (portada) + página «Sobre nosotros» ===== */
+.nos .nos-txt{max-width:46rem;margin:0 0 1.2rem;font-size:1.05rem;color:var(--page-text)}
+.nos-chips{list-style:none;margin:0 0 1.4rem;padding:0;display:grid;gap:10px;grid-template-columns:repeat(3,1fr)}
+.nos-chips li{background:#f1e7d6;border:1px solid #ddcdb2;border-radius:8px;padding:12px 14px;color:var(--text)}
+.nos-chips strong{display:block;color:#9c4614;font-size:1.15rem}
+.nos-chips span{font-size:.88rem;color:var(--muted)}
+.nos-acc{display:flex;flex-wrap:wrap;gap:.75rem;margin:0}
+.btn-claro{background:transparent;color:#f3efe6;border:2px solid #f3efe6}
+.btn-claro:hover{background:rgba(243,239,230,.12)}
+@media (max-width:719px){.nos-chips{grid-template-columns:1fr;gap:6px}.nos-chips li{display:grid;grid-template-columns:9.6rem 1fr;align-items:center;gap:8px;padding:8px 12px}.nos-chips strong{font-size:1rem}.nos-acc .btn{width:100%;text-align:center}}
+.pag-nos .parrafo{margin:0 0 .8rem}
+.pag-nos .steps{margin:.5rem 0 0}
+.pag-nos .lista a{color:#9c4614;font-weight:600}
 </style>
 <header class="cab" id="cab">
 <div class="cab-in">
 <a class="logo" href="#inicio" aria-label="HLD Casa, inicio"><span class="hld" aria-hidden="true"><span class="hld-h">H</span><span class="hld-l">L</span><span class="hld-eye hld-eye-1"></span><span class="hld-eye hld-eye-2"></span><span class="hld-d">D</span><span class="hld-clip"><span class="hld-casa">CASA</span></span></span></a>
 <ul class="menu">
+<li><a href="#nosotros">Nosotros</a></li>
 <li><button class="desp" id="desp" aria-expanded="false" aria-controls="panel">Servicios ▾</button><div class="panel" id="panel" hidden><a href="#s-yesos"><span class="pi"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 8h18M9 3v5M15 3v5M6 8v4M12 8v4M18 8v4"/><path d="M3 12c3 1.5 6-1 9 0s6 1.5 9 0"/></svg></span>Yesos y enlucidos</a><a href="#s-pladur"><span class="pi"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="1"/><circle cx="8" cy="6" r=".8"/><circle cx="16" cy="6" r=".8"/><circle cx="8" cy="12" r=".8"/><circle cx="16" cy="12" r=".8"/><circle cx="8" cy="18" r=".8"/><circle cx="16" cy="18" r=".8"/></svg></span>Pladur y techos</a><a href="#s-masillas"><span class="pi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 3h4v7h-4z"/><path d="M6 10h12l2 10H4z"/></svg></span>Masillas y alisados</a><a href="#s-pintura"><span class="pi"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="14" height="5" rx="1"/><path d="M18 5h2v5h-8v3"/><path d="M12 13v8"/></svg></span>Pintura</a><a href="#s-alicatado"><span class="pi"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/></svg></span>Alicatado y solado</a><a href="#s-impermeabilizacion"><span class="pi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c4 5 6 8 6 11a6 6 0 0 1-12 0c0-3 2-6 6-11z"/></svg></span>Impermeabilización</a><a href="#s-laminado"><span class="pi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 19l5-11h15l-5 11z"/><path d="M5.2 12h15M3.6 15.5h15"/><path d="M11 8l-1.8 4M15 12l-1.6 3.5M9 15.5L7.4 19"/></svg></span>Suelos laminados</a><a href="#s-demoliciones"><span class="pi"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="12" width="7" height="4"/><rect x="11" y="12" width="5" height="4"/><path d="M3 20h18"/><path d="M17 15l2-3 2 3M18 9l3-5M15 8l-2-3"/></svg></span>Demoliciones y desescombro</a><a href="#s-reparaciones"><span class="pi"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9 14l6 0M12 11v6"/></svg></span>Reparaciones y pequeñas obras</a></div></li>
 <li><a href="#proyectos">Proyectos</a></li>
-<li><a href="#como-trabajamos">Cómo trabajamos</a></li>
-<li><a href="#nosotros">Nosotros</a></li>
 <li><a href="#contacto">Contacto</a></li>
 </ul>
 <div class="lang"><button class="globo" id="globo" aria-expanded="false" aria-controls="idiomas" aria-label="Idioma"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></button><div class="idiomas" id="idiomas" hidden><button aria-pressed="true">Español <small>ES</small></button><button aria-pressed="false">Українська <small>UA</small></button><button aria-pressed="false">English <small>EN</small></button></div></div>
@@ -459,14 +472,20 @@ section[id]{scroll-margin-top:90px}
 <button class="burger" id="burger" aria-expanded="false" aria-controls="movil">☰ Menú</button>
 </div>
 <nav class="movil" id="movil" hidden aria-label="Menú">
-<a href="#servicios">Servicios</a><div class="sub"><a href="#s-yesos">Yesos y enlucidos</a><a href="#s-pladur">Pladur y techos</a><a href="#s-masillas">Masillas y alisados</a><a href="#s-pintura">Pintura</a><a href="#s-alicatado">Alicatado y solado</a><a href="#s-impermeabilizacion">Impermeabilización</a><a href="#s-laminado">Suelos laminados</a><a href="#s-demoliciones">Demoliciones y desescombro</a><a href="#s-reparaciones">Reparaciones y pequeñas obras</a></div>
-<a href="#proyectos">Proyectos</a><a href="#como-trabajamos">Cómo trabajamos</a><a href="#nosotros">Nosotros</a><a href="#contacto">Contacto</a>
+<a href="#nosotros">Nosotros</a><a href="#servicios">Servicios</a><div class="sub"><a href="#s-yesos">Yesos y enlucidos</a><a href="#s-pladur">Pladur y techos</a><a href="#s-masillas">Masillas y alisados</a><a href="#s-pintura">Pintura</a><a href="#s-alicatado">Alicatado y solado</a><a href="#s-impermeabilizacion">Impermeabilización</a><a href="#s-laminado">Suelos laminados</a><a href="#s-demoliciones">Demoliciones y desescombro</a><a href="#s-reparaciones">Reparaciones y pequeñas obras</a></div>
+<a href="#proyectos">Proyectos</a><a href="#contacto">Contacto</a>
 <a class="cta" href="#contacto">Presupuesto gratis</a>
 </nav>
 </header>
 <main id="pag-inicio">
 <section class="hero wrap"><h1>Reformas y acabados en Málaga</h1><p>Yeso, pladur, alisados, pintura, alicatado e impermeabilización. Trabajo limpio, bien hecho y a tiempo, con presupuesto por escrito.</p><div><a class="btn" href="#contacto">Pedir presupuesto gratis</a></div></section>
 <div class="wrap">
+<section id="nosotros" class="section nos">
+<h2>Nosotros</h2>
+<p class="nos-txt">Somos un equipo joven de Ucrania, con más de 6 años de experiencia en reformas y acabados. Trabajamos por cuenta propia: quien le atiende es quien hace la obra, sin intermediarios ni cambios de personal. Hacemos reformas completas o trabajos sueltos; si hace falta una especialidad con carnet, como la electricidad, contamos con profesionales autorizados. Vea nuestros proyectos y compruebe cómo trabajamos.</p>
+<ul class="nos-chips"><li><strong>+6 años</strong><span>de experiencia en reformas y acabados</span></li><li><strong>Equipo propio</strong><span>quien le atiende es quien hace la obra</span></li><li><strong>Presupuesto claro</strong><span>por escrito, sin sorpresas</span></li></ul>
+<p class="nos-acc"><a class="btn" href="#proyectos">Ver proyectos</a><a class="btn btn-claro" href="#s-nosotros">Conózcanos y cómo trabajamos →</a></p>
+</section>
 <section id="servicios" class="section"><h2>Servicios</h2><ul class="cards"><li class="card"><img src="img/yeso.webp" alt="Yesos y enlucidos" width="1200" height="900" loading="lazy"><h3>Yesos y enlucidos</h3><p>Paredes y techos rectos y firmes, listos para pintar.</p><a class="card-link" href="#s-yesos">Ver qué incluye →</a></li><li class="card"><img src="img/techos.webp" alt="Pladur y techos" width="1200" height="900" loading="lazy"><h3>Pladur y techos</h3><p>Tabiques, trasdosados y techos con iluminación LED.</p><a class="card-link" href="#s-pladur">Ver qué incluye →</a></li><li class="card"><img src="img/masilla.webp" alt="Masillas y alisados" width="1200" height="900" loading="lazy"><h3>Masillas y alisados</h3><p>Paredes lisas, sin marcas, preparadas para la pintura.</p><a class="card-link" href="#s-masillas">Ver qué incluye →</a></li><li class="card"><img src="img/pintura.webp" alt="Pintura" width="1200" height="900" loading="lazy"><h3>Pintura</h3><p>Interiores, fachadas y vallas, con un acabado limpio.</p><a class="card-link" href="#s-pintura">Ver qué incluye →</a></li><li class="card"><img src="img/alicatado.webp" alt="Alicatado y solado" width="1200" height="900" loading="lazy"><h3>Alicatado y solado</h3><p>Baños, cocinas y suelos con cortes limpios y juntas rectas.</p><a class="card-link" href="#s-alicatado">Ver qué incluye →</a></li><li class="card"><img src="img/impermeabilizacion.webp" alt="Impermeabilización" width="1200" height="900" loading="lazy"><h3>Impermeabilización</h3><p>Terrazas, azoteas y baños sin goteras ni humedades.</p><a class="card-link" href="#s-impermeabilizacion">Ver qué incluye →</a></li><li class="card"><img src="img/laminado.webp" alt="Suelos laminados" width="1200" height="900" loading="lazy"><h3>Suelos laminados</h3><p>Suelo nuevo en pocos días, sin obra.</p><a class="card-link" href="#s-laminado">Ver qué incluye →</a></li><li class="card"><img src="img/demoliciones.webp" alt="Demoliciones y desescombro" width="1200" height="900" loading="lazy"><h3>Demoliciones y desescombro</h3><p>Picado de alicatados, baños, cocinas, tabiques y suelos, con retirada de escombros.</p><a class="card-link" href="#s-demoliciones">Ver qué incluye →</a></li><li class="card"><img src="img/reparaciones.webp" alt="Reparaciones y pequeñas obras" width="1200" height="900" loading="lazy"><h3>Reparaciones y pequeñas obras</h3><p>Montaje, baño, juntas y silicona, enchufes, retoques, rejas y mucho más.</p><a class="card-link" href="#s-reparaciones">Ver qué incluye →</a></li></ul>
 <p class="note">¿Su proyecto incluye otros trabajos? Coordinamos la obra completa y tendrá un único interlocutor de principio a fin.</p></section>
 
@@ -481,14 +500,8 @@ section[id]{scroll-margin-top:90px}
     <button class="flecha next" id="next" aria-label="Siguiente">›</button>
   </div>
   <a class="btn-proy" href="#proyectos">Ver todos los proyectos <span class="fl" aria-hidden="true">→</span></a>
-  <div class="texto">
-    <h3>Maestros con oficio desde jóvenes</h3>
-    <p>Somos un equipo de Ucrania con años de experiencia en reformas y acabados. Ahora trabajamos en España con el mismo cuidado por el detalle.</p>
-  </div>
 </section>
 
-<section id="como-trabajamos" class="section"><h2>Cómo trabajamos</h2><ol class="steps"><li><strong>Visita gratuita.</strong> Vemos la obra sin coste y le aconsejamos la mejor solución.</li><li><strong>Presupuesto por escrito.</strong> Detallado partida por partida.</li><li><strong>Ejecución.</strong> Plazos acordados y fotos de cada fase.</li><li><strong>Entrega limpia.</strong> Revisamos todo con usted.</li></ol></section>
-<section id="nosotros" class="section"><h2>Nosotros</h2><p>Somos una empresa de reformas y acabados en Málaga: trabajos de interior en viviendas y locales, y también de fachadas y terrazas.</p><ul class="pros"><li>Un solo equipo para todo el interior.</li><li>Acabado de alto nivel: paredes perfectas, listas para pintar.</li><li>Presupuesto claro, sin sorpresas.</li></ul></section>
 <section id="contacto" class="section"><h2>Contacto</h2><p>Trabajamos en Málaga capital, toda la Costa del Sol y el interior de la provincia.</p>
 <p><a class="btn" href="#contacto">Escríbanos por WhatsApp</a></p>
 <p class="wa-nota">Envíenos fotos y medidas por WhatsApp: le damos una primera valoración gratis.</p>
@@ -498,6 +511,12 @@ section[id]{scroll-margin-top:90px}
 <label for="f-mensaje">Cuéntenos su proyecto</label><textarea id="f-mensaje" name="mensaje" rows="3"></textarea>
 <button class="btn" type="submit">Enviar solicitud</button></form>
 </section></div></main>
+<main id="s-nosotros" class="pag-serv pag-nos" hidden><section class="servicio-hero" style="background:linear-gradient(135deg,#22362a,#2f4a36)"><h1>Sobre nosotros</h1><p>Un equipo joven de Ucrania que trabaja por cuenta propia.</p></section>
+<div class="servicio"><a class="volver" href="#nosotros">← Inicio</a>
+<section class="bloque"><h2>Quiénes somos</h2><p class="parrafo">Somos un equipo joven de Ucrania, con más de 6 años de experiencia en reformas y acabados. Trabajamos por cuenta propia: quien le atiende es quien hace la obra, sin intermediarios ni cambios de personal.</p><p class="parrafo">Hacemos reformas completas o trabajos sueltos. Si hace falta una especialidad con carnet, como la electricidad, contamos con profesionales autorizados.</p><p class="parrafo">Algunas de nuestras obras, terminadas en Ucrania, las puede ver en <a href="#proyectos">Proyectos</a>.</p></section>
+<section class="bloque"><h2>Cómo trabajamos</h2><ol class="steps"><li><strong>Visita gratuita.</strong> Vemos la obra sin coste y le aconsejamos la mejor solución.</li><li><strong>Presupuesto por escrito.</strong> Detallado partida por partida.</li><li><strong>Ejecución.</strong> Plazos acordados y fotos de cada fase.</li><li><strong>Entrega limpia.</strong> Revisamos todo con usted.</li></ol></section>
+<section class="bloque"><h2>Qué hacemos</h2><ul class="lista"><li><a href="#s-yesos">Yesos y enlucidos</a></li><li><a href="#s-pladur">Pladur y techos</a></li><li><a href="#s-masillas">Masillas y alisados</a></li><li><a href="#s-pintura">Pintura</a></li><li><a href="#s-alicatado">Alicatado y solado</a></li><li><a href="#s-impermeabilizacion">Impermeabilización</a></li><li><a href="#s-laminado">Suelos laminados</a></li><li><a href="#s-demoliciones">Demoliciones y desescombro</a></li><li><a href="#s-reparaciones">Reparaciones y pequeñas obras</a></li></ul></section>
+<section class="bloque consulta"><h2>Consulta gratuita</h2><p>Envíenos fotos y medidas por WhatsApp y le damos una primera valoración sin compromiso. Si hace falta, visitamos la obra y le preparamos un presupuesto por escrito.</p><p class="acciones"><a class="btn" href="#contacto">Escríbanos por WhatsApp</a><a class="btn btn-sec" href="#proyectos">Ver proyectos</a></p></section></div></main>
 <main id="s-yesos" class="pag-serv" hidden>
         <section class="servicio-hero" style="--foto: url('img/servicios/hero-yeso.webp'); --foco-x: 78%">
             <h1>Yesos y enlucidos en Málaga</h1>
@@ -928,7 +947,7 @@ section[id]{scroll-margin-top:90px}
   addEventListener('keydown',e=>{if(e.key==='Escape'){panel.hidden=true;desp.setAttribute('aria-expanded','false');idiomas.hidden=true;globo.setAttribute('aria-expanded','false');}});
   const links=[...document.querySelectorAll('.menu a[href^="#"]')];
   const io=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){links.forEach(l=>l.classList.toggle('activo',l.getAttribute('href')==='#'+en.target.id));}})},{rootMargin:'-45% 0px -50% 0px'});
-  ['proyectos','como-trabajamos','nosotros','contacto'].forEach(id=>{const el=document.getElementById(id);if(el)io.observe(el)});
+  ['nosotros','proyectos','contacto'].forEach(id=>{const el=document.getElementById(id);if(el)io.observe(el)});
 })();
 </script><script>
 (function(){
