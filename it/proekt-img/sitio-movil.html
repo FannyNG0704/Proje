@@ -1,3 +1,4 @@
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
 <title>HLD Casa · Sitio con móvil</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
@@ -444,19 +445,82 @@ section[id]{scroll-margin-top:90px}
  .it:hover{transform:none}
 }
 
-/* ===== Nosotros (portada) + página «Sobre nosotros» ===== */
-.nos .nos-txt{max-width:46rem;margin:0 0 1.2rem;font-size:1.05rem;color:var(--page-text)}
-.nos-chips{list-style:none;margin:0 0 1.4rem;padding:0;display:grid;gap:10px;grid-template-columns:repeat(3,1fr)}
-.nos-chips li{background:#f1e7d6;border:1px solid #ddcdb2;border-radius:8px;padding:12px 14px;color:var(--text)}
-.nos-chips strong{display:block;color:#9c4614;font-size:1.15rem}
-.nos-chips span{font-size:.88rem;color:var(--muted)}
-.nos-acc{display:flex;flex-wrap:wrap;gap:.75rem;margin:0}
-.btn-claro{background:transparent;color:#f3efe6;border:2px solid #f3efe6}
-.btn-claro:hover{background:rgba(243,239,230,.12)}
-@media (max-width:719px){.nos-chips{grid-template-columns:1fr;gap:6px}.nos-chips li{display:grid;grid-template-columns:9.6rem 1fr;align-items:center;gap:8px;padding:8px 12px}.nos-chips strong{font-size:1rem}.nos-acc .btn{width:100%;text-align:center}}
-.pag-nos .parrafo{margin:0 0 .8rem}.pag-nos h3{margin:1rem 0 .5rem;font-size:1.05rem}
-.pag-nos .steps{margin:.5rem 0 0}
-.pag-nos .lista a{color:#9c4614;font-weight:600}
+/* ===== Nosotros (portada) + página «Sobre nosotros» — v2 (cartel) ===== */
+:root{--disp:"Oswald","Arial Narrow",system-ui,sans-serif}
+.rv{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+.rv.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+/* portada */
+.nos h2{font-family:var(--disp);font-size:clamp(1.05rem,2.6vw,1.3rem);letter-spacing:.22em;text-transform:uppercase;color:#f3c9a3;font-weight:600}
+.nos h2::after{width:56px}
+.nos-big{margin:0 0 2rem;max-width:30em;font-size:clamp(1.6rem,4.6vw,2.7rem);line-height:1.24;font-weight:500;color:#e8efe6;letter-spacing:-.01em}
+.nos-big strong{font-weight:800;color:#fff}
+.nos-big .hot{background:linear-gradient(transparent 60%,rgba(184,84,26,.9) 60%) no-repeat left/0 100%;transition:background-size .9s ease .5s;padding:0 .12em}
+.nos-big.on .hot{background-size:100% 100%}
+.nos-stats{list-style:none;margin:0 0 2rem;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.nos-stats li{border-top:4px solid #b8541a;padding-top:.6rem}
+.nos-stats .num{display:block;font-family:var(--disp);font-weight:700;font-size:clamp(2.2rem,7vw,4.4rem);line-height:1;color:#f3c9a3;letter-spacing:-.01em}
+.nos-stats span{display:block;margin-top:.35rem;font-size:clamp(.85rem,2.2vw,1.05rem);color:#cfd9cc;line-height:1.3}
+.btn-grande{font-size:1.15rem;padding:1.05rem 2rem;border-radius:999px;box-shadow:0 8px 22px rgba(0,0,0,.28)}
+.nos-acc{margin:0}
+@media (max-width:719px){.nos-acc .btn{display:block;text-align:center}}
+/* página */
+.nos-hero{padding:clamp(3rem,10vw,6rem) 0 clamp(1.8rem,5vw,3rem);background:linear-gradient(135deg,#22362a,#2f4a36);border-bottom:4px solid #b8541a}
+.nos-hero h1{margin:0;font-family:var(--disp);font-weight:700;text-transform:uppercase;font-size:clamp(2.8rem,11vw,6rem);line-height:.95;letter-spacing:.01em;color:#fff}
+.nos-hero .tagline{margin:1rem 0 0;font-family:var(--disp);font-size:clamp(1.25rem,4.2vw,2rem);font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:#f3c9a3}
+.nos-body{max-width:1000px;margin:0 auto;padding-block:1.2rem 4rem;display:grid;gap:clamp(2.5rem,7vw,4.5rem)}
+.nos-body .volver{color:var(--page-muted)}
+.pn-h{margin:0 0 1.1rem;font-family:var(--disp);font-weight:700;text-transform:uppercase;font-size:clamp(1.9rem,6vw,3rem);line-height:1;letter-spacing:.01em;color:#f3efe6}
+.pn-h::after{content:"";display:block;width:64px;height:5px;margin-top:.6rem;background:#b8541a;border-radius:3px}
+.pn-lead{margin:0 0 1rem;font-size:clamp(1.5rem,4.2vw,2.3rem);line-height:1.22;font-weight:800;color:#fff;letter-spacing:-.01em}
+.pn-p{margin:0 0 1.2rem;max-width:44rem;font-size:clamp(1.08rem,2.6vw,1.25rem);line-height:1.55;color:#dbe4d8}
+.pn-p strong{color:#fff;font-weight:800}
+.pn-cols{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin:1.6rem 0}
+@media (max-width:719px){.pn-cols{grid-template-columns:1fr}}
+.pn-sub{margin:0 0 .7rem;font-family:var(--disp);font-size:1.25rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:#f3c9a3}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem}
+.tag{display:inline-block;padding:.5rem .95rem;border:1.5px solid rgba(243,239,230,.35);border-radius:999px;color:#f3efe6;text-decoration:none;font-weight:600;font-size:1rem;transition:background .2s,border-color .2s,transform .2s}
+.tag:hover{background:#b8541a;border-color:#b8541a;transform:translateY(-2px)}
+/* tarjeta de proyectos */
+.pcard{display:grid;grid-template-columns:1.1fr 1fr;gap:1rem;align-items:center;padding:clamp(1.3rem,4vw,2.2rem);border-radius:14px;background:#f1e7d6;color:#2a231e;text-decoration:none;overflow:hidden;box-shadow:0 14px 36px rgba(0,0,0,.28)}
+.pc-eyebrow{display:block;font-family:var(--disp);letter-spacing:.2em;text-transform:uppercase;font-size:1rem;font-weight:600;color:#9c4614}
+.pcard h3{margin:.4rem 0 .6rem;font-family:var(--disp);font-size:clamp(1.9rem,5.4vw,3rem);line-height:1;text-transform:uppercase;font-weight:700;color:#2f4a36}
+.pcard p{margin:0 0 1.2rem;font-size:1.15rem;color:#4a3f35}
+.pc-btn{display:inline-flex;align-items:center;gap:.7rem;padding:.8rem 1.4rem;border-radius:999px;background:#b8541a;color:#fff;font-weight:800;font-size:1.05rem}
+.pc-btn i{font-style:normal;display:inline-block;transition:transform .25s}
+.pcard:hover .pc-btn i{transform:translateX(7px)}
+.pc-col{position:relative;height:230px}
+.tile{position:absolute;top:0;width:44%;aspect-ratio:3/4;border-radius:10px;background-size:cover;background-position:center;box-shadow:0 10px 24px rgba(0,0,0,.3);border:3px solid #fff;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.t1{left:0;top:18px;transform:rotate(-6deg)}.t2{left:18%;top:0;transform:rotate(3deg)}.t3{left:38%;top:22px;transform:rotate(-2deg)}.t4{left:56%;top:4px;transform:rotate(6deg)}
+.pcard:hover .t1{transform:rotate(-10deg) translateX(-10px)}.pcard:hover .t2{transform:rotate(1deg) translateY(-8px)}.pcard:hover .t3{transform:rotate(-1deg) translateY(8px)}.pcard:hover .t4{transform:rotate(10deg) translateX(10px)}
+@media (max-width:719px){.pcard{grid-template-columns:1fr}.pc-col{height:210px}.pc-btn{width:100%;justify-content:center}}
+/* distingue */
+.dist{list-style:none;margin:1.2rem 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+@media (max-width:900px){.dist{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.dist{grid-template-columns:1fr}}
+.dcard{padding:1.3rem;border-radius:12px;background:rgba(243,239,230,.07);border:1px solid rgba(243,239,230,.18);transition:transform .25s,background .25s}
+.dcard:hover{transform:translateY(-4px);background:rgba(243,239,230,.12)}
+.dico{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:12px;background:#b8541a;color:#fff;margin-bottom:.8rem}
+.dico svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.dcard h3{margin:0 0 .4rem;font-family:var(--disp);font-size:1.5rem;line-height:1.1;text-transform:uppercase;letter-spacing:.02em;font-weight:600;color:#fff}
+.dcard p{margin:0;font-size:1.05rem;line-height:1.45;color:#cfd9cc}
+/* cómo trabajamos */
+.tl{list-style:none;margin:1.4rem 0 0;padding:0;position:relative;display:grid;gap:1.8rem}
+.tl::before{content:"";position:absolute;left:30px;top:8px;bottom:8px;width:3px;background:linear-gradient(#b8541a,rgba(184,84,26,.15));border-radius:2px}
+.tl li{display:grid;grid-template-columns:64px 1fr;gap:1.1rem;align-items:start}
+.tn{display:grid;place-items:center;width:62px;height:62px;border-radius:50%;background:#22362a;border:3px solid #b8541a;font-family:var(--disp);font-weight:700;font-size:1.5rem;color:#f3c9a3;position:relative;z-index:1}
+.tl h3{margin:.1rem 0 .35rem;font-family:var(--disp);font-size:clamp(1.5rem,4.2vw,2rem);text-transform:uppercase;letter-spacing:.02em;font-weight:600;color:#fff}
+.tl p{margin:0;max-width:40rem;font-size:clamp(1.05rem,2.5vw,1.2rem);line-height:1.5;color:#dbe4d8}
+/* contacto */
+.hable{padding:clamp(1.5rem,5vw,2.8rem);border-radius:16px;background:linear-gradient(135deg,#b8541a,#8f3f10);color:#fff;box-shadow:0 14px 36px rgba(0,0,0,.3)}
+.hable h2{margin:0 0 .5rem;font-family:var(--disp);font-size:clamp(2rem,6.4vw,3.4rem);line-height:1;text-transform:uppercase;font-weight:700}
+.hable h2::after{display:none}
+.hable p{margin:0 0 1.4rem;max-width:38rem;font-size:clamp(1.08rem,2.6vw,1.3rem);line-height:1.45;color:#fde8d8}
+.h-btns{display:flex;flex-wrap:wrap;gap:.8rem}
+.h-main{flex:1 1 100%;text-align:center;padding:1.2rem 1.6rem;border-radius:999px;background:#f1e7d6;color:#22362a;font-weight:800;font-size:clamp(1.15rem,3vw,1.4rem);text-decoration:none;box-shadow:0 8px 20px rgba(0,0,0,.25);transition:transform .2s}
+.h-main:hover{transform:translateY(-2px)}
+.h-sec{flex:1 1 0;min-width:0;text-align:center;padding:.95rem .6rem;border-radius:999px;border:2px solid #fff;color:#fff;font-weight:700;font-size:1.1rem;text-decoration:none;transition:background .2s}
+.h-sec:hover{background:rgba(255,255,255,.16)}
 </style>
 <header class="cab" id="cab">
 <div class="cab-in">
@@ -482,9 +546,9 @@ section[id]{scroll-margin-top:90px}
 <div class="wrap">
 <section id="nosotros" class="section nos">
 <h2>Nosotros</h2>
-<p class="nos-txt">Somos un equipo joven de Ucrania, con 5 años de experiencia en reformas y acabados. Trabajamos por cuenta propia: quien le atiende es quien hace la obra, sin intermediarios ni cambios de personal. Hacemos reformas completas o trabajos sueltos; si hace falta una especialidad con carnet, como la electricidad, contamos con profesionales autorizados. Vea nuestros proyectos y compruebe cómo trabajamos.</p>
-<ul class="nos-chips"><li><strong>5 años</strong><span>de experiencia en reformas y acabados</span></li><li><strong>Equipo propio</strong><span>quien le atiende es quien hace la obra</span></li><li><strong>Presupuesto claro</strong><span>por escrito, sin sorpresas</span></li></ul>
-<p class="nos-acc"><a class="btn" href="#s-nosotros">Conózcanos y cómo trabajamos →</a></p>
+<p class="nos-big rv">Somos un <strong>equipo joven de Ucrania</strong> con <strong>5 años de experiencia</strong> en reformas y acabados. <strong>Trabajamos por cuenta propia</strong>: quien le atiende es quien hace la obra. Hacemos <strong>reformas completas</strong> o <strong>trabajos sueltos</strong>, y para lo que exige carnet, como la <strong class="hot">electricidad</strong>, contamos con <strong class="hot">profesionales autorizados</strong>.</p>
+<ul class="nos-stats"><li class="rv"><b class="num" data-to="5">5</b><span>años de experiencia en obra</span></li><li class="rv"><b class="num" data-to="9">9</b><span>servicios, por dentro y por fuera</span></li><li class="rv"><b class="num">Málaga</b><span>y toda la provincia</span></li></ul>
+<p class="nos-acc"><a class="btn btn-grande" href="#s-nosotros">Conózcanos y cómo trabajamos →</a></p>
 </section>
 <section id="servicios" class="section"><h2>Servicios</h2><ul class="cards"><li class="card"><img src="img/yeso.webp" alt="Yesos y enlucidos" width="1200" height="900" loading="lazy"><h3>Yesos y enlucidos</h3><p>Paredes y techos rectos y firmes, listos para pintar.</p><a class="card-link" href="#s-yesos">Ver qué incluye →</a></li><li class="card"><img src="img/techos.webp" alt="Pladur y techos" width="1200" height="900" loading="lazy"><h3>Pladur y techos</h3><p>Tabiques, trasdosados y techos con iluminación LED.</p><a class="card-link" href="#s-pladur">Ver qué incluye →</a></li><li class="card"><img src="img/masilla.webp" alt="Masillas y alisados" width="1200" height="900" loading="lazy"><h3>Masillas y alisados</h3><p>Paredes lisas, sin marcas, preparadas para la pintura.</p><a class="card-link" href="#s-masillas">Ver qué incluye →</a></li><li class="card"><img src="img/pintura.webp" alt="Pintura" width="1200" height="900" loading="lazy"><h3>Pintura</h3><p>Interiores, fachadas y vallas, con un acabado limpio.</p><a class="card-link" href="#s-pintura">Ver qué incluye →</a></li><li class="card"><img src="img/alicatado.webp" alt="Alicatado y solado" width="1200" height="900" loading="lazy"><h3>Alicatado y solado</h3><p>Baños, cocinas y suelos con cortes limpios y juntas rectas.</p><a class="card-link" href="#s-alicatado">Ver qué incluye →</a></li><li class="card"><img src="img/impermeabilizacion.webp" alt="Impermeabilización" width="1200" height="900" loading="lazy"><h3>Impermeabilización</h3><p>Terrazas, azoteas y baños sin goteras ni humedades.</p><a class="card-link" href="#s-impermeabilizacion">Ver qué incluye →</a></li><li class="card"><img src="img/laminado.webp" alt="Suelos laminados" width="1200" height="900" loading="lazy"><h3>Suelos laminados</h3><p>Suelo nuevo en pocos días, sin obra.</p><a class="card-link" href="#s-laminado">Ver qué incluye →</a></li><li class="card"><img src="img/demoliciones.webp" alt="Demoliciones y desescombro" width="1200" height="900" loading="lazy"><h3>Demoliciones y desescombro</h3><p>Picado de alicatados, baños, cocinas, tabiques y suelos, con retirada de escombros.</p><a class="card-link" href="#s-demoliciones">Ver qué incluye →</a></li><li class="card"><img src="img/reparaciones.webp" alt="Reparaciones y pequeñas obras" width="1200" height="900" loading="lazy"><h3>Reparaciones y pequeñas obras</h3><p>Montaje, baño, juntas y silicona, enchufes, retoques, rejas y mucho más.</p><a class="card-link" href="#s-reparaciones">Ver qué incluye →</a></li></ul>
 <p class="note">¿Su proyecto incluye otros trabajos? Coordinamos la obra completa y tendrá un único interlocutor de principio a fin.</p></section>
@@ -511,21 +575,20 @@ section[id]{scroll-margin-top:90px}
 <label for="f-mensaje">Cuéntenos su proyecto</label><textarea id="f-mensaje" name="mensaje" rows="3"></textarea>
 <button class="btn" type="submit">Enviar solicitud</button></form>
 </section></div></main>
-<main id="s-nosotros" class="pag-serv pag-nos" hidden><section class="servicio-hero" style="background:linear-gradient(135deg,#22362a,#2f4a36);min-height:30vh"><h1>Sobre nosotros</h1><p>Un equipo joven de Ucrania que trabaja por cuenta propia.</p></section>
-<div class="servicio"><a class="volver" href="#nosotros">← Inicio</a>
-<section class="bloque"><h2>Quiénes somos</h2>
-<p class="parrafo">Somos un equipo joven de Ucrania, con 5 años de experiencia en reformas y acabados. Trabajamos por cuenta propia: quien le atiende es quien hace la obra, sin intermediarios ni cambios de personal.</p>
-<p class="parrafo">Hacemos reformas completas, de principio a fin, o trabajos sueltos: desde dejar unas paredes listas para pintar hasta cambiar un suelo o arreglar una terraza. Si hace falta una especialidad con carnet, como la electricidad, contamos con profesionales autorizados.</p>
-<p class="parrafo">Nuestras obras terminadas las puede ver en <a href="#proyectos">Proyectos</a>. Son trabajos realizados en Ucrania, y lo indicamos siempre así. Para su obra en Málaga le damos presupuesto por escrito y sin compromiso.</p>
-<h3>Qué nos distingue</h3>
-<ul class="lista"><li><strong>Equipo propio.</strong> Siempre las mismas personas, de la visita a la entrega.</li><li><strong>Trato claro.</strong> Hablamos con usted por WhatsApp o por teléfono, con fotos y presupuesto por escrito, sin sorpresas.</li><li><strong>Trabajo limpio.</strong> Protegemos lo que se queda en casa y limpiamos al terminar.</li></ul></section>
-<section class="bloque"><h2>Cómo trabajamos</h2><ol class="steps">
-<li><strong>Primer contacto.</strong> Nos escribe por WhatsApp o nos llama. Con fotos y medidas le damos una primera valoración, sin compromiso.</li>
-<li><strong>Visita y presupuesto.</strong> Si hace falta, vamos a ver la obra sin coste y le aconsejamos la mejor solución. Después, presupuesto por escrito, detallado partida por partida.</li>
-<li><strong>Condiciones claras.</strong> Plazos, forma de pago, materiales y garantía se acuerdan por escrito antes de empezar.</li>
-<li><strong>Ejecución.</strong> Trabajamos por habitaciones, con los plazos acordados y fotos de cada fase para que vea cómo avanza.</li>
-<li><strong>Entrega limpia.</strong> Revisamos todo con usted, dejamos la obra limpia y resolvemos cualquier detalle antes de irnos.</li></ol></section>
-<section class="bloque consulta"><h2>Consulta gratuita</h2><p>Envíenos fotos y medidas por WhatsApp y le damos una primera valoración sin compromiso. Si hace falta, visitamos la obra y le preparamos un presupuesto por escrito.</p><p class="acciones"><a class="btn" href="#contacto">Escríbanos por WhatsApp</a><a class="btn btn-sec" href="#contacto">Pedir presupuesto</a></p></section></div></main>
+<main id="s-nosotros" class="pag-serv pag-nos" hidden>
+<section class="nos-hero"><div class="wrap"><h1>Sobre nosotros</h1><p class="tagline">Jóvenes. Con oficio. Por cuenta propia.</p></div></section>
+<div class="nos-body wrap">
+<a class="volver" href="#nosotros">← Inicio</a>
+<section class="pn rv"><h2 class="pn-h">Quiénes somos</h2>
+<p class="pn-lead">Cinco años levantando tabiques, alisando paredes y dejando casas listas para vivir.</p>
+<p class="pn-p">Somos un equipo joven de Ucrania que trabaja sin intermediarios: lo que acordamos con usted lo hacemos nosotros. Igual nos movemos en una reforma completa, de la primera capa de yeso a la última baldosa, que en un trabajo suelto.</p>
+<div class="pn-cols"><div><h3 class="pn-sub">Por dentro</h3><div class="tags"><a class="tag" href="#s-yesos">Yesos y enlucidos</a><a class="tag" href="#s-pladur">Pladur y techos con LED</a><a class="tag" href="#s-masillas">Masillas y alisados</a><a class="tag" href="#s-pintura">Pintura</a><a class="tag" href="#s-alicatado">Alicatado y solado</a><a class="tag" href="#s-laminado">Suelos laminados</a><a class="tag" href="#s-impermeabilizacion">Impermeabilización de baños</a></div></div><div><h3 class="pn-sub">Por fuera</h3><div class="tags"><a class="tag" href="#s-pintura">Pintura de fachadas y vallas</a><a class="tag" href="#s-impermeabilizacion">Terrazas e impermeabilización</a><a class="tag" href="#s-reparaciones">Rejas y metal</a><a class="tag" href="#s-demoliciones">Demoliciones y desescombro</a><a class="tag" href="#s-reparaciones">Ampliaciones y cubiertas</a></div></div></div>
+<p class="pn-p">Para lo que exige carnet o certificado, como la instalación eléctrica, trabajamos con <strong>profesionales autorizados</strong>. Usted tiene un solo interlocutor: nosotros lo coordinamos todo.</p></section>
+<a class="pcard rv" href="#proyectos"><div class="pc-txt"><span class="pc-eyebrow">Nuestros trabajos</span><h3>Véalo con sus propios ojos</h3><p>Estas son nuestras obras, realizadas en Ucrania.</p><span class="pc-btn">Ver proyectos <i aria-hidden="true">→</i></span></div><div class="pc-col" aria-hidden="true"><span class="tile t1" style="background-image:url(img/obras/obra-02.webp)"></span><span class="tile t2" style="background-image:url(img/obras/obra-04.webp)"></span><span class="tile t3" style="background-image:url(img/obras/obra-06.webp)"></span><span class="tile t4" style="background-image:url(img/obras/obra-09.webp)"></span></div></a>
+<section class="pn"><h2 class="pn-h rv">Qué nos distingue</h2><ul class="dist"><li class="dcard rv"><span class="dico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l3 3v15H6z"/><path d="M9 11h6M9 15h6"/></svg></span><h3>Presupuesto detallado</h3><p>Cada partida con su cantidad y su precio, por escrito, antes de empezar.</p></li><li class="dcard rv"><span class="dico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></span><h3>Dentro y fuera</h3><p>Del yeso a la pintura de fachada: un solo equipo para toda la obra.</p></li><li class="dcard rv"><span class="dico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg></span><h3>Hablamos su idioma</h3><p>Atendemos en español y en ucraniano, con fotos y explicaciones claras.</p></li><li class="dcard rv"><span class="dico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></svg></span><h3>Obra limpia</h3><p>Protegemos suelos, muebles y puertas, y retiramos los escombros al terminar.</p></li><li class="dcard rv"><span class="dico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8v6l3 4v2H5v-2l3-4z"/><path d="M5 20h14"/></svg></span><h3>Permisos resueltos</h3><p>Si la obra necesita permiso del ayuntamiento (contenedor, ocupación de la vía pública), nos encargamos.</p></li><li class="dcard rv"><span class="dico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="9" width="18" height="6" rx="1"/><path d="M7 9v3M11 9v2M15 9v3"/></svg></span><h3>Acabados de nivel</h3><p>Paredes que aguantan la luz rasante: niveles de acabado Q1 a Q4 a su elección.</p></li></ul></section>
+<section class="pn"><h2 class="pn-h rv">Cómo trabajamos</h2><ol class="tl"><li class="rv"><span class="tn">01</span><div><h3>Primer contacto</h3><p>Llámenos, escríbanos por email o por WhatsApp. Con fotos y medidas le damos una primera valoración, sin compromiso.</p></div></li><li class="rv"><span class="tn">02</span><div><h3>Visita y presupuesto</h3><p>Si la obra lo requiere, vamos a verla: valoramos el estado de paredes, suelos e instalaciones, le proponemos la mejor solución y elegimos con usted los materiales. Presupuesto por escrito y a su medida.</p></div></li><li class="rv"><span class="tn">03</span><div><h3>Condiciones claras</h3><p>Plazos, forma de pago, materiales y garantía se acuerdan por escrito antes de empezar.</p></div></li><li class="rv"><span class="tn">04</span><div><h3>Ejecución</h3><p>Trabajamos por habitaciones, por dentro y por fuera, con fotos de cada fase. Si la obra pide permiso del ayuntamiento, lo gestionamos nosotros.</p></div></li><li class="rv"><span class="tn">05</span><div><h3>Entrega</h3><p>Revisamos juntos cada detalle, retiramos escombros y sobrantes y no nos vamos hasta que usted esté conforme.</p></div></li></ol></section>
+<section class="hable rv"><h2>Hablemos de su obra</h2><p>Consulta gratuita: cuéntenos qué necesita y le damos una primera valoración sin compromiso.</p><div class="h-btns"><a class="h-main" href="#contacto">Pedir presupuesto por email</a><a class="h-sec" href="tel:+34600000000">Llamar</a><a class="h-sec" href="#contacto">WhatsApp</a></div></section>
+</div></main>
 <main id="s-yesos" class="pag-serv" hidden>
         <section class="servicio-hero" style="--foto: url('img/servicios/hero-yeso.webp'); --foco-x: 78%">
             <h1>Yesos y enlucidos en Málaga</h1>
@@ -966,5 +1029,16 @@ section[id]{scroll-margin-top:90px}
     if(p){scrollTo(0,0);return}
     const el=h?document.getElementById(h):null; if(el)el.scrollIntoView(); else scrollTo(0,0);}
   addEventListener('hashchange',ruta);ruta();
+})();
+</script>
+
+<script>
+(function(){
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rv=[...document.querySelectorAll('.rv')];
+  if(reduce||!('IntersectionObserver' in window)){rv.forEach(e=>e.classList.add('on'));document.querySelectorAll('.num[data-to]').forEach(n=>n.textContent=n.dataset.to);return;}
+  const cuenta=n=>{const to=+n.dataset.to,t0=performance.now(),d=1100;(function f(t){const k=Math.min(1,(t-t0)/d);n.textContent=Math.round(to*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f)})(t0)};
+  const io=new IntersectionObserver(es=>es.forEach(en=>{if(!en.isIntersecting)return;en.target.classList.add('on');io.unobserve(en.target);en.target.querySelectorAll&&en.target.querySelectorAll('.num[data-to]').forEach(cuenta);if(en.target.classList.contains('num'))cuenta(en.target);const n=en.target.querySelector&&en.target.querySelector('.num[data-to]');}),{threshold:.18});
+  rv.forEach(e=>io.observe(e));
 })();
 </script>
